@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { Raleway } from "next/font/google";
+import { FaCartShopping } from "react-icons/fa6";
+import logo from "../../_assets/images/logo.png";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -15,7 +17,7 @@ const Header = () => {
       <div className="flex justify-around items-center">
         <div className="w-[30%] flex justify-center">
           <Image
-            src=""
+            src={logo}
             className=" bg-red-200"
             alt="logo"
             width={120}
@@ -25,14 +27,16 @@ const Header = () => {
         <ul
           className={`flex justify-around items-center w-[70%] ${raleway.variable} font-Raleway font-[700] `}
         >
-          <li className="py-2 px-4 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-sm md:pr-8 md:text-lg">
+          <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
             <Link href="">Sign in / Register</Link>
           </li>
-          <li className="py-2 px-4 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-sm md:pr-8 md:text-lg">
+          <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
             <Link href="">Select store</Link>
           </li>
-          <li className="py-2 px-4 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-sm md:pr-8 md:text-lg">
-            <Link href="">icon</Link>
+          <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
+            <FaCartShopping />
+            <span className="bg-gray-500 rounded-full  px-2 mx-2">0</span>
+            <span>₹0.00</span>
           </li>
         </ul>
       </div>
