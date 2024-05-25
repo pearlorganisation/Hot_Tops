@@ -1,7 +1,10 @@
-import React from "react";
+import Image from "next/image";
+import HomePage from "./_components/HomePage/HomePage";
 
-const Home = () => {
-  return <div className="h-[80vh]">Home Home</div>;
-};
-
-export default Home;
+export default function Home() {
+  return (
+    <div>
+      <HomePage />;
+    </div>
+  );
+}
