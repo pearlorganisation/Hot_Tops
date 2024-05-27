@@ -12,8 +12,6 @@ const raleway = Raleway({
   variable: "--font-raleway",
 });
 
-console.log(categoryEnum);
-
 const Header = () => {
   return (
     <div className=" bg-white z-10 ">
