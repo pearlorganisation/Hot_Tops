@@ -1,125 +1,88 @@
+"use client";
 import React from "react";
+import { useForm } from "react-hook-form";
 
-const page = () => {
+const Page = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+    // Add your login logic here
+  };
+
   return (
     <>
-      <div class="bg-gray-100 flex items-center justify-center h-screen">
-        <div class="w-full max-w-4xl bg-white p-8 shadow-lg rounded-lg">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h2 class="text-2xl font-bold mb-6">
-                IF YOU'RE ALREADY A MEMBER.
-              </h2>
-              <form>
-                <div class="mb-4">
-                  <label class="block text-gray-700" for="login-email">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    id="login-email"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md 
-            focus:outline-none focus:ring focus:ring-green-200"
-                    placeholder="Enter your email"
-                  />
-                </div>
-                <div class="mb-4">
-                  <label class="block text-gray-700" for="login-password">
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    id="login-password"
-                    class="w-full px-3 py-2 border
-             border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-200"
-                    placeholder="Enter your password"
-                  />
-                </div>
-                <div class="flex items-center justify-between mb-4">
-                  <a href="#" class="text-red-500">
-                    Forgot password?
-                  </a>
-                  <button
-                    type="submit"
-                    class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
-                  >
-                    Login
-                  </button>
-                </div>
-                <div class="text-center mb-4">OR</div>
-                <button
-                  type="button"
-                  class="w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
-                >
-                  Login Via Facebook
-                </button>
-              </form>
+      <div className="bg-gray-100 flex items-center justify-center h-screen">
+        <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
+          <h2 className="text-2xl font-bold mb-6 text-center">
+            IF YOU'RE ALREADY A MEMBER.
+          </h2>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="mb-4">
+              <label className="block text-gray-700" htmlFor="login-email">
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="login-email"
+                className={`w-full px-3 py-2 border ${
+                  errors.email ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                placeholder="Enter your email"
+                {...register("email", { required: "Email is required" })}
+              />
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
-
-            <div>
-              <h2 class="text-2xl font-bold mb-6">NEW MEMBER? REGISTER</h2>
-              <form>
-                <div class="mb-4">
-                  <label class="block text-gray-700" for="register-email">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    id="register-email"
-                    class="w-full px-3 py-2 border
-             border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-200"
-                    placeholder="Enter your email"
-                  />
-                </div>
-                <div class="mb-4">
-                  <label class="block text-gray-700" for="register-password">
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    id="register-password"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md
-             focus:outline-none focus:ring focus:ring-green-200"
-                    placeholder="Enter your password"
-                  />
-                </div>
-                <div class="mb-4">
-                  <label class="block text-gray-700" for="confirm-password">
-                    Confirm Password
-                  </label>
-                  <input
-                    type="password"
-                    id="confirm-password"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-200"
-                    placeholder="Re-enter your password"
-                  />
-                </div>
-                <div class="mb-4 flex items-center">
-                  <input type="checkbox" id="terms" class="mr-2" />
-                  <label for="terms" class="text-gray-700">
-                    I accept the Tops Pizza{" "}
-                    <a href="#" class="text-blue-500 underline">
-                      Terms & Conditions
-                    </a>{" "}
-                    and{" "}
-                    <a href="#" class="text-blue-500 underline">
-                      Privacy Policy
-                    </a>
-                  </label>
-                </div>
-                <button
-                  type="submit"
-                  class="w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
-                >
-                  Register
-                </button>
-              </form>
+            <div className="mb-4">
+              <label className="block text-gray-700" htmlFor="login-password">
+                Password
+              </label>
+              <input
+                type="password"
+                id="login-password"
+                className={`w-full px-3 py-2 border ${
+                  errors.password ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                placeholder="Enter your password"
+                {...register("password", { required: "Password is required" })}
+              />
+              {errors.password && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
-          </div>
+            <div className="flex items-center justify-between mb-4">
+              <a href="#" className="text-red-500">
+                Forgot password?
+              </a>
+              <button
+                type="submit"
+                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+              >
+                Login
+              </button>
+            </div>
+            <div className="text-center mb-4">OR</div>
+            <button
+              type="button"
+              className="w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+            >
+              Login Via Facebook
+            </button>
+          </form>
         </div>
       </div>
     </>
   );
 };
 
-export default page;
+export default Page;
