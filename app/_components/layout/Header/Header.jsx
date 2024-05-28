@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { Raleway } from "next/font/google";
 import { FaCartShopping } from "react-icons/fa6";
-import logo from "../../_assets/images/logo.png";
+import logo from "../../../_assets/images/logo.png";
 import { categoryEnum } from "@/app/utils/utils";
 
 const raleway = Raleway({
@@ -11,8 +11,6 @@ const raleway = Raleway({
   weight: ["400", "700"],
   variable: "--font-raleway",
 });
-
-console.log(categoryEnum);
 
 const Header = () => {
   return (
