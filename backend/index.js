@@ -22,6 +22,28 @@ app.use(express.json());
 // cookieParser() -- middleware to parse the cookie coming from the http request
 app.use(cookieParser());
 // -------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------Routes----------------------------------------------------
+
+const versionOne = (url) => {
+  return `/api/v1/${url}`;
+};
+
+// Router Imports
+
+// Route Middlewares
+
+app.all(["/", "/api", "/api/v1"], (req, res, next) => {
+  return res.status(200).json({
+    message: "Welcome to Hot House",
+  });
+});
+
+// -------------------------------------------------------------------------------------------------------------
+
+// ------------------------------------------Global Error Handling----------------------------------------------
+app.all("*", (req, res, next) => {});
+
+app.use((error, req, res, next) => {});
 
 // ------------------------------------------------------------------------------------------------------------
 app.listen(PORT, () => {
