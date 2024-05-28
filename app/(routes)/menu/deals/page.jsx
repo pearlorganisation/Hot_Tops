@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+
 const data = [
   {
     img: "https://topspizza.co.uk/storage/4e717e09cbf56647d691d2e395e715ed.jpg",
@@ -35,15 +36,34 @@ const data = [
     title: "The Great Double",
   },
 ];
+
 const page = () => {
   return (
     <>
-      <h1 className="text-3xl font-medium text-red-500 text-center p-10">
-        TOPTASTIC DEALS
-      </h1>
-      <div className="container mx-auto max-w-7xl gap-10 grid md:grid-cols-4 place-content-center">
+      <div className="mx-auto container max-w-7xl p-10">
+        <header class="text-center py-4 bg-white">
+          <div class="flex items-center justify-center mb-2">
+            <div class="flex-grow border-t border-red-500"></div>
+
+            <div class="flex-grow border-t border-red-500"></div>
+          </div>
+
+          <div class="flex items-center justify-center mb-2">
+            <div class="flex-grow border-t border-red-500"></div>
+            <h1 class="px-4 text-red-500 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
+              TOPTASTIC DEALS
+            </h1>
+            <div class="flex-grow border-t border-red-500"></div>
+          </div>
+        </header>
+      </div>
+
+      <div className="container mx-auto max-w-7xl gap-10 grid md:grid-cols-4 place-content-center ">
         {data.map((el, id) => (
-          <div class="bg-white shadow-md rounded-lg max-w-xs w-full " key={id}>
+          <div
+            class="bg-white shadow-md rounded-lg max-w-xs w-full newshadow"
+            key={id}
+          >
             <img
               src={el.img}
               alt="Card Image"
