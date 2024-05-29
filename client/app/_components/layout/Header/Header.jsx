@@ -1,6 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { Raleway } from "next/font/google";
 import { FaCartShopping } from "react-icons/fa6";
 import logo from "../../../_assets/images/logo.png";
@@ -13,6 +15,8 @@ const raleway = Raleway({
 });
 
 const Header = () => {
+  // -------------------------------------state-------------------------------------------------
+  const [selecteditem, setSelectedItem] = useState(null);
   return (
     <div className=" bg-white z-10 ">
       <div className="flex justify-around items-center">
@@ -43,19 +47,31 @@ const Header = () => {
       </div>
       <div className="bg-red-600">
         <ul className="flex items-center  text-white font-semibold w-full  lg:w-[50vw]  lg:mx-5 lg:ml-20 flex-wrap">
-          <li className="px-5 hover:bg-[#337ab7] h-[36px] md:h-[56px] flex items-center">
-            {" "}
-            <Link href={`/menu/deals`}>DEALS</Link>
-          </li>
+          <Link href={`/menu/deals`}>
+            <li
+              className={`px-5 hover:bg-[#337ab7] h-[36px] md:h-[56px] flex items-center ${
+                selecteditem === -1 ? "bg-blue-600" : "bg-red-600"
+              }`}
+              onClick={() => setSelectedItem(-1)}
+            >
+              {" "}
+              DEALS
+            </li>
+          </Link>
           {Array.isArray(categoryEnum) &&
-            categoryEnum.map((data) => {
+            categoryEnum.map((data, idx) => {
               return (
                 <>
-                  <li className="hover:bg-[#337ab7] h-[36px] md:h-[56px]  px-5 flex items-center">
-                    <Link href={`/menu/${data?.toLocaleLowerCase()}`}>
+                  <Link href={`/menu/${data?.toLocaleLowerCase()}`}>
+                    <li
+                      className={`hover:bg-[#337ab7] h-[36px] md:h-[56px]  px-5 flex items-center ${
+                        selecteditem === idx ? "bg-blue-600" : "bg-red-600"
+                      }`}
+                      onClick={() => setSelectedItem(idx)}
+                    >
                       {data}
-                    </Link>
-                  </li>
+                    </li>
+                  </Link>
                 </>
               );
             })}

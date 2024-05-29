@@ -82,7 +82,7 @@ const Pizzas = () => {
                   ) {
                     return (
                       <div
-                        className="bg-white shadow-md rounded-lg max-w-[15rem] 2xl:max-w-xs w-full newshadow"
+                        className=" p-3 bg-white shadow-md rounded-lg max-w-[15rem] 2xl:max-w-xs w-full newshadow"
                         key={idx}
                       >
                         <img
