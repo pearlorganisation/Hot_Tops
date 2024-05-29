@@ -29,7 +29,7 @@ const Header = () => {
           className={`flex justify-around items-center w-[70%] ${raleway.variable} font-Raleway font-[700] `}
         >
           <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
-            <Link href="">Sign in / Register</Link>
+            <Link href="/signUp">Sign in / Register</Link>
           </li>
           <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
             <Link href="">Select store</Link>

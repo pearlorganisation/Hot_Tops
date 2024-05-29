@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
 
@@ -78,6 +79,14 @@ const Page = () => {
             >
               Login Via Facebook
             </button>
+            <p className="mt-4">
+              New ? {"=>"}
+              <span>
+                <Link href="/login" className="text-blue-700">
+                  Sign Up here
+                </Link>
+              </span>
+            </p>
           </form>
         </div>
       </div>
