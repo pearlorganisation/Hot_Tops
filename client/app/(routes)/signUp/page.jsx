@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
 
@@ -124,12 +125,22 @@ const Page = () => {
                 {errors.terms.message}
               </p>
             )}
+
             <button
               type="submit"
               className="w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
             >
               Register
             </button>
+
+            <p className="mt-4">
+              already have account{" "}
+              <span>
+                <Link href="/login" className="text-blue-700">
+                  login here
+                </Link>
+              </span>
+            </p>
           </form>
         </div>
       </div>

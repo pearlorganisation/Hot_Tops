@@ -29,7 +29,7 @@ const Header = () => {
           className={`flex justify-around items-center w-[70%] ${raleway.variable} font-Raleway font-[700] `}
         >
           <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
-            <Link href="">Sign in / Register</Link>
+            <Link href="/signUp">Sign in / Register</Link>
           </li>
           <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
             <Link href="">Select store</Link>
@@ -43,7 +43,7 @@ const Header = () => {
       </div>
       <div className="bg-red-600">
         <ul className="flex items-center  text-white font-semibold w-full  lg:w-[50vw]  lg:mx-5 lg:ml-20 flex-wrap">
-          <li className="px-5 hover:bg-[#337ab7] h-[56px] flex items-center">
+          <li className="px-5 hover:bg-[#337ab7] h-[36px] md:h-[56px] flex items-center">
             {" "}
             <Link href={`/menu/deals`}>DEALS</Link>
           </li>
@@ -51,7 +51,7 @@ const Header = () => {
             categoryEnum.map((data) => {
               return (
                 <>
-                  <li className="hover:bg-[#337ab7] h-[56px] px-5 flex items-center">
+                  <li className="hover:bg-[#337ab7] h-[36px] md:h-[56px]  px-5 flex items-center">
                     <Link href={`/menu/${data?.toLocaleLowerCase()}`}>
                       {data}
                     </Link>
