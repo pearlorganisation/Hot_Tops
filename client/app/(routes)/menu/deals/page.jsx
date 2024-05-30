@@ -61,7 +61,7 @@ const page = () => {
       <div className="container mx-auto max-w-7xl gap-10 grid md:grid-cols-4 place-content-center ">
         {data.map((el, id) => (
           <div
-            class="bg-white shadow-md rounded-lg max-w-xs w-full newshadow"
+            class="bg-white shadow-md rounded-lg max-w-xs w-full newshadow p-4"
             key={id}
           >
             <img
@@ -73,8 +73,10 @@ const page = () => {
             <div class="p-4">
               <h2 class="text-xl font-semibold mb-4">{el.title}</h2>
               <div class="relative">
-                <div className="bg-green-400">
-                  <p className="text-center p-2 ">Select store to order</p>
+                <div className="bg-green-600">
+                  <p className="text-center text-white p-2 ">
+                    Select store to order
+                  </p>
                 </div>
               </div>
             </div>

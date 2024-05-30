@@ -1,34 +1,34 @@
 import React, { useState } from "react";
 
-const Pizzas = () => {
+const Sides = () => {
   // -------------------------------------------useState--------------------------------------------
   const [selectedType, setSelectedType] = useState("All");
 
   // ---------------------------------dummyData------------------------------------------------------
   const dummyData = {
     filter: ["All", "Hot", "BBQ", "Garlic", "Tomato"],
-    categories: ["Meat", "vegetarian"],
+    categories: ["Classic", "Vegan"],
     categoryData: [
       {
-        category: "Meat",
+        category: "Classic",
         type: "Hot",
         Name: "Hawaiian",
         img: "https://topspizza.co.uk/storage/6.jpg",
       },
       {
-        category: "Meat",
+        category: "Vegan",
         type: "BBQ",
         Name: "BBQ chicken",
         img: "https://topspizza.co.uk/storage/8.jpg",
       },
       {
-        category: "vegetarian",
+        category: "Vegan",
         type: "Garlic",
         Name: "Aloo gobhi",
         img: "https://topspizza.co.uk/storage/4.jpg",
       },
       {
-        category: "vegetarian",
+        category: "Vegan",
         type: "Hot",
         Name: "vegi hot",
         img: "https://topspizza.co.uk/storage/9.jpg",
@@ -78,7 +78,7 @@ const Pizzas = () => {
                 {dummyData?.categoryData?.map((data, idx) => {
                   if (
                     data?.category === category &&
-                    (selectedType === data?.type || selectedType === "All") 
+                    (selectedType === data?.type || selectedType === "All")
                   ) {
                     return (
                       <div
@@ -116,4 +116,4 @@ const Pizzas = () => {
   );
 };
 
-export default Pizzas;
+export default Sides;
