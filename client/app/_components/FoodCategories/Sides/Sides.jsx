@@ -1,37 +1,37 @@
 import React, { useState } from "react";
 
-const Pizzas = () => {
+const Sides = () => {
   // -------------------------------------------useState--------------------------------------------
   const [selectedType, setSelectedType] = useState("All");
 
   // ---------------------------------dummyData------------------------------------------------------
   const dummyData = {
-    filter: ["All", "Hot", "BBQ", "Garlic", "Tomato"],
-    categories: ["Meat", "vegetarian"],
+    filter: ["All", "Chicken", "Vegan", "Classic"],
+    categories: ["Meat", "Vegan"],
     categoryData: [
       {
         category: "Meat",
-        type: "Hot",
-        Name: "Hawaiian",
-        img: "https://topspizza.co.uk/storage/6.jpg",
+        type: "Chicken",
+        Name: "Chicken Dippers",
+        img: "https://topspizza.co.uk/storage/29.jpg",
+      },
+      {
+        category: "Vegan",
+        type: "Vegan",
+        Name: "Vegan Plant Based Dippers",
+        img: "https://topspizza.co.uk/storage/235.jpg",
       },
       {
         category: "Meat",
-        type: "BBQ",
-        Name: "BBQ chicken",
-        img: "https://topspizza.co.uk/storage/8.jpg",
+        type: "Chicken",
+        Name: "BBQ chicken wings",
+        img: "https://topspizza.co.uk/storage/27.jpg",
       },
       {
-        category: "vegetarian",
-        type: "Garlic",
-        Name: "Aloo gobhi",
-        img: "https://topspizza.co.uk/storage/4.jpg",
-      },
-      {
-        category: "vegetarian",
-        type: "Hot",
-        Name: "vegi hot",
-        img: "https://topspizza.co.uk/storage/9.jpg",
+        category: "Meat",
+        type: "Classic",
+        Name: "Cheese & Bacon Potato Skins",
+        img: "https://topspizza.co.uk/storage/159.jpg",
       },
     ],
   };
@@ -78,7 +78,7 @@ const Pizzas = () => {
                 {dummyData?.categoryData?.map((data, idx) => {
                   if (
                     data?.category === category &&
-                    (selectedType === data?.type || selectedType === "All") 
+                    (selectedType === data?.type || selectedType === "All")
                   ) {
                     return (
                       <div
@@ -116,4 +116,4 @@ const Pizzas = () => {
   );
 };
 
-export default Pizzas;
+export default Sides;
