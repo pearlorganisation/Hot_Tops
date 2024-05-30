@@ -6,32 +6,32 @@ const Sides = () => {
 
   // ---------------------------------dummyData------------------------------------------------------
   const dummyData = {
-    filter: ["All", "Hot", "BBQ", "Garlic", "Tomato"],
-    categories: ["Classic", "Vegan"],
+    filter: ["All", "Chicken", "Vegan", "Classic"],
+    categories: ["Meat", "Vegan"],
     categoryData: [
       {
-        category: "Classic",
-        type: "Hot",
-        Name: "Hawaiian",
-        img: "https://topspizza.co.uk/storage/6.jpg",
+        category: "Meat",
+        type: "Chicken",
+        Name: "Chicken Dippers",
+        img: "https://topspizza.co.uk/storage/29.jpg",
       },
       {
         category: "Vegan",
-        type: "BBQ",
-        Name: "BBQ chicken",
-        img: "https://topspizza.co.uk/storage/8.jpg",
+        type: "Vegan",
+        Name: "Vegan Plant Based Dippers",
+        img: "https://topspizza.co.uk/storage/235.jpg",
       },
       {
-        category: "Vegan",
-        type: "Garlic",
-        Name: "Aloo gobhi",
-        img: "https://topspizza.co.uk/storage/4.jpg",
+        category: "Meat",
+        type: "Chicken",
+        Name: "BBQ chicken wings",
+        img: "https://topspizza.co.uk/storage/27.jpg",
       },
       {
-        category: "Vegan",
-        type: "Hot",
-        Name: "vegi hot",
-        img: "https://topspizza.co.uk/storage/9.jpg",
+        category: "Meat",
+        type: "Classic",
+        Name: "Cheese & Bacon Potato Skins",
+        img: "https://topspizza.co.uk/storage/159.jpg",
       },
     ],
   };
