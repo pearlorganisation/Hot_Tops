@@ -1,6 +1,6 @@
 import React from "react";
 
-const Drinks = () => {
+const Dips = () => {
   const data = [
     {
       img: "https://topspizza.co.uk/storage/35.jpg",
@@ -34,7 +34,7 @@ const Drinks = () => {
   return (
     <>
       <div className="container mx-auto max-w-7xl gap-10 grid sm:grid-cols-2 md:grid-cols-4 place-content-center p-10">
-        {data.map((el, id) => (
+        {Dips.map((el, id) => (
           <div
             class="bg-white shadow-md rounded-lg max-w-xs w-full newshadow"
             key={id}
@@ -60,4 +60,4 @@ const Drinks = () => {
   );
 };
 
-export default Drinks;
+export default Dips;
