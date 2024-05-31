@@ -72,7 +72,7 @@ const Drinks = () => {
       <div className="container mx-auto max-w-7xl gap-10 grid sm:grid-cols-2 md:grid-cols-4 place-content-center p-10">
         {data.map((el, id) => (
           <div
-            class="bg-white shadow-md rounded-lg max-w-xs w-full newshadow"
+            class="bg-white shadow-md rounded-lg max-w-xs w-full newshadow p-3"
             key={id}
           >
             <img
@@ -84,8 +84,10 @@ const Drinks = () => {
             <div class="p-4">
               <h2 class="text-xl font-semibold mb-4 ">{el.title}</h2>
               <div class="relative">
-                <div className="bg-green-400 hover:bg-green-500 cursor-pointer ">
-                  <p className="text-center p-2 ">Select store to order</p>
+                <div className="bg-green-600 hover:bg-green-500 cursor-pointer ">
+                  <p className="text-center p-2 text-white">
+                    Select store to order
+                  </p>
                 </div>
               </div>
             </div>
