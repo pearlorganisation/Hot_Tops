@@ -78,7 +78,7 @@ const Pizzas = () => {
                 {dummyData?.categoryData?.map((data, idx) => {
                   if (
                     data?.category === category &&
-                    (selectedType === data?.type || selectedType === "All") 
+                    (selectedType === data?.type || selectedType === "All")
                   ) {
                     return (
                       <div

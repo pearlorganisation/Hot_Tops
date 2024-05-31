@@ -78,7 +78,7 @@ const Drinks = () => {
             <img
               src={el.img}
               alt="Card Image"
-              className="rounded-t-lg w-full  object-cover "
+              className="rounded-t-lg  object-cover w-[370px] h-[250px]"
             />
 
             <div class="p-4">
