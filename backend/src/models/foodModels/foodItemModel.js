@@ -48,12 +48,12 @@ const pizzaCustomizationSchema = new mongoose.Schema({
     },
     price: {
       single: {
-        type: Number,
-        enum: [],
+        type: Boolean,
+        default: false,
       },
       double: {
-        type: Number,
-        enum: [],
+        type: Boolean,
+        default: false,
       },
     },
   },
@@ -64,12 +64,12 @@ const pizzaCustomizationSchema = new mongoose.Schema({
     },
     price: {
       single: {
-        type: Number,
-        enum: [],
+        type: Boolean,
+        default: false,
       },
       double: {
-        type: Number,
-        enum: [],
+        type: Boolean,
+        default: false,
       },
     },
   },
@@ -80,12 +80,12 @@ const pizzaCustomizationSchema = new mongoose.Schema({
     },
     price: {
       single: {
-        type: Number,
-        enum: [],
+        type: Boolean,
+        default: false,
       },
       double: {
-        type: Number,
-        enum: [],
+        type: Boolean,
+        default: false,
       },
     },
   },
@@ -96,12 +96,12 @@ const pizzaCustomizationSchema = new mongoose.Schema({
     },
     price: {
       single: {
-        type: Number,
-        enum: [],
+        type: Boolean,
+        default: false,
       },
       double: {
-        type: Number,
-        enum: [],
+        type: Boolean,
+        default: false,
       },
     },
   },
@@ -112,12 +112,12 @@ const pizzaCustomizationSchema = new mongoose.Schema({
     },
     price: {
       single: {
-        type: Number,
-        enum: [],
+        type: Boolean,
+        default: false,
       },
       double: {
-        type: Number,
-        enum: [],
+        type: Boolean,
+        default: false,
       },
     },
   },
