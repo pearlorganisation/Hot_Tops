@@ -67,7 +67,7 @@ const Page = () => {
                   required: "Password is required",
                   minLength: {
                     value: 6,
-                    message: "Password must have at least 6 characters",
+                    message: "Password must have at least six characters",
                   },
                 })}
               />
