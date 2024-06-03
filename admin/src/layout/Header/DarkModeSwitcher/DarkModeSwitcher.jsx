@@ -1,13 +1,13 @@
 import { useState } from 'react';
 
 
-const DarkModeSwitcher = () => {
+const DarkModeSwitcher = ({className}) => {
   const [colorMode, setColorMode] = useState("dark");
 
   return (
     <li>
       <label
-        className={` relative m-0 block h-8 w-14 rounded-full ${
+        className={` relative m-0 block ${className?.bgHeight ? className?.bgHeight :'h-8 w-14'}  rounded-full ${
           colorMode === 'dark' ? 'bg-blue-500' : 'bg-slate-200'
         }`}
       >
@@ -21,7 +21,7 @@ const DarkModeSwitcher = () => {
           className=" absolute border  border-black top-0 z-50 m-0 h-full w-full cursor-pointer opacity-0"
         />
         <span
-          className={`absolute top-1/2 left-[3px] flex h-6 w-6 -translate-y-1/2 translate-x-0 items-center justify-center rounded-full bg-white  shadow-switcher duration-75 ease-linear ${
+          className={`absolute top-1/2 left-[3px] flex ${className?.buttonD ? className?.buttonD :'h-6 w-6'}  -translate-y-1/2 translate-x-0 items-center justify-center rounded-full bg-white  shadow-switcher duration-75 ease-linear ${
             colorMode === 'dark' && '!right-[3px] !translate-x-full'
           }`}
         >
