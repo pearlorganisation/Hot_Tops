@@ -33,8 +33,8 @@ const Dips = () => {
   ];
   return (
     <>
-      <div className="container mx-auto max-w-7xl gap-10 grid sm:grid-cols-2 md:grid-cols-4 place-content-center p-10">
-        {Dips.map((el, id) => (
+      <div className="container mx-auto max-w-7xl gap-10 grid sm:grid-cols-2 md:grid-cols-4 place-content-center p-10 ">
+        {data.map((el, id) => (
           <div
             class="bg-white shadow-md rounded-lg max-w-xs w-full newshadow"
             key={id}

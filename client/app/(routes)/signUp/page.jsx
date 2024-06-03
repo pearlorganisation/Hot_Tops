@@ -23,7 +23,7 @@ const Page = () => {
           <h2 className="text-2xl font-bold mb-6 text-center">
             NEW MEMBER? REGISTER
           </h2>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onsubmit)}>
             <div className="mb-4">
               <label className="block text-gray-700" htmlFor="register-email">
                 Email Address
