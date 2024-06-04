@@ -1,11 +1,9 @@
-
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
 import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
 import SearchIcon from "@mui/icons-material/Search";
 import DarkModeSwitcher from "../Header/DarkModeSwitcher/DarkModeSwitcher";
 import { useRef, useState } from "react";
 import DropDown from "./DropDown/DropDown";
-
 
 export default function Sidebar() {
   const [isSideNavOpen, setIsSideNavOpen] = useState(true);
@@ -16,14 +14,15 @@ export default function Sidebar() {
       path: "/",
       icon: <SpaceDashboardIcon size={28} />,
       isDropDown: false,
-      items:[]
     },
     {
       label: "Food",
-      path: "/",
       icon: <LocalPizzaIcon size={28} />,
       isDropDown: true,
-      items: ["Food Items", "Create Food Item"], // food-items -> table || food-items/create-food-item
+      subItems: [
+        { title: "Food Items", path: "/food-items" },
+        { title: "Create Food Item", path: "/create-food-item" },
+      ], // food-items -> table || food-items/create-food-item
     },
   ];
 
@@ -108,25 +107,23 @@ export default function Sidebar() {
                     />
                   </div>
                 </div>
-                {sideBarItems?.map((itm, index) => {
-                  return (
-                    
-                    itm.isDropDown ? <DropDown items={itm}/> :<li className="px-3" key={index}>
-                    <div
-                      to={itm?.path}
-                      className="flex items-center gap-3 rounded p-3  transition-colors hover:bg-red-800 hover:font-bold focus:text-black  text-white focus:font-bold  aria-[current=page]:bg-emerald-50 aria-[current=page]:text-emerald-500 "
-                    >
-                      <div className="flex items-center self-center">
-                        {itm?.icon}
+                {sideBarItems?.map((item, index) => {
+                  return item.isDropDown ? (
+                    <DropDown sideBarOption={item} />
+                  ) : (
+                    <li className="px-3" key={index}>
+                      <div
+                        to={item?.path}
+                        className="flex items-center gap-3 rounded p-3  transition-colors hover:bg-red-800 hover:font-bold focus:text-black  text-white focus:font-bold  aria-[current=page]:bg-emerald-50 aria-[current=page]:text-emerald-500 "
+                      >
+                        <div className="flex items-center self-center">
+                          {item?.icon}
+                        </div>
+                        <div className="flex    w-full flex-1 flex-col  items-start justify-center gap-0 overflow-hidden truncate text-sm">
+                          {item?.label}
+                        </div>
                       </div>
-                      <div className="flex    w-full flex-1 flex-col  items-start justify-center gap-0 overflow-hidden truncate text-sm">
-                        {itm?.label}
-                      </div>
-                    </div>
-
-                   
-                  </li>
-
+                    </li>
                   );
                 })}
               </ul>
