@@ -1,15 +1,15 @@
-;
+// -----------------------------------------------Imports------------------------------------------------
+import "./App.css";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import DefaultLayout from "./layout/DefaultLayout/DefaultLayout";
-// import "./App.css";
-import Header from "./layout/Header/Header";
-import Navbar from "./layout/Sidebar/Sidebar";
-
+import FoodItems from "./pages/Food/FoodItems/FoodItems";
+import { appRouter } from "./routes/routes";
+// ------------------------------------------------------------------------------------------------------
 
 function App() {
-
   return (
     <>
-     <DefaultLayout/>
+      <RouterProvider router={appRouter} />
     </>
   );
 }

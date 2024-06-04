@@ -5,12 +5,9 @@ import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Sidebar from "../Sidebar/Sidebar";
 
-
 // --------------------------------------------------------------------------------
 
-
 const DefaultLayout = () => {
-
   return (
     <div>
       <div className="flex ">
@@ -19,7 +16,6 @@ const DefaultLayout = () => {
         </div>
         <div className="flex-1  lg:h-[80px]  ">
           <Header />
-
           <Main />
         </div>
       </div>
