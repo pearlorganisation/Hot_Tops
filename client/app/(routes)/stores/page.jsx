@@ -24,16 +24,18 @@ const Stores = () => {
 
   return (
     <div>
-      {storesData?.map((data) => {
-        return (
-          <>
-            <div className="border hover:bg-red-600 hover:text-white w-[50%] flex flex-wrap">
-              <h1>{data?.name}</h1>
+      <div className="border    flex flex-wrap w-full">
+        {storesData?.map((data) => {
+          return (
+            <div className="hover:bg-red-600 w-[50%] hover:text-white mt-2 p-2 cursor-pointer">
+              <h1 className="font-bold text-xl hover:text-white">
+                {data?.name}
+              </h1>
               <p>{data?.address}</p>
             </div>
-          </>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 };
