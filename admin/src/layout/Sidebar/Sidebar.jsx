@@ -1,14 +1,11 @@
-import React, { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
 import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
-import LunchDiningIcon from "@mui/icons-material/LunchDining";
-import { TbBowlFilled } from "react-icons/tb";
 import SearchIcon from "@mui/icons-material/Search";
-import { RiDrinksFill } from "react-icons/ri";
-import { FaTag } from "react-icons/fa6";
-import { LuIceCream2 } from "react-icons/lu";
 import DarkModeSwitcher from "../Header/DarkModeSwitcher/DarkModeSwitcher";
+import { useRef, useState } from "react";
+import DropDown from "./DropDown/DropDown";
+
 
 export default function Sidebar() {
   const [isSideNavOpen, setIsSideNavOpen] = useState(true);
@@ -18,37 +15,15 @@ export default function Sidebar() {
       label: "Dashboard",
       path: "/",
       icon: <SpaceDashboardIcon size={28} />,
+      isDropDown: false,
+      items:[]
     },
     {
-      label: "PIZZA",
+      label: "Food",
       path: "/",
       icon: <LocalPizzaIcon size={28} />,
-    },
-
-    {
-      label: "SIDES",
-      path: "/",
-      icon: <LunchDiningIcon size={28} />,
-    },
-    {
-      label: "DRINKS",
-      path: "/",
-      icon: <RiDrinksFill size={28} />,
-    },
-    {
-      label: "DESSERTS",
-      path: "/",
-      icon: <LuIceCream2 size={28} />,
-    },
-    {
-      label: "DIPS",
-      path: "/",
-      icon: <TbBowlFilled size={28} />,
-    },
-    {
-      label: "DEALS",
-      path: "/",
-      icon: <FaTag size={28} />,
+      isDropDown: true,
+      items: ["Food Items", "Create Food Item"], // food-items -> table || food-items/create-food-item
     },
   ];
 
@@ -128,24 +103,30 @@ export default function Sidebar() {
 
                   {/* dark to light theme custom component button */}
                   <div className="flex justify-center">
-                    <DarkModeSwitcher  className={{bgHeight:'h-6 w-10',buttonD:'h-4 w-4'}} />
+                    <DarkModeSwitcher
+                      className={{ bgHeight: "h-6 w-10", buttonD: "h-4 w-4" }}
+                    />
                   </div>
                 </div>
                 {sideBarItems?.map((itm, index) => {
                   return (
-                    <li className="px-3" key={index}>
-                      <div
-                        to={itm?.path}
-                        className="flex items-center gap-3 rounded p-3  transition-colors hover:bg-red-800 hover:font-bold focus:text-black  text-white focus:font-bold  aria-[current=page]:bg-emerald-50 aria-[current=page]:text-emerald-500 "
-                      >
-                        <div className="flex items-center self-center">
-                          {itm?.icon}
-                        </div>
-                        <div className="flex    w-full flex-1 flex-col  items-start justify-center gap-0 overflow-hidden truncate text-sm">
-                          {itm?.label}
-                        </div>
+                    
+                    itm.isDropDown ? <DropDown items={itm}/> :<li className="px-3" key={index}>
+                    <div
+                      to={itm?.path}
+                      className="flex items-center gap-3 rounded p-3  transition-colors hover:bg-red-800 hover:font-bold focus:text-black  text-white focus:font-bold  aria-[current=page]:bg-emerald-50 aria-[current=page]:text-emerald-500 "
+                    >
+                      <div className="flex items-center self-center">
+                        {itm?.icon}
                       </div>
-                    </li>
+                      <div className="flex    w-full flex-1 flex-col  items-start justify-center gap-0 overflow-hidden truncate text-sm">
+                        {itm?.label}
+                      </div>
+                    </div>
+
+                   
+                  </li>
+
                   );
                 })}
               </ul>
@@ -189,8 +170,6 @@ export default function Sidebar() {
 
           <footer className="border-t border-slate-200 p-3"></footer>
         </aside>
-
-
       </div>
 
       {/*  <!-- Backdrop --> */}
