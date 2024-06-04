@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import SelectStoreModal from "../../Modals/SelectStoreModal";
 
 const Pizzas = () => {
   // -------------------------------------------useState--------------------------------------------
   const [selectedType, setSelectedType] = useState("All");
+  const [isStorePopUpVisible, setIsStorePopUpVisible] = useState(false);
 
   // ---------------------------------dummyData------------------------------------------------------
   const dummyData = {
@@ -96,9 +98,20 @@ const Pizzas = () => {
                           </h2>
                           <div className="relative">
                             <div className="bg-green-600">
-                              <p className="text-center p-2 text-white">
+                              <button
+                                onClick={() => setIsStorePopUpVisible(true)}
+                                data-modal-target="popup-modal"
+                                data-modal-toggle="popup-modal"
+                                data-modal-hide="popup-modal"
+                                className="text-center p-2 text-white"
+                                type="button"
+                              >
                                 Select store to order
-                              </p>
+                              </button>
+                              <SelectStoreModal
+                                isStorePopUpVisible={isStorePopUpVisible}
+                                setIsStorePopUpVisible={setIsStorePopUpVisible}
+                              />
                             </div>
                           </div>
                         </div>
