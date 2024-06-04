@@ -41,87 +41,69 @@ const pizzaCustomizationSchema = new mongoose.Schema({
       enum: [],
     },
   },
-  sauce: {
-    name: {
-      type: String,
-      enum: pizzaSauces,
-    },
-    price: {
-      single: {
-        type: Boolean,
-        default: false,
+  sauce: [
+    {
+      name: {
+        type: String,
+        enum: pizzaSauces,
       },
-      double: {
-        type: Boolean,
-        default: false,
+      price: {
+        type: String,
+        enum: ["SINGLE", "DOUBLE"],
       },
     },
-  },
-  cheese: {
-    name: {
-      type: String,
-      enum: pizzaCheeses,
-    },
-    price: {
-      single: {
-        type: Boolean,
-        default: false,
+  ],
+  cheese: [
+    {
+      name: {
+        type: String,
+        enum: pizzaCheeses,
       },
-      double: {
-        type: Boolean,
-        default: false,
+      price: {
+        type: String,
+        enum: ["SINGLE", "DOUBLE"],
       },
     },
-  },
-  veggetarianToppings: {
-    name: {
-      type: String,
-      enum: pizzaVegToppings,
-    },
-    price: {
-      single: {
-        type: Boolean,
-        default: false,
+  ],
+  veggetarianToppings: [
+    {
+      name: {
+        type: String,
+        enum: pizzaVegToppings,
       },
-      double: {
-        type: Boolean,
-        default: false,
+      price: {
+        type: String,
+        enum: ["SINGLE", "DOUBLE"],
       },
     },
-  },
-  meatToppings: {
-    name: {
-      type: String,
-      enum: pizzaMeatToppings,
-    },
-    price: {
-      single: {
-        type: Boolean,
-        default: false,
+  ],
+  meatToppings: [
+    {
+      name: {
+        type: String,
+        enum: pizzaMeatToppings,
       },
-      double: {
-        type: Boolean,
-        default: false,
+      price: {
+        type: String,
+        enum: ["SINGLE", "DOUBLE"],
       },
     },
-  },
-  seafoodToppings: {
-    name: {
-      type: String,
-      enum: pizzaSeafoodToppings,
-    },
-    price: {
-      single: {
-        type: Boolean,
-        default: false,
+  ],
+  seafoodToppings: [
+    {
+      name: {
+        type: String,
+        enum: pizzaSeafoodToppings,
       },
-      double: {
-        type: Boolean,
-        default: false,
+      price: {
+        type: String,
+        enum: ["SINGLE", "DOUBLE"],
       },
     },
-  },
+  ],
 });
+
+const drinksCustomizationSchema = new mongoose.Schema({});
 
 export const foodItemSchema = new mongoose.Schema({
   foodName: {
@@ -157,7 +139,7 @@ export const foodItemSchema = new mongoose.Schema({
         return pizzaCustomizationSchema;
       } else if (this.category === "DRINKS") {
       } else {
-        return "";
+        return "false";
       }
     },
   },
@@ -166,3 +148,5 @@ export const foodItemSchema = new mongoose.Schema({
     required: [true, "Food Price is a required field"],
   },
 });
+
+export const foodItemModel = mongoose.model("foodItem", foodItemSchema);
