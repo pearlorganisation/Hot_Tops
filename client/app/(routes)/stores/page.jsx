@@ -1,7 +1,5 @@
 "use client";
 
-
-
 const storesData = [
   {
     name: "ACTON",
@@ -24,13 +22,12 @@ const storesData = [
 const Stores = () => {
   // -------------------hooks=---------------------------------------------
 
- 
   return (
     <div>
       {storesData?.map((data) => {
         return (
           <>
-            <div className="border">
+            <div className="border hover:bg-red-600 hover:text-white w-[50%] flex flex-wrap">
               <h1>{data?.name}</h1>
               <p>{data?.address}</p>
             </div>
