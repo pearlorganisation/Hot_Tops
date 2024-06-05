@@ -17,6 +17,30 @@ const storesData = [
     name: "ACTON",
     address: "174 Acton High Street, Acton, 020 8896 2896",
   },
+  {
+    name: "ACTON",
+    address: "174 Acton High Street, Acton, 020 8896 2896",
+  },
+  {
+    name: "ACTON",
+    address: "174 Acton High Street, Acton, 020 8896 2896",
+  },
+  {
+    name: "ACTON",
+    address: "174 Acton High Street, Acton, 020 8896 2896",
+  },
+  {
+    name: "ACTON",
+    address: "174 Acton High Street, Acton, 020 8896 2896",
+  },
+  {
+    name: "ACTON",
+    address: "174 Acton High Street, Acton, 020 8896 2896",
+  },
+  {
+    name: "ACTON",
+    address: "174 Acton High Street, Acton, 020 8896 2896",
+  },
 ];
 
 const Stores = () => {
