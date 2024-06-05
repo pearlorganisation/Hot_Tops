@@ -1,13 +1,15 @@
+// ----------------------------------------------Imports-----------------------------------------
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
 import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
 import SearchIcon from "@mui/icons-material/Search";
 import DarkModeSwitcher from "../Header/DarkModeSwitcher/DarkModeSwitcher";
 import { useRef, useState } from "react";
 import DropDown from "./DropDown/DropDown";
+import { BiCustomize } from "react-icons/bi";
+import { Link } from "react-router-dom";
+// -----------------------------------------------------------------------------------------------
 
-export default function Sidebar() {
-  const [isSideNavOpen, setIsSideNavOpen] = useState(true);
-
+export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
   const sideBarItems = [
     {
       label: "Dashboard",
@@ -24,13 +26,19 @@ export default function Sidebar() {
         { title: "Create Food Item", path: "/create-food-item" },
       ], // food-items -> table || food-items/create-food-item
     },
+    {
+      label: "Food Customization",
+      path: "/food-customization",
+      icon: <BiCustomize size={28} />,
+      isDropDown: false,
+    },
   ];
 
   return (
     <>
       {/*  <!-- Component: Side navigation menu with user profile and alert message --> */}
       {/*  <!-- Mobile trigger --> */}
-      <button
+      {/* <button
         title="Side navigation"
         type="button"
         className={`visible fixed right-6 top-2 z-40 order-10 block h-10 w-10 self-center rounded bg-red-400 opacity-100  lg:hidden ${
@@ -58,11 +66,11 @@ export default function Sidebar() {
             className="absolute block h-0.5 w-1/2 origin-top-left translate-y-2 transform rounded-full bg-slate-900 transition-all duration-300"
           ></span>
         </div>
-      </button>
+      </button> */}
 
       {/*  <!-- Side Navigation --> */}
 
-      <div className="flex h-screen">
+      <div className="flex h-screen fixed">
         <aside
           id="nav-menu-4"
           aria-label="Side navigation"
@@ -111,8 +119,8 @@ export default function Sidebar() {
                   return item.isDropDown ? (
                     <DropDown sideBarOption={item} />
                   ) : (
-                    <li className="px-3" key={index}>
-                      <div
+                    <li className="px-3 cursor-pointer" key={index}>
+                      <Link
                         to={item?.path}
                         className="flex items-center gap-3 rounded p-3  transition-colors hover:bg-red-800 hover:font-bold focus:text-black  text-white focus:font-bold  aria-[current=page]:bg-emerald-50 aria-[current=page]:text-emerald-500 "
                       >
@@ -122,7 +130,7 @@ export default function Sidebar() {
                         <div className="flex    w-full flex-1 flex-col  items-start justify-center gap-0 overflow-hidden truncate text-sm">
                           {item?.label}
                         </div>
-                      </div>
+                      </Link>
                     </li>
                   );
                 })}

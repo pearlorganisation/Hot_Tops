@@ -30,6 +30,8 @@ const versionOne = (url) => {
 };
 
 // Router Imports
+import { foodCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/foodCustomizationRoutes.js";
+import { foodItemRouter } from "./src/routes/foodRoutes/foodItemRoutes.js";
 
 // Route Middlewares
 
@@ -39,6 +41,9 @@ app.all(["/", "/api", "/api/v1"], (req, res, next) => {
     message: "Welcome to Hot House",
   });
 });
+
+app.use(versionOne("food"), foodItemRouter); // Food Item Router
+app.use(versionOne("food/customization"), foodCustomizationRouter); // Food Customization Router
 
 // -------------------------------------------------------------------------------------------------------------
 

@@ -10,7 +10,7 @@ const DropDown = ({ sideBarOption }) => {
 
   return (
     <>
-      <div className="px-3">
+      <div className="px-3 cursor-pointer">
         <div
           onClick={() => {
             setDropDown((prevState) => !prevState);

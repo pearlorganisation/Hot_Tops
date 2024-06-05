@@ -110,16 +110,16 @@ export const foodItemSchema = new mongoose.Schema({
     type: String,
     required: [true, "Food Name is a required field"],
   },
-  foodImg: { // input type file
+  foodImg: { 
     type: String,
     required: [true, "Food Image is a required field"],
   },
-  category: { // dropdown
+  category: { 
     type: String,
     enum: ["PIZZA", "SIDES", "DRINKS", "DESSERTS", "DIPS"],
     required: [true, "Food Category is a required field"],
   },
-  foodType: { // dropdown
+  foodType: { 
     String,
     enum: [
       "MEAT",
@@ -132,7 +132,7 @@ export const foodItemSchema = new mongoose.Schema({
     ],
     required: [true, "Food Type is a required field"],
   },
-  customization: { // ignore
+  customization: { 
     type: String,
     default: function () {
       if (this.category === "PIZZA") {
