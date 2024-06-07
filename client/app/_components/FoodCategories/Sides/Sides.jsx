@@ -67,7 +67,7 @@ const Sides = () => {
             <React.Fragment key={category}>
               {isCategoryMatched && (
                 <div class="flex items-center justify-center mb-2">
-                  <div class="flex-grow border-t border-red-500"></div>
+                  <div class="flex-grow border-t border-red-400"></div>
                   <h1 class="px-4 text-red-500 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
                     {category}
                   </h1>
