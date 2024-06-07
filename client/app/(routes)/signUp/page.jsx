@@ -23,7 +23,7 @@ const Page = () => {
           <h2 className="text-2xl font-bold mb-6 text-center">
             NEW MEMBER? REGISTER
           </h2>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onsubmit)}>
             <div className="mb-4">
               <label className="block text-gray-700" htmlFor="register-email">
                 Email Address
@@ -67,7 +67,7 @@ const Page = () => {
                   required: "Password is required",
                   minLength: {
                     value: 6,
-                    message: "Password must have at least 6 characters",
+                    message: "Password must have at least six characters",
                   },
                 })}
               />

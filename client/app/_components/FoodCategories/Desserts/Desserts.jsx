@@ -68,6 +68,7 @@ const Desserts = () => {
           ))}
         </div>
       </div>
+
       <div className="container mx-auto">
         {dummyData?.categories?.map((category) => {
           // console.log(selectedType === data.type);
@@ -77,6 +78,7 @@ const Desserts = () => {
               (selectedType === data.type || selectedType === "All")
           );
           console.log(isCategoryMatched);
+
           return (
             <React.Fragment key={category}>
               {isCategoryMatched && (
@@ -102,7 +104,7 @@ const Desserts = () => {
                         <img
                           src={data.img}
                           alt="Card Image"
-                          className="rounded-t-lg w-full object-cover"
+                          className="rounded-t-lg w-full object-cover max-h-[300px]"
                         />
                         <div className="p-4">
                           <h2 className="text-xl font-semibold mb-4">

@@ -1,4 +1,5 @@
 "use client";
+1;
 import { Navigation, Pagination } from "swiper/modules";
 // import Swiper and modules styles
 import "swiper/css";
@@ -23,7 +24,7 @@ const HomePage = () => {
   return (
     <>
       {" "}
-      <div className="container mx-auto max-w-6xl py-2 md:py-10">
+      <div className="container mx-auto max-w-6xl py-2 md:py-20 ">
         <Swiper className="mySwiper">
           {img.map((el, i) => {
             return (
