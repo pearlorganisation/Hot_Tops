@@ -16,7 +16,7 @@ const PizzaCustomizationForm = () => {
   ];
   // ------------------------------------------------------------------------------------------------
   return (
-    <form className="categoryCustomizationFormContainer  p-5 border border-gray-300 rounded-lg bg-gray-100">
+    <form className="categoryCustomizationFormContainer  p-5 m-3 border border-gray-200 bg-gray-50 rounded-lg grid grid-cols-2 gap-10">
       <SizeContainer />
       <BaseContainer />
       {pizzaItems.map((item) => {
