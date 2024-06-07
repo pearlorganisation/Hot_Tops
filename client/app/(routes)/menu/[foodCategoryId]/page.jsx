@@ -1,7 +1,7 @@
 import React from "react";
 
 const FoodCategory = () => {
-  return <div>FoodCategory</div>;
+  return <div>FoodCatgory</div>;
 };
 
 export default FoodCategory;
