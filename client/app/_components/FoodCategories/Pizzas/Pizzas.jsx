@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SelectStoreModal from "../../Modals/SelectStoreModal";
-
+import { FaExclamation } from "react-icons/fa";
 const Pizzas = () => {
   // -------------------------------------------useState--------------------------------------------
   const [selectedType, setSelectedType] = useState("All");
@@ -76,6 +76,7 @@ const Pizzas = () => {
                   <div class="flex-grow border-t border-red-500 "></div>
                 </div>
               )}
+
               <div className="flex gap-4 flex-wrap justify-center">
                 {dummyData?.categoryData?.map((data, idx) => {
                   if (
@@ -87,11 +88,18 @@ const Pizzas = () => {
                         className=" p-3 py-5 bg-white shadow-md rounded-lg max-w-[15rem] 2xl:max-w-xs w-full newshadow"
                         key={idx}
                       >
-                        <img
-                          src={data.img}
-                          alt="Card Image"
-                          className="rounded-t-lg w-full object-cover"
-                        />
+                        <div className="relative">
+                          <div className="absolute info "></div>
+                          <div className="w-6 h-6 absolute top-2 right-2 cursor-pointer">
+                            i
+                          </div>
+                          <img
+                            src={data.img}
+                            alt="Card Image"
+                            className="rounded-t-lg w-full object-cover"
+                          />
+                        </div>
+
                         <div className="p-4">
                           <h2 className="text-xl font-semibold  mb-4">
                             {data?.Name}
