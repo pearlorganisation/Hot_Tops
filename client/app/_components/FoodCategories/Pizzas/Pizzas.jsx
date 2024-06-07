@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import SelectStoreModal from "../../Modals/SelectStoreModal";
-import { FaExclamation } from "react-icons/fa";
+
+import { useDispatch } from "react-redux";
+
+import PizzaCards from "./pizzaCards/PizzaCards";
+
 const Pizzas = () => {
   // -------------------------------------------useState--------------------------------------------
   const [selectedType, setSelectedType] = useState("All");
@@ -10,6 +14,24 @@ const Pizzas = () => {
   const dummyData = {
     filter: ["All", "Hot", "BBQ", "Garlic", "Tomato"],
     categories: ["Meat", "vegetarian"],
+    price: [
+      {
+        name: "supersize",
+        price: "1050",
+      },
+      {
+        name: "large",
+        price: "750",
+      },
+      {
+        name: "medium",
+        price: "450",
+      },
+      {
+        name: "small",
+        price: "350",
+      },
+    ],
     categoryData: [
       {
         category: "Meat",
@@ -84,46 +106,7 @@ const Pizzas = () => {
                     (selectedType === data?.type || selectedType === "All")
                   ) {
                     return (
-                      <div
-                        className=" p-3 py-5 bg-white shadow-md rounded-lg max-w-[15rem] 2xl:max-w-xs w-full newshadow"
-                        key={idx}
-                      >
-                        <div className="relative">
-                          <div className="absolute info "></div>
-                          <div className="w-6 h-6 absolute top-2 right-2 cursor-pointer">
-                            i
-                          </div>
-                          <img
-                            src={data.img}
-                            alt="Card Image"
-                            className="rounded-t-lg w-full object-cover"
-                          />
-                        </div>
-
-                        <div className="p-4">
-                          <h2 className="text-xl font-semibold  mb-4">
-                            {data?.Name}
-                          </h2>
-                          <div className="relative">
-                            <div className="bg-green-600">
-                              <button
-                                onClick={() => setIsStorePopUpVisible(true)}
-                                data-modal-target="popup-modal"
-                                data-modal-toggle="popup-modal"
-                                data-modal-hide="popup-modal"
-                                className="text-center p-2 text-white"
-                                type="button"
-                              >
-                                Select store to order
-                              </button>
-                              <SelectStoreModal
-                                isStorePopUpVisible={isStorePopUpVisible}
-                                setIsStorePopUpVisible={setIsStorePopUpVisible}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      <PizzaCards data={data} dummyData={dummyData} idx={idx} />
                     );
                   }
                   return null;
