@@ -10,6 +10,7 @@ import { CustomError } from "../../../utils/errors/customError.js";
 // @desc - upsertCustomization - controller to update or create the food customization
 export const upsertFoodCustomization = asyncErrorHandler(
   async (req, res, next) => {
+    console.log(req?.query, "queryyyyy");
     const foodCategoryQuery = req.query?.foodCategory
       .toString()
       .toUpperCase()

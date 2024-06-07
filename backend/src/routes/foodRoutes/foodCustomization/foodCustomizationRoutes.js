@@ -4,6 +4,6 @@ import { upsertFoodCustomization } from "../../../controllers/foodController/foo
 // --------------------------------------------------------------------------------------------------------
 
 export const foodCustomizationRouter = express.Router();
+foodCustomizationRouter.route("/").put(upsertFoodCustomization);
 
 // upsertCustomization
-foodCustomizationRouter.route("/:customizationId").put(upsertFoodCustomization);
