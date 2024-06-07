@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { PiNotePencilFill } from "react-icons/pi";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
+import Link from "next/link";
 
 const PizzaCards = ({ data, dummyData, idx }) => {
   // =-----------------------hooks--------------------------------
@@ -47,9 +48,9 @@ const PizzaCards = ({ data, dummyData, idx }) => {
           please select size first
         </p>
         <div className="relative flex items-center ">
-          <div>
+          <Link href={`/menu/product/${data?.Name}`}>
             <PiNotePencilFill size={30} />
-          </div>
+          </Link>
           <div className="bg-green-600 flex gap-2 items-center justify-center w-[80%]">
             <button
               onClick={() => {
