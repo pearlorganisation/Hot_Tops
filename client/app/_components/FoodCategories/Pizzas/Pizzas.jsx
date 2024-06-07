@@ -10,8 +10,6 @@ const Pizzas = () => {
   const [selectedType, setSelectedType] = useState("All");
   const [isStorePopUpVisible, setIsStorePopUpVisible] = useState(false);
 
-  
-
   // ---------------------------------dummyData------------------------------------------------------
   const dummyData = {
     filter: ["All", "Hot", "BBQ", "Garlic", "Tomato"],
@@ -92,21 +90,24 @@ const Pizzas = () => {
           return (
             <React.Fragment key={category}>
               {isCategoryMatched && (
-                <div class="flex items-center justify-center mb-2">
+                <div class="flex items-center justify-center mb-2 p-5">
                   <div class="flex-grow border-t border-red-500"></div>
                   <h1 class="px-4 text-red-500 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
                     {category}
                   </h1>
-                  <div class="flex-grow border-t border-red-500"></div>
+                  <div class="flex-grow border-t border-red-500 "></div>
                 </div>
               )}
+
               <div className="flex gap-4 flex-wrap justify-center">
                 {dummyData?.categoryData?.map((data, idx) => {
                   if (
                     data?.category === category &&
                     (selectedType === data?.type || selectedType === "All")
                   ) {
-                    return <PizzaCards data={data} dummyData={dummyData} idx={idx} />;
+                    return (
+                      <PizzaCards data={data} dummyData={dummyData} idx={idx} />
+                    );
                   }
                   return null;
                 })}
