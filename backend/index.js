@@ -32,7 +32,8 @@ const versionOne = (url) => {
 // Router Imports
 import { foodCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/foodCustomizationRoutes.js";
 import { foodItemRouter } from "./src/routes/foodRoutes/foodItemRoutes.js";
-
+import pizzaRoutes from "./src/routes/pizza/pizza.js"
+import pizza from "./src/models/pizza/pizza.js";
 // Route Middlewares
 
 app.all(["/", "/api", "/api/v1"], (req, res, next) => {
@@ -44,6 +45,7 @@ app.all(["/", "/api", "/api/v1"], (req, res, next) => {
 
 app.use(versionOne("food"), foodItemRouter); // Food Item Router
 app.use(versionOne("food/customization"), foodCustomizationRouter); // Food Customization Router
+app.use("/api/v1/pizza",pizzaRoutes)
 
 // -------------------------------------------------------------------------------------------------------------
 
