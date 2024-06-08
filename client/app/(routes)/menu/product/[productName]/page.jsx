@@ -140,6 +140,7 @@ const product = () => {
                       type="checkbox"
                       name="sauce_single"
                       value="bbq-sauce"
+                      className=""
                     />
                   </td>
                   <td class="py-2 px-4 border-b text-center">
@@ -1046,6 +1047,12 @@ const product = () => {
             </table>
           </div>
         </div>
+      </div>
+
+      <div className="max-w-4xl mx-auto p-4">
+        <button className="bg-[#39A144] text-white w-full px-10 p-2 rounded">
+          Save
+        </button>
       </div>
     </>
   );
