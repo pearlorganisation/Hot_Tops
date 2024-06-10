@@ -46,7 +46,7 @@ const Cart = () => {
                   </button>
                 </div>
                 <div className="col-span-1 text-right text-xl font-semibold md:col-span-3 md:text-left">
-                  ₹{price[1]}
+                  Є{price[1]}
                 </div>
               </div>
             );

@@ -34,7 +34,7 @@ const PizzaCards = ({ data, dummyData, idx }) => {
             {dummyData?.price.map((data, idx) => {
               return (
                 <option value={`${data?.name}-${data?.price}`}>
-                  {`${data?.name} ₹${data?.price}`}
+                  {`${data?.name} Є${data?.price}`}
                 </option>
               );
             })}
