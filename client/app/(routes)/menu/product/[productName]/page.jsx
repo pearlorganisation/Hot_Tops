@@ -82,6 +82,7 @@ const product = () => {
       ],
     },
   ];
+
   const VEGGETARIAN = [
     {
       toppingName: "Black Olives",
@@ -164,6 +165,125 @@ const product = () => {
     {
       toppingName: "Pineapple",
 
+      quantity: [
+        {
+          single: false,
+          double: false,
+        },
+      ],
+    },
+  ];
+  const MEATTOPPINGS = [
+    {
+      toppingName: "Bacon",
+      quantity: [
+        {
+          single: false,
+          double: false,
+        },
+      ],
+    },
+    {
+      toppingName: "Beef",
+      quantity: [
+        {
+          single: false,
+          double: false,
+        },
+      ],
+    },
+    {
+      toppingName: "Chicken Tikka",
+
+      quantity: [
+        {
+          single: false,
+          double: false,
+        },
+      ],
+    },
+    {
+      toppingName: "Chorizo Sausage",
+
+      quantity: [
+        {
+          single: false,
+          double: false,
+        },
+      ],
+    },
+    {
+      toppingName: "German hot dog",
+
+      quantity: [
+        {
+          single: false,
+          double: false,
+        },
+      ],
+    },
+    {
+      toppingName: "Ham",
+
+      quantity: [
+        {
+          single: false,
+          double: false,
+        },
+      ],
+    },
+    {
+      toppingName: "Meatballs",
+
+      quantity: [
+        {
+          single: false,
+          double: false,
+        },
+      ],
+    },
+    {
+      toppingName: "Mexican Chicken",
+
+      quantity: [
+        {
+          single: false,
+          double: false,
+        },
+      ],
+    },
+    {
+      toppingName: "Pepperoni",
+
+      quantity: [
+        {
+          single: false,
+          double: false,
+        },
+      ],
+    },
+  ];
+  const SEAFOODTOPPINGS = [
+    {
+      toppingName: "Anchovy",
+      quantity: [
+        {
+          single: false,
+          double: false,
+        },
+      ],
+    },
+    {
+      toppingName: "Prawns",
+      quantity: [
+        {
+          single: false,
+          double: false,
+        },
+      ],
+    },
+    {
+      toppingName: "Tuna",
       quantity: [
         {
           single: false,
@@ -525,326 +645,36 @@ const product = () => {
                   <th class="py-2 px-4 border-b">Double +£2.2</th>
                 </tr>
               </thead>
+
               <tbody>
-                <tr>
-                  <td class="py-2 px-4 border-b">Bacon</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="bbq-sauce"
-                    />
-                  </td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="bbq-sauce"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td class="py-2 px-4 border-b">Beef</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="garlic-sauce"
-                    />
-                  </td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="garlic-sauce"
-                    />
-                  </td>
-                </tr>
-                <tr class="">
-                  <td class="py-2 px-4 border-b">Chicken</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="hot-bbq-sauce"
-                    />
-                  </td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="hot-bbq-sauce"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td class="py-2 px-4 border-b">Chicken Tikka</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="smoky-sausage"
-                    />
-                  </td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="smoky-sausage"
-                    />
-                  </td>
-                </tr>
+                {MEATTOPPINGS.map((el, i) => {
+                  return (
+                    <tr>
+                      <td class="py-2 px-4 border-b">{el.toppingName}</td>
 
-                <tr>
-                  <td class="py-2 px-4 border-b">Chorizo Sausage</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="tomato-sauce"
-                    />
-                  </td>
-                  <td class="py-2  px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="tomato-sauce"
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="py-2 px-4 border-b">German hot dog</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="no-sauce"
-                    />
-                  </td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="no-sauce"
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="py-2 px-4 border-b">Ham</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="no-sauce"
-                    />
-                  </td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="no-sauce"
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="py-2 px-4 border-b">Meatballs</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="no-sauce"
-                    />
-                  </td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="no-sauce"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td class="py-2 px-4 border-b">Mexican Chicken</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="no-sauce"
-                    />
-                  </td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="no-sauce"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td class="py-2 px-4 border-b">Pepperoni</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="no-sauce"
-                    />
-                  </td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="no-sauce"
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="py-2 px-4 border-b">Peri Peri Chicken</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="no-sauce"
-                    />
-                  </td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="no-sauce"
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="py-2 px-4 border-b">Salami</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="no-sauce"
-                    />
-                  </td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="no-sauce"
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="py-2 px-4 border-b">Sliced Gherkin</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="no-sauce"
-                    />
-                  </td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="no-sauce"
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="py-2 px-4 border-b">Special Burger Sauce</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="no-sauce"
-                    />
-                  </td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="no-sauce"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td class="py-2 px-4 border-b">Spinach</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="no-sauce"
-                    />
-                  </td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="no-sauce"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td class="py-2 px-4 border-b">Sun Dried tomato</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="no-sauce"
-                    />
-                  </td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="no-sauce"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td class="py-2 px-4 border-b">Sweetcorn</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="no-sauce"
-                    />
-                  </td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="no-sauce"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td class="py-2 px-4 border-b">Tomato ketchup</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="no-sauce"
-                    />
-                  </td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="no-sauce"
-                    />
-                  </td>
-                </tr>
+                      <td class="py-2 px-4 border-b text-center">
+                        <input
+                          type="checkbox"
+                          name="sauce_single"
+                          value="bbq-sauce"
+                        />
+                      </td>
+                      <td class="py-2 px-4 border-b text-center">
+                        <input
+                          type="checkbox"
+                          name="sauce_double"
+                          value="bbq-sauce"
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
         </div>
       </div>
+
       {/* SEAFOOD TOPPINGS */}
       <div class="max-w-4xl mx-auto p-4 bg-white rounded-lg ">
         <div class="mt-4">
@@ -859,57 +689,28 @@ const product = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td class="py-2 px-4 border-b">Anchovy</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="bbq-sauce"
-                    />
-                  </td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="bbq-sauce"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td class="py-2 px-4 border-b">Prawns</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="garlic-sauce"
-                    />
-                  </td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="garlic-sauce"
-                    />
-                  </td>
-                </tr>
-                <tr class="">
-                  <td class="py-2 px-4 border-b">Tuna</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_single"
-                      value="hot-bbq-sauce"
-                    />
-                  </td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <input
-                      type="checkbox"
-                      name="sauce_double"
-                      value="hot-bbq-sauce"
-                    />
-                  </td>
-                </tr>
+                {SEAFOODTOPPINGS.map((el, i) => {
+                  return (
+                    <tr>
+                      <td class="py-2 px-4 border-b">{el.toppingName}</td>
+
+                      <td class="py-2 px-4 border-b text-center">
+                        <input
+                          type="checkbox"
+                          name="sauce_single"
+                          value="bbq-sauce"
+                        />
+                      </td>
+                      <td class="py-2 px-4 border-b text-center">
+                        <input
+                          type="checkbox"
+                          name="sauce_double"
+                          value="bbq-sauce"
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
