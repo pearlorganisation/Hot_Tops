@@ -72,13 +72,13 @@ const Page = () => {
                 })}
               />
               {errors.password && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-red-500 text-sm mt-5 ">
                   {errors.password.message}
                 </p>
               )}
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700" htmlFor="confirm-password">
+              <label className="block text-gray-700" htmlFor="confirm-passwod">
                 Confirm Password
               </label>
               <input
@@ -94,6 +94,7 @@ const Page = () => {
                     value === watch("password") || "The passwords do not match",
                 })}
               />
+
               {errors.confirmPassword && (
                 <p className="text-red-500 text-sm mt-1">
                   {errors.confirmPassword.message}
