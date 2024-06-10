@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getPizzasFilter } from "../../../features/actions/pizza/getPizzasFilter";
+import { useSelector } from "react-redux";
 
 const CreatePizza = () => {
   const size = ["supersize", "large", "medium", "small"];
+  // -------------------------hooks------------------------------------
+  const dispatch = useDispatch();
+  const { pizzaFilter } = useSelector((state) => state?.pizza);
+
+  // -------------------------------------useEffect---------------------------------
+  useEffect(() => {
+    dispatch(getPizzasFilter());
+  }, []);
 
   return (
     <div className="px-2 my-4">
@@ -15,10 +26,15 @@ const CreatePizza = () => {
               <th scope="col" class="px-6 py-3">
                 <div>
                   <select id="filter" className="p-2 border-2">
-                    <option value="hot">Hot</option>
-                    <option value="hot">bbq</option>
-                    <option value="hot">garlic</option>
-                    <option value="hot">tomato</option>
+                    {Array.isArray(pizzaFilter?.data) &&
+                      pizzaFilter?.data?.length > 0 &&
+                      pizzaFilter?.data?.map((data, idx) => {
+                        return (
+                          <option key={idx} value={data?.filter}>
+                            {data?.filter}
+                          </option>
+                        );
+                      })}
                   </select>
                 </div>
               </th>
