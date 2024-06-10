@@ -15,18 +15,21 @@ const Sides = () => {
         Name: "Chicken Dippers",
         img: "https://topspizza.co.uk/storage/29.jpg",
       },
+
       {
         category: "Vegan",
         type: "Vegan",
         Name: "Vegan Plant Based Dippers",
         img: "https://topspizza.co.uk/storage/235.jpg",
       },
+
       {
         category: "Meat",
         type: "Chicken",
         Name: "BBQ chicken wings",
         img: "https://topspizza.co.uk/storage/27.jpg",
       },
+
       {
         category: "Meat",
         type: "Classic",
