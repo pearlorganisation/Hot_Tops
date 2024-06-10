@@ -2,16 +2,19 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getPizzasFilter } from "../../../features/actions/pizza/getPizzasFilter";
 import { useSelector } from "react-redux";
+import { getPizzasCategories } from "../../../features/actions/pizza/getPizzasCategories";
 
 const CreatePizza = () => {
   const size = ["supersize", "large", "medium", "small"];
   // -------------------------hooks------------------------------------
   const dispatch = useDispatch();
   const { pizzaFilter } = useSelector((state) => state?.pizza);
+  const { pizzaCategory } = useSelector((state) => state?.pizza);
 
   // -------------------------------------useEffect---------------------------------
   useEffect(() => {
     dispatch(getPizzasFilter());
+    dispatch(getPizzasCategories());
   }, []);
 
   return (
@@ -46,9 +49,15 @@ const CreatePizza = () => {
               <th scope="col" class="px-6 py-3">
                 <div>
                   <select id="filter" className="p-2 border-2">
-                    <option value="hot">Meat</option>
-                    <option value="hot">vegan and gluteen</option>
-                    <option value="hot">veg</option>
+                    {Array.isArray(pizzaCategory?.data) &&
+                      pizzaCategory?.data?.length > 0 &&
+                      pizzaCategory?.data?.map((data) => {
+                        return (
+                          <option value={data?.category}>
+                            {data?.category}
+                          </option>
+                        );
+                      })}
                   </select>
                 </div>
               </th>
