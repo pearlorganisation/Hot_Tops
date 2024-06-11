@@ -1,12 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createPizza } from "../../actions/pizza/createPizza";
 import { getPizzasFilter } from "../../actions/pizza/getPizzasFilter";
+import { getPizzasCategories } from "../../actions/pizza/getPizzasCategories";
 
 const initialState = {
   isLoading: false,
   PizzaData: [],
   isError: false,
   pizzaFilter: [],
+  pizzaCategory: [],
 };
 
 const pizzaSlice = createSlice({
@@ -35,6 +37,18 @@ const pizzaSlice = createSlice({
     });
     builder.addCase(getPizzasFilter.rejected, (state, action) => {
       state.isLoading = false;
+      state.isError = true;
+    });
+
+    //category api action and state
+    builder.addCase(getPizzasCategories.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getPizzasCategories.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.pizzaCategory = action.payload;
+    });
+    builder.addCase(getPizzasCategories.rejected, (state, action) => {
       state.isError = true;
     });
   },
