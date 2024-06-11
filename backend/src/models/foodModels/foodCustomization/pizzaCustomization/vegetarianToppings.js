@@ -2,7 +2,7 @@
 import mongoose from "mongoose";
 // ----------------------------------------------------------------------------------------------------------
 
-const veggetarianToppingsCustomizationSchema = new mongoose.Schema({
+const vegetarianToppingsCustomizationSchema = new mongoose.Schema({
  
       name: {
         type: String,
@@ -20,9 +20,9 @@ const veggetarianToppingsCustomizationSchema = new mongoose.Schema({
 });
 
 export const 
-veggetarianToppingsCustomizationModel = mongoose.model(
-  "veggetarianToppings_Customization",
-  veggetarianToppingsCustomizationSchema
+vegetarianToppingsCustomizationModel = mongoose.model(
+  "vegetarianToppings_Customization",
+  vegetarianToppingsCustomizationSchema
 );
 
 
