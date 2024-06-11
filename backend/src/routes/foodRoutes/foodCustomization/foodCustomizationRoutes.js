@@ -8,6 +8,3 @@ export const foodCustomizationRouter = express.Router();
 foodCustomizationRouter.route("/:id").put(upsertFoodCustomization);
 
 foodCustomizationRouter.route("/").get(getAllFoodCustomization).post(createFoodCustomization);;
-
-
-// upsertCustomization
