@@ -74,6 +74,17 @@ const SizeAndBasesModal = forwardRef((props, ref) => {
                 placeholder={`Enter ${props.itemName}`}
               />
             </div>
+            <div className="mb-4">
+                <label htmlFor="singlePrice" className="block text-sm font-medium text-gray-700">
+                  Price
+                </label>
+                <input
+                  id="singlePrice"
+                  {...register("singlePrice")}
+                  className="border p-1 rounded w-full"
+                  placeholder="Price for Single"
+                />
+              </div>
 
           </div>
           <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
