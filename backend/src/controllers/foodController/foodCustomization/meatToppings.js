@@ -47,3 +47,17 @@ export const getAllMeatToppingsCustomization = asyncErrorHandler( async(req,res,
   }
 
 )
+
+export const deleteMeatToppingsCustomization = asyncErrorHandler( async(req,res,next)=>{
+  const {id}= req?.params
+      console.log(id)
+
+const isValidId =await meatToppingsCustomizationModel.findByIdAndDelete(id)
+if(!isValidId){
+return next(new CustomError("No data found with given id!!", 400))
+}
+
+res.status(200).json({status:true,message:"MeatToppings Customization data deleted successfully"})
+}
+
+)

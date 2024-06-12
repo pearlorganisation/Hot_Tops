@@ -47,3 +47,17 @@ export const getAllSizeCustomization = asyncErrorHandler( async(req,res,next)=>{
   }
 
 )
+
+export const deleteSizeCustomization = asyncErrorHandler( async(req,res,next)=>{
+  const {id}= req?.params
+      console.log(id)
+
+const isValidId =await sizeCustomizationModel.findByIdAndDelete(id)
+if(!isValidId){
+return next(new CustomError("No data found with given id!!", 400))
+}
+
+res.status(200).json({status:true,message:"Size Customization data deleted successfully"})
+}
+
+)
