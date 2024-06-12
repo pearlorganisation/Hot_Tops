@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SelectStoreModal from "../../Modals/SelectStoreModal";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import PizzaCards from "./pizzaCards/PizzaCards";
+import { pizzaAction } from "@/app/lib/features/action/pizzaAction";
 
 const Pizzas = () => {
   // -------------------------------------------useState--------------------------------------------
@@ -59,6 +60,15 @@ const Pizzas = () => {
       },
     ],
   };
+  const { isLoading, pizzadata } = useSelector((state) => state.pizza);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(pizzaAction());
+  }, []);
+
+  console.log(pizzadata, "data");
 
   return (
     <div className="my-4">

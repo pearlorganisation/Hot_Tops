@@ -26,15 +26,16 @@ const Page = () => {
           </h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
-              <label className="block text-gray-700" htmlFor="register-email">
+              <label className="block text-gray-700" htmlFor="register-email ">
                 Email Address
               </label>
+
               <input
                 type="email"
                 id="register-email"
                 className={`w-full px-3 py-2 border ${
                   errors.email ? "border-red-500" : "border-gray-300"
-                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                } rounded-md focus:outline-none focus:ring focus:ring-green-200 `}
                 placeholder="Enter your email"
                 {...register("email", {
                   required: "Email is required",
@@ -44,6 +45,7 @@ const Page = () => {
                   },
                 })}
               />
+
               {errors.email && (
                 <p className="text-red-500 text-sm mt-1">
                   {errors.email.message}
