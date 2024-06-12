@@ -47,3 +47,17 @@ export const getAllSeafoodToppingsCustomization = asyncErrorHandler( async(req,r
   }
 
 )
+
+export const deleteSeafoodToppingsCustomization = asyncErrorHandler( async(req,res,next)=>{
+  const {id}= req?.params
+      console.log(id)
+
+const isValidId =await seafoodToppingsCustomizationModel.findByIdAndDelete(id)
+if(!isValidId){
+return next(new CustomError("No data found with given id!!", 400))
+}
+
+res.status(200).json({status:true,message:"SeafoodToppings Customization data deleted successfully"})
+}
+
+)

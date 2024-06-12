@@ -47,3 +47,17 @@ export const getAllVegetarianToppingsCustomization = asyncErrorHandler( async(re
   }
 
 )
+
+export const deleteVegetarianToppingsCustomization = asyncErrorHandler( async(req,res,next)=>{
+  const {id}= req?.params
+      console.log(id)
+
+const isValidId =await vegetarianToppingsCustomizationModel.findByIdAndDelete(id)
+if(!isValidId){
+return next(new CustomError("No data found with given id!!", 400))
+}
+
+res.status(200).json({status:true,message:"VegetarianToppings Customization data deleted successfully"})
+}
+
+)
