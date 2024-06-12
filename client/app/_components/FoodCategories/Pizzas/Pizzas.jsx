@@ -1,19 +1,47 @@
 import React, { useState } from "react";
-import SelectStoreModal from "../../Modals/SelectStoreModal";
+import useSWR from "swr";
 
 import { useDispatch } from "react-redux";
 
 import PizzaCards from "./pizzaCards/PizzaCards";
+
+// -------------------data fetching function-----------------------
+const pizzaFetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const Pizzas = () => {
   // -------------------------------------------useState--------------------------------------------
   const [selectedType, setSelectedType] = useState("All");
   const [isStorePopUpVisible, setIsStorePopUpVisible] = useState(false);
 
+  // =-------------------------data fetching---------------------------
+
+  const { data, error, isLoading } = useSWR(
+    `http://localhost:9898/api/v1/pizza`,
+    pizzaFetcher
+  );
+
+  // ---------------fetch filter---------------------------
+  const {
+    data: filterData,
+    error: filterError,
+    isLoading: filterLoading,
+  } = useSWR(`http://localhost:9898/api/v1/pizza/filter`, pizzaFetcher);
+
+  // -----------------category fetcher------------------------------------------
+  const {
+    data: categoryData,
+    error: categoryError,
+    isLoading: categoryLoading,
+  } = useSWR(`http://localhost:9898/api/v1/pizza/category`, pizzaFetcher);
+
+  const categories = [];
+  categoryData &&
+    categoryData?.data?.map((data) => categories.push(data?.category));
   // ---------------------------------dummyData------------------------------------------------------
   const dummyData = {
+    // =-------------------------data fetching---------------------------
     filter: ["All", "Hot", "BBQ", "Garlic", "Tomato"],
-    categories: ["Meat", "vegetarian"],
+    categories,
     price: [
       {
         name: "supersize",
@@ -59,62 +87,74 @@ const Pizzas = () => {
       },
     ],
   };
+  console.log(categories);
 
+  if (error || filterError) return <div>failed to load</div>;
+  if (isLoading || filterLoading) return <div>....loading</div>;
+  console.log(data);
   return (
     <div className="my-4">
       <div>
         <div className="flex gap-2 mx-4 md:mx-8 my-4 flex-wrap ">
           <span className="font-bold">filter:</span>
-          {dummyData?.filter?.map((data) => (
+          {filterData?.data?.map((data) => (
             <div className="flex gap-2" key={data}>
               <input
                 type="radio"
                 name="type"
-                value={data}
-                id={data}
-                defaultChecked={data === "All"}
-                onClick={() => setSelectedType(data)}
+                value={data?.filter}
+                id={data?.filter}
+                defaultChecked={data?.filter === "All"}
+                onClick={() => setSelectedType(data?.filter)}
               />
-              <label htmlFor={data}>{data}</label>
+              <label htmlFor={data?.filter}>{data?.filter}</label>
             </div>
           ))}
         </div>
       </div>
       <div className="container mx-auto">
-        {dummyData?.categories?.map((category) => {
-          const isCategoryMatched = dummyData.categoryData.some(
-            (data) =>
-              data.category === category &&
-              (selectedType === data.type || selectedType === "All")
-          );
-          return (
-            <React.Fragment key={category}>
-              {isCategoryMatched && (
-                <div class="flex items-center justify-center mb-2 p-5">
-                  <div class="flex-grow border-t border-red-500"></div>
-                  <h1 class="px-4 text-red-500 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
-                    {category}
-                  </h1>
-                  <div class="flex-grow border-t border-red-500 "></div>
-                </div>
-              )}
+        {categories &&
+          categories.map((category) => {
+            const isCategoryMatched = data?.data?.some(
+              (data) =>
+                data.category?.category === category &&
+                (selectedType === data?.filter?.filter ||
+                  selectedType === "All")
+            );
+            return (
+              <React.Fragment key={category}>
+                {isCategoryMatched && (
+                  <div class="flex items-center justify-center mb-2 p-5">
+                    <div class="flex-grow border-t border-red-500"></div>
+                    <h1 class="px-4 text-red-500 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
+                      {category}
+                    </h1>
+                    <div class="flex-grow border-t border-red-500 "></div>
+                  </div>
+                )}
 
-              <div className="flex gap-4 flex-wrap justify-center">
-                {dummyData?.categoryData?.map((data, idx) => {
-                  if (
-                    data?.category === category &&
-                    (selectedType === data?.type || selectedType === "All")
-                  ) {
-                    return (
-                      <PizzaCards data={data} dummyData={dummyData} idx={idx} />
-                    );
-                  }
-                  return null;
-                })}
-              </div>
-            </React.Fragment>
-          );
-        })}
+                <div className="flex gap-4 flex-wrap justify-center">
+                  {data?.data &&
+                    data?.data.map((data, idx) => {
+                      if (
+                        data?.category?.category === category &&
+                        (selectedType === data?.filter?.filter ||
+                          selectedType === "All")
+                      ) {
+                        return (
+                          <PizzaCards
+                            data={data}
+                            dummyData={dummyData}
+                            idx={idx}
+                          />
+                        );
+                      }
+                      return null;
+                    })}
+                </div>
+              </React.Fragment>
+            );
+          })}
       </div>
     </div>
   );

@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import { getPizzasCategories } from "../../../features/actions/pizza/getPizzasCategories";
 import { useForm } from "react-hook-form";
 import { createPizza } from "../../../features/actions/pizza/createPizza";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CreatePizza = () => {
   const size = ["supersize", "large", "medium", "small"];
@@ -12,7 +14,12 @@ const CreatePizza = () => {
   const dispatch = useDispatch();
   const { pizzaFilter } = useSelector((state) => state?.pizza);
   const { pizzaCategory } = useSelector((state) => state?.pizza);
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
 
   // -------------------------------------useEffect---------------------------------
   useEffect(() => {
@@ -29,6 +36,7 @@ const CreatePizza = () => {
     formData.append("banner", image[0]);
     formData.append("data", JSON.stringify(rest));
     dispatch(createPizza(formData));
+    reset();
   };
 
   return (
@@ -51,13 +59,20 @@ const CreatePizza = () => {
                       {Array.isArray(pizzaFilter?.data) &&
                         pizzaFilter?.data?.length > 0 &&
                         pizzaFilter?.data?.map((data, idx) => {
-                          return (
-                            <option key={idx} value={data?._id}>
-                              {data?.filter}
-                            </option>
-                          );
+                          if (idx !== 0) {
+                            return (
+                              <option key={idx} value={data?._id}>
+                                {data?.filter}
+                              </option>
+                            );
+                          }
                         })}
                     </select>
+                    {errors?.filter?.type === "required" && (
+                      <p role="alert" className="text-sm text-red-600">
+                        this field is required
+                      </p>
+                    )}
                   </div>
                 </th>
               </tr>
@@ -80,6 +95,11 @@ const CreatePizza = () => {
                           );
                         })}
                     </select>
+                    {errors?.category?.type === "required" && (
+                      <p role="alert" className="text-sm text-red-600">
+                        this field is required
+                      </p>
+                    )}
                   </div>
                 </th>
               </tr>
@@ -95,6 +115,11 @@ const CreatePizza = () => {
                       type="file"
                       className="p-2 border-2"
                     ></input>
+                    {errors?.image?.type === "required" && (
+                      <p role="alert" className="text-sm text-red-600">
+                        this field is required
+                      </p>
+                    )}
                   </div>
                 </th>
               </tr>
@@ -110,6 +135,11 @@ const CreatePizza = () => {
                       type="text"
                       className="p-2 border-2"
                     ></input>
+                    {errors?.pizzaName?.type === "required" && (
+                      <p role="alert" className="text-sm text-red-600">
+                        this field is required
+                      </p>
+                    )}
                   </div>
                 </th>
               </tr>
@@ -137,6 +167,11 @@ const CreatePizza = () => {
                 </tr>
               </thead>
               <tbody>
+                {errors?.price?.type === "required" && (
+                  <p role="alert" className="text-sm text-red-600">
+                    Please add the price in all the sizes
+                  </p>
+                )}
                 {size.map((data) => {
                   return (
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -151,6 +186,8 @@ const CreatePizza = () => {
                           {...register(data, { required: true })}
                           id="name"
                           type="number"
+                          min="0"
+                          step="0.01"
                           className="p-2 border-2"
                         ></input>
                       </td>
@@ -168,6 +205,7 @@ const CreatePizza = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </form>
   );
 };

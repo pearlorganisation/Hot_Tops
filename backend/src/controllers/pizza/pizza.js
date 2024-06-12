@@ -4,11 +4,19 @@ import pizza from "../../models/pizza/pizza.js";
 
 export const createNewPizza = asyncErrorHandler(async (req, res, next) => {
   const data = JSON.parse(req?.body?.data);
-  const { small, medium, large, supersize, ...rest } = data;
-  console.log(rest);
-  const priceSection = [{ small }, { medium }, { large }, { supersize }];
+  console.log(data);
+  // const { small, medium, large, supersize, ...rest } = data;
+  const keys = Object.keys(data);
+
+  const priceSection = [
+    { size: "small", price: data?.small },
+    { size: "large", price: data?.large },
+    { size: "medium", price: data?.medium },
+    { size: "supersize", price: data?.supersize },
+  ];
+  console.log(priceSection);
   const newPizza = await new pizza({
-    ...rest,
+    ...data,
     banner: req?.file?.path,
     priceSection: priceSection,
   });
