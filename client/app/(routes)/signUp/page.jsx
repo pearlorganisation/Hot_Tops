@@ -12,7 +12,27 @@ const Page = () => {
     watch,
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    console.log(data);
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/signup`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            email: data?.email,
+            password: data?.password,
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        }
+      );
+      const newData = await res.json();
+      console.log(newData);
+    } catch (error) {
+      console.log(error?.data);
+    }
     console.log(data);
     // Add your signup logic here
   };
