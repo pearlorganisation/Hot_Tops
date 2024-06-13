@@ -14,7 +14,39 @@ const PORT = envAccess("PORT") || 9898;
 connectMongo();
 // ------------------------------------------------------------------------------------------------------------
 // ----------------------------------------------CORS HANDLING-------------------------------------------------
-app.use(cors(corsConfig()));
+app.use(
+  cors(
+    process.env.NODE_ENV === "production"
+      ? {
+          origin: [
+            "http://localhost:4112",
+            "http://localhost:3000",
+            "http://localhost:5010",
+            "http://localhost:4113",
+            "http://localhost:5173",
+            "http://localhost:5174",
+            "http://localhost:4114",
+          ],
+          credentials: true,
+        }
+      : {
+          origin: [
+            "http://localhost:4112",
+            "http://localhost:3000",
+            "http://localhost:5174",
+            "http://localhost:5173",
+            "http://localhost:5010",
+            "http://localhost:4113",
+            "http://localhost:4114",
+          ],
+          methods: ["GET", "PUT", "POST", "PATCH", "DELETE"],
+          allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
+          credentials: true,
+          maxAge: 600,
+          exposedHeaders: ["*", "Authorization"],
+        }
+  )
+);
 // ------------------------------------------------------------------------------------------------------------
 // ----------------------------------------------Middlewares----------------------------------------------------
 // express.json() -- middleware to parse the json coming from the http request
@@ -32,7 +64,7 @@ const versionOne = (url) => {
 // Router Imports
 import { foodCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/foodCustomizationRoutes.js";
 import { foodItemRouter } from "./src/routes/foodRoutes/foodItemRoutes.js";
-import pizzaRoutes from "./src/routes/pizza/pizza.js"
+import pizzaRoutes from "./src/routes/pizza/pizza.js";
 import pizza from "./src/models/pizza/pizza.js";
 // Route Middlewares
 
@@ -45,7 +77,7 @@ app.all(["/", "/api", "/api/v1"], (req, res, next) => {
 
 app.use(versionOne("food"), foodItemRouter); // Food Item Router
 app.use(versionOne("food/customization"), foodCustomizationRouter); // Food Customization Router
-app.use("/api/v1/pizza",pizzaRoutes)
+app.use("/api/v1/pizza", pizzaRoutes);
 
 // -------------------------------------------------------------------------------------------------------------
 
