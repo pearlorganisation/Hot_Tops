@@ -27,9 +27,9 @@ const FoodCustomizationTab = () => {
     <div className="categoryTabsContainer flex p-3 gap-4">
       {Array.isArray(categoryTabs) &&
         categoryTabs.length > 0 &&
-        categoryTabs.map((tab) => {
+        categoryTabs.map((tab,index) => {
           return (
-            <div className="tabCard flex flex-col items-center p-1 cursor-pointer">
+            <div key={index} className="tabCard flex flex-col items-center p-1 cursor-pointer">
               <div className="tabIcon flex justify-center items-center w-[50px] h-[50px] rounded-full border border-red-500">
                 {tab.icon}
               </div>

@@ -29,12 +29,12 @@ export const updateBaseCustomization = asyncErrorHandler(async (req, res, next) 
 
 export const createBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
   
-    const newFoodCustomization = new baseCustomizationModel({
-...req?.body
+    const data = new baseCustomizationModel({
+...req?.body 
   })
 
-  await newFoodCustomization.save()
- res.status(201).json({status:true,message:"Base Customization created successfully"})
+  await data.save()
+ res.status(201).json({status:true,message:"Base Customization created successfully",data})
   }
 )
 
@@ -51,6 +51,7 @@ export const getAllBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
 
 export const deleteBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
        const {id}= req?.params
+
        console.log(id)
        
        const isValidId =await baseCustomizationModel.findByIdAndDelete(id)
@@ -59,6 +60,9 @@ export const deleteBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
          }
         const data = await baseCustomizationModel.find();
  res.status(200).json( {status:true,message:"Base Customization data deleted successfully", data})
+
+  
+
   }
 
 )
