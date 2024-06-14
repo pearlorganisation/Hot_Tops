@@ -51,14 +51,14 @@ export const getAllBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
 
 export const deleteBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
        const {id}= req?.params
-           console.log(id)
-  
- const isValidId =await baseCustomizationModel.findByIdAndDelete(id)
- if(!isValidId){
-  return next(new CustomError("No data found with given id!!", 400))
- }
- 
- res.status(200).json({status:true,message:"Base Customization data deleted successfully"})
+       console.log(id)
+       
+       const isValidId =await baseCustomizationModel.findByIdAndDelete(id)
+       if(!isValidId){
+         return next(new CustomError("No data found with given id!!", 400))
+         }
+        const data = await baseCustomizationModel.find();
+ res.status(200).json( {status:true,message:"Base Customization data deleted successfully", data})
   }
 
 )
