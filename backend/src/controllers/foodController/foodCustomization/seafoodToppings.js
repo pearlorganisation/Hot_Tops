@@ -13,7 +13,7 @@ export const updateSeafoodToppingsCustomization = asyncErrorHandler(async (req, 
     const { id } = req?.params;
 
       const isValidId = await seafoodToppingsCustomizationModel.findByIdAndUpdate(
-        id,req?.body
+        id,{...req?.body},{new:true}
       );
 
       if (!isValidId)
