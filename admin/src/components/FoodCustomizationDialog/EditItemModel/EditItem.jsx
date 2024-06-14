@@ -1,20 +1,15 @@
-import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
+import { updateBasePizza } from "../../../features/actions/pizza/updateCustomization/updateBasePizza";
 import { useDispatch } from "react-redux";
-import { postSaucePizza } from "../../features/actions/pizza/postCustomization/postSaucePizza";
-import { postCheesePizza } from "../../features/actions/pizza/postCustomization/postCheesePizza";
-import { postMeatTopping } from "../../features/actions/pizza/postCustomization/postMeatTopping";
-import { postVegTopping } from "../../features/actions/pizza/postCustomization/postVegTopping";
-import { getSaucePizza } from "../../features/actions/pizza/getCustomization/getSaucePizza";
-import { getCheesePizza } from "../../features/actions/pizza/getCustomization/getCheesePizza";
-import { getMeatTopping } from "../../features/actions/pizza/getCustomization/getMeatTopping";
-import { getVegetarianTopping } from "../../features/actions/pizza/getCustomization/getVegetarianTopping";
+import { updateSizePizza } from "../../../features/actions/pizza/updateCustomization/updateSizePizza";
 
-const FoodModal = forwardRef((props, ref) => {
+const EditItem = forwardRef(({ data, itemName }, ref) => {
+  const dispatch = useDispatch();
   const dialogRef = useRef();
-  const { register, handleSubmit, control } = useForm({
-    mode: "watch",
+  const { register, handleSubmit, control, setValue, reset } = useForm({
+    mode: 'onBlur'
   });
 
   useImperativeHandle(ref, () => ({
@@ -26,30 +21,31 @@ const FoodModal = forwardRef((props, ref) => {
     },
   }));
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    if (data) {
+      setValue("name", data.name);
+      setValue("price", data.price);
+    }
+  }, [data, setValue]);
 
-  const onSubmit = (data) => {
-    
-    if(props.itemName === 'Sauce'){
-      dispatch(postSaucePizza(data));
-      dispatch(getSaucePizza());
+  const onSubmit = (submissionData) => {
+    try {
+      if (itemName === "Base") {
+        dispatch(updateBasePizza({
+          ...submissionData,
+          _id: data._id
+        }));
+      } else {
+        dispatch(updateSizePizza({
+          ...submissionData,
+          _id: data._id
+        }));
+      }
+      reset(); // Reset the form fields
+      dialogRef.current.close(); // Close the dialog
+    } catch (e) {
+      console.log("Error occurred ", e);
     }
-    else if (props.itemName === 'Cheese'){
-      dispatch(postCheesePizza(data));
-      dispatch(getCheesePizza());
-    }
-      
-    else if(props.itemName === 'MEAT TOPPINGS'){
-      dispatch(postMeatTopping(data));
-      dispatch(getMeatTopping());
-    }
-    
-    else if(props.itemName === "VEGETARIAN TOPPINGS"){
-      dispatch(postVegTopping(data));
-      dispatch(getVegetarianTopping());
-    }
-      
-    console.log(data);
   };
 
   return (
@@ -63,10 +59,11 @@ const FoodModal = forwardRef((props, ref) => {
       style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
     >
       <div className="relative p-4 w-full max-w-2xl max-h-full">
+        <legend>EDIT MODAL</legend>
         <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-              Name: {props?.itemName}
+              Item Name: {data?.name}
             </h3>
             <button
               type="button"
@@ -94,36 +91,27 @@ const FoodModal = forwardRef((props, ref) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="p-4 md:p-5 space-y-4">
               <div className="mb-4">
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Name
                 </label>
                 <input
-                  id="name"
                   {...register("name")}
                   className="border p-1 rounded w-full"
-                  placeholder={`Enter ${props.itemName}`}
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="singlePrice" className="block text-sm font-medium text-gray-700">
-                  Single
+                <label
+                  htmlFor="price"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Price
                 </label>
                 <input
-                  id="singlePrice"
-                  {...register("singlePrice")}
+                  {...register("price")}
                   className="border p-1 rounded w-full"
-                  placeholder="Price for Single"
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="doublePrice" className="block text-sm font-medium text-gray-700">
-                  Double
-                </label>
-                <input
-                  id="doublePrice"
-                  {...register("doublePrice")}
-                  className="border p-1 rounded w-full"
-                  placeholder="Price for Double"
                 />
               </div>
             </div>
@@ -131,14 +119,16 @@ const FoodModal = forwardRef((props, ref) => {
               <button
                 type="submit"
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                onClick={() => dialogRef.current.close()}
               >
-                Add
+                Edit DATA
               </button>
               <button
                 type="button"
                 className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                onClick={() => dialogRef.current.close()}
+                onClick={() => {
+                  reset();
+                  dialogRef.current.close();
+                }}
               >
                 Cancel
               </button>
@@ -151,4 +141,4 @@ const FoodModal = forwardRef((props, ref) => {
   );
 });
 
-export default FoodModal;
+export default EditItem;

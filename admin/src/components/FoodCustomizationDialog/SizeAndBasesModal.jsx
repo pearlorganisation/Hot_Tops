@@ -1,6 +1,9 @@
 import { DevTool } from '@hookform/devtools';
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { postBasePizza } from '../../features/actions/pizza/postCustomization/postBasePizza';
+import { postSizePizza } from '../../features/actions/pizza/postCustomization/postSizePizza';
 
 const SizeAndBasesModal = forwardRef((props, ref) => {
   const dialogRef = useRef();
@@ -17,9 +20,19 @@ const SizeAndBasesModal = forwardRef((props, ref) => {
     },
   }));
 
+  const dispatch = useDispatch();
   function onSubmit(data){
-    data.preventDefault()
-    console.log(data);
+   
+
+    if(props.itemName === "Base")
+       dispatch(postBasePizza(data));
+    else 
+       dispatch(postSizePizza(data));
+      
+
+     
+    
+   
   }
 
   return (
@@ -79,10 +92,10 @@ const SizeAndBasesModal = forwardRef((props, ref) => {
                   Price
                 </label>
                 <input
-                  id="singlePrice"
-                  {...register("singlePrice")}
+                  id="price"
+                  {...register("price")}
                   className="border p-1 rounded w-full"
-                  placeholder="Price for Single"
+                  placeholder="Price "
                 />
               </div>
 
@@ -90,6 +103,7 @@ const SizeAndBasesModal = forwardRef((props, ref) => {
           <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
             <button
               type="submit"
+              onClick={() => dialogRef.current.close()}
               className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Add
