@@ -12,16 +12,17 @@ export const updateBaseCustomization = asyncErrorHandler(async (req, res, next) 
 
     const { id } = req?.params;
 
-      const isValidId = await baseCustomizationModel.findByIdAndUpdate(
-        id,req?.body
+      const data = await baseCustomizationModel.findByIdAndUpdate(
+        id,{...req?.body},{new:true}
       );
 
-      if (!isValidId)
+      if (!data)
         return next(new CustomError("No data found with given id!!", 400));
 
     return res.status(200).json({
       success: true,
       message: `Base Customization Updated Successfully`,
+      data
     });
   }
 );
