@@ -12,28 +12,29 @@ export const updateSauceCustomization = asyncErrorHandler(async (req, res, next)
 
     const { id } = req?.params;
 
-      const isValidId = await sauceCustomizationModel.findByIdAndUpdate(
-        id,req?.body
+      const data = await sauceCustomizationModel.findByIdAndUpdate(
+        id,{...req?.body},{new:true}
       );
 
-      if (!isValidId)
+      if (!data)
         return next(new CustomError("No data found with given id!!", 400));
 
     return res.status(200).json({
       success: true,
       message: `Sauce Customization Updated Successfully`,
+      data
     });
   }
 );
 
 export const createSauceCustomization = asyncErrorHandler( async(req,res,next)=>{
   
-    const newFoodCustomization = new sauceCustomizationModel({
+    const data = new sauceCustomizationModel({
 ...req?.body
   })
 
-  await newFoodCustomization.save()
- res.status(201).json({status:true,message:"Sauce Customization created successfully"})
+  await data.save()
+ res.status(201).json({status:true,message:"Sauce Customization created successfully",data})
   }
 )
 
@@ -58,7 +59,7 @@ export const deleteSauceCustomization = asyncErrorHandler( async(req,res,next)=>
   return next(new CustomError("No data found with given id!!", 400))
  }
  
- res.status(200).json({status:true,message:"Sauce Customization data deleted successfully"})
+ res.status(200).json({status:true,message:"Sauce Customization data deleted successfully",id})
   }
 
 )

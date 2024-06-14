@@ -29,12 +29,12 @@ export const updateBaseCustomization = asyncErrorHandler(async (req, res, next) 
 
 export const createBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
   
-    const newFoodCustomization = new baseCustomizationModel({
-...req?.body
+    const data = new baseCustomizationModel({
+...req?.body 
   })
 
-  await newFoodCustomization.save()
- res.status(201).json({status:true,message:"Base Customization created successfully"})
+  await data.save()
+ res.status(201).json({status:true,message:"Base Customization created successfully",data})
   }
 )
 
@@ -58,7 +58,7 @@ export const deleteBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
   return next(new CustomError("No data found with given id!!", 400))
  }
  
- res.status(200).json({status:true,message:"Base Customization data deleted successfully"})
+ res.status(200).json({status:true,message:"Base Customization data deleted successfully",id})
   }
 
 )
