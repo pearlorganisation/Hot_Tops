@@ -18,11 +18,12 @@ export const updateSizeCustomization = asyncErrorHandler(async (req, res, next) 
 
       if (!data)
         return next(new CustomError("No data found with given id!!", 400));
+      const updatedData = await sizeCustomizationModel.find();
 
     return res.status(200).json({
       success: true,
       message: `Size Customization Updated Successfully`,
-      data
+      updatedData
     });
   }
 );
@@ -34,7 +35,9 @@ export const createSizeCustomization = asyncErrorHandler( async(req,res,next)=>{
   })
 
   await data.save()
- res.status(201).json({status:true,message:"Size Customization created successfully",data})
+  const updatedData = await sizeCustomizationModel.find();
+
+ res.status(201).json({status:true,message:"Size Customization created successfully",updatedData})
   }
 )
 
@@ -58,7 +61,10 @@ if(!isValidId){
 return next(new CustomError("No data found with given id!!", 400))
 }
 
-res.status(200).json({status:true,message:"Size Customization data deleted successfully",id})
+const data = await sizeCustomizationModel.find();
+
+
+res.status(200).json({status:true,message:"Size Customization data deleted successfully",data})
 }
 
 )
