@@ -40,11 +40,19 @@ export const createBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
 
 export const getAllBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
 
-  
-  const data = await baseCustomizationModel.find()
+  const page = req.query.page * 1 || 1;
+  const limit = req.query.limit * 1 || 0;
+const skip = (page - 1) * limit
+const dataCount = await baseCustomizationModel.countDocuments();
+
+if (skip >= dataCount) {
+  return next(new CustomError("No data found!!", 400));
+}
+
+  const data = await baseCustomizationModel.find().skip(skip).limit(limit)
 
  
- res.status(200).json({status:true,message:"Base Customization data found successfully",data})
+ res.status(200).json({status:true,message:"Base Customization data found successfully",data, totalPages: Math.ceil(dataCount / limit),})
   }
 
 )
