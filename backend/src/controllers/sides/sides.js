@@ -13,6 +13,6 @@ export const newSides = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const getAllSides = asyncErrorHandler(async (req, res, next) => {
-  const data = await sides.find();
+  const data = await sides.find().populate("category").populate("filter");
   res.status(200).json({ status: true, data });
 });

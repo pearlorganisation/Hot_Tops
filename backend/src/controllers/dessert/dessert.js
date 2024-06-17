@@ -14,6 +14,6 @@ export const newDessert = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const getAllDesserts = asyncErrorHandler(async (req, res, next) => {
-  const data = await dessert.find();
+  const data = await dessert.find().populate("category").populate("filter");
   res.status(200).json({ status: true, data });
 });
