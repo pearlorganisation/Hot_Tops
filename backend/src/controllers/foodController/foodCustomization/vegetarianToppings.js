@@ -18,11 +18,13 @@ export const updateVegetarianToppingsCustomization = asyncErrorHandler(async (re
 
       if (!data)
         return next(new CustomError("No data found with given id!!", 400));
+    
+      const updatedData = await vegetarianToppingsCustomizationModel.find();
 
     return res.status(200).json({
       success: true,
       message: `VegetarianToppings Customization Updated Successfully`,
-      data
+      updatedData
     });
   }
 );
@@ -34,7 +36,9 @@ export const createVegetarianToppingsCustomization = asyncErrorHandler( async(re
   })
 
   await data.save()
- res.status(201).json({status:true,message:"VegetarianToppings Customization created successfully",data})
+  const updatedData = await vegetarianToppingsCustomizationModel.find();
+
+ res.status(201).json({status:true,message:"VegetarianToppings Customization created successfully",updatedData})
   }
 )
 
@@ -58,7 +62,10 @@ if(!isValidId){
 return next(new CustomError("No data found with given id!!", 400))
 }
 
-res.status(200).json({status:true,message:"VegetarianToppings Customization data deleted successfully",id})
+const data = await vegetarianToppingsCustomizationModel.find();
+
+
+res.status(200).json({status:true,message:"VegetarianToppings Customization data deleted successfully",data})
 }
 
 )
