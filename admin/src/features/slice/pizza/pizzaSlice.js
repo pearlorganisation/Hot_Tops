@@ -165,8 +165,7 @@ const pizzaSlice = createSlice({
     });
     builder.addCase(deleteBasePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      const id = action.payload.data;
-      state.base = state.base.filter((item) => item._id !== id);
+      state.base = action.payload.data;
     });
     builder.addCase(deleteBasePizza.rejected, (state) => {
       state.isLoading = false;
@@ -221,8 +220,7 @@ const pizzaSlice = createSlice({
     });
     builder.addCase(deleteSizePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      const id = action.payload.data;
-      state.size = state.size.filter((item) => item._id !== id);
+      state.size = action.payload.data;
     });
     builder.addCase(deleteSizePizza.rejected, (state) => {
       state.isLoading = false;
@@ -277,8 +275,7 @@ const pizzaSlice = createSlice({
     });
     builder.addCase(deleteCheesePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      const id = action.payload.data;
-      state.cheese = state.base.filter((item) => item._id !== id);
+      state.cheese = action.payload.data;
     });
     builder.addCase(deleteCheesePizza.rejected, (state) => {
       state.isLoading = false;
@@ -333,8 +330,7 @@ const pizzaSlice = createSlice({
     });
     builder.addCase(deleteSaucePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      const id = action.payload.data;
-      state.sauce = state.sauce.filter((item) => item._id !== id);
+      state.sauce = action.payload.data;
     });
     builder.addCase(deleteSaucePizza.rejected, (state) => {
       state.isLoading = false;
@@ -402,8 +398,8 @@ const pizzaSlice = createSlice({
     });
     builder.addCase(deleteVegTopping.fulfilled, (state, action) => {
       state.isLoading = false;
-      const id = action.payload.data;
-      state.vegetarianToppings = state.base.filter((item) => item._id !== id);
+      
+      state.meat = action.payload.data;
     });
     builder.addCase(deleteVegTopping.rejected, (state) => {
       state.isLoading = false;
@@ -458,8 +454,7 @@ const pizzaSlice = createSlice({
     });
     builder.addCase(deleteMeatTopping.fulfilled, (state, action) => {
       state.isLoading = false;
-      const id = action.payload.data;
-      state.meatToppings = state.base.filter((item) => item._id !== id);
+      state.meatToppings = action.payload.data;
     });
     builder.addCase(deleteMeatTopping.rejected, (state) => {
       state.isLoading = false;
