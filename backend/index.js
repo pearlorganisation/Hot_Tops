@@ -14,7 +14,39 @@ const PORT = envAccess("PORT") || 9898;
 connectMongo();
 // ------------------------------------------------------------------------------------------------------------
 // ----------------------------------------------CORS HANDLING-------------------------------------------------
-app.use(cors(corsConfig()));
+app.use(
+  cors(
+    process.env.NODE_ENV === "production"
+      ? {
+          origin: [
+            "http://localhost:4112",
+            "http://localhost:3000",
+            "http://localhost:5010",
+            "http://localhost:4113",
+            "http://localhost:5173",
+            "http://localhost:5174",
+            "http://localhost:4114",
+          ],
+          credentials: true,
+        }
+      : {
+          origin: [
+            "http://localhost:4112",
+            "http://localhost:3000",
+            "http://localhost:5174",
+            "http://localhost:5173",
+            "http://localhost:5010",
+            "http://localhost:4113",
+            "http://localhost:4114",
+          ],
+          methods: ["GET", "PUT", "POST", "PATCH", "DELETE"],
+          allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
+          credentials: true,
+          maxAge: 600,
+          exposedHeaders: ["*", "Authorization"],
+        }
+  )
+);
 // ------------------------------------------------------------------------------------------------------------
 // ----------------------------------------------Middlewares----------------------------------------------------
 // express.json() -- middleware to parse the json coming from the http request
