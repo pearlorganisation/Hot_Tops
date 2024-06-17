@@ -1,6 +1,7 @@
 import optModel from "../../models/Otp/optModel.js";
 import auth from "../../models/auth/auth.js";
 import { asyncErrorHandler } from "../../utils/errors/asyncErrorHandler.js";
+
 import bcrypt, { genSalt } from "bcrypt";
 import jwt from "jsonwebtoken";
 import ejs from "ejs";
@@ -8,6 +9,7 @@ import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { sendMail } from "../../utils/sendmail.js";
+import { genrateOtp } from "../../utils/otp/otp.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -78,7 +80,7 @@ export const signUp = asyncErrorHandler(async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       status: false,
-      message: "Internal server error",
+      message: error.message,
     });
   }
 });

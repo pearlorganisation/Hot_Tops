@@ -17,6 +17,9 @@ export const sendMail = async (email, otp) => {
       pass: process.env.NODEMAILER_PASSWORD,
     },
   });
+  const templatePath = path.join(__dirname, `../views/otp.ejs`);
+
+  let data = await ejs.renderFile(templatePath, { email, otp });
 
   let mailOptions = {
     from: "avnish@pearlorganisation.com",
@@ -24,9 +27,6 @@ export const sendMail = async (email, otp) => {
     subject: "Petheeds Otp",
     html: data,
   };
-  const templatePath = path.join(__dirname, `../views/otp.ejs`);
-
-  let data = await ejs.renderFile(templatePath, { email, otp });
 
   return new Promise((resolve, reject) => {
     transporter.sendMail(mailOptions, (error, info) => {
