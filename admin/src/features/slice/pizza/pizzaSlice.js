@@ -136,7 +136,7 @@ const pizzaSlice = createSlice({
     });
     builder.addCase(postBasePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.base = action.payload.data; // Assuming the response has the new base pizza data
+      state.base = action.payload.updatedData; // Assuming the response has the new base pizza data
     });
     builder.addCase(postBasePizza.rejected, (state) => {
       state.isLoading = false;
@@ -149,7 +149,7 @@ const pizzaSlice = createSlice({
     });
     builder.addCase(updateBasePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.base = action.payload.data;
+      state.base = action.payload.updatedData;
     });
     builder.addCase(updateBasePizza.rejected, (state) => {
       state.isLoading = false;
@@ -188,7 +188,7 @@ const pizzaSlice = createSlice({
     });
     builder.addCase(postSizePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.size=action.payload.data; // Assuming the response has the new base pizza data
+      state.size=action.payload.updatedData; // Assuming the response has the new base pizza data
     });
     builder.addCase(postSizePizza.rejected, (state) => {
       state.isLoading = false;
@@ -201,8 +201,7 @@ const pizzaSlice = createSlice({
     });
     builder.addCase(updateSizePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      const updatedSize = action.payload.data;
-      state.size = action.payload.data;
+      state.size = action.payload.updatedData;
     });
     builder.addCase(updateSizePizza.rejected, (state) => {
       state.isLoading = false;
@@ -241,7 +240,7 @@ const pizzaSlice = createSlice({
     });
     builder.addCase(postCheesePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.cheese = action.payload.data; // Assuming the response has the new base pizza data
+      state.cheese = action.payload.updatedData; // Assuming the response has the new base pizza data
     });
     builder.addCase(postCheesePizza.rejected, (state) => {
       state.isLoading = false;
@@ -255,7 +254,7 @@ const pizzaSlice = createSlice({
     builder.addCase(updateCheesePizza.fulfilled, (state, action) => {
       state.isLoading = false;
       const updatedCheese = action.payload.data;
-      state.cheese = action.payload.data;
+      state.cheese = action.payload.updatedData;
     });
     builder.addCase(updateCheesePizza.rejected, (state) => {
       state.isLoading = false;
@@ -294,7 +293,7 @@ const pizzaSlice = createSlice({
     });
     builder.addCase(postSaucePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.sauce = action.payload.data; // Assuming the response has the new base pizza data
+      state.sauce = action.payload.updatedData; // Assuming the response has the new base pizza data
     });
     builder.addCase(postSaucePizza.rejected, (state) => {
       state.isLoading = false;
@@ -307,8 +306,7 @@ const pizzaSlice = createSlice({
     });
     builder.addCase(updateSaucePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      const updatedSauce = action.payload.data;
-      state.sauce = action.payload.data;
+      state.sauce = action.payload.updatedData;
     });
     builder.addCase(updateSaucePizza.rejected, (state) => {
       state.isLoading = false;
@@ -360,7 +358,7 @@ const pizzaSlice = createSlice({
     });
     builder.addCase(postVegTopping.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.vegetarianToppings = action.payload.data; // Assuming the response has the new base pizza data
+      state.vegetarianToppings = action.payload.updatedData; // Assuming the response has the new base pizza data
     });
     builder.addCase(postVegTopping.rejected, (state) => {
       state.isLoading = false;
@@ -373,8 +371,7 @@ const pizzaSlice = createSlice({
     });
     builder.addCase(updateVegTopping.fulfilled, (state, action) => {
       state.isLoading = false;
-      const updatedVeg = action.payload.data;
-      state.vegetarianToppings = action.payload.data;
+      state.vegetarianToppings = action.payload.updatedData;
     });
     builder.addCase(updateVegTopping.rejected, (state) => {
       state.isLoading = false;
@@ -387,7 +384,7 @@ const pizzaSlice = createSlice({
     });
     builder.addCase(deleteVegTopping.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.meat = action.payload.data;
+      state.vegetarianToppings = action.payload.data;
     });
     builder.addCase(deleteVegTopping.rejected, (state) => {
       state.isLoading = false;
@@ -413,7 +410,7 @@ const pizzaSlice = createSlice({
     });
     builder.addCase(postMeatTopping.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.meatToppings =  action.payload.data; // Assuming the response has the new base pizza data
+      state.meatToppings =  action.payload.updatedData; // Assuming the response has the new base pizza data
     });
     builder.addCase(postMeatTopping.rejected, (state) => {
       state.isLoading = false;
@@ -426,8 +423,7 @@ const pizzaSlice = createSlice({
     });
     builder.addCase(updateMeatTopping.fulfilled, (state, action) => {
       state.isLoading = false;
-      const updatedMeat = action.payload.data;
-      state.meatToppings = action.payload.data;
+      state.meatToppings = action.payload.updatedData;
     });
     builder.addCase(updateMeatTopping.rejected, (state) => {
       state.isLoading = false;

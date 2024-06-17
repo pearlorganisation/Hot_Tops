@@ -3,7 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 export const updateSaucePizza = createAsyncThunk(
     "updateSaucePizza",
     async (data) => {
-      const res = await fetch(`https://hot-house.onrender.com/api/v1/food/customization/sauce/${data}`, {
+      const res = await fetch(`https://hot-house.onrender.com/api/v1/food/customization/sauce/${data?._id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
