@@ -7,7 +7,6 @@ export const newSides = asyncErrorHandler(async (req, res, next) => {
   const savedData = new sides({
     ...req?.body,
     banner: req?.file?.path,
-    priceSection: JSON.parse(req?.body?.priceSection),
   });
   await savedData.save();
   res.status(201).json({ status: true, message: "Created successfully!!" });
