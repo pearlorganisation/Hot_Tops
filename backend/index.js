@@ -34,8 +34,8 @@ const foodCustomization = (url) => {
 
 // Router Imports
 import { foodItemRouter } from "./src/routes/foodRoutes/foodItemRoutes.js";
-import pizzaRoutes from "./src/routes/pizza/pizza.js"
-import pizza from "./src/models/pizza/pizza.js";
+
+
 import { baseCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/base.js";
 import { sizeCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/size.js";
 import { cheeseCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/cheese.js";
@@ -43,6 +43,8 @@ import { sauceCustomizationRouter } from "./src/routes/foodRoutes/foodCustomizat
 import { meatToppingsCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/meatToppings.js";
 import { vegetarianToppingsCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/vegetarianToppings.js";
 import { seafoodToppingsCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/seafoodToppings.js";
+import pizzaRoutes from "./src/routes/pizza/pizza.js";
+import sidesRoutes from "./src/routes/sides.js";
 // Route Middlewares
 
 app.all(["/", "/api", "/api/v1"], (req, res, next) => {
@@ -64,7 +66,8 @@ app.use(foodCustomization("vegetarianToppings"), vegetarianToppingsCustomization
 app.use(foodCustomization("seafoodToppings"), seafoodToppingsCustomizationRouter);
 
 // Pizza Router
-app.use("/api/v1/pizza",pizzaRoutes)
+app.use("/api/v1/pizza", pizzaRoutes);
+app.use("/api/v1/sides", sidesRoutes);
 
 // -------------------------------------------------------------------------------------------------------------
 
