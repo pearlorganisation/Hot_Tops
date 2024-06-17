@@ -1,7 +1,6 @@
 // -----------------------------------------------Imports------------------------------------------------
 import "./App.css";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import DefaultLayout from "./layout/DefaultLayout/DefaultLayout";
+import { RouterProvider} from "react-router-dom";
 
 import { appRouter } from "./routes/routes";
 // ------------------------------------------------------------------------------------------------------

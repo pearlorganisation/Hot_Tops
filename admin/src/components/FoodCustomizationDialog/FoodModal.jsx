@@ -1,6 +1,15 @@
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
+import { useDispatch } from "react-redux";
+import { postSaucePizza } from "../../features/actions/pizza/postCustomization/postSaucePizza";
+import { postCheesePizza } from "../../features/actions/pizza/postCustomization/postCheesePizza";
+import { postMeatTopping } from "../../features/actions/pizza/postCustomization/postMeatTopping";
+import { postVegTopping } from "../../features/actions/pizza/postCustomization/postVegTopping";
+import { getSaucePizza } from "../../features/actions/pizza/getCustomization/getSaucePizza";
+import { getCheesePizza } from "../../features/actions/pizza/getCustomization/getCheesePizza";
+import { getMeatTopping } from "../../features/actions/pizza/getCustomization/getMeatTopping";
+import { getVegetarianTopping } from "../../features/actions/pizza/getCustomization/getVegetarianTopping";
 
 const FoodModal = forwardRef((props, ref) => {
   const dialogRef = useRef();
@@ -17,10 +26,30 @@ const FoodModal = forwardRef((props, ref) => {
     },
   }));
 
+  const dispatch = useDispatch();
+
   const onSubmit = (data) => {
     
+    if(props.itemName === 'Sauce'){
+      dispatch(postSaucePizza(data));
+      dispatch(getSaucePizza());
+    }
+    else if (props.itemName === 'Cheese'){
+      dispatch(postCheesePizza(data));
+      dispatch(getCheesePizza());
+    }
+      
+    else if(props.itemName === 'MEAT TOPPINGS'){
+      dispatch(postMeatTopping(data));
+      dispatch(getMeatTopping());
+    }
+    
+    else if(props.itemName === "VEGETARIAN TOPPINGS"){
+      dispatch(postVegTopping(data));
+      dispatch(getVegetarianTopping());
+    }
+      
     console.log(data);
-    // dialogRef.current.close();
   };
 
   return (
@@ -37,7 +66,7 @@ const FoodModal = forwardRef((props, ref) => {
         <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-              Name: {props.itemName}
+              Name: {props?.itemName}
             </h3>
             <button
               type="button"
@@ -102,6 +131,7 @@ const FoodModal = forwardRef((props, ref) => {
               <button
                 type="submit"
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                onClick={() => dialogRef.current.close()}
               >
                 Add
               </button>

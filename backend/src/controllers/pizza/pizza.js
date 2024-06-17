@@ -23,7 +23,7 @@ export const createNewPizza = asyncErrorHandler(async (req, res, next) => {
   await newPizza.save();
   res
     .status(200)
-    .json({ status: true, message: "Pizza created csuccessfully!!" });
+    .json({ status: true, message: "Pizza created csuccessfully!!" ,newPizza});
 });
 
 export const getAllPizza = asyncErrorHandler(async (req, res, next) => {
