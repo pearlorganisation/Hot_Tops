@@ -1,23 +1,22 @@
 import mongoose from "mongoose";
 
-const sidesSchema = new mongoose.Schema(
+const dessertSchema = new mongoose.Schema(
   {
-    sideName: { type: String, required: true },
+    dessertName: { type: String, required: true },
     banner: { type: String, required: true },
-    price: { type: Number, required: true },
-  
+    price:  { type: Number, required: true },
     category: {
       type: mongoose.Types.ObjectId,
-      ref: "sidesCategory",
+      ref: "dessertCategory",
       required: true,
     },
     filter: {
       type: mongoose.Types.ObjectId,
-      ref: "sidesFilter",
+      ref: "dessertFilter",
       required: true,
     },
   },
   { timestamps: true }
 );
 
-export default mongoose.model("sides", sidesSchema, "sides");
+export default mongoose.model("dessert", dessertSchema, "dessert");

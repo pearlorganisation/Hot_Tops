@@ -78,6 +78,7 @@ import authRoutes from "./src/routes/authRoutes/authRoutes.js";
 // import { seafoodToppingsCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/seafoodToppings.js";
 import pizzaRoutes from "./src/routes/pizza/pizza.js";
 import sidesRoutes from "./src/routes/sides.js";
+import dessertRoutes from "./src/routes/dessert.js";
 // Route Middlewares
 
 app.all(["/", "/api", "/api/v1"], (req, res, next) => {
@@ -108,9 +109,10 @@ app.use("/api/v1/auth/", authRoutes);
 //   seafoodToppingsCustomizationRouter
 // );
 
-// Pizza Router
+
 app.use("/api/v1/pizza", pizzaRoutes);
 app.use("/api/v1/sides", sidesRoutes);
+app.use("/api/v1/dessert", dessertRoutes);
 
 // -------------------------------------------------------------------------------------------------------------
 
