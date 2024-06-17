@@ -32,6 +32,16 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
       icon: <BiCustomize size={28} />,
       isDropDown: false,
     },
+    {
+      label: "Sides",
+      path: "/category",
+      icon: <SpaceDashboardIcon size={28} />,
+      isDropDown: true,
+      subItems: [
+        { title: "Side Category", path: "/category" },
+        { title: "Side Filter", path: "sidesFilter" },
+      ],
+    },
   ];
 
   return (
@@ -74,9 +84,8 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
         <aside
           id="nav-menu-4"
           aria-label="Side navigation"
-          className={` top-0 bottom-0 left-0 lg:static  z-40 flex w-72 flex-col border-r   bg-red-500 transition-transform lg:translate-x-0 ${
-            isSideNavOpen ? "translate-x-0" : " -translate-x-full"
-          }`}
+          className={` top-0 bottom-0 left-0 lg:static  z-40 flex w-72 flex-col border-r   bg-red-500 transition-transform lg:translate-x-0 ${isSideNavOpen ? "translate-x-0" : " -translate-x-full"
+            }`}
         >
           <div className=" items-center border-b   ">
             <div className="min-h-[32px] h-[10vh] w-full min-w-0 flex flex-col  justify-center items-center gap-0 ">
@@ -179,9 +188,8 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
 
       {/*  <!-- Backdrop --> */}
       <div
-        className={`fixed top-0 bottom-0 left-0 right-0 z-30 bg-slate-900/20 transition-colors sm:hidden ${
-          isSideNavOpen ? "block" : "hidden"
-        }`}
+        className={`fixed top-0 bottom-0 left-0 right-0 z-30 bg-slate-900/20 transition-colors sm:hidden ${isSideNavOpen ? "block" : "hidden"
+          }`}
         onClick={() => setIsSideNavOpen(false)}
       ></div>
       {/*  <!-- End Side navigation menu with user profile and alert message --> */}
