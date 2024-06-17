@@ -16,7 +16,7 @@ const Pizzas = () => {
   // =-------------------------data fetching---------------------------
 
   const { data, error, isLoading } = useSWR(
-    `http://localhost:9898/api/v1/pizza`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/pizza`,
     pizzaFetcher
   );
 
@@ -25,14 +25,20 @@ const Pizzas = () => {
     data: filterData,
     error: filterError,
     isLoading: filterLoading,
-  } = useSWR(`http://localhost:9898/api/v1/pizza/filter`, pizzaFetcher);
+  } = useSWR(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/pizza/filter`,
+    pizzaFetcher
+  );
 
   // -----------------category fetcher------------------------------------------
   const {
     data: categoryData,
     error: categoryError,
     isLoading: categoryLoading,
-  } = useSWR(`http://localhost:9898/api/v1/pizza/category`, pizzaFetcher);
+  } = useSWR(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/pizza/category`,
+    pizzaFetcher
+  );
 
   const categories = [];
   categoryData &&
