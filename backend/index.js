@@ -109,7 +109,6 @@ app.use("/api/v1/auth/", authRoutes);
 //   seafoodToppingsCustomizationRouter
 // );
 
-
 app.use("/api/v1/pizza", pizzaRoutes);
 app.use("/api/v1/sides", sidesRoutes);
 app.use("/api/v1/dessert", dessertRoutes);

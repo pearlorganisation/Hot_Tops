@@ -32,13 +32,7 @@ const SidesCards = ({ data, dummyData, idx }) => {
             id="pizzas"
             className="border-2 p-2 w-full m-1"
           >
-            {data?.priceSection.map((data, idx) => {
-              return (
-                <option value={`${data?.size}-${data?.price}`}>
-                  {`${data?.size} Є${data?.price}`}
-                </option>
-              );
-            })}
+            <option>{data?.price}</option>
           </select>
         </div>
         <p
