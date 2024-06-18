@@ -12,7 +12,7 @@ export const envAccess = (field) => {
 // -----------------------------------------------------------------------------------------------------------
 // ----------------------------------------------CORS CONFIG---------------------------------------------
 
-export const developmentWhiteListedIpAddresses = ["http://localhost:5173"];
+export const developmentWhiteListedIpAddresses = ["http://localhost:5173","http://localhost:5174","http://localhost:5175"];
 
 export const productionWhiteListedIpAddresses = [];
 

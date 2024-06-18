@@ -77,7 +77,10 @@ import { vegetarianToppingsCustomizationRouter } from "./src/routes/foodRoutes/f
 import { seafoodToppingsCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/seafoodToppings.js";
 import pizzaRoutes from "./src/routes/pizza/pizza.js";
 import sidesRoutes from "./src/routes/sides.js";
+import dessertRoutes from "./src/routes/dessert.js";
 // Route Middlewares
+import drinksRoutes from "./src/routes/drink.js";
+// Route Middlewarespull origin gaurav-code
 
 app.all(["/", "/api", "/api/v1"], (req, res, next) => {
   return res.status(200).json({
@@ -97,9 +100,13 @@ app.use(foodCustomization("meatToppings"), meatToppingsCustomizationRouter);
 app.use(foodCustomization("vegetarianToppings"), vegetarianToppingsCustomizationRouter);
 app.use(foodCustomization("seafoodToppings"), seafoodToppingsCustomizationRouter);
 
-// Pizza Router
+
 app.use("/api/v1/pizza", pizzaRoutes);
 app.use("/api/v1/sides", sidesRoutes);
+app.use("/api/v1/dessert", dessertRoutes);
+app.use("/api/v1/drinks", drinksRoutes);
+
+
 
 // -------------------------------------------------------------------------------------------------------------
 

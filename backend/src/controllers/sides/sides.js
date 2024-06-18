@@ -7,13 +7,12 @@ export const newSides = asyncErrorHandler(async (req, res, next) => {
   const savedData = new sides({
     ...req?.body,
     banner: req?.file?.path,
-    priceSection: JSON.parse(req?.body?.priceSection),
   });
   await savedData.save();
   res.status(201).json({ status: true, message: "Created successfully!!" });
 });
 
 export const getAllSides = asyncErrorHandler(async (req, res, next) => {
-  const data = await sides.find();
+  const data = await sides.find().populate("category").populate("filter");
   res.status(200).json({ status: true, data });
 });
