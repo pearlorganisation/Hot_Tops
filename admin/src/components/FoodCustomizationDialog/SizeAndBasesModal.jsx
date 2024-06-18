@@ -29,7 +29,7 @@ const SizeAndBasesModal = forwardRef((props, ref) => {
     else 
        dispatch(postSizePizza(data));
       
-
+  console.log(data);
      
     
    

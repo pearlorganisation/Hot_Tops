@@ -32,21 +32,17 @@ const FoodModal = forwardRef((props, ref) => {
     
     if(props.itemName === 'Sauce'){
       dispatch(postSaucePizza(data));
-      dispatch(getSaucePizza());
     }
     else if (props.itemName === 'Cheese'){
       dispatch(postCheesePizza(data));
-      dispatch(getCheesePizza());
     }
       
     else if(props.itemName === 'MEAT TOPPINGS'){
       dispatch(postMeatTopping(data));
-      dispatch(getMeatTopping());
     }
     
     else if(props.itemName === "VEGETARIAN TOPPINGS"){
       dispatch(postVegTopping(data));
-      dispatch(getVegetarianTopping());
     }
       
     console.log(data);
@@ -98,7 +94,7 @@ const FoodModal = forwardRef((props, ref) => {
                   Name
                 </label>
                 <input
-                  id="name"
+
                   {...register("name")}
                   className="border p-1 rounded w-full"
                   placeholder={`Enter ${props.itemName}`}
@@ -109,7 +105,7 @@ const FoodModal = forwardRef((props, ref) => {
                   Single
                 </label>
                 <input
-                  id="singlePrice"
+         
                   {...register("singlePrice")}
                   className="border p-1 rounded w-full"
                   placeholder="Price for Single"

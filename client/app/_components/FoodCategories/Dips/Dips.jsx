@@ -31,6 +31,23 @@ const Dips = () => {
       title: "Peri Peri",
     },
   ];
+
+    // -------------------data fetching function-----------------------
+    const drinksFetcher = async (...args) =>
+      fetch(...args).then((res) => {
+        return res.json();
+      });
+  
+    // =-------------------------data fetching---------------------------
+    const {
+      data: dipsData,
+      error,
+      isLoading,
+    } = useSWR(`http://localhost:9898/api/v1/dips`, drinksFetcher);
+    
+    console.log(dipsData);
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>Error loading data</div>;
   return (
     <>
       <div className="container mx-auto max-w-7xl gap-10 grid sm:grid-cols-2 md:grid-cols-4 place-content-center p-10">

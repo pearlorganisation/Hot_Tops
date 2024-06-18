@@ -38,12 +38,13 @@ const EditItem = forwardRef(({ data, itemName }, ref) => {
     else if(data)
       {
       setValue("name", data.name);
-      setValue("single", data.singlePrice);
-      setValue("double", data.doublePrice );
+      setValue("singlePrice", data.singlePrice);
+      setValue("doublePrice", data.doublePrice );
       }
   }, [data, setValue ,itemName]);
 
   const onSubmit = (submissionData) => {
+    console.log(submissionData);
     try {
       if (itemName === "Base") {
         dispatch(
@@ -92,6 +93,7 @@ const EditItem = forwardRef(({ data, itemName }, ref) => {
           })
         );
       }
+
 
       reset(); // Reset the form fields
       dialogRef.current.close(); // Close the dialog
@@ -178,25 +180,25 @@ const EditItem = forwardRef(({ data, itemName }, ref) => {
                 <>
                   <div className="mb-4">
                     <label
-                      htmlFor="single"
+                      htmlFor="singlePrice"
                       className="block text-sm font-medium text-gray-700"
                     >
                       Single
                     </label>
                     <input
-                      {...register("single")}
+                      {...register("singlePrice")}
                       className="border p-1 rounded w-full"
                     />
                   </div>
                   <div className="mb-4">
                     <label
-                      htmlFor="double"
+                      htmlFor="doublePrice"
                       className="block text-sm font-medium text-gray-700"
                     >
                       Double
                     </label>
                     <input
-                      {...register("double")}
+                      {...register("doublePrice")}
                       className="border p-1 rounded w-full"
                     />
                   </div>
@@ -207,6 +209,7 @@ const EditItem = forwardRef(({ data, itemName }, ref) => {
               <button
                 type="submit"
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+
               >
                 Edit data
               </button>

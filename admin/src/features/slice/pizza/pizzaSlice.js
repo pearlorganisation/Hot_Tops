@@ -423,7 +423,7 @@ const pizzaSlice = createSlice({
     });
     builder.addCase(updateMeatTopping.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.meatToppings = action.payload.updatedData;
+      state.meatToppings = action.payload.data;
     });
     builder.addCase(updateMeatTopping.rejected, (state) => {
       state.isLoading = false;
