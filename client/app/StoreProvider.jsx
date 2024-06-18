@@ -2,6 +2,8 @@
 import { useRef } from "react";
 import { Provider } from "react-redux";
 import { makeStore } from "./lib/store";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function StoreProvider({ children }) {
   const storeRef = useRef();
@@ -10,5 +12,10 @@ export default function StoreProvider({ children }) {
     storeRef.current = makeStore();
   }
 
-  return <Provider store={storeRef.current}>{children}</Provider>;
+  return (
+    <Provider store={storeRef.current}>
+      {children}
+      <ToastContainer />
+    </Provider>
+  );
 }

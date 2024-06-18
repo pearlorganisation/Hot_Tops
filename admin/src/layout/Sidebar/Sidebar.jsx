@@ -23,7 +23,7 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
       isDropDown: true,
       subItems: [
         { title: "Food Items", path: "/food-items" },
-        { title: "Create Food Item", path: "/create-food-item" },
+        { title: "Create Pizza", path: "/create-pizza" },
       ], // food-items -> table || food-items/create-food-item
     },
     {

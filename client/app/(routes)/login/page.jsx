@@ -1,28 +1,63 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const Page = () => {
+  // ----------------------------Hooks-------------------------------------
+  const [response, setResponse] = useState(null);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // Add your login logic here
+  const onSubmit = async (data) => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/login`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            email: data?.email,
+            password: data?.password,
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          credentials: "include",
+        }
+      );
+      const newData = await res.json();
+      console.log(newData);
+      if (newData?.status === true) {
+        console.log("fksajflkasfkld");
+        toast.success("login successfully");
+      }
+
+      setResponse(newData);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <>
       <div className="bg-gray-100 flex items-center justify-center h-screen">
         <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
+          {response && response?.status == false ? (
+            <div className="p-2 text-center text-red-600 font-semibold">
+              {response?.message}!
+            </div>
+          ) : (
+            ""
+          )}
           <h2 className="text-2xl font-bold mb-6 text-center">
             IF YOU'RE ALREADY A MEMBER.
           </h2>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} method="POST">
             <div className="mb-4">
               <label className="block text-gray-700" htmlFor="login-email">
                 Email Address

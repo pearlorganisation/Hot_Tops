@@ -13,5 +13,7 @@ export const newFilter = asyncErrorHandler(async (req, res, nxt) => {
 
 export const getAllFilter = asyncErrorHandler(async (req, res, next) => {
   const data = await filter.find();
-  res.status(200).json({ status: true, data });
+  console.log(data);
+  const newData = [{ filter: "All" }, ...data];
+  res.status(200).json({ status: true, data: newData });
 });

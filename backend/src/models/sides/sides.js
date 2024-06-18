@@ -4,7 +4,8 @@ const sidesSchema = new mongoose.Schema(
   {
     sideName: { type: String, required: true },
     banner: { type: String, required: true },
-    priceSection: [{ size: String, price: String }],
+    price: { type: Number, required: true },
+  
     category: {
       type: mongoose.Types.ObjectId,
       ref: "sidesCategory",

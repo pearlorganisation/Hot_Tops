@@ -14,7 +14,39 @@ const PORT = envAccess("PORT") || 9898;
 connectMongo();
 // ------------------------------------------------------------------------------------------------------------
 // ----------------------------------------------CORS HANDLING-------------------------------------------------
-app.use(cors(corsConfig()));
+app.use(
+  cors(
+    process.env.NODE_ENV === "production"
+      ? {
+          origin: [
+            "http://localhost:4112",
+            "http://localhost:3000",
+            "http://localhost:5010",
+            "http://localhost:4113",
+            "http://localhost:5173",
+            "http://localhost:5174",
+            "http://localhost:4114",
+          ],
+          credentials: true,
+        }
+      : {
+          origin: [
+            "http://localhost:4112",
+            "http://localhost:3000",
+            "http://localhost:5174",
+            "http://localhost:5173",
+            "http://localhost:5010",
+            "http://localhost:4113",
+            "http://localhost:4114",
+          ],
+          methods: ["GET", "PUT", "POST", "PATCH", "DELETE"],
+          allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
+          credentials: true,
+          maxAge: 600,
+          exposedHeaders: ["*", "Authorization"],
+        }
+  )
+);
 // ------------------------------------------------------------------------------------------------------------
 // ----------------------------------------------Middlewares----------------------------------------------------
 // express.json() -- middleware to parse the json coming from the http request
@@ -30,13 +62,30 @@ const versionOne = (url) => {
 };
 
 // Router Imports
-import { foodCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/foodCustomizationRoutes.js";
-import { foodItemRouter } from "./src/routes/foodRoutes/foodItemRoutes.js";
+// import { foodCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/foodCustomizationRoutes.js";
+// import { foodItemRouter } from "./src/routes/foodRoutes/foodItemRoutes.js";
+
+import pizza from "./src/models/pizza/pizza.js";
+import authRoutes from "./src/routes/authRoutes/authRoutes.js";
+// import { foodItemRouter } from "./src/routes/foodRoutes/foodItemRoutes.js";
+
+// import { baseCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/base.js";
+// import { sizeCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/size.js";
+// import { cheeseCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/cheese.js";
+// import { sauceCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/sauce.js";
+// import { meatToppingsCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/meatToppings.js";
+// import { vegetarianToppingsCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/vegetarianToppings.js";
+// import { seafoodToppingsCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/seafoodToppings.js";
 import pizzaRoutes from "./src/routes/pizza/pizza.js";
 import sidesRoutes from "./src/routes/sides.js";
+<<<<<<< HEAD
 import drinksRoutes from "./src/routes/drink.js";
 import dipsRoutes from "./src/routes/dips.js";
 // Route Middlewarespull origin gaurav-code
+=======
+import dessertRoutes from "./src/routes/dessert.js";
+// Route Middlewares
+>>>>>>> d90de38211df0d995f561721ada06542b2234f66
 
 app.all(["/", "/api", "/api/v1"], (req, res, next) => {
   return res.status(200).json({
@@ -45,12 +94,35 @@ app.all(["/", "/api", "/api/v1"], (req, res, next) => {
   });
 });
 
-app.use(versionOne("food"), foodItemRouter); // Food Item Router
-app.use(versionOne("food/customization"), foodCustomizationRouter); // Food Customization Router
+// app.use(versionOne("food"), foodItemRouter); // Food Item Router
+// app.use(versionOne("food/customization"), foodCustomizationRouter); // Food Customization Router
+
+app.use("/api/v1/auth/", authRoutes);
+// app.use(versionOne("food"), foodItemRouter); // Food Item Router
+
+// Food Customization Router
+// app.use(foodCustomization("base"), baseCustomizationRouter);
+// app.use(foodCustomization("size"), sizeCustomizationRouter);
+// app.use(foodCustomization("cheese"), cheeseCustomizationRouter);
+// app.use(foodCustomization("sauce"), sauceCustomizationRouter);
+// app.use(foodCustomization("meatToppings"), meatToppingsCustomizationRouter);
+// app.use(
+//   foodCustomization("vegetarianToppings"),
+//   vegetarianToppingsCustomizationRouter
+// );
+// app.use(
+//   foodCustomization("seafoodToppings"),
+//   seafoodToppingsCustomizationRouter
+// );
+
 app.use("/api/v1/pizza", pizzaRoutes);
 app.use("/api/v1/sides", sidesRoutes);
+<<<<<<< HEAD
 app.use("/api/v1/drinks", drinksRoutes);
 app.use("/api/v1/dips", dipsRoutes);
+=======
+app.use("/api/v1/dessert", dessertRoutes);
+>>>>>>> d90de38211df0d995f561721ada06542b2234f66
 
 // -------------------------------------------------------------------------------------------------------------
 

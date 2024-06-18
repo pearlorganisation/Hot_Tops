@@ -3,11 +3,22 @@ import { CustomError } from "../../utils/errors/customError.js";
 import pizza from "../../models/pizza/pizza.js";
 
 export const createNewPizza = asyncErrorHandler(async (req, res, next) => {
-  console.log(req?.body, req?.body?.priceSection);
+  const data = JSON.parse(req?.body?.data);
+  console.log(data);
+  // const { small, medium, large, supersize, ...rest } = data;
+  const keys = Object.keys(data);
+
+  const priceSection = [
+    { size: "small", price: data?.small },
+    { size: "large", price: data?.large },
+    { size: "medium", price: data?.medium },
+    { size: "supersize", price: data?.supersize },
+  ];
+  console.log(priceSection);
   const newPizza = await new pizza({
-    ...req?.body,
+    ...data,
     banner: req?.file?.path,
-    priceSection: JSON.parse(req?.body?.priceSection),
+    priceSection: priceSection,
   });
   await newPizza.save();
   res
