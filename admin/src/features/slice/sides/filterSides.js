@@ -1,54 +1,54 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-import { cretaeCategory, getCategory } from "../../actions/sides/sidesAction";
+import { createFilter, getFilter } from "../../actions/sides/filterSides";
 
 const initialState = {
   isLoading: false,
   isSuccess: false,
-  categoryData: [],
+  filterData: [],
   errorMessage: "",
 };
 
 // ---------------------------------------------------------------------------------------
 
-export const sidesSlice = createSlice({
-  name: "sidesSlice",
+export const filterSidesSlice = createSlice({
+  name: "filterSidesSlice",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
 
-      .addCase(cretaeCategory.pending, (state, action) => {
+      .addCase(createFilter.pending, (state, action) => {
         state.isLoading = true;
         state.isSuccess = false;
         state.errorMessage = "";
       })
-      .addCase(cretaeCategory.fulfilled, (state, action) => {
+      .addCase(createFilter.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.errorMessage = "";
-        state.categoryData = action.payload.data;
-        // toast.success("Category Added Successfully...");
+        state.filterData = action.payload.data;
+        console.log(state.filterData)
+        // toast.success("Filter Added Successfully...");
       })
-      .addCase(cretaeCategory.rejected, (state, action) => {
+      .addCase(createFilter.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.errorMessage = action.payload;
         // toast.error(action?.payload || "Something went wrong");
       })
 
-      .addCase(getCategory.pending, (state, action) => {
+      .addCase(getFilter.pending, (state, action) => {
         state.isLoading = true;
         state.isSuccess = false;
         state.errorMessage = "";
       })
-      .addCase(getCategory.fulfilled, (state, action) => {
+      .addCase(getFilter.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.errorMessage = "";
-        state.categoryData = action.payload.data;
+        state.filterData = action.payload.data;
       })
-      .addCase(getCategory.rejected, (state, action) => {
+      .addCase(getFilter.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.errorMessage = action.payload;
@@ -60,5 +60,5 @@ export const sidesSlice = createSlice({
 // -------------------------------------------------------------------------
 
 // Action creators are generated for each case reducer function
-export const {} = sidesSlice.actions;
-export default sidesSlice.reducer;
+export const {} = filterSidesSlice.actions;
+export default filterSidesSlice.reducer;

@@ -1,51 +1,111 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { getCategory } from '../../../features/actions/sides/sidesAction'
+import { Stack,Skeleton } from '@mui/material';
+import { getFilter } from '../../../features/actions/sides/filterSides';
+
 
 const Filter = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const { categoryData } = useSelector(state => state.category)
+    const { filterData,isLoading } = useSelector(state => state.sidesFilter)
     useEffect(() => {
-        dispatch(getCategory())
+        dispatch(getFilter())
     }, [])
 
+    const handleAddCategory = () => {
+        navigate('/createSidesFilter');
+      };
+
     return (
-        <div className='space-y-6 p-4'>
-            <div className='text-center font-medium text-2xl'>Filter</div>
-            <div class="max-w-6xl mx-auto space-y-3 overflow-x-auto">
-                <div className=' flex justify-end items-center'><button type='submit' onClick={() => {
-                    navigate('/createSidesFilter')
-                }} className='px-4 py-2 text-white bg-blue-600 rounded-md'>Add</button></div>
-                <table class="w-full text-left border border-separate rounded border-slate-200" cellspacing="0">
-                    <tbody>
-
-                        <tr>
-                            <th scope="col" class="h-10 px-4 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Id</th>
-                            <th scope="col" class="h-10 px-4 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Name</th>
-
-                            <th scope="col" class="h-10 px-4 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Action</th>
-                        </tr>
-                        {
-                            categoryData?.map(item => {
-                                return <tr>
-                                    <td class="h-10 px-4 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{item?._id}</td>
-                                    <td class="h-10 px-4 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{item?.category}</td>
-                                    <td class="h-10 px-4 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 "><div className='space-x-3 text-white font-medium'><button className='px-4 py-2 bg-blue-600 rounded-md'>Edit</button><button className='px-4 py-2 bg-blue-600 rounded-md'>Delete</button></div></td>
-
-                                </tr>
-                            })
-                        }
-
-
-                    </tbody>
-                </table>
+        <>
+        <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-4">
+          <div className="items-start justify-between md:flex">
+            <div className="max-w-lg">
+              <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
+                Manage Sides Filter
+              </h3>
+              <p className="text-gray-600 text-sm mt-2">
+              This page is for handle sides filter by create , update and delete
+              </p>
             </div>
+            <div className="mt-3 md:mt-0">
+              <button
+                onClick={handleAddCategory}
+                className="inline-block px-4 py-2 text-white duration-150 font-medium bg-red-500 rounded-lg hover:bg-red-600 active:bg-red-500 md:text-sm"
+              >
+                Add Filter
+              </button>
+            </div>
+          </div>
+          <div className="mt-6 shadow-xl rounded-lg overflow-x-auto">
+            <table className="w-full table-auto text-sm text-left">
+              <thead className="bg-gray-50 text-gray-600 font-medium border-b">
+                <tr>
+                  <th className="py-3 px-6">ID</th>
+                  <th className="py-3 px-6">Filter </th>
+                  <th className="py-3 px-6">Actions</th>
+                
+                  
+                </tr>
+              </thead>
+              <tbody className="text-gray-600 divide-y">
+              {isLoading ? (
+              <tr>
+              <td colSpan="4" className="text-center px-6 py-8">
+                <Stack spacing={4}>
+                  <Skeleton variant="rounded" height={30} />
+                  <Skeleton variant="rounded" height={25}/>
+                  <Skeleton variant="rounded" height={20}/>
+                  <Skeleton variant="rounded" height={20}/>
+                  <Skeleton variant="rounded" height={20}/>
+                </Stack>
+              </td>
+            </tr>
+            ) : (
+                 Array.isArray(filterData) && filterData.length > 0 && filterData?.map((item, idx) => (
+                    <tr key={idx}>
+                      <td className="px-6 py-4 whitespace-nowrap">{idx+1}</td>
+                      <td className="px-6 py-4 whitespace-nowrap ">
+                        {item?.filter}
+                      </td>
+                 
+                      
+                     
+                      <td className=" whitespace-nowrap">
+                        <a
+                        //   onClick={() => {
+                        //     navigate(`/updateCategory/${item?._id}`, { state: item  });
+                        //   }}
+                          className="cursor-pointer py-2 px-3 font-semibold text-green-600 hover:text-green-700 duration-150 hover:bg-gray-50 rounded-lg"
+                        >
+                          Edit
+                        </a>
+                        <button
+                        //   onClick={() => {
+                        //     handleModal(item?._id);
+                        //   }}
+                          className="py-2 leading-none px-3 font-semibold text-red-500 hover:text-red-600 duration-150 hover:bg-gray-50 rounded-lg"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
+        {/* {showDeleteModal && (
+          <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
+        )} */}
+      </>
     )
 }
 
 
 
 export default Filter
+
