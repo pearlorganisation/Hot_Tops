@@ -35,6 +35,7 @@ import { foodItemRouter } from "./src/routes/foodRoutes/foodItemRoutes.js";
 import pizzaRoutes from "./src/routes/pizza/pizza.js";
 import sidesRoutes from "./src/routes/sides.js";
 import drinksRoutes from "./src/routes/drink.js";
+import dipsRoutes from "./src/routes/dips.js";
 // Route Middlewarespull origin gaurav-code
 
 app.all(["/", "/api", "/api/v1"], (req, res, next) => {
@@ -49,8 +50,7 @@ app.use(versionOne("food/customization"), foodCustomizationRouter); // Food Cust
 app.use("/api/v1/pizza", pizzaRoutes);
 app.use("/api/v1/sides", sidesRoutes);
 app.use("/api/v1/drinks", drinksRoutes);
-
-
+app.use("/api/v1/dips", dipsRoutes);
 
 // -------------------------------------------------------------------------------------------------------------
 
