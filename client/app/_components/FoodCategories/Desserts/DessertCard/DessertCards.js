@@ -35,26 +35,25 @@ const DessertCards = ({ data, dummyData, idx }) => {
             <option>{data?.price}</option>
           </select>
         </div>
-        <p
+        {/* <p
           className={`text-red-600 font-bold ${
             isAddClicked && !selectedData ? "block" : "hidden"
           } `}
         >
           please select size first
-        </p>
+        </p> */}
         <div className="relative flex items-center ">
           <div className="bg-green-600 flex gap-2 items-center justify-center w-full">
             <button
               onClick={() => {
                 setIsAddClicked(true);
-                selectedData &&
-                  dispatch(
-                    addToCart({
-                      name: data?.dessertName,
-                      img: data?.banner,
-                      size: selectedData,
-                    })
-                  );
+                dispatch(
+                  addToCart({
+                    name: data?.dessertName,
+                    img: data?.banner,
+                    size: selectedData || data?.price,
+                  })
+                );
               }}
               data-modal-target="popup-modal"
               data-modal-toggle="popup-modal"
