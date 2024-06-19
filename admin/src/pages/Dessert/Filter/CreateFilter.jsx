@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from 'react-redux'
-import { createFilter } from '../../../features/actions/sides/filterSides'
+import { createFilter } from '../../../features/actions/dessert/filterDessert'
 import { useNavigate } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners'
 
@@ -9,7 +9,7 @@ const CreateFilter = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const {filterData,isLoading} = useSelector((state)=>state.sidesFilter)
+    const {filterData,isLoading} = useSelector((state)=>state.dessertFilter)
     const {
         register,
         handleSubmit,
@@ -23,14 +23,14 @@ const CreateFilter = () => {
 
     useEffect(() => {
         if(filterData?.status){
-          navigate("/sidesFilter")
+          navigate("/dessertFilter")
         }
       }, [filterData]);
 
     return (
         <div className="sm:w-[38rem] mx-auto my-10 overflow-hidden rounded-2xl bg-white shadow-lg sm:max-w-lg">
             <div className="bg-[#EF4444] px-10 py-5 text-center text-white font-semibold">
-                Create Sides Filter
+                Create Dessert Filter
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 px-8 py-10">
                 <label className="block" htmlFor="name">

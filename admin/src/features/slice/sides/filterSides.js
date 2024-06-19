@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createFilter, getFilter } from "../../actions/sides/filterSides";
+import { toast } from "sonner";
 
 const initialState = {
   isLoading: false,
@@ -28,13 +29,17 @@ export const filterSidesSlice = createSlice({
         state.errorMessage = "";
         state.filterData = action.payload.data;
         console.log(state.filterData)
-        // toast.success("Filter Added Successfully...");
+        toast.success("Filter Added Successfully...",{
+          position:"top-center"
+        });
       })
       .addCase(createFilter.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.errorMessage = action.payload;
-        // toast.error(action?.payload || "Something went wrong");
+        toast.error(action?.payload || "Something went wrong",{
+          position:"top-center"
+        });
       })
 
       .addCase(getFilter.pending, (state, action) => {
@@ -52,7 +57,9 @@ export const filterSidesSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = false;
         state.errorMessage = action.payload;
-        // toast.error(action?.payload || "Something went wrong");
+        toast.error(action?.payload || "Something went wrong",{
+          position:"top-center"
+        });
       });
   },
 });

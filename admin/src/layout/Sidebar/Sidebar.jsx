@@ -18,11 +18,11 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
       isDropDown: false,
     },
     {
-      label: "Food",
+      label: "Pizzas",
       icon: <LocalPizzaIcon size={28} />,
       isDropDown: true,
       subItems: [
-        { title: "Food Items", path: "/food-items" },
+        { title: "Pizzas", path: "/food-items" },
         { title: "Create Pizza", path: "/create-pizza" },
       ], // food-items -> table || food-items/create-food-item
     },
@@ -32,15 +32,38 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
       icon: <BiCustomize size={28} />,
       isDropDown: false,
     },
+  
     {
       label: "Sides",
-      path: "/category",
       icon: <SpaceDashboardIcon size={28} />,
       isDropDown: true,
       subItems: [
-        { title: "Side Category", path: "/category" },
-        { title: "Side Filter", path: "sidesFilter" },
+        { title: "Sides", path: "/sides" },
+        { title: "Sides Category", path: "/category" },
+        { title: "Sides Filter", path: "/sidesFilter" },
       ],
+    },
+    {
+      label: "Desserts",
+      icon: <SpaceDashboardIcon size={28} />,
+      isDropDown: true,
+      subItems: [
+        { title: "Dessert", path: "/dessert" },
+        { title: "Dessert Category", path: "/dessertCategory" },
+        { title: "Dessert Filter", path: "/dessertFilter" },
+      ],
+    },
+    {
+      label: "Drinks",
+      path: "/drink",
+      icon: <SpaceDashboardIcon size={28} />,
+      isDropDown: false,
+    },
+    {
+      label: "Dips",
+      path: "/dip",
+      icon: <SpaceDashboardIcon size={28} />,
+      isDropDown: false,
     },
   ];
 

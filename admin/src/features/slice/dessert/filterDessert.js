@@ -1,39 +1,39 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-import { cretaeCategory, getCategory } from "../../actions/sides/categorySides";
+import { createFilter, getFilter } from "../../actions/dessert/filterDessert";
 import { toast } from "sonner";
 
 const initialState = {
   isLoading: false,
   isSuccess: false,
-  categoryData: [],
+  filterData: [],
   errorMessage: "",
 };
 
 // ---------------------------------------------------------------------------------------
 
-export const categorySidesSlice = createSlice({
-  name: "categorySidesSlice",
+export const filterDessertSlice = createSlice({
+  name: "filterDessertSlice",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
 
-      .addCase(cretaeCategory.pending, (state, action) => {
+      .addCase(createFilter.pending, (state, action) => {
         state.isLoading = true;
         state.isSuccess = false;
         state.errorMessage = "";
       })
-      .addCase(cretaeCategory.fulfilled, (state, action) => {
+      .addCase(createFilter.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.errorMessage = "";
-        state.categoryData = action.payload.data;
-        toast.success("Category Added Successfully...",{
+        state.filterData = action.payload.data;
+        console.log(state.filterData)
+        toast.success("Filter Added Successfully...",{
           position:"top-center"
         });
       })
-      .addCase(cretaeCategory.rejected, (state, action) => {
+      .addCase(createFilter.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.errorMessage = action.payload;
@@ -42,24 +42,24 @@ export const categorySidesSlice = createSlice({
         });
       })
 
-      .addCase(getCategory.pending, (state, action) => {
+      .addCase(getFilter.pending, (state, action) => {
         state.isLoading = true;
         state.isSuccess = false;
         state.errorMessage = "";
       })
-      .addCase(getCategory.fulfilled, (state, action) => {
+      .addCase(getFilter.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.errorMessage = "";
-        state.categoryData = action.payload.data;
+        state.filterData = action.payload.data;
       })
-      .addCase(getCategory.rejected, (state, action) => {
+      .addCase(getFilter.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.errorMessage = action.payload;
         toast.error(action?.payload || "Something went wrong",{
-          position:"top-center"
-        });
+            position:"top-center"
+          });
       });
   },
 });
@@ -67,5 +67,5 @@ export const categorySidesSlice = createSlice({
 // -------------------------------------------------------------------------
 
 // Action creators are generated for each case reducer function
-export const {} = categorySidesSlice.actions;
-export default categorySidesSlice.reducer;
+export const {} = filterDessertSlice.actions;
+export default filterDessertSlice.reducer;

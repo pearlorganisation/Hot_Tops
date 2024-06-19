@@ -7,11 +7,24 @@ import storage from "redux-persist/lib/storage";
 import pizzaReducer from "./slice/pizza/pizzaSlice";
 import sidesCategory from "./slice/sides/categorySides";
 import sidesFilter from "./slice/sides/filterSides"
+import sides from "./slice/sides/sides";
+import dessertCategory from "./slice/dessert/categoryDessert";
+import dessertFilter from "./slice/dessert/filterDessert"
+import dessert from "./slice/dessert/dessert";
+import drink from "./slice/drink/drink";
+import dip from "./slice/dip/dip";
 
 const rootReducer = combineReducers({
   pizza: pizzaReducer,
   sidesCategory,
   sidesFilter,
+  sides,
+  dessertCategory,
+  dessertFilter,
+  dessert,
+  drink,
+  dip
+  
   });
 
   

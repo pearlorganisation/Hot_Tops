@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { cretaeCategory, getCategory } from "../../actions/sides/categorySides";
+import { createCategory, getCategory } from "../../actions/dessert/categoryDessert";
 import { toast } from "sonner";
 
 const initialState = {
@@ -12,19 +12,19 @@ const initialState = {
 
 // ---------------------------------------------------------------------------------------
 
-export const categorySidesSlice = createSlice({
-  name: "categorySidesSlice",
+export const categoryDessertSlice = createSlice({
+  name: "categoryDessertSlice",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
 
-      .addCase(cretaeCategory.pending, (state, action) => {
+      .addCase(createCategory.pending, (state, action) => {
         state.isLoading = true;
         state.isSuccess = false;
         state.errorMessage = "";
       })
-      .addCase(cretaeCategory.fulfilled, (state, action) => {
+      .addCase(createCategory.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.errorMessage = "";
@@ -33,7 +33,7 @@ export const categorySidesSlice = createSlice({
           position:"top-center"
         });
       })
-      .addCase(cretaeCategory.rejected, (state, action) => {
+      .addCase(createCategory.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.errorMessage = action.payload;
@@ -67,5 +67,5 @@ export const categorySidesSlice = createSlice({
 // -------------------------------------------------------------------------
 
 // Action creators are generated for each case reducer function
-export const {} = categorySidesSlice.actions;
-export default categorySidesSlice.reducer;
+export const {} = categoryDessertSlice.actions;
+export default categoryDessertSlice.reducer;

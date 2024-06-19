@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from 'react-redux'
-import { cretaeCategory } from '../../../features/actions/sides/categorySides'
+import { createCategory } from '../../../features/actions/dessert/categoryDessert'
 import { useNavigate } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners'
 
@@ -9,7 +9,7 @@ const CreateCategory = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     
-    const {categoryData,isLoading } = useSelector(state => state.sidesCategory)
+    const {categoryData,isLoading } = useSelector(state => state.dessertCategory)
     const {
         register,
         handleSubmit,
@@ -17,19 +17,19 @@ const CreateCategory = () => {
         formState: { errors },
     } = useForm()
     const onSubmit = (data) => {
-        dispatch(cretaeCategory(data))
+        dispatch(createCategory(data))
         console.log(data)
     }
 
     useEffect(() => {
         if(categoryData?.status){
-          navigate("/category")
+          navigate("/dessertCategory")
         }
       }, [categoryData]);
     return (
         <div className="sm:w-[38rem] mx-auto my-10 overflow-hidden rounded-2xl bg-white shadow-lg sm:max-w-lg">
         <div className="bg-[#EF4444] px-10 py-5 text-center text-white font-semibold">
-            Create Sides Category
+            Create Dessert Category
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 px-8 py-10">
             <label className="block" htmlFor="name">

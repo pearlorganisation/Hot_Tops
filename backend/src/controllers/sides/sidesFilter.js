@@ -12,5 +12,7 @@ export const newFilter = asyncErrorHandler(async (req, res, nxt) => {
 
 export const getAllSidesFilter = asyncErrorHandler(async (req, res, next) => {
   const data = await sidesFilter.find();
+  
+  
   res.status(200).json({ status: true, data });
 });
