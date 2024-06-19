@@ -2,7 +2,7 @@ import { asyncErrorHandler } from "../utils/errors/asyncErrorHandler.js";
 import { CustomError } from "../utils/errors/customError.js";
 import dips from "../models/dips.js";
 export const newDips = asyncErrorHandler(async (req, res, next) => {
-  const { price, banner } = req?.body;
+  const { price } = req?.body;
   const newDipData = await dips.create({
     banner: req?.file?.path,
     price: JSON.parse(price),
