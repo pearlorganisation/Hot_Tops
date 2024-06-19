@@ -5,6 +5,7 @@ import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import Link from "next/link";
 
 const PizzaCards = ({ data, dummyData, idx }) => {
+  console.log("dataa", data);
   // =-----------------------hooks--------------------------------
   const dispatch = useDispatch();
   const [selectedData, setSelectedData] = useState(null);
@@ -14,13 +15,13 @@ const PizzaCards = ({ data, dummyData, idx }) => {
       className=" p-3 bg-white shadow-md rounded-lg max-w-[15rem] 2xl:max-w-xs w-full newshadow"
       key={idx}
     >
-      <img
-        src={data.img}
+      <img  
+        src={data?.banner}
         alt="Card Image"
         className="rounded-t-lg w-full object-cover"
       />
       <div className="p-4">
-        <h2 className="text-xl font-semibold mb-4">{data?.Name}</h2>
+        <h2 className="text-xl font-semibold mb-4">{data?.pizzaName}</h2>
         <div>
           <select
             onChange={(Event) => {
@@ -31,10 +32,10 @@ const PizzaCards = ({ data, dummyData, idx }) => {
             id="pizzas"
             className="border-2 p-2 w-full m-1"
           >
-            {dummyData?.price.map((data, idx) => {
+            {data?.priceSection.map((data, idx) => {
               return (
-                <option value={`${data?.name}-${data?.price}`}>
-                  {`${data?.name} Є${data?.price}`}
+                <option value={`${data?.size}-${data?.price}`}>
+                  {`${data?.size} Є${data?.price}`}
                 </option>
               );
             })}
@@ -48,7 +49,7 @@ const PizzaCards = ({ data, dummyData, idx }) => {
           please select size first
         </p>
         <div className="relative flex items-center ">
-          <Link href={`/menu/product/${data?.Name}`}>
+          <Link href={`/menu/product/${data?.pizzaName}`}>
             <PiNotePencilFill size={30} />
           </Link>
           <div className="bg-green-600 flex gap-2 items-center justify-center w-[80%]">
@@ -58,8 +59,8 @@ const PizzaCards = ({ data, dummyData, idx }) => {
                 selectedData &&
                   dispatch(
                     addToCart({
-                      name: data?.Name,
-                      img: data?.img,
+                      name: data?.pizzaName,
+                      img: data?.banner,
                       size: selectedData,
                     })
                   );

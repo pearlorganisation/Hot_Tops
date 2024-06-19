@@ -48,9 +48,9 @@ const SizeContainer = () => {
           </div>
         </div>
         <div className="p-2">
-          <div className="sizeList p-3 border shadow-md bg-white border-gray-400 rounded-lg">
-            <table className="min-w-full border-separate border-spacing-2">
-              <thead>
+          <div className="sizeList p-3 border shadow-md bg-white border-gray-400 rounded-lg h-[400px]">
+            <table className="min-w-full border-separate border-spacing-x-2 border-spacing-y-2">
+              <thead className="hidden border-b lg:table-header-group"  >
                 <tr>
                   <th className="border-b-2 p-2 text-left">Name</th>
                   <th className="border-b-2 p-2 text-left">Price</th>
