@@ -2,7 +2,6 @@ import dessertFilter from "../../models/dessert/dessertFilter.js";
 import { asyncErrorHandler } from "../../utils/errors/asyncErrorHandler.js";
 import { CustomError } from "../../utils/errors/customError.js";
 
-
 export const newFilter = asyncErrorHandler(async (req, res, nxt) => {
   const savedFilter = new dessertFilter(req?.body);
   await savedFilter.save();
@@ -13,5 +12,6 @@ export const newFilter = asyncErrorHandler(async (req, res, nxt) => {
 
 export const getAllDessertFilter = asyncErrorHandler(async (req, res, next) => {
   const data = await dessertFilter.find();
-  res.status(200).json({ status: true, data });
-}); 
+  const newData = [{ filter: "All" }, ...data];
+  res.status(200).json({ status: true, data: newData });
+});
