@@ -78,14 +78,14 @@ import authRoutes from "./src/routes/authRoutes/authRoutes.js";
 // import { seafoodToppingsCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/seafoodToppings.js";
 import pizzaRoutes from "./src/routes/pizza/pizza.js";
 import sidesRoutes from "./src/routes/sides.js";
-<<<<<<< HEAD
+
 import drinksRoutes from "./src/routes/drink.js";
 import dipsRoutes from "./src/routes/dips.js";
 // Route Middlewarespull origin gaurav-code
-=======
+
 import dessertRoutes from "./src/routes/dessert.js";
 // Route Middlewares
->>>>>>> d90de38211df0d995f561721ada06542b2234f66
+
 
 app.all(["/", "/api", "/api/v1"], (req, res, next) => {
   return res.status(200).json({
