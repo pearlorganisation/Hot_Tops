@@ -117,12 +117,11 @@ app.use("/api/v1/auth/", authRoutes);
 
 app.use("/api/v1/pizza", pizzaRoutes);
 app.use("/api/v1/sides", sidesRoutes);
-<<<<<<< HEAD
+
 app.use("/api/v1/drinks", drinksRoutes);
 app.use("/api/v1/dips", dipsRoutes);
-=======
+
 app.use("/api/v1/dessert", dessertRoutes);
->>>>>>> d90de38211df0d995f561721ada06542b2234f66
 
 // -------------------------------------------------------------------------------------------------------------
 
