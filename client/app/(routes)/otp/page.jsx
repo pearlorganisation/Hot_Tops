@@ -1,9 +1,16 @@
 "use client";
+import { getcredentials } from "@/app/lib/features/auth/authSlice";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 const OTPReceiver = () => {
+  // ----------------------------------------hooks----------------------------------------
+  const { email, password } = useSelector((state) => state.auth);
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -16,13 +23,35 @@ const OTPReceiver = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (otp.length !== 6) {
       setError("OTP must be 6 digits long.");
     } else {
       // Handle OTP submission logic here
-      console.log("OTP Submitted:", otp);
+      try {
+        const data = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/verifyOtp`,
+          {
+            method: "post",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email,
+              password,
+              otp,
+            }),
+          }
+        );
+        const newData = await data.json();
+        dispatch(getcredentials({ email: "", password: "" }));
+        router.push("/login");
+        console.log(newData);
+      } catch (error) {
+        console.log(error);
+      }
+
       setError(""); // Clear error when submitting
     }
   };

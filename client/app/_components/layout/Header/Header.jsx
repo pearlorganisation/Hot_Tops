@@ -21,8 +21,13 @@ const Header = () => {
   const cart = useAppSelector((state) => state.cart.cartData);
 
   const totalPrice = cart?.reduce((ele, acc) => {
-    const price = acc?.size?.split("-");
-    return ele + Number(price[1]);
+    // console.log(typeOf(acc?.size);
+    const price = String(acc?.size).includes("-")
+      ? acc?.size?.split("-")
+      : acc?.size;
+
+    console.log(price);
+    return ele + Number(price[1] || price);
   }, 0);
 
   console.log(totalPrice);

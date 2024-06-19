@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import Link from "next/link";
 
-const SidesCards = ({ data, dummyData, idx }) => {
+const DessertCards = ({ data, dummyData, idx }) => {
   console.log("dataa", data);
   // =-----------------------hooks--------------------------------
   const dispatch = useDispatch();
@@ -21,7 +21,7 @@ const SidesCards = ({ data, dummyData, idx }) => {
         className="rounded-t-lg w-full object-cover"
       />
       <div className="p-4">
-        <h2 className="text-xl font-semibold mb-4">{data?.sideName}</h2>
+        <h2 className="text-xl font-semibold mb-4">{data?.dessertName}</h2>
         <div>
           <select
             onChange={(Event) => {
@@ -49,7 +49,7 @@ const SidesCards = ({ data, dummyData, idx }) => {
                 setIsAddClicked(true);
                 dispatch(
                   addToCart({
-                    name: data?.sideName,
+                    name: data?.dessertName,
                     img: data?.banner,
                     size: selectedData || data?.price,
                   })
@@ -70,4 +70,4 @@ const SidesCards = ({ data, dummyData, idx }) => {
   );
 };
 
-export default SidesCards;
+export default DessertCards;

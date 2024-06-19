@@ -12,7 +12,12 @@ export const envAccess = (field) => {
 // -----------------------------------------------------------------------------------------------------------
 // ----------------------------------------------CORS CONFIG---------------------------------------------
 
-export const developmentWhiteListedIpAddresses = ["http://localhost:5173","https://hot-house-9gco.vercel.app/"];
+export const developmentWhiteListedIpAddresses = [
+  "http://localhost:5173",
+  "http://localhost:5174 ",
+  "https://hot-house-9gco.vercel.app/",
+  "http://localhost:3000",
+];
 
 export const productionWhiteListedIpAddresses = [];
 
