@@ -60,27 +60,27 @@ app.use(cookieParser());
 const versionOne = (url) => {
   return `/api/v1/${url}`;
 };
+const foodCustomization = (url) => {
+  return `/api/v1/food/customization/${url}`;
+};
 
 // Router Imports
-// import { foodCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/foodCustomizationRoutes.js";
-// import { foodItemRouter } from "./src/routes/foodRoutes/foodItemRoutes.js";
+import { foodItemRouter } from "./src/routes/foodRoutes/foodItemRoutes.js";
 
-import pizza from "./src/models/pizza/pizza.js";
-import authRoutes from "./src/routes/authRoutes/authRoutes.js";
-// import { foodItemRouter } from "./src/routes/foodRoutes/foodItemRoutes.js";
 
-// import { baseCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/base.js";
-// import { sizeCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/size.js";
-// import { cheeseCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/cheese.js";
-// import { sauceCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/sauce.js";
-// import { meatToppingsCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/meatToppings.js";
-// import { vegetarianToppingsCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/vegetarianToppings.js";
-// import { seafoodToppingsCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/seafoodToppings.js";
+import { baseCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/base.js";
+import { sizeCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/size.js";
+import { cheeseCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/cheese.js";
+import { sauceCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/sauce.js";
+import { meatToppingsCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/meatToppings.js";
+import { vegetarianToppingsCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/vegetarianToppings.js";
+import { seafoodToppingsCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/seafoodToppings.js";
 import pizzaRoutes from "./src/routes/pizza/pizza.js";
 import sidesRoutes from "./src/routes/sides.js";
 import dessertRoutes from "./src/routes/dessert.js";
 // Route Middlewares
 import drinksRoutes from "./src/routes/drink.js";
+import dipsRoutes from "./src/routes/dips.js";
 // Route Middlewarespull origin gaurav-code
 
 app.all(["/", "/api", "/api/v1"], (req, res, next) => {
@@ -90,31 +90,24 @@ app.all(["/", "/api", "/api/v1"], (req, res, next) => {
   });
 });
 
-// app.use(versionOne("food"), foodItemRouter); // Food Item Router
-// app.use(versionOne("food/customization"), foodCustomizationRouter); // Food Customization Router
+app.use(versionOne("food"), foodItemRouter); // Food Item Router
 
-app.use("/api/v1/auth/", authRoutes);
-// app.use(versionOne("food"), foodItemRouter); // Food Item Router
+ // Food Customization Router
+app.use(foodCustomization("base"), baseCustomizationRouter);
+app.use(foodCustomization("size"), sizeCustomizationRouter);
+app.use(foodCustomization("cheese"), cheeseCustomizationRouter);
+app.use(foodCustomization("sauce"), sauceCustomizationRouter);
+app.use(foodCustomization("meatToppings"), meatToppingsCustomizationRouter);
+app.use(foodCustomization("vegetarianToppings"), vegetarianToppingsCustomizationRouter);
+app.use(foodCustomization("seafoodToppings"), seafoodToppingsCustomizationRouter);
 
-// Food Customization Router
-// app.use(foodCustomization("base"), baseCustomizationRouter);
-// app.use(foodCustomization("size"), sizeCustomizationRouter);
-// app.use(foodCustomization("cheese"), cheeseCustomizationRouter);
-// app.use(foodCustomization("sauce"), sauceCustomizationRouter);
-// app.use(foodCustomization("meatToppings"), meatToppingsCustomizationRouter);
-// app.use(
-//   foodCustomization("vegetarianToppings"),
-//   vegetarianToppingsCustomizationRouter
-// );
-// app.use(
-//   foodCustomization("seafoodToppings"),
-//   seafoodToppingsCustomizationRouter
-// );
 
 app.use("/api/v1/pizza", pizzaRoutes);
 app.use("/api/v1/sides", sidesRoutes);
 app.use("/api/v1/dessert", dessertRoutes);
 app.use("/api/v1/drinks", drinksRoutes);
+app.use("/api/v1/dips", dipsRoutes);
+
 
 
 
