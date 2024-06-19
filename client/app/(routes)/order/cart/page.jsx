@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 const Cart = () => {
   // ----------------------hooks------------------------------------
   const cart = useSelector((state) => state.cart.cartData);
+
   return (
     <>
       <div className="max-w-7xl mx-auto bg-white shadow-md rounded-lg overflow-hidden my-4">

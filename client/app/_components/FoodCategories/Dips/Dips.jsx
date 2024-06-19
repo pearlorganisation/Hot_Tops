@@ -1,4 +1,5 @@
 import React from "react";
+import useSWR from "swr";
 
 const Dips = () => {
   const data = [
@@ -33,7 +34,7 @@ const Dips = () => {
   ];
 
     // -------------------data fetching function-----------------------
-    const drinksFetcher = async (...args) =>
+    const dipsFetcher = async (...args) =>
       fetch(...args).then((res) => {
         return res.json();
       });
@@ -43,7 +44,7 @@ const Dips = () => {
       data: dipsData,
       error,
       isLoading,
-    } = useSWR(`http://localhost:9898/api/v1/dips`, drinksFetcher);
+    } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/dips`, dipsFetcher);
     
     console.log(dipsData);
     if (isLoading) return <div>Loading...</div>;
@@ -51,22 +52,41 @@ const Dips = () => {
   return (
     <>
       <div className="container mx-auto max-w-7xl gap-10 grid sm:grid-cols-2 md:grid-cols-4 place-content-center p-10">
-        {data.map((el, id) => (
+        {dipsData?.data.map((item) => (
           <div
             class="bg-white shadow-md rounded-lg max-w-xs w-full newshadow"
-            key={id}
+            key={item?._id}
           >
             <img
-              src={el.img}
+              src={item.banner}
               alt="Card Image"
               className="rounded-t-lg  object-cover w-[370px] h-[250px]"
             />
 
             <div class="p-4">
-              <h2 class="text-xl font-semibold mb-4 ">{el.title}</h2>
-              <div class="relative">
+              <h2 class="text-xl font-semibold mb-4 ">{item.title}</h2>
+              <div class="relative flex flex-col gap-4">
+              <p>
+                  <select
+                   
+                    className="w-full border-2 rounded-l-lg p-3"
+                    style={{
+                      boxShadow:
+                        " rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;",
+                    }}
+                  >
+                    {item?.price.map((dips) => (
+                      <option
+                        key={item._id}
+                        value={dips?.dipsType || "price"}
+                      >
+                        {dips?.dipsType} <span>{dips.price} $</span>
+                      </option>
+                    ))}
+                  </select>
+                </p>
                 <div className="bg-green-400 hover:bg-green-500 cursor-pointer ">
-                  <p className="text-center p-2 ">Select store to order</p>
+                  <p className="text-center p-2 ">ADD</p>
                 </div>
               </div>
             </div>

@@ -13,7 +13,7 @@ const Drinks = () => {
     data: drinksData,
     error,
     isLoading,
-  } = useSWR(`http://localhost:9898/api/v1/drinks`, drinksFetcher);
+  } = useSWR(`https://hot-house.onrender.com/api/v1/drinks`, drinksFetcher);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading data</div>;

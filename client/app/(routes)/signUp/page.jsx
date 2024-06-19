@@ -1,40 +1,43 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Page = () => {
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
-
     formState: { errors },
     watch,
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/signup`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            email: data?.email,
-            password: data?.password,
-          }),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-          },
-        }
-      );
-      const newData = await res.json();
-      console.log(newData);
+      const response = await fetch("http://localhost:9898/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      console.log("Signup successful", result);
+      // Add your logic for a successful signup
     } catch (error) {
-      console.log(error?.data);
+      console.error("Error during signup:", error);
+      // Handle error (e.g., show an error message to the user)
     }
-    console.log(data);
-    // Add your signup logic here
   };
 
   return (
@@ -93,17 +96,17 @@ const Page = () => {
                 })}
               />
               {errors.password && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-red-500 text-sm mt-5 ">
                   {errors.password.message}
                 </p>
               )}
             </div>
-            <div className="mb-4">
+            <div className="mb-4 relative">
               <label className="block text-gray-700" htmlFor="confirm-password">
                 Confirm Password
               </label>
               <input
-                type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 id="confirm-password"
                 className={`w-full px-3 py-2 border ${
                   errors.confirmPassword ? "border-red-500" : "border-gray-300"
@@ -115,6 +118,12 @@ const Page = () => {
                     value === watch("password") || "The passwords do not match",
                 })}
               />
+              <span
+                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer pt-5"
+                onClick={() => setShowConfirmPassword((prev) => !prev)}
+              >
+                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
               {errors.confirmPassword && (
                 <p className="text-red-500 text-sm mt-1">
                   {errors.confirmPassword.message}
@@ -146,19 +155,17 @@ const Page = () => {
                 {errors.terms.message}
               </p>
             )}
-
             <button
               type="submit"
               className="w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
             >
               Register
             </button>
-
             <p className="mt-4">
-              already have account{" "}
+              Already have an account?{" "}
               <span>
                 <Link href="/login" className="text-blue-700">
-                  login here
+                  Login here
                 </Link>
               </span>
             </p>

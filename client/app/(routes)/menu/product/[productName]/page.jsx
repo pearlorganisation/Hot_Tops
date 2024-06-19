@@ -61,6 +61,7 @@ const Product = () => {
 
     if (baseLoading) return <div>Loading...</div>;
     if (baseError) return <div>Error loading data</div>;
+    console.log('Base Data:', baseData); // Add this line for debugging
 
     if (sizeLoading) return <div>Loading...</div>;
     if (sizeError) return <div>Error loading data</div>;

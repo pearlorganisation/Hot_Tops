@@ -1,6 +1,5 @@
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
-import { useForm } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
+import { useForm} from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { postSaucePizza } from "../../features/actions/pizza/postCustomization/postSaucePizza";
 import { postCheesePizza } from "../../features/actions/pizza/postCustomization/postCheesePizza";
@@ -13,7 +12,7 @@ import { getVegetarianTopping } from "../../features/actions/pizza/getCustomizat
 
 const FoodModal = forwardRef((props, ref) => {
   const dialogRef = useRef();
-  const { register, handleSubmit, control } = useForm({
+  const { register, handleSubmit,watch, setError, clearErrors  } = useForm({
     mode: "watch",
   });
 
@@ -32,20 +31,39 @@ const FoodModal = forwardRef((props, ref) => {
     
     if(props.itemName === 'Sauce'){
       dispatch(postSaucePizza(data));
+      dispatch(getSaucePizza());
     }
     else if (props.itemName === 'Cheese'){
       dispatch(postCheesePizza(data));
+      dispatch(getCheesePizza());
     }
       
     else if(props.itemName === 'MEAT TOPPINGS'){
       dispatch(postMeatTopping(data));
+      dispatch(getMeatTopping());
     }
     
     else if(props.itemName === "VEGETARIAN TOPPINGS"){
       dispatch(postVegTopping(data));
+      dispatch(getVegetarianTopping());
     }
       
     console.log(data);
+  };
+
+  const singlePrice = watch("singlePrice");
+  const doublePrice = watch("doublePrice");
+
+  const validatePrices = () => {
+    if (!singlePrice && !doublePrice) {
+      setError("singlePrice", { type: "manual", message: "At least one price must be entered" });
+      setError("doublePrice", { type: "manual", message: "At least one price must be entered" });
+      return false;
+    } else {
+      clearErrors("singlePrice");
+      clearErrors("doublePrice");
+      return true;
+    }
   };
 
   return (
@@ -87,17 +105,25 @@ const FoodModal = forwardRef((props, ref) => {
               <span className="sr-only">Close modal</span>
             </button>
           </div>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit((data) => {
+              if (validatePrices()) {
+                onSubmit(data);
+                dialogRef.current.close();
+              }
+            })}>
             <div className="p-4 md:p-5 space-y-4">
               <div className="mb-4">
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                   Name
                 </label>
                 <input
-
+                  id="name"
                   {...register("name")}
                   className="border p-1 rounded w-full"
                   placeholder={`Enter ${props.itemName}`}
+                  required
+                  minLength={2}
+                  maxLength={38}
                 />
               </div>
               <div className="mb-4">
@@ -105,10 +131,12 @@ const FoodModal = forwardRef((props, ref) => {
                   Single
                 </label>
                 <input
-         
+                  id="singlePrice"
                   {...register("singlePrice")}
                   className="border p-1 rounded w-full"
                   placeholder="Price for Single"
+                  min={0.1}
+                  max={10000}
                 />
               </div>
               <div className="mb-4">
@@ -120,6 +148,8 @@ const FoodModal = forwardRef((props, ref) => {
                   {...register("doublePrice")}
                   className="border p-1 rounded w-full"
                   placeholder="Price for Double"
+                  min={0.1}
+                  max={10000}
                 />
               </div>
             </div>
@@ -127,7 +157,6 @@ const FoodModal = forwardRef((props, ref) => {
               <button
                 type="submit"
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                onClick={() => dialogRef.current.close()}
               >
                 Add
               </button>
@@ -139,7 +168,6 @@ const FoodModal = forwardRef((props, ref) => {
                 Cancel
               </button>
             </div>
-            <DevTool control={control} />
           </form>
         </div>
       </div>

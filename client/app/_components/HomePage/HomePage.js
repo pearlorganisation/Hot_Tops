@@ -35,7 +35,7 @@ const HomePage = () => {
           })}
         </Swiper>
       </div>
-      <div className="text-center text-lg font-medium p-5">
+      <div className="text-center text-lg font-medium p-5 ">
         <h1>TOPTASTIC DEALS</h1>
       </div>
       <section className="container mx-auto max-w-6xl">
