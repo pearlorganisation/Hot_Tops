@@ -13,6 +13,6 @@ export const instance = axios.create({
     baseURL: `${
       import.meta.env.VITE_REACT_APP_WORKING_ENVIRONMENT === "development"
         ? import.meta.env.VITE_REACT_APP_API_BASE_URL_DEVELOPMENT
-        : import.meta.env.VITE_REACT_APP_API_BASE_URL_MAIN_PRODUCTION
+        : import.meta.env.VITE_REACT_APP_API_BASE_URL_PRODUCTION
     }`,
   });
