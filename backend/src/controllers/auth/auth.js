@@ -11,8 +11,6 @@ import { fileURLToPath } from "url";
 import { sendMail } from "../../utils/sendmail.js";
 import { genrateOtp } from "../../utils/otp/otp.js";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
 export const signUp = asyncErrorHandler(async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -85,6 +83,28 @@ export const signUp = asyncErrorHandler(async (req, res) => {
   }
 });
 
+// --------------verifyOtp-----------------------
+export const verifyOtp = asyncErrorHandler(async (req, res) => {
+  const { email, password, otp } = req?.body;
+
+  // --finding otp in otp model
+  const isOtpValid = await optModel.findOne({ email, otp });
+  if (!isOtpValid) {
+    return res.status(400).json({
+      status: false,
+      message: "otp is incorrect",
+    });
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const newData = new auth({ email, password: hashedPassword });
+  await newData.save();
+
+  res.status(200).json({
+    status: true,
+    message: "verify verified",
+  });
+});
 // --------------login controller--------------------
 export const login = asyncErrorHandler(async (req, res) => {
   const { email, password } = req?.body;

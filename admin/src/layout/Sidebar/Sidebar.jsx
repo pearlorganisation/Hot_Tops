@@ -1,11 +1,15 @@
 // ----------------------------------------------Imports-----------------------------------------
-import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
-import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
+import { MdSpaceDashboard } from "react-icons/md";
+import { GiChickenLeg } from "react-icons/gi";
+import { FaPizzaSlice } from "react-icons/fa6";
 import SearchIcon from "@mui/icons-material/Search";
 import DarkModeSwitcher from "../Header/DarkModeSwitcher/DarkModeSwitcher";
 import { useRef, useState } from "react";
 import DropDown from "./DropDown/DropDown";
-import { BiCustomize } from "react-icons/bi";
+import { GiPizzaCutter } from "react-icons/gi";
+import { RiDrinksFill } from "react-icons/ri";
+import { TbBowlFilled } from "react-icons/tb";
+import { LuCakeSlice } from "react-icons/lu";
 import { Link } from "react-router-dom";
 // -----------------------------------------------------------------------------------------------
 
@@ -14,22 +18,57 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
     {
       label: "Dashboard",
       path: "/",
-      icon: <SpaceDashboardIcon size={28} />,
+      icon: <MdSpaceDashboard size={28} />,
       isDropDown: false,
     },
     {
-      label: "Food",
-      icon: <LocalPizzaIcon size={28} />,
-      isDropDown: true,
-      subItems: [
-        { title: "Food Items", path: "/food-items" },
-        { title: "Create Pizza", path: "/create-pizza" },
-      ], // food-items -> table || food-items/create-food-item
+      label: "Pizza Customization",
+      path: "/food-customization",
+      icon: <GiPizzaCutter size={28} />,
+      isDropDown: false,
     },
     {
-      label: "Food Customization",
-      path: "/food-customization",
-      icon: <BiCustomize size={28} />,
+      label: "Pizzas",
+      icon: <FaPizzaSlice size={28} />,
+      isDropDown: true,
+      subItems: [
+        { title: "Pizzas", path: "/pizza" },
+        { title: "Pizza Category", path: "/pizzaCategory" },
+        { title: "Pizza Filter", path: "/pizzaFilter" },
+        // { title: "Create Pizza", path: "/create-pizza" },
+      ], // food-items -> table || food-items/create-food-item
+    },
+  
+    {
+      label: "Sides",
+      icon: <GiChickenLeg size={28} />,
+      isDropDown: true,
+      subItems: [
+        { title: "Sides", path: "/sides" },
+        { title: "Sides Category", path: "/category" },
+        { title: "Sides Filter", path: "/sidesFilter" },
+      ],
+    },
+    {
+      label: "Desserts",
+      icon: <LuCakeSlice size={28} />,
+      isDropDown: true,
+      subItems: [
+        { title: "Dessert", path: "/dessert" },
+        { title: "Dessert Category", path: "/dessertCategory" },
+        { title: "Dessert Filter", path: "/dessertFilter" },
+      ],
+    },
+    {
+      label: "Drinks",
+      path: "/drink",
+      icon: <RiDrinksFill size={28} />,
+      isDropDown: false,
+    },
+    {
+      label: "Dips",
+      path: "/dip",
+      icon: <TbBowlFilled size={28} />,
       isDropDown: false,
     },
   ];
@@ -74,9 +113,8 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
         <aside
           id="nav-menu-4"
           aria-label="Side navigation"
-          className={` top-0 bottom-0 left-0 lg:static  z-40 flex w-72 flex-col border-r   bg-red-500 transition-transform lg:translate-x-0 ${
-            isSideNavOpen ? "translate-x-0" : " -translate-x-full"
-          }`}
+          className={` top-0 bottom-0 left-0 lg:static  z-40 flex w-72 flex-col border-r   bg-red-500 transition-transform lg:translate-x-0 ${isSideNavOpen ? "translate-x-0" : " -translate-x-full"
+            }`}
         >
           <div className=" items-center border-b   ">
             <div className="min-h-[32px] h-[10vh] w-full min-w-0 flex flex-col  justify-center items-center gap-0 ">
@@ -179,9 +217,8 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
 
       {/*  <!-- Backdrop --> */}
       <div
-        className={`fixed top-0 bottom-0 left-0 right-0 z-30 bg-slate-900/20 transition-colors sm:hidden ${
-          isSideNavOpen ? "block" : "hidden"
-        }`}
+        className={`fixed top-0 bottom-0 left-0 right-0 z-30 bg-slate-900/20 transition-colors sm:hidden ${isSideNavOpen ? "block" : "hidden"
+          }`}
         onClick={() => setIsSideNavOpen(false)}
       ></div>
       {/*  <!-- End Side navigation menu with user profile and alert message --> */}

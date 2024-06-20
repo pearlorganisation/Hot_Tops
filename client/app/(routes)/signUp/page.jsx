@@ -1,11 +1,17 @@
 "use client";
+import { getcredentials } from "@/app/lib/features/auth/authSlice";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useDispatch } from "react-redux";
 
 const Page = () => {
+  // -------------------------------------hooks---------------------------------
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const {
     register,
@@ -16,23 +22,32 @@ const Page = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await fetch("http://localhost:9898/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password,
-        }),
-      });
-
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/signup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: data.email,
+            password: data.password,
+          }),
+        }
+      );
+      dispatch(
+        getcredentials({
+          email: data?.email,
+          password: data?.password,
+        })
+      );
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
       }
 
       const result = await response.json();
-      console.log("Signup successful", result);
+
+      router.push("/otp");
       // Add your logic for a successful signup
     } catch (error) {
       console.error("Error during signup:", error);
