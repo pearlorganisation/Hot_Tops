@@ -4,18 +4,21 @@ import { encryptTransform } from "redux-persist-transform-encrypt";
 import {persistReducer} from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import pizzaReducer from "./slice/pizza/pizzaSlice";
+// import pizzaReducer from "./slice/pizza/pizzaSlice";
 import sidesCategory from "./slice/sides/categorySides";
 import sidesFilter from "./slice/sides/filterSides"
 import sides from "./slice/sides/sides";
 import dessertCategory from "./slice/dessert/categoryDessert";
 import dessertFilter from "./slice/dessert/filterDessert"
 import dessert from "./slice/dessert/dessert";
+import pizzaCategory from "./slice/pizza/categoryPizza";
+import pizzaFilter from "./slice/pizza/filterPizza"
+import pizza from "./slice/pizza/pizza";
 import drink from "./slice/drink/drink";
 import dip from "./slice/dip/dip";
 
 const rootReducer = combineReducers({
-  pizza: pizzaReducer,
+  // pizza: pizzaReducer,
   sidesCategory,
   sidesFilter,
   sides,
@@ -23,7 +26,10 @@ const rootReducer = combineReducers({
   dessertFilter,
   dessert,
   drink,
-  dip
+  dip,
+  pizzaCategory,
+  pizzaFilter,
+  pizza
   
   });
 

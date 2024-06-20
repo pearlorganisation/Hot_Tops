@@ -1,11 +1,15 @@
 // ----------------------------------------------Imports-----------------------------------------
-import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
-import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
+import { MdSpaceDashboard } from "react-icons/md";
+import { GiChickenLeg } from "react-icons/gi";
+import { FaPizzaSlice } from "react-icons/fa6";
 import SearchIcon from "@mui/icons-material/Search";
 import DarkModeSwitcher from "../Header/DarkModeSwitcher/DarkModeSwitcher";
 import { useRef, useState } from "react";
 import DropDown from "./DropDown/DropDown";
-import { BiCustomize } from "react-icons/bi";
+import { GiPizzaCutter } from "react-icons/gi";
+import { RiDrinksFill } from "react-icons/ri";
+import { TbBowlFilled } from "react-icons/tb";
+import { LuCakeSlice } from "react-icons/lu";
 import { Link } from "react-router-dom";
 // -----------------------------------------------------------------------------------------------
 
@@ -14,28 +18,30 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
     {
       label: "Dashboard",
       path: "/",
-      icon: <SpaceDashboardIcon size={28} />,
+      icon: <MdSpaceDashboard size={28} />,
+      isDropDown: false,
+    },
+    {
+      label: "Pizza Customization",
+      path: "/food-customization",
+      icon: <GiPizzaCutter size={28} />,
       isDropDown: false,
     },
     {
       label: "Pizzas",
-      icon: <LocalPizzaIcon size={28} />,
+      icon: <FaPizzaSlice size={28} />,
       isDropDown: true,
       subItems: [
-        { title: "Pizzas", path: "/food-items" },
-        { title: "Create Pizza", path: "/create-pizza" },
+        { title: "Pizzas", path: "/pizza" },
+        { title: "Pizza Category", path: "/pizzaCategory" },
+        { title: "Pizza Filter", path: "/pizzaFilter" },
+        // { title: "Create Pizza", path: "/create-pizza" },
       ], // food-items -> table || food-items/create-food-item
-    },
-    {
-      label: "Food Customization",
-      path: "/food-customization",
-      icon: <BiCustomize size={28} />,
-      isDropDown: false,
     },
   
     {
       label: "Sides",
-      icon: <SpaceDashboardIcon size={28} />,
+      icon: <GiChickenLeg size={28} />,
       isDropDown: true,
       subItems: [
         { title: "Sides", path: "/sides" },
@@ -45,7 +51,7 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
     },
     {
       label: "Desserts",
-      icon: <SpaceDashboardIcon size={28} />,
+      icon: <LuCakeSlice size={28} />,
       isDropDown: true,
       subItems: [
         { title: "Dessert", path: "/dessert" },
@@ -56,13 +62,13 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
     {
       label: "Drinks",
       path: "/drink",
-      icon: <SpaceDashboardIcon size={28} />,
+      icon: <RiDrinksFill size={28} />,
       isDropDown: false,
     },
     {
       label: "Dips",
       path: "/dip",
-      icon: <SpaceDashboardIcon size={28} />,
+      icon: <TbBowlFilled size={28} />,
       isDropDown: false,
     },
   ];

@@ -1,9 +1,7 @@
 // -----------------------------------------------Imports---------------------------------------------
 import { createBrowserRouter } from "react-router-dom";
 import DefaultLayout from "../layout/DefaultLayout/DefaultLayout";
-import FoodItems from "../pages/Food/Pizzas/FoodItems";
 import FoodCustomization from "../pages/Food/FoodCustomization/FoodCustomization";
-import CreatePizza from "../pages/Food/Pizzas/CreatePizza";
 import Category from "../pages/Sides/Category/Category";
 import CreateCategory from "../pages/Sides/Category/CreateCategory";
 import CreateFilter from "../pages/Sides/Filter/CreateFilter";
@@ -20,6 +18,12 @@ import CreateDrink from "../pages/Drink/CreateDrink";
 import Drink from "../pages/Drink/Drink";
 import Dip from "../pages/Dip/Dip";
 import CreateDip from "../pages/Dip/CreateDip";
+import PizzaCategory from "../pages/Pizza/Category/Category";
+import CreatePizzaCategory from "../pages/Pizza/Category/CreateCategory";
+import PizzaFilter from "../pages/Pizza/Filter/Filter";
+import CreatePizzaFilter from "../pages/Pizza/Filter/CreateFilter";
+import Pizza from "../pages/Pizza/Pizza";
+import CreatePizza from "../pages/Pizza/CreatePizza";
 // ---------------------------------------------------------------------------------------------------
 
 export const appRouter = createBrowserRouter([
@@ -27,10 +31,10 @@ export const appRouter = createBrowserRouter([
     path: "/",
     element: <DefaultLayout />,
     children: [
-      {
-        path: "/food-items",
-        element: <FoodItems />,
-      },
+      // {
+      //   path: "/food-items",
+      //   element: <FoodItems />,
+      // },
       {
         path: "/food-customization",
         element: <FoodCustomization />,
@@ -102,6 +106,30 @@ export const appRouter = createBrowserRouter([
       {
         path: "/createDip",
         element: <CreateDip />,
+      },
+      {
+        path: "/pizzaCategory",
+        element: <PizzaCategory />,
+      },
+      {
+        path: "/createPizzaCategory",
+        element: <CreatePizzaCategory />,
+      },
+      {
+        path: "/pizzaFilter",
+        element: <PizzaFilter />,
+      },
+      {
+        path: "/createPizzaFilter",
+        element: <CreatePizzaFilter />,
+      },
+      {
+        path: "/pizza",
+        element: <Pizza />,
+      },
+      {
+        path: "/createPizza",
+        element: <CreatePizza/>,
       },
     ],
   },
