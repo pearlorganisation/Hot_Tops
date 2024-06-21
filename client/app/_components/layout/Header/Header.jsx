@@ -9,6 +9,8 @@ import logo from "../../../_assets/images/HOTPIZZALOGO.png";
 import { categoryEnum } from "@/app/utils/utils";
 import { useAppSelector } from "@/app/lib/hooks";
 import { FaRegUserCircle } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { addUserData } from "@/app/lib/features/auth/authSlice";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -20,8 +22,9 @@ const Header = () => {
   // -------------------------------------HOOKS-------------------------------------------------
   const [selecteditem, setSelectedItem] = useState(null);
   const cart = useAppSelector((state) => state.cart.cartData);
-  // const { userData, isUserLoggedIn } = useAppSelector(state => state.auth)
-  const [userData, setUserData] = useState(null)
+  const dispatch = useDispatch()
+  const { userData, isUserLoggedIn } = useAppSelector(state => state.auth)
+  const [userDatas, setUserData] = useState({ data: userData, isUserLoggedIn })
 
 
   const totalPrice = cart?.reduce((ele, acc) => {
@@ -36,11 +39,13 @@ const Header = () => {
 
   console.log(totalPrice);
   useEffect(() => {
-    console.log(userData)
-  }, [userData])
+    console.log(userDatas)
+  }, [userDatas])
   useEffect(() => {
+
     setUserData(JSON.parse(localStorage.getItem('userData')))
-  }, [])
+    // dispatch(addUserData(userData))
+  }, [userData])
 
 
 
@@ -59,7 +64,7 @@ const Header = () => {
           className={`flex justify-end gap-6 items-center w-[70%] ${raleway.variable} font-Raleway font-[700] `}
         >
           {
-            userData?.isUserLoggedIn ? <div className="flex justify-start items-center gap-2">  <FaRegUserCircle size={25} />{userData?.data?.firstName} {userData?.data?.lastName}</div> : <div className="flex">
+            userDatas?.isUserLoggedIn ? <div className="flex justify-start items-center gap-2">  <FaRegUserCircle size={25} />{userDatas?.data?.firstName} {userDatas?.data?.lastName}</div> : <div className="flex">
               <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
                 <Link href="/signUp">Sign in / Register</Link>
               </li>

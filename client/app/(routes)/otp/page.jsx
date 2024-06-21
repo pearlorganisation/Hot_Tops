@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 const OTPReceiver = () => {
   // ----------------------------------------hooks----------------------------------------
-  const { email, password } = useSelector((state) => state.auth);
+  const { email, password, firstName, lastName } = useSelector((state) => state.auth);
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
   const dispatch = useDispatch();
@@ -40,6 +40,8 @@ const OTPReceiver = () => {
             body: JSON.stringify({
               email,
               password,
+              firstName,
+              lastName,
               otp,
             }),
           }
