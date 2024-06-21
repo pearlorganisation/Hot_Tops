@@ -142,6 +142,7 @@ export const login = asyncErrorHandler(async (req, res) => {
     status: true,
     message: "login successfully",
     data: isUserExist
+
   });
 });
 
