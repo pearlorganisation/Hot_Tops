@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Raleway } from "next/font/google";
 import { FaCartShopping } from "react-icons/fa6";
 import logo from "../../../_assets/images/HOTPIZZALOGO.png";
 import { categoryEnum } from "@/app/utils/utils";
 import { useAppSelector } from "@/app/lib/hooks";
+import { FaRegUserCircle } from "react-icons/fa";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -19,7 +20,9 @@ const Header = () => {
   // -------------------------------------HOOKS-------------------------------------------------
   const [selecteditem, setSelectedItem] = useState(null);
   const cart = useAppSelector((state) => state.cart.cartData);
-  const { userData, isUserLoggedIn } = useAppSelector(state => state.auth)
+  // const { userData, isUserLoggedIn } = useAppSelector(state => state.auth)
+  const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('userData')))
+
 
   const totalPrice = cart?.reduce((ele, acc) => {
     // console.log(typeOf(acc?.size);
@@ -32,6 +35,10 @@ const Header = () => {
   }, 0);
 
   console.log(totalPrice);
+  useEffect(() => {
+    console.log(userData)
+  }, [userData])
+
 
   return (
     <div className=" bg-white z-10 ">
@@ -48,7 +55,7 @@ const Header = () => {
           className={`flex justify-end gap-6 items-center w-[70%] ${raleway.variable} font-Raleway font-[700] `}
         >
           {
-            isUserLoggedIn ? <div>{userData?.firstName} {userData?.lastName}</div> : <div className="flex">
+            userData?.isUserLoggedIn ? <div className="flex justify-start items-center gap-2">  <FaRegUserCircle size={25} />{userData?.data?.firstName} {userData?.data?.lastName}</div> : <div className="flex">
               <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
                 <Link href="/signUp">Sign in / Register</Link>
               </li>

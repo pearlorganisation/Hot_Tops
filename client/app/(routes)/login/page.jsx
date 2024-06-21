@@ -36,7 +36,9 @@ const Page = () => {
       const newData = await res.json();
       console.log(newData);
       if (newData?.status === true) {
-        dispatch(addUserData({ isUserLoggedIn: true, data: newData.data }))
+        const userData = { isUserLoggedIn: true, data: newData.data }
+        localStorage.setItem('userData', JSON.stringify(userData))
+        dispatch(addUserData(userData))
         console.log("fksajflkasfkld");
         toast.success("login successfully");
       }
