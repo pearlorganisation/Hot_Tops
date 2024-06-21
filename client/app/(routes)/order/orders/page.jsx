@@ -1,9 +1,11 @@
 "use client"
 
+import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 const page = () => {
     const [step, setStep] = useState(1)
+    const router = useRouter()
 
     const [dayTimeIntervals, setDayTimeIntervals] = useState([]);
 
@@ -76,7 +78,9 @@ const page = () => {
                                 0192 324 6666
                             </p>
                         </div>
-                        <button className='bg-green-500 py-2 w-full text-white rounded' type="button">Proceed To Checkout</button>
+                        <button onClick={() => {
+                            router.push('/order/checkout')
+                        }} className='bg-green-500 py-2 w-full text-white rounded' type="button">Proceed To Checkout</button>
                     </div>
                 }
                 {
@@ -113,7 +117,9 @@ const page = () => {
                                 0192 324 6666
                             </p>
                         </div>
-                        <button className='bg-green-500 py-2 w-full text-white rounded' type="button">Proceed To Checkout</button>
+                        <button onClick={() => {
+                            router.push('/order/checkout')
+                        }} className='bg-green-500 py-2 w-full text-white rounded' type="button">Proceed To Checkout</button>
                     </div>
                 }
             </div>
