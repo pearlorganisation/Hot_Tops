@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 const Cart = () => {
   // ----------------------hooks------------------------------------
   const cart = useSelector((state) => state.cart.cartData);
+
   return (
     <>
       <div className="max-w-7xl mx-auto bg-white shadow-md rounded-lg overflow-hidden my-4">
@@ -16,7 +17,9 @@ const Cart = () => {
         {Array.isArray(cart) &&
           cart?.length > 0 &&
           cart?.map((data, idx) => {
-            const price = data?.size?.split("-");
+            const price = String(data?.size).includes("-")
+              ? data?.size?.split("-")
+              : data?.size;
             console.log(price);
             return (
               <div className="p-4 border-b grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
@@ -26,7 +29,7 @@ const Cart = () => {
                   </div>
                   <p className="text-xl font-semibold">
                     {data?.name}
-                    {`(${price[0]})`}
+                    {Array.isArray(price) ? `(${price[0]})` : ""}
                   </p>
                 </div>
                 <div className="flex justify-end space-x-2">
@@ -45,7 +48,7 @@ const Cart = () => {
                   </button>
                 </div>
                 <div className="col-span-1 text-right text-xl font-semibold md:col-span-3 md:text-left">
-                  Є{price[1]}
+                  Є{Array.isArray(price) ? price[1] : price}
                 </div>
               </div>
             );

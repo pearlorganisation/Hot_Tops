@@ -16,13 +16,17 @@ export const updateBaseCustomization = asyncErrorHandler(async (req, res, next) 
         id,{...req?.body},{new:true}
       );
 
+    
+
       if (!data)
         return next(new CustomError("No data found with given id!!", 400));
 
-    return res.status(200).json({
+      const updatedData = await baseCustomizationModel.find();
+
+      return res.status(200).json({
       success: true,
       message: `Base Customization Updated Successfully`,
-      data
+      updatedData
     });
   }
 );
@@ -34,7 +38,10 @@ export const createBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
   })
 
   await data.save()
- res.status(201).json({status:true,message:"Base Customization created successfully",data})
+  
+  const updatedData = await baseCustomizationModel.find();
+
+ res.status(201).json({status:true,message:"Base Customization created successfully",updatedData})
   }
 )
 

@@ -19,8 +19,11 @@ app.use(
     process.env.NODE_ENV === "production"
       ? {
           origin: [
+            "https://hot-house.vercel.app",
+            "https://hot-house-9gco.vercel.app",
             "http://localhost:4112",
             "http://localhost:3000",
+            "http://localhost:3001",
             "http://localhost:5010",
             "http://localhost:4113",
             "http://localhost:5173",
@@ -31,8 +34,11 @@ app.use(
         }
       : {
           origin: [
+            "https://hot-house.vercel.app",
+            "https://hot-house-9gco.vercel.app",
             "http://localhost:4112",
             "http://localhost:3000",
+            "http://localhost:3001",
             "http://localhost:5174",
             "http://localhost:5173",
             "http://localhost:5010",
@@ -67,7 +73,6 @@ const foodCustomization = (url) => {
 // Router Imports
 import { foodItemRouter } from "./src/routes/foodRoutes/foodItemRoutes.js";
 
-
 import { baseCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/base.js";
 import { sizeCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/size.js";
 import { cheeseCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/cheese.js";
@@ -80,6 +85,8 @@ import sidesRoutes from "./src/routes/sides.js";
 import dessertRoutes from "./src/routes/dessert.js";
 // Route Middlewares
 import drinksRoutes from "./src/routes/drink.js";
+import dipsRoutes from "./src/routes/dips.js";
+import authRoutes from "./src/routes/authRoutes/authRoutes.js";
 // Route Middlewarespull origin gaurav-code
 
 app.all(["/", "/api", "/api/v1"], (req, res, next) => {
@@ -91,22 +98,27 @@ app.all(["/", "/api", "/api/v1"], (req, res, next) => {
 
 app.use(versionOne("food"), foodItemRouter); // Food Item Router
 
- // Food Customization Router
+// Food Customization Router
 app.use(foodCustomization("base"), baseCustomizationRouter);
 app.use(foodCustomization("size"), sizeCustomizationRouter);
 app.use(foodCustomization("cheese"), cheeseCustomizationRouter);
 app.use(foodCustomization("sauce"), sauceCustomizationRouter);
 app.use(foodCustomization("meatToppings"), meatToppingsCustomizationRouter);
-app.use(foodCustomization("vegetarianToppings"), vegetarianToppingsCustomizationRouter);
-app.use(foodCustomization("seafoodToppings"), seafoodToppingsCustomizationRouter);
-
+app.use(
+  foodCustomization("vegetarianToppings"),
+  vegetarianToppingsCustomizationRouter
+);
+app.use(
+  foodCustomization("seafoodToppings"),
+  seafoodToppingsCustomizationRouter
+);
 
 app.use("/api/v1/pizza", pizzaRoutes);
 app.use("/api/v1/sides", sidesRoutes);
 app.use("/api/v1/dessert", dessertRoutes);
 app.use("/api/v1/drinks", drinksRoutes);
-
-
+app.use("/api/v1/dips", dipsRoutes);
+app.use("/api/v1/auth", authRoutes);
 
 // -------------------------------------------------------------------------------------------------------------
 

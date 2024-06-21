@@ -1,15 +1,24 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from "react";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import { updateBasePizza } from "../../../features/actions/pizza/updateCustomization/updateBasePizza";
 import { useDispatch } from "react-redux";
 import { updateSizePizza } from "../../../features/actions/pizza/updateCustomization/updateSizePizza";
+import { updateSaucePizza } from "../../../features/actions/pizza/updateCustomization/updateSaucePizza";
+import { updateMeatTopping } from "../../../features/actions/pizza/updateCustomization/updateMeatTopping";
+import { updateVegTopping } from "../../../features/actions/pizza/updateCustomization/updateVegTopping";
+import { updateCheesePizza } from "../../../features/actions/pizza/updateCustomization/updateCheesePizza";
 
 const EditItem = forwardRef(({ data, itemName }, ref) => {
   const dispatch = useDispatch();
   const dialogRef = useRef();
   const { register, handleSubmit, control, setValue, reset } = useForm({
-    mode: 'onBlur'
+    mode: "onBlur",
   });
 
   useImperativeHandle(ref, () => ({
@@ -22,25 +31,68 @@ const EditItem = forwardRef(({ data, itemName }, ref) => {
   }));
 
   useEffect(() => {
-    if (data) {
+    if (data && (itemName === 'Base' || itemName === 'Size') ) {
       setValue("name", data.name);
       setValue("price", data.price);
     }
-  }, [data, setValue]);
+    else if(data)
+      {
+      setValue("name", data.name);
+      setValue("single", data.singlePrice);
+      setValue("double", data.doublePrice );
+      }
+  }, [data, setValue ,itemName]);
 
   const onSubmit = (submissionData) => {
     try {
       if (itemName === "Base") {
-        dispatch(updateBasePizza({
-          ...submissionData,
-          _id: data._id
-        }));
-      } else {
-        dispatch(updateSizePizza({
-          ...submissionData,
-          _id: data._id
-        }));
+        dispatch(
+          updateBasePizza({
+            ...submissionData,
+            _id: data._id,
+          })
+        );
+      } else if(itemName === "Size"){
+        dispatch(
+          updateSizePizza({
+            ...submissionData,
+            _id: data._id,
+          })
+        );
       }
+      else if(itemName === "Sauce"){
+        dispatch(
+          updateSaucePizza({
+            ...submissionData,
+            _id: data._id,
+          })
+        );
+      }
+      else if(itemName === "MEAT TOPPINGS"){
+        dispatch(
+          updateMeatTopping({
+            ...submissionData,
+            _id: data._id,
+          })
+        );
+      }
+      else if(itemName === "VEGETARIAN TOPPINGS"){
+        dispatch(
+          updateVegTopping({
+            ...submissionData,
+            _id: data._id,
+          })
+        );
+      }
+      else if(itemName === "Cheese"){
+        dispatch(
+          updateCheesePizza ({
+            ...submissionData,
+            _id: data._id,
+          })
+        );
+      }
+
       reset(); // Reset the form fields
       dialogRef.current.close(); // Close the dialog
     } catch (e) {
@@ -102,25 +154,61 @@ const EditItem = forwardRef(({ data, itemName }, ref) => {
                   className="border p-1 rounded w-full"
                 />
               </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="price"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Price
-                </label>
-                <input
-                  {...register("price")}
-                  className="border p-1 rounded w-full"
-                />
-              </div>
+
+              {(itemName === "Base" || itemName === "Size") && (
+                 <div className="mb-4">
+                 <label
+                   htmlFor="price"
+                   className="block text-sm font-medium text-gray-700"
+                 >
+                   Price
+                 </label>
+                 <input
+                   {...register("price")}
+                   className="border p-1 rounded w-full"
+                 />
+               </div>
+              )
+
+
+              }
+             
+
+              {itemName !== "Base" && itemName != "Size" && (
+                <>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="single"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Single
+                    </label>
+                    <input
+                      {...register("single")}
+                      className="border p-1 rounded w-full"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="double"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Double
+                    </label>
+                    <input
+                      {...register("double")}
+                      className="border p-1 rounded w-full"
+                    />
+                  </div>
+                </>
+              )}
             </div>
             <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
               <button
                 type="submit"
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
-                Edit DATA
+                Edit data
               </button>
               <button
                 type="button"
