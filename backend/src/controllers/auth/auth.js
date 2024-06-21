@@ -137,10 +137,12 @@ export const login = asyncErrorHandler(async (req, res) => {
     expiresIn: "15m",
   });
 
+
   res.status(201).json({
     status: true,
     message: "login successfully",
-     data: isUserExist
+    data: isUserExist
+
   });
 });
 

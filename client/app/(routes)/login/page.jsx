@@ -1,12 +1,15 @@
 "use client";
+import { addUserData } from "@/app/lib/features/auth/authSlice";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 const Page = () => {
   // ----------------------------Hooks-------------------------------------
   const [response, setResponse] = useState(null);
+  const dispatch = useDispatch()
   const {
     register,
     handleSubmit,
@@ -33,6 +36,9 @@ const Page = () => {
       const newData = await res.json();
       console.log(newData);
       if (newData?.status === true) {
+        const userData = { isUserLoggedIn: true, data: newData.data }
+        localStorage.setItem('userData', JSON.stringify(userData))
+        dispatch(addUserData(userData))
         console.log("fksajflkasfkld");
         toast.success("login successfully");
       }
@@ -65,9 +71,8 @@ const Page = () => {
               <input
                 type="email"
                 id="login-email"
-                className={`w-full px-3 py-2 border ${
-                  errors.email ? "border-red-500" : "border-gray-300"
-                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                className={`w-full px-3 py-2 border ${errors.email ? "border-red-500" : "border-gray-300"
+                  } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
                 placeholder="Enter your email"
                 {...register("email", { required: "Email is required" })}
               />
@@ -84,9 +89,8 @@ const Page = () => {
               <input
                 type="password"
                 id="login-password"
-                className={`w-full px-3 py-2 border ${
-                  errors.password ? "border-red-500" : "border-gray-300"
-                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                className={`w-full px-3 py-2 border ${errors.password ? "border-red-500" : "border-gray-300"
+                  } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
                 placeholder="Enter your password"
                 {...register("password", { required: "Password is required" })}
               />

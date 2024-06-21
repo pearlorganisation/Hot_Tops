@@ -3,19 +3,22 @@ import { PiNotePencilFill } from "react-icons/pi";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import Link from "next/link";
+import AddedToCartModel from "@/app/_components/Modals/AddedToCartModel";
 
 const PizzaCards = ({ data, dummyData, idx }) => {
   console.log("dataa", data);
   // =-----------------------hooks--------------------------------
   const dispatch = useDispatch();
-  const [selectedData, setSelectedData] = useState(null);
+  const [selectedData, setSelectedData] = useState(
+    data?.priceSection[0]?.size + "-" + data?.priceSection[0]?.price
+  );
   const [isAddClicked, setIsAddClicked] = useState(false);
   return (
     <div
       className=" p-3 bg-white shadow-md rounded-lg max-w-[15rem] 2xl:max-w-xs w-full newshadow"
       key={idx}
     >
-      <img  
+      <img
         src={data?.banner}
         alt="Card Image"
         className="rounded-t-lg w-full object-cover"
@@ -28,6 +31,7 @@ const PizzaCards = ({ data, dummyData, idx }) => {
               console.log(Event.target.value);
               setSelectedData(Event.target.value);
             }}
+            value={selectedData}
             name="pizzas"
             id="pizzas"
             className="border-2 p-2 w-full m-1"
@@ -35,19 +39,19 @@ const PizzaCards = ({ data, dummyData, idx }) => {
             {data?.priceSection.map((data, idx) => {
               return (
                 <option value={`${data?.size}-${data?.price}`}>
-                  {`${data?.size} Є${data?.price}`}
+                  {`${data?.size} £${data?.price}`}
                 </option>
               );
             })}
           </select>
         </div>
-        <p
+        {/* <p
           className={`text-red-600 font-bold ${
             isAddClicked && !selectedData ? "block" : "hidden"
           } `}
         >
           please select size first
-        </p>
+        </p> */}
         <div className="relative flex items-center ">
           <Link href={`/menu/product/${data?.pizzaName}`}>
             <PiNotePencilFill size={30} />
@@ -76,6 +80,10 @@ const PizzaCards = ({ data, dummyData, idx }) => {
           </div>
         </div>
       </div>
+      <AddedToCartModel
+        isAddClicked={isAddClicked}
+        setIsAddClicked={setIsAddClicked}
+      />
     </div>
   );
 };
