@@ -66,7 +66,7 @@ const Header = () => {
             <span className="bg-gray-500 rounded-full  px-2 mx-2">
               {cart?.length}
             </span>
-            <span>Є{totalPrice}</span>
+            <span>£{totalPrice}</span>
           </Link>
         </ul>
       </div>

@@ -13,7 +13,10 @@ const Drinks = () => {
     data: drinksData,
     error,
     isLoading,
-  } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/drinks`, drinksFetcher);
+  } = useSWR(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/drinks`,
+    drinksFetcher
+  );
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading data</div>;
@@ -49,7 +52,7 @@ const Drinks = () => {
                         key={drink._id}
                         value={drink?.drinkType || "price"}
                       >
-                        {drink?.drinkType} <span>{drink.price} $</span>
+                        {drink?.drinkType} £<span>{drink.price} </span>
                       </option>
                     ))}
                   </select>
