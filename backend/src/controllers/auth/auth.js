@@ -140,6 +140,7 @@ export const login = asyncErrorHandler(async (req, res) => {
   res.status(201).json({
     status: true,
     message: "login successfully",
+     data: isUserExist
   });
 });
 
