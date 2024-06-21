@@ -13,9 +13,10 @@ const authslice = createSlice({
       return (state = action.payload);
     },
     addUserData: (state, action) => {
-      const { data, isUserLoggedIn } = action.payload;
-      state.userData = data;
-      state.isUserLoggedIn = isUserLoggedIn;
+      const data = action.payload;
+      console.log(data);
+      state.userData = data?.data;
+      state.isUserLoggedIn = data?.isUserLoggedIn;
     },
   },
 });
