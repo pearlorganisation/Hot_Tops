@@ -19,6 +19,7 @@ const Header = () => {
   // -------------------------------------HOOKS-------------------------------------------------
   const [selecteditem, setSelectedItem] = useState(null);
   const cart = useAppSelector((state) => state.cart.cartData);
+  const { userData, isUserLoggedIn } = useAppSelector(state => state.auth)
 
   const totalPrice = cart?.reduce((ele, acc) => {
     // console.log(typeOf(acc?.size);
@@ -44,11 +45,16 @@ const Header = () => {
           />
         </div>
         <ul
-          className={`flex justify-around items-center w-[70%] ${raleway.variable} font-Raleway font-[700] `}
+          className={`flex justify-end gap-6 items-center w-[70%] ${raleway.variable} font-Raleway font-[700] `}
         >
-          <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
-            <Link href="/signUp">Sign in / Register</Link>
-          </li>
+          {
+            isUserLoggedIn ? <div>{userData?.firstName} {userData?.lastName}</div> : <div className="flex">
+              <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
+                <Link href="/signUp">Sign in / Register</Link>
+              </li>
+
+            </div>
+          }
           <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
             <Link href="">Select store</Link>
           </li>
@@ -74,9 +80,8 @@ const Header = () => {
         <ul className="flex items-center xl:pl-24  text-white font-semibold w-full  lg:w-[50vw]  lg:mx-5 lg:ml-20 flex-wrap">
           <Link href={`/menu/deals`}>
             <li
-              className={`px-5 hover:bg-[#337ab7] h-[36px] md:h-[56px] flex items-center ${
-                selecteditem === -1 ? "bg-blue-600" : "bg-red-600"
-              }`}
+              className={`px-5 hover:bg-[#337ab7] h-[36px] md:h-[56px] flex items-center ${selecteditem === -1 ? "bg-blue-600" : "bg-red-600"
+                }`}
               onClick={() => setSelectedItem(-1)}
             >
               {" "}
@@ -89,9 +94,8 @@ const Header = () => {
                 <>
                   <Link href={`/menu/${data?.toLocaleLowerCase()}`}>
                     <li
-                      className={`hover:bg-[#337ab7] h-[36px] md:h-[56px]  px-5 flex items-center ${
-                        selecteditem === idx ? "bg-blue-600" : "bg-red-600"
-                      }`}
+                      className={`hover:bg-[#337ab7] h-[36px] md:h-[56px]  px-5 flex items-center ${selecteditem === idx ? "bg-blue-600" : "bg-red-600"
+                        }`}
                       onClick={() => setSelectedItem(idx)}
                     >
                       {data}
