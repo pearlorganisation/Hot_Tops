@@ -21,7 +21,7 @@ const Header = () => {
   const [selecteditem, setSelectedItem] = useState(null);
   const cart = useAppSelector((state) => state.cart.cartData);
   // const { userData, isUserLoggedIn } = useAppSelector(state => state.auth)
-  const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('userData')))
+  const [userData, setUserData] = useState(null)
 
 
   const totalPrice = cart?.reduce((ele, acc) => {
@@ -38,6 +38,10 @@ const Header = () => {
   useEffect(() => {
     console.log(userData)
   }, [userData])
+  useEffect(() => {
+    setUserData(JSON.parse(localStorage.getItem('userData')))
+  }, [])
+
 
 
   return (
