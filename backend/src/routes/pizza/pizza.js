@@ -1,18 +1,21 @@
 import express from "express";
 const router = express.Router();
 import { upload } from "../../configs/cloudinary.js";
-import { createNewPizza, getAllPizza } from "../../controllers/pizza/pizza.js";
-import { getAllCategory, newCategory } from "../../controllers/pizza/pizzaCategory.js";
-import { getAllFilter, newFilter } from "../../controllers/pizza/pizzaFilter.js";
+import { createNewPizza, deletePizza, getAllPizza, updatePizza } from "../../controllers/pizza/pizza.js";
+import { deleteCategory, getAllCategory, newCategory, updateCategory } from "../../controllers/pizza/pizzaCategory.js";
+import { deleteFilter, getAllFilter, newFilter, updateFilter } from "../../controllers/pizza/pizzaFilter.js";
 
-router
-  .route("/")
-  .post(upload.single("banner"), createNewPizza)
-  .get(getAllPizza);
+//pizza
+router.route("/").get(getAllPizza).post(upload.single("banner"), createNewPizza);
+router.route("/:id").patch(upload.single("banner"), updatePizza).delete(deletePizza);
+
+//category
+router.route("/category").get(getAllCategory).post(newCategory);
+router.route("/category/:id").delete(deleteCategory).patch(updateCategory);
 
 
-  router.route("/category").get(getAllCategory).post(newCategory)
-
-  router.route("/filter").get(getAllFilter).post(newFilter)
+//filter
+router.route("/filter").get(getAllFilter).post(newFilter)
+router.route("/filter/:id").delete(deleteFilter).patch(updateFilter);
 
 export default router;

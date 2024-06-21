@@ -24,6 +24,7 @@ import PizzaFilter from "../pages/Pizza/Filter/Filter";
 import CreatePizzaFilter from "../pages/Pizza/Filter/CreateFilter";
 import Pizza from "../pages/Pizza/Pizza";
 import CreatePizza from "../pages/Pizza/CreatePizza";
+import UpdateDessert from "../pages/Dessert/EditDessert";
 // ---------------------------------------------------------------------------------------------------
 
 export const appRouter = createBrowserRouter([
@@ -90,6 +91,10 @@ export const appRouter = createBrowserRouter([
       {
         path: "/createDessert",
         element: <CreateDessert />,
+      },
+      {
+        path: "/updateDessert/:id",
+        element: <UpdateDessert />,
       },
       {
         path: "/drink",
