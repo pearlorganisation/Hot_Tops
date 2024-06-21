@@ -66,9 +66,8 @@ const Dips = () => {
             <div class="p-4">
               <h2 class="text-xl font-semibold mb-4 ">{item.title}</h2>
               <div class="relative flex flex-col gap-4">
-              <p>
+                <p>
                   <select
-                   
                     className="w-full border-2 rounded-l-lg p-3"
                     style={{
                       boxShadow:
@@ -76,11 +75,8 @@ const Dips = () => {
                     }}
                   >
                     {item?.price.map((dips) => (
-                      <option
-                        key={item._id}
-                        value={dips?.dipsType || "price"}
-                      >
-                        {dips?.dipsType} <span>{dips.price} $</span>
+                      <option key={item._id} value={dips?.dipsType || "price"}>
+                        {dips?.dipsType} <span>{dips.price} £</span>
                       </option>
                     ))}
                   </select>
