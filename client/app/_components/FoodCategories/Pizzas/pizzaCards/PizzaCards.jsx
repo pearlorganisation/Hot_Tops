@@ -3,6 +3,7 @@ import { PiNotePencilFill } from "react-icons/pi";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import Link from "next/link";
+import AddedToCartModel from "@/app/_components/Modals/AddedToCartModel";
 
 const PizzaCards = ({ data, dummyData, idx }) => {
   console.log("dataa", data);
@@ -79,6 +80,10 @@ const PizzaCards = ({ data, dummyData, idx }) => {
           </div>
         </div>
       </div>
+      <AddedToCartModel
+        isAddClicked={isAddClicked}
+        setIsAddClicked={setIsAddClicked}
+      />
     </div>
   );
 };
