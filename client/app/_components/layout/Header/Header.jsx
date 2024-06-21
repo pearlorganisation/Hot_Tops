@@ -73,7 +73,7 @@ const Header = () => {
             <span className="bg-gray-500 rounded-full  px-2 mx-2">
               {cart?.length}
             </span>
-            <span>£{totalPrice}</span>
+            <span>£{totalPrice?.toFixed(2)}</span>
           </Link>
         </ul>
       </div>
