@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Raleway } from "next/font/google";
 import { FaCartShopping } from "react-icons/fa6";
 import logo from "../../../_assets/images/HOTPIZZALOGO.png";
 import { categoryEnum } from "@/app/utils/utils";
 import { useAppSelector } from "@/app/lib/hooks";
+import { FaRegUserCircle } from "react-icons/fa";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -19,6 +20,9 @@ const Header = () => {
   // -------------------------------------HOOKS-------------------------------------------------
   const [selecteditem, setSelectedItem] = useState(null);
   const cart = useAppSelector((state) => state.cart.cartData);
+  // const { userData, isUserLoggedIn } = useAppSelector(state => state.auth)
+  const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('userData')))
+
 
   const totalPrice = cart?.reduce((ele, acc) => {
     // console.log(typeOf(acc?.size);
@@ -31,6 +35,10 @@ const Header = () => {
   }, 0);
 
   console.log(totalPrice);
+  useEffect(() => {
+    console.log(userData)
+  }, [userData])
+
 
   return (
     <div className=" bg-white z-10 ">
@@ -44,11 +52,16 @@ const Header = () => {
           />
         </div>
         <ul
-          className={`flex justify-around items-center w-[70%] ${raleway.variable} font-Raleway font-[700] `}
+          className={`flex justify-end gap-6 items-center w-[70%] ${raleway.variable} font-Raleway font-[700] `}
         >
-          <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
-            <Link href="/signUp">Sign in / Register</Link>
-          </li>
+          {
+            userData?.isUserLoggedIn ? <div className="flex justify-start items-center gap-2">  <FaRegUserCircle size={25} />{userData?.data?.firstName} {userData?.data?.lastName}</div> : <div className="flex">
+              <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
+                <Link href="/signUp">Sign in / Register</Link>
+              </li>
+
+            </div>
+          }
           <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
             <Link href="">Select store</Link>
           </li>
@@ -60,7 +73,7 @@ const Header = () => {
             <span className="bg-gray-500 rounded-full  px-2 mx-2">
               {cart?.length}
             </span>
-            <span>Є{totalPrice}</span>
+            <span>£{totalPrice?.toFixed(2)}</span>
           </Link>
         </ul>
       </div>
@@ -74,9 +87,8 @@ const Header = () => {
         <ul className="flex items-center xl:pl-24  text-white font-semibold w-full  lg:w-[50vw]  lg:mx-5 lg:ml-20 flex-wrap">
           <Link href={`/menu/deals`}>
             <li
-              className={`px-5 hover:bg-[#337ab7] h-[36px] md:h-[56px] flex items-center ${
-                selecteditem === -1 ? "bg-blue-600" : "bg-red-600"
-              }`}
+              className={`px-5 hover:bg-[#337ab7] h-[36px] md:h-[56px] flex items-center ${selecteditem === -1 ? "bg-blue-600" : "bg-red-600"
+                }`}
               onClick={() => setSelectedItem(-1)}
             >
               {" "}
@@ -89,9 +101,8 @@ const Header = () => {
                 <>
                   <Link href={`/menu/${data?.toLocaleLowerCase()}`}>
                     <li
-                      className={`hover:bg-[#337ab7] h-[36px] md:h-[56px]  px-5 flex items-center ${
-                        selecteditem === idx ? "bg-blue-600" : "bg-red-600"
-                      }`}
+                      className={`hover:bg-[#337ab7] h-[36px] md:h-[56px]  px-5 flex items-center ${selecteditem === idx ? "bg-blue-600" : "bg-red-600"
+                        }`}
                       onClick={() => setSelectedItem(idx)}
                     >
                       {data}

@@ -150,7 +150,7 @@ const CreatePizza = () => {
         <div className="flex gap-2 flex-col">
           <div>
             <label for="size" className=" font-semibold">
-              PRICE(Є)
+              PRICE(£)
             </label>
           </div>
 
@@ -162,7 +162,7 @@ const CreatePizza = () => {
                     Size
                   </th>
                   <th scope="col" class="px-6 py-3">
-                    <div class="flex items-center">Price(Є)</div>
+                    <div class="flex items-center">Price(£)</div>
                   </th>
                 </tr>
               </thead>
