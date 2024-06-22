@@ -3,14 +3,8 @@ import SizeContainer from "./PizzaCustomizationFormComponents/SizeContainer";
 import BaseContainer from "./PizzaCustomizationFormComponents/BaseContainer";
 import CommonContainer from "./PizzaCustomizationFormComponents/CommonContainer";
 import { useDispatch, useSelector } from "react-redux";
-// import { getPizzaCustomization } from "../../../../../features/actions/pizza/getPizzaCustomization";
-import { getBasePizza } from "../../../../../features/actions/pizza/getCustomization/getBasePizza";
-import { getSizePizza} from "../../../../../features/actions/pizza/getCustomization/getSlicePizza";
-import { getSaucePizza } from "../../../../../features/actions/pizza/getCustomization/getSaucePizza";
-import { getCheesePizza } from "../../../../../features/actions/pizza/getCustomization/getCheesePizza";
-import { getSeaFoodTopping } from "../../../../../features/actions/pizza/getCustomization/getSeaFoodTopping";
-import { getMeatTopping } from "../../../../../features/actions/pizza/getCustomization/getMeatTopping";
-import { getVegetarianTopping } from "../../../../../features/actions/pizza/getCustomization/getVegetarianTopping";
+import { getBasePizza, getCheesePizza, getMeatTopping, getSaucePizza, getSizePizza, getVegetarianTopping } from "../../../../../features/actions/pizza/getCustomization";
+
 
 const PizzaCustomizationForm = () => {
   const pizzaItems = [
@@ -23,7 +17,7 @@ const PizzaCustomizationForm = () => {
 
   // const { pizzaCustomization } = useSelector((state) => state?.pizza);
 
-  const { sauce ,base,cheese ,vegetarianToppings,meatToppings ,seaTopping} = useSelector((state) => state?.pizza);
+  const { sauce ,base,cheese ,vegetarianToppings,meatToppings} = useSelector((state) => state?.pizza);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,7 +25,6 @@ const PizzaCustomizationForm = () => {
     dispatch(getSaucePizza());
     dispatch(getCheesePizza());
     dispatch(getSizePizza());
-    dispatch(getSeaFoodTopping());
     dispatch(getMeatTopping());
     dispatch(getVegetarianTopping());
 

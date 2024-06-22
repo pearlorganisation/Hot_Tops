@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { useForm,useFieldArray} from "react-hook-form"
 import { useDispatch, useSelector } from 'react-redux'
 import defaultPhoto from '/placeholder.jpg'
-import { useNavigate } from 'react-router-dom'
-import { createDrink } from '../../features/actions/drink/drink'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { updateDrink } from '../../features/actions/drink/drink'
 import { ClipLoader } from "react-spinners";
 import { MdInsertPhoto } from "react-icons/md";
 
 
-const CreateDrink = () => {
+const UpdateDrink = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-
+    const {state:item}= useLocation()
     const {drinkData,isLoading} = useSelector((state)=>state.drink)
 
     const {
@@ -20,10 +20,11 @@ const CreateDrink = () => {
         formState: { errors },
         control
     } = useForm({defaultValues:{
-      price:[{drinkType:"",price:""}]
+        drinks: item?.drink || "",
+        price:item?.price ||"",
+  
     }})
     const onSubmit = (data) => {
-
 
         const formData= new FormData()
         formData.append("drink",data?.drink)
@@ -31,13 +32,13 @@ const CreateDrink = () => {
         
         Array.from(data?.banner).forEach((img)=>{
             formData?.append("banner",img)
-        })
+            })
         console.log(formData.getAll("price"))
-        dispatch(createDrink(formData))
+        dispatch(updateDrink({id:item?._id,payload:formData}))
       
     }
 
-    const [photo, setPhoto] = useState("");
+    const [photo, setPhoto] = useState(item?.banner||defaultPhoto);
 
      const handlePhotoChange = (e) => {
           const selectedPhoto = e.target.files[0];
@@ -66,7 +67,7 @@ const { fields: priceFields, append: appendPrice, remove: removePrice } = useFie
     return (
         <div className="max-w-4xl mx-auto my-5 overflow-hidden rounded-2xl bg-white shadow-lg ">
             <div className="bg-[#EF4444] px-10 py-4 text-center text-white font-semibold">
-                CREATE DRINK 
+                UPDATE DRINK 
             </div>
             <form className="space-y-5 my-4 mx-8 sm:mx-2" onSubmit={handleSubmit(onSubmit)}  >
          
@@ -149,21 +150,17 @@ onClick={() => appendPrice({ price: ""})}
              <div className="px-2 border rounded-md border-slate-300 hover:bg-red-500 hover:text-white hover:border-none">Click here to upload</div></label>
             
              <input
-              {...register('banner', { required: true,onChange:(e)=>{handlePhotoChange(e)} })}
+              {...register('banner', { onChange:(e)=>{handlePhotoChange(e)} })}
             
               className="hidden " id="file_input" type="file"/>
-               {errors.banner && (
-                     <span className="text-sm font-medium text-red-500">
-                       Image is required
-                     </span>
-                   )}
+            
              </div>
      
           
              <button type="submit" className=" w-full rounded-lg bg-gray-700 hover:bg-gray-800 active:bg-gray-700 px-10 py-3 font-semibold text-white">
              {isLoading ? (
                 <ClipLoader color="#c4c2c2" />
-              ) : (<>Create</>)}
+              ) : (<>Update</>)}
   </button>
                
            
@@ -175,4 +172,4 @@ onClick={() => appendPrice({ price: ""})}
 
 
 
-export default CreateDrink
+export default UpdateDrink

@@ -19,7 +19,10 @@ const CreateDip = () => {
         handleSubmit,
         formState: { errors },
         control
-    } = useForm()
+    } = useForm({defaultValues:{
+      price:[{drinkType:"",price:""}],
+
+  }})
     const onSubmit = (data) => {
 
         const formData= new FormData()

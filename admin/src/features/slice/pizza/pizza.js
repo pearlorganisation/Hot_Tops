@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createPizza, getPizza } from "../../actions/pizza/pizza";
+import { createPizza, deletePizza, getPizza, updatePizza } from "../../actions/pizza/pizza";
 import { toast } from "sonner";
 
 const initialState = {
   isLoading: false,
   isSuccess: false,
   pizzaData: [],
+  isDeleted:false,
   errorMessage: "",
 };
 
@@ -41,7 +42,49 @@ export const pizzaSlice = createSlice({
           position:"top-center"
         });
       })
-
+      .addCase(deletePizza.pending, (state, action) => {
+        state.isLoading = true;
+        state.isDeleted = false;
+        state.errorMessage = "";
+      })
+      .addCase(deletePizza.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isDeleted = true;
+        state.errorMessage = "";
+        toast.success("Pizza Deleted Successfully...",{
+          position:"top-center"
+        });
+      })
+      .addCase(deletePizza.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isDeleted = false;
+        state.errorMessage = action.payload;
+        toast.error(action?.payload || "Something went wrong",{
+          position:"top-center"
+        });
+      })
+      .addCase(updatePizza.pending, (state, action) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.errorMessage = "";
+      })
+      .addCase(updatePizza.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.errorMessage = "";
+        state.pizzaData = action.payload.data;
+        toast.success("Pizza Updated Successfully...",{
+          position:"top-center"
+        });
+      })
+      .addCase(updatePizza.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.errorMessage = action.payload;
+        toast.error(action?.payload || "Something went wrong",{
+          position:"top-center"
+        });
+      })
       .addCase(getPizza.pending, (state, action) => {
         state.isLoading = true;
         state.isSuccess = false;

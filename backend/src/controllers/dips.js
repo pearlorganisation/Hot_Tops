@@ -16,10 +16,10 @@ export const newDips = asyncErrorHandler(async (req, res, next) => {
 export const updateDips = asyncErrorHandler(async(req,res,next)=>{
   const {id}= req?.params;
   const { price,dips} = req?.body;
-const existingData = await dips.find();
+const existingData = await dipsModel.find();
 
   const data = await dipsModel.findByIdAndUpdate(id,{
-    price,
+    price: JSON.parse(price),
     banner: req?.file?.path || existingData?.banner,
     dips,
   })

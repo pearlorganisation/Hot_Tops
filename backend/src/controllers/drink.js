@@ -21,7 +21,7 @@ const existingData = await drinks.find();
 
   const data = await drinks.findByIdAndUpdate(id,{
     banner: req?.file?.path || existingData?.banner,
-    price,
+    price: JSON.parse(price),
     drink
   })
   if(!data){
