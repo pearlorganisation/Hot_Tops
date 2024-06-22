@@ -20,7 +20,7 @@ const UpdateDrink = () => {
         formState: { errors },
         control
     } = useForm({defaultValues:{
-        drinks: item?.drink || "",
+        drink: item?.drink || "",
         price:item?.price ||"",
   
     }})

@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { Stack,Skeleton } from '@mui/material';
 import { deleteDessert, getDessert } from '../../features/actions/dessert/dessert';
 import Delete from '../../components/delete';
+import { getCategory } from '../../features/actions/dessert/categoryDessert';
+import { getFilter } from '../../features/actions/dessert/filterDessert';
 
 
 
@@ -31,6 +33,8 @@ const Dessert = () => {
           };
             useEffect(() => {
                 dispatch(getDessert())
+                dispatch(getCategory())
+                dispatch(getFilter())
             }, [])
 
             useEffect(() => {
