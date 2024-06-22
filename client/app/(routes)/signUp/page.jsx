@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 const Page = () => {
   // -------------------------------------hooks---------------------------------
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [response, setResponse] = useState(null);
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -32,17 +33,21 @@ const Page = () => {
           body: JSON.stringify({
             email: data.email,
             password: data.password,
+            firstName: data?.firstName,
+            lastName: data?.lastName,
           }),
         }
       );
+      const newData = await response.json();
       dispatch(
         getcredentials({
           email: data?.email,
           password: data?.password,
           firstName: data?.firstName,
-          lastName: data?.lastName
+          lastName: data?.lastName,
         })
       );
+      setResponse(newData);
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
       }
@@ -56,14 +61,21 @@ const Page = () => {
       // Handle error (e.g., show an error message to the user)
     }
   };
-
+  console.log(response, "kdsjfkdsjf");
   return (
     <>
-      <div className="bg-gray-100 flex items-center justify-center h-screen">
+      <div className="bg-gray-100 flex items-center justify-center ">
         <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
           <h2 className="text-2xl font-bold mb-6 text-center">
             NEW MEMBER? REGISTER
           </h2>
+          {response && response?.status == false ? (
+            <div className="p-2 text-center text-red-600 font-semibold">
+              {response?.message}!
+            </div>
+          ) : (
+            ""
+          )}
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
               <label className="block text-gray-700" htmlFor="register-email">
@@ -72,8 +84,9 @@ const Page = () => {
               <input
                 type="text"
                 id="register-email"
-                className={`w-full px-3 py-2 border ${errors.firstName ? "border-red-500" : "border-gray-300"
-                  } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                className={`w-full px-3 py-2 border ${
+                  errors.firstName ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
                 placeholder="Enter your First Name"
                 {...register("firstName", {
                   required: true,
@@ -92,8 +105,9 @@ const Page = () => {
               <input
                 type="text"
                 id="register-email"
-                className={`w-full px-3 py-2 border ${errors.firstName ? "border-red-500" : "border-gray-300"
-                  } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                className={`w-full px-3 py-2 border ${
+                  errors.firstName ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
                 placeholder="Enter your Last Name"
                 {...register("lastName", {
                   required: true,
@@ -112,8 +126,9 @@ const Page = () => {
               <input
                 type="email"
                 id="register-email"
-                className={`w-full px-3 py-2 border ${errors.email ? "border-red-500" : "border-gray-300"
-                  } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                className={`w-full px-3 py-2 border ${
+                  errors.email ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
                 placeholder="Enter your email"
                 {...register("email", {
                   required: "Email is required",
@@ -139,8 +154,9 @@ const Page = () => {
               <input
                 type="password"
                 id="register-password"
-                className={`w-full px-3 py-2 border ${errors.password ? "border-red-500" : "border-gray-300"
-                  } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                className={`w-full px-3 py-2 border ${
+                  errors.password ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
                 placeholder="Enter your password"
                 {...register("password", {
                   required: "Password is required",
@@ -163,8 +179,9 @@ const Page = () => {
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 id="confirm-password"
-                className={`w-full px-3 py-2 border ${errors.confirmPassword ? "border-red-500" : "border-gray-300"
-                  } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                className={`w-full px-3 py-2 border ${
+                  errors.confirmPassword ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
                 placeholder="Re-enter your password"
                 {...register("confirmPassword", {
                   required: "Please confirm your password",
