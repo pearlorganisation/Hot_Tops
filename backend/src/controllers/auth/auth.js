@@ -19,6 +19,7 @@ export const signUp = asyncErrorHandler(async (req, res) => {
     const isUserAlreadyExist = await auth.findOne({ email });
     if (isUserAlreadyExist) {
       return res.status(400).json({
+        status: false,
         message: "User already exist",
       });
     }

@@ -10,8 +10,8 @@ import { toast } from "react-toastify";
 const Page = () => {
   // ----------------------------Hooks-------------------------------------
   const [response, setResponse] = useState(null);
-  const router = useRouter()
-  const dispatch = useDispatch()
+  const router = useRouter();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -38,11 +38,11 @@ const Page = () => {
       const newData = await res.json();
       console.log(newData);
       if (newData?.status === true) {
-        const userData = { isUserLoggedIn: true, data: newData.data }
-        localStorage.setItem('userData', JSON.stringify(userData))
-        dispatch(addUserData(userData))
+        const userData = { isUserLoggedIn: true, data: newData.data };
+        localStorage.setItem("userData", JSON.stringify(userData));
+        dispatch(addUserData(userData));
 
-        router.push('/')
+        router.push("/");
         toast.success("login successfully");
       }
 
@@ -56,6 +56,9 @@ const Page = () => {
     <>
       <div className="bg-gray-100 flex items-center justify-center h-screen">
         <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
+          <h2 className="text-2xl font-bold mb-6 text-center">
+            IF YOU'RE ALREADY A MEMBER.
+          </h2>
           {response && response?.status == false ? (
             <div className="p-2 text-center text-red-600 font-semibold">
               {response?.message}!
@@ -63,9 +66,6 @@ const Page = () => {
           ) : (
             ""
           )}
-          <h2 className="text-2xl font-bold mb-6 text-center">
-            IF YOU'RE ALREADY A MEMBER.
-          </h2>
           <form onSubmit={handleSubmit(onSubmit)} method="POST">
             <div className="mb-4">
               <label className="block text-gray-700" htmlFor="login-email">
@@ -74,8 +74,9 @@ const Page = () => {
               <input
                 type="email"
                 id="login-email"
-                className={`w-full px-3 py-2 border ${errors.email ? "border-red-500" : "border-gray-300"
-                  } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                className={`w-full px-3 py-2 border ${
+                  errors.email ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
                 placeholder="Enter your email"
                 {...register("email", { required: "Email is required" })}
               />
@@ -92,8 +93,9 @@ const Page = () => {
               <input
                 type="password"
                 id="login-password"
-                className={`w-full px-3 py-2 border ${errors.password ? "border-red-500" : "border-gray-300"
-                  } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                className={`w-full px-3 py-2 border ${
+                  errors.password ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
                 placeholder="Enter your password"
                 {...register("password", { required: "Password is required" })}
               />
@@ -124,7 +126,7 @@ const Page = () => {
             <p className="mt-4">
               New ? {"=>"}
               <span>
-                <Link href="/login" className="text-blue-700">
+                <Link href="/signUp" className="text-blue-700">
                   Sign Up here
                 </Link>
               </span>
