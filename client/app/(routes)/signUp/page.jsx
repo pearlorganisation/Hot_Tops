@@ -50,7 +50,7 @@ const Page = () => {
       router.push("/otp");
       // Add your logic for a successful signup
     } catch (error) {
-      console.error("Error during signup:", error);
+      console.error("Error during signup:", error.message);
       // Handle error (e.g., show an error message to the user)
     }
   };
