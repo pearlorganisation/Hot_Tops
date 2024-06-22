@@ -9,6 +9,8 @@ import logo from "../../../_assets/images/HOTPIZZALOGO.png";
 import { categoryEnum } from "@/app/utils/utils";
 import { useAppSelector } from "@/app/lib/hooks";
 import { FaRegUserCircle } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { addUserData } from "@/app/lib/features/auth/authSlice";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -20,8 +22,9 @@ const Header = () => {
   // -------------------------------------HOOKS-------------------------------------------------
   const [selecteditem, setSelectedItem] = useState(null);
   const cart = useAppSelector((state) => state.cart.cartData);
-  // const { userData, isUserLoggedIn } = useAppSelector(state => state.auth)
-  const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('userData')))
+  const dispatch = useDispatch()
+  const { userData, isUserLoggedIn } = useAppSelector(state => state.auth)
+
 
 
   const totalPrice = cart?.reduce((ele, acc) => {
@@ -35,32 +38,34 @@ const Header = () => {
   }, 0);
 
   console.log(totalPrice);
-  useEffect(() => {
-    console.log(userData)
-  }, [userData])
+
+
+
 
 
   return (
     <div className=" bg-white z-10 ">
       <div className="flex justify-around items-center">
-        <div className="w-[30%] flex justify-center">
+        <Link href='/' className="w-[30%] flex justify-center">
           <Image
             src={logo}
             className=" bg-white  xl:hidden "
             alt="logo"
             width={120}
           />
-        </div>
+        </Link>
         <ul
           className={`flex justify-end gap-6 items-center w-[70%] ${raleway.variable} font-Raleway font-[700] `}
         >
           {
-            userData?.isUserLoggedIn ? <div className="flex justify-start items-center gap-2">  <FaRegUserCircle size={25} />{userData?.data?.firstName} {userData?.data?.lastName}</div> : <div className="flex">
-              <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
-                <Link href="/signUp">Sign in / Register</Link>
-              </li>
+            isUserLoggedIn ?
+              <Link href='/profile?tab=1'><div className="flex justify-start items-center gap-2">  <FaRegUserCircle size={25} />{userData?.firstName} {userData?.lastName}</div></Link>
+              : <div className="flex">
+                <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
+                  <Link href="/signUp">Sign in / Register</Link>
+                </li>
 
-            </div>
+              </div>
           }
           <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
             <Link href="">Select store</Link>
@@ -78,12 +83,14 @@ const Header = () => {
         </ul>
       </div>
       <div className="bg-red-600 relative">
-        <Image
-          src={logo}
-          className=" bg-white hidden xl:block xl:absolute xl:bottom-0 left-8"
-          alt="logo"
-          width={150}
-        />
+        <Link href='/'>
+          <Image
+            src={logo}
+            className=" bg-white hidden xl:block xl:absolute xl:bottom-0 left-8"
+            alt="logo"
+            width={150}
+          />
+        </Link>
         <ul className="flex items-center xl:pl-24  text-white font-semibold w-full  lg:w-[50vw]  lg:mx-5 lg:ml-20 flex-wrap">
           <Link href={`/menu/deals`}>
             <li

@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 const Page = () => {
   // -------------------------------------hooks---------------------------------
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [response, setResponse] = useState(null);
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -32,15 +33,21 @@ const Page = () => {
           body: JSON.stringify({
             email: data.email,
             password: data.password,
+            firstName: data?.firstName,
+            lastName: data?.lastName,
           }),
         }
       );
+      const newData = await response.json();
       dispatch(
         getcredentials({
           email: data?.email,
           password: data?.password,
+          firstName: data?.firstName,
+          lastName: data?.lastName,
         })
       );
+      setResponse(newData);
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
       }
@@ -50,19 +57,68 @@ const Page = () => {
       router.push("/otp");
       // Add your logic for a successful signup
     } catch (error) {
-      console.error("Error during signup:", error);
+      console.error("Error during signup:", error.message);
       // Handle error (e.g., show an error message to the user)
     }
   };
-
+  console.log(response, "kdsjfkdsjf");
   return (
     <>
-      <div className="bg-gray-100 flex items-center justify-center h-screen">
+      <div className="bg-gray-100 flex items-center justify-center ">
         <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
           <h2 className="text-2xl font-bold mb-6 text-center">
             NEW MEMBER? REGISTER
           </h2>
+          {response && response?.status == false ? (
+            <div className="p-2 text-center text-red-600 font-semibold">
+              {response?.message}!
+            </div>
+          ) : (
+            ""
+          )}
           <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="mb-4">
+              <label className="block text-gray-700" htmlFor="register-email">
+                First Name
+              </label>
+              <input
+                type="text"
+                id="register-email"
+                className={`w-full px-3 py-2 border ${
+                  errors.firstName ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                placeholder="Enter your First Name"
+                {...register("firstName", {
+                  required: true,
+                })}
+              />
+              {errors.firstName && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.firstName && "First Name is required"}
+                </p>
+              )}
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700" htmlFor="register-email">
+                Last Name
+              </label>
+              <input
+                type="text"
+                id="register-email"
+                className={`w-full px-3 py-2 border ${
+                  errors.firstName ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                placeholder="Enter your Last Name"
+                {...register("lastName", {
+                  required: true,
+                })}
+              />
+              {errors.lastName && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.lastName && "Last Name is required"}
+                </p>
+              )}
+            </div>
             <div className="mb-4">
               <label className="block text-gray-700" htmlFor="register-email">
                 Email Address

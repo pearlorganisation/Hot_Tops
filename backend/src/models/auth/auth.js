@@ -2,6 +2,15 @@ import mongoose from "mongoose";
 
 const authSchema = new mongoose.Schema(
   {
+    firstName: {
+      type: String,
+      required: [true, "firstName is required"],
+    },
+    lastName: {
+      type: String,
+      required: [true, "lastName is required"],
+    },
+
     email: {
       type: String,
       required: [true, "email is required"],
