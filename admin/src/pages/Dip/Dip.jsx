@@ -1,22 +1,45 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Stack,Skeleton } from '@mui/material';
-import { getDip } from '../../features/actions/dip/dip';
+import { deleteDip, getDip } from '../../features/actions/dip/dip';
+import Delete from '../../components/delete';
 
 
 
 const Dip = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const { dipData,isLoading } = useSelector(state => state.dip)
-    useEffect(() => {
-        dispatch(getDip())
-    }, [])
-
+    const {isDeleted,dipData,isLoading } = useSelector(state => state.dip)
+    
     const handleAddCategory = () => {
-        navigate('/createDip');
+      navigate('/createDip');
       };
+
+      const [showDeleteModal, setShowDeleteModal] = useState(false);
+      const [id, setId] = useState();
+      
+      const handleModal = (ID) => {
+        setShowDeleteModal(true);
+        setId(ID);
+        }; 
+        const handleDelete = () => {
+          dispatch(deleteDip(id));
+          
+          setShowDeleteModal(false);
+          setId('');
+          };
+
+        useEffect(() => {
+            dispatch(getDip())
+        }, [])
+
+        useEffect(() => {
+          if(isDeleted){
+            dispatch(getDip());
+          }
+            }, [isDeleted]);
+          
 
     return (
         <>
@@ -93,17 +116,17 @@ const Dip = () => {
                      
                       <td className=" whitespace-nowrap">
                         <a
-                        //   onClick={() => {
-                        //     navigate(`/updateCategory/${item?._id}`, { state: item  });
-                        //   }}
+                          onClick={() => {
+                            navigate(`/updateDip/${item?._id}`, { state: item  });
+                          }}
                           className="cursor-pointer py-2 px-3 font-semibold text-green-600 hover:text-green-700 duration-150 hover:bg-gray-50 rounded-lg"
                         >
                           Edit
                         </a>
                         <button
-                        //   onClick={() => {
-                        //     handleModal(item?._id);
-                        //   }}
+                          onClick={() => {
+                            handleModal(item?._id);
+                          }}
                           className="py-2 leading-none px-3 font-semibold text-red-500 hover:text-red-600 duration-150 hover:bg-gray-50 rounded-lg"
                         >
                           Delete
@@ -117,9 +140,9 @@ const Dip = () => {
             </table>
           </div>
         </div>
-        {/* {showDeleteModal && (
+        {showDeleteModal && (
           <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
-        )} */}
+        )}
       </>
     )
 }

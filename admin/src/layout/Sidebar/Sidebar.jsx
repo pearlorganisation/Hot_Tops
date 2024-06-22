@@ -45,7 +45,7 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
       isDropDown: true,
       subItems: [
         { title: "Sides", path: "/sides" },
-        { title: "Sides Category", path: "/category" },
+        { title: "Sides Category", path: "/sidesCategory" },
         { title: "Sides Filter", path: "/sidesFilter" },
       ],
     },

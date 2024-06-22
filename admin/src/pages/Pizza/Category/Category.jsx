@@ -1,22 +1,44 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { getCategory } from '../../../features/actions/pizza/categoryPizza'
+import { deleteCategory, getCategory } from '../../../features/actions/pizza/categoryPizza'
 import { Stack,Skeleton } from '@mui/material';
+import Delete from '../../../components/delete';
 
 
 const Category = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const {categoryData,isLoading } = useSelector(state => state.pizzaCategory)
+    const {isDeleted,categoryData,isLoading } = useSelector(state => state.pizzaCategory)
   
-    useEffect(() => {
-        dispatch(getCategory())
-    }, [])
-
+    
     const handleAddCategory = () => {
-        navigate('/createPizzaCategory');
+      navigate('/createPizzaCategory');
       };
+
+      const [showDeleteModal, setShowDeleteModal] = useState(false);
+      const [id, setId] = useState();
+      
+      const handleModal = (ID) => {
+        setShowDeleteModal(true);
+        setId(ID);
+        }; 
+        const handleDelete = () => {
+          dispatch(deleteCategory(id));
+          
+          setShowDeleteModal(false);
+          setId('');
+          };
+      
+      useEffect(() => {
+          dispatch(getCategory())
+      }, [])
+
+      useEffect(() => {
+        if(isDeleted){
+          dispatch(getCategory());
+        }
+          }, [isDeleted]);
 
     return (
         <>
@@ -75,17 +97,17 @@ const Category = () => {
                      
                       <td className=" whitespace-nowrap">
                         <a
-                        //   onClick={() => {
-                        //     navigate(`/updateCategory/${item?._id}`, { state: item  });
-                        //   }}
+                          onClick={() => {
+                            navigate(`/updatePizzaCategory/${item?._id}`, { state: item  });
+                          }}
                           className="cursor-pointer py-2 px-3 font-semibold text-green-600 hover:text-green-700 duration-150 hover:bg-gray-50 rounded-lg"
                         >
                           Edit
                         </a>
                         <button
-                        //   onClick={() => {
-                        //     handleModal(item?._id);
-                        //   }}
+                          onClick={() => {
+                            handleModal(item?._id);
+                          }}
                           className="py-2 leading-none px-3 font-semibold text-red-500 hover:text-red-600 duration-150 hover:bg-gray-50 rounded-lg"
                         >
                           Delete
@@ -99,9 +121,9 @@ const Category = () => {
             </table>
           </div>
         </div>
-        {/* {showDeleteModal && (
+        {showDeleteModal && (
           <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
-        )} */}
+        )}
       </>
     )
 }
