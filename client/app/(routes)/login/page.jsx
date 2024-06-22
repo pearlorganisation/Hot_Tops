@@ -39,7 +39,7 @@ const Page = () => {
       console.log(newData);
       if (newData?.status === true) {
         const userData = { isUserLoggedIn: true, data: newData.data }
-        localStorage.setItem('userData', JSON.stringify(userData))
+
         dispatch(addUserData(userData))
 
         router.push('/')

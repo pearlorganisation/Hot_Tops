@@ -1,8 +1,12 @@
+"use client"
+import { userLogout } from '@/app/lib/features/auth/authSlice'
 import Link from 'next/link'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 
 const page = ({ searchParams }) => {
     const { tab } = searchParams
+    const dispatch = useDispatch()
     console.log(tab, "tab")
     return (
         <div>
@@ -27,9 +31,11 @@ const page = ({ searchParams }) => {
                                 </a>
                             </li>
                             <li>
-                                <a href="#" className="block p-2 text-red-500 hover:underline">
+                                <button onClick={() => {
+                                    dispatch(userLogout())
+                                }} className="block p-2 text-red-500 hover:underline">
                                     Log Out
-                                </a>
+                                </button>
                             </li>
                         </ul>
                     </div>
