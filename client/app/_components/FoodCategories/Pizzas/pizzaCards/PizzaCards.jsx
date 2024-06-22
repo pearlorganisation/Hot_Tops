@@ -66,6 +66,7 @@ const PizzaCards = ({ data, dummyData, idx }) => {
                       name: data?.pizzaName,
                       img: data?.banner,
                       size: selectedData,
+                      id: data?._id,
                     })
                   );
               }}

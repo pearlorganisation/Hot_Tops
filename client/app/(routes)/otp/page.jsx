@@ -6,9 +6,12 @@ import { useRouter } from "next/navigation";
 
 const OTPReceiver = () => {
   // ----------------------------------------hooks----------------------------------------
-  const { email, password, firstName, lastName } = useSelector((state) => state.auth);
+  const { email, password, firstName, lastName } = useSelector(
+    (state) => state.auth
+  );
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
+  const [response, setResponse] = useState("");
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -47,8 +50,12 @@ const OTPReceiver = () => {
           }
         );
         const newData = await data.json();
-        dispatch(getcredentials({ email: "", password: "" }));
-        router.push("/login");
+
+        if (newData.status === true) {
+          dispatch(getcredentials({ email: "", password: "" }));
+          router.push("/login");
+        }
+        setResponse(newData);
         console.log(newData);
       } catch (error) {
         console.log(error);
@@ -61,6 +68,13 @@ const OTPReceiver = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="max-w-md w-full bg-white shadow-md rounded-lg p-8">
+        {response && response?.status == false ? (
+          <div className="p-2 text-center text-red-600 font-semibold">
+            {response?.message}!
+          </div>
+        ) : (
+          ""
+        )}
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
           Enter OTP
         </h2>
