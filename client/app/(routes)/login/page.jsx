@@ -1,6 +1,7 @@
 "use client";
 import { addUserData } from "@/app/lib/features/auth/authSlice";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -9,6 +10,7 @@ import { toast } from "react-toastify";
 const Page = () => {
   // ----------------------------Hooks-------------------------------------
   const [response, setResponse] = useState(null);
+  const router = useRouter()
   const dispatch = useDispatch()
   const {
     register,
@@ -39,7 +41,8 @@ const Page = () => {
         const userData = { isUserLoggedIn: true, data: newData.data }
         localStorage.setItem('userData', JSON.stringify(userData))
         dispatch(addUserData(userData))
-        console.log("fksajflkasfkld");
+
+        router.push('/')
         toast.success("login successfully");
       }
 

@@ -3,10 +3,13 @@
 import React from "react";
 import { useAppSelector } from "@/app/lib/hooks";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 const Cart = () => {
   // ----------------------hooks------------------------------------
   const cart = useSelector((state) => state.cart.cartData);
+
+  const router = useRouter()
 
   return (
     <>
@@ -53,7 +56,9 @@ const Cart = () => {
               </div>
             );
           })}
-        <div className="bg-green-500 text-white text-center py-3 cursor-pointer">
+        <div onClick={()=>{
+          router.push('/order/orders')
+        }} className="bg-green-500 text-white text-center py-3 cursor-pointer">
           <span>Select time & place</span>
         </div>
       </div>

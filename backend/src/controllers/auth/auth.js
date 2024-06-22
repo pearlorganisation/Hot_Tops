@@ -85,7 +85,7 @@ export const signUp = asyncErrorHandler(async (req, res) => {
 
 // --------------verifyOtp-----------------------
 export const verifyOtp = asyncErrorHandler(async (req, res) => {
-  const { email, password, otp } = req?.body;
+  const { email, password, otp, firstName, lastName } = req?.body;
 
   // --finding otp in otp model
   const isOtpValid = await optModel.findOne({ email, otp });
@@ -97,7 +97,12 @@ export const verifyOtp = asyncErrorHandler(async (req, res) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const newData = new auth({ email, password: hashedPassword });
+  const newData = new auth({
+    firstName,
+    lastName,
+    email,
+    password: hashedPassword,
+  });
   await newData.save();
 
   res.status(200).json({
@@ -140,6 +145,7 @@ export const login = asyncErrorHandler(async (req, res) => {
   res.status(201).json({
     status: true,
     message: "login successfully",
+    data: isUserExist,
   });
 });
 
