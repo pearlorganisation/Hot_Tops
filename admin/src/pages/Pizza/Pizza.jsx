@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { Stack,Skeleton } from '@mui/material';
 import { deletePizza, getPizza } from '../../features/actions/pizza/pizza';
 import Delete from '../../components/delete';
+import { getCategory } from '../../features/actions/pizza/categoryPizza';
+import { getFilter } from '../../features/actions/pizza/filterPizza';
 
 
 
@@ -32,6 +34,9 @@ const Pizza = () => {
       
       useEffect(() => {
           dispatch(getPizza())
+          dispatch(getCategory())
+          dispatch(getFilter())
+          
       }, [])
 
       useEffect(() => {

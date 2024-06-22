@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { Stack, Skeleton } from '@mui/material';
 import { deleteSides, getSides } from '../../features/actions/sides/sides';
 import Delete from '../../components/delete';
+import { getCategory } from '../../features/actions/sides/categorySides';
+import { getFilter } from '../../features/actions/sides/filterSides';
 
 
 
@@ -32,6 +34,8 @@ const Sides = () => {
     
     useEffect(() => {
       dispatch(getSides())
+      dispatch(getCategory())
+      dispatch(getFilter())
     }, [])
 
   useEffect(() => {
