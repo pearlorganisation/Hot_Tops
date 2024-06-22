@@ -64,12 +64,14 @@ const Header = () => {
           className={`flex justify-end gap-6 items-center w-[70%] ${raleway.variable} font-Raleway font-[700] `}
         >
           {
-            userDatas?.isUserLoggedIn ? <div className="flex justify-start items-center gap-2">  <FaRegUserCircle size={25} />{userDatas?.data?.firstName} {userDatas?.data?.lastName}</div> : <div className="flex">
-              <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
-                <Link href="/signUp">Sign in / Register</Link>
-              </li>
+            userDatas?.isUserLoggedIn ?
+              <Link href='/profile?tab=1'><div className="flex justify-start items-center gap-2">  <FaRegUserCircle size={25} />{userDatas?.data?.firstName} {userDatas?.data?.lastName}</div></Link>
+              : <div className="flex">
+                <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
+                  <Link href="/signUp">Sign in / Register</Link>
+                </li>
 
-            </div>
+              </div>
           }
           <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
             <Link href="">Select store</Link>
