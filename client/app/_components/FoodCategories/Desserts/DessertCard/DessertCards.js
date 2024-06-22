@@ -53,6 +53,7 @@ const DessertCards = ({ data, dummyData, idx }) => {
                     name: data?.dessertName,
                     img: data?.banner,
                     size: selectedData || data?.price,
+                    id: data?._id,
                   })
                 );
               }}
