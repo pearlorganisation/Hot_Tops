@@ -46,14 +46,14 @@ const Header = () => {
   return (
     <div className=" bg-white z-10 ">
       <div className="flex justify-around items-center">
-        <div className="w-[30%] flex justify-center">
+        <Link href='/' className="w-[30%] flex justify-center">
           <Image
             src={logo}
             className=" bg-white  xl:hidden "
             alt="logo"
             width={120}
           />
-        </div>
+        </Link>
         <ul
           className={`flex justify-end gap-6 items-center w-[70%] ${raleway.variable} font-Raleway font-[700] `}
         >
@@ -83,12 +83,14 @@ const Header = () => {
         </ul>
       </div>
       <div className="bg-red-600 relative">
-        <Image
-          src={logo}
-          className=" bg-white hidden xl:block xl:absolute xl:bottom-0 left-8"
-          alt="logo"
-          width={150}
-        />
+        <Link href='/'>
+          <Image
+            src={logo}
+            className=" bg-white hidden xl:block xl:absolute xl:bottom-0 left-8"
+            alt="logo"
+            width={150}
+          />
+        </Link>
         <ul className="flex items-center xl:pl-24  text-white font-semibold w-full  lg:w-[50vw]  lg:mx-5 lg:ml-20 flex-wrap">
           <Link href={`/menu/deals`}>
             <li

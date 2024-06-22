@@ -63,7 +63,7 @@ const page = ({ searchParams }) => {
                                             type="text"
                                             id="first-name"
                                             className="w-full p-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                                            defaultValue="Rahul"
+                                            placeholder='Enter Your First Name'
                                         />
                                         {/* <CheckIcon className="absolute top-1/2 right-3 transform -translate-y-1/2 text-red-500" /> */}
                                     </div>
@@ -77,7 +77,7 @@ const page = ({ searchParams }) => {
                                             type="text"
                                             id="last-name"
                                             className="w-full p-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                                            defaultValue="Rawat"
+                                            placeholder='Enter Your Last Name'
                                         />
                                         {/* <CheckIcon className="absolute top-1/2 right-3 transform -translate-y-1/2 text-red-500" /> */}
                                     </div>
@@ -92,7 +92,7 @@ const page = ({ searchParams }) => {
                                         type="text"
                                         id="mobile"
                                         className="w-full p-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                                        defaultValue="02085656656"
+                                        placeholder='Enter Mobile Number'
                                     />
                                     {/* <CheckIcon className="absolute top-1/2 right-3 transform -translate-y-1/2 text-red-500" /> */}
                                 </div>
@@ -106,7 +106,7 @@ const page = ({ searchParams }) => {
                                         type="text"
                                         id="telephone"
                                         className="w-full p-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                                        defaultValue="02085656656"
+                                        placeholder='Enter Telephone'
                                     />
                                     {/* <CheckIcon className="absolute top-1/2 right-3 transform -translate-y-1/2 text-red-500" /> */}
                                 </div>
