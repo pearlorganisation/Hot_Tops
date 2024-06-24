@@ -1,10 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import SizeAndBasesModal from "../../../../../../components/FoodCustomizationDialog/SizeAndBasesModal";
 import { useDispatch, useSelector } from "react-redux";
 import { RiDeleteBin5Line } from "react-icons/ri";
-import { deleteBasePizza } from "../../../../../../features/actions/pizza/deleteCustomization/deleteBasePizza";
+
+
 import EditItem from "../../../../../../components/FoodCustomizationDialog/EditItemModel/EditItem";
+import { deleteBasePizza } from "../../../../../../features/actions/pizza/deleteCustomization";
+
 
 const BaseContainer = () => {
   const { base } = useSelector((state) => state.pizza);
@@ -16,6 +19,9 @@ const BaseContainer = () => {
   function handleModalOpen() {
     modalRef.current.open();
   }
+  
+
+  
 
   function handleEditItem(data) {
     editRef.current.open();
@@ -23,7 +29,7 @@ const BaseContainer = () => {
   }
 
   function handleDeleteItem(id) {
-    dispatch(deleteBasePizza(id));
+    dispatch(deleteBasePizza(id))
   }
 
   return (
