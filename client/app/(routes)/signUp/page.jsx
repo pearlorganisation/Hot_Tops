@@ -31,8 +31,8 @@ const Page = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            email: data.email,
-            password: data.password,
+            email: data?.email,
+            password: data?.password,
             firstName: data?.firstName,
             lastName: data?.lastName,
           }),
@@ -51,8 +51,9 @@ const Page = () => {
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
       }
-      router.push("/otp");
-      const result = await response.json();
+      if (newData.success === true) {
+        router.push("/otp");
+      }
 
       // Add your logic for a successful signup
     } catch (error) {
@@ -60,7 +61,7 @@ const Page = () => {
       // Handle error (e.g., show an error message to the user)
     }
   };
-  console.log(response, "kdsjfkdsjf");
+
   return (
     <>
       <div className="bg-gray-100 flex items-center justify-center ">
