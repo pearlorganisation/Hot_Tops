@@ -1,11 +1,11 @@
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import { useForm} from "react-hook-form";
 import { useDispatch } from "react-redux";
+
 import { postSaucePizza } from "../../features/actions/pizza/postCustomization/postSaucePizza";
 import { postCheesePizza } from "../../features/actions/pizza/postCustomization/postCheesePizza";
 import { postMeatTopping } from "../../features/actions/pizza/postCustomization/postMeatTopping";
 import { postVegTopping } from "../../features/actions/pizza/postCustomization/postVegTopping";
-import { getCheesePizza, getMeatTopping, getSaucePizza, getVegetarianTopping } from "../../features/actions/pizza/getCustomization";
 
 
 const FoodModal = forwardRef((props, ref) => {
@@ -29,21 +29,17 @@ const FoodModal = forwardRef((props, ref) => {
     
     if(props.itemName === 'Sauce'){
       dispatch(postSaucePizza(data));
-      dispatch(getSaucePizza());
     }
     else if (props.itemName === 'Cheese'){
       dispatch(postCheesePizza(data));
-      dispatch(getCheesePizza());
     }
       
     else if(props.itemName === 'MEAT TOPPINGS'){
       dispatch(postMeatTopping(data));
-      dispatch(getMeatTopping());
     }
     
     else if(props.itemName === "VEGETARIAN TOPPINGS"){
       dispatch(postVegTopping(data));
-      dispatch(getVegetarianTopping());
     }
       
     console.log(data);

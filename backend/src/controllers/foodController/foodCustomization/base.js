@@ -21,13 +21,10 @@ export const updateBaseCustomization = asyncErrorHandler(async (req, res, next) 
       if (!data)
         return next(new CustomError("No data found with given id!!", 400));
 
-      const updatedData = await baseCustomizationModel.find();
 
       return res.status(200).json({
       success: true,
-      message: `Base Customization Updated Successfully`,
-      updatedData
-    });
+      message: `Base Customization Updated Successfully`});
   }
 );
 
@@ -39,9 +36,8 @@ export const createBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
 
   await data.save()
   
-  const updatedData = await baseCustomizationModel.find();
 
- res.status(201).json({status:true,message:"Base Customization created successfully",updatedData})
+ res.status(201).json({status:true,message:"Base Customization created successfully"})
   }
 )
 
@@ -73,8 +69,7 @@ export const deleteBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
        if(!isValidId){
          return next(new CustomError("No data found with given id!!", 400))
          }
-        const data = await baseCustomizationModel.find();
- res.status(200).json( {status:true,message:"Base Customization data deleted successfully", data})
+ res.status(200).json( {status:true,message:"Base Customization data deleted successfully"})
 
   
 

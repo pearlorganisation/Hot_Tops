@@ -14,6 +14,7 @@ import dessert from "./slice/dessert/dessert";
 import pizzaCategory from "./slice/pizza/categoryPizza";
 import pizzaFilter from "./slice/pizza/filterPizza"
 import pizza from "./slice/pizza/pizza";
+import pizzaSlice from "./slice/pizza/pizzaSlice";
 import drink from "./slice/drink/drink";
 import dip from "./slice/dip/dip";
 
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   dip,
   pizzaCategory,
   pizzaFilter,
+  pizzaSlice,
   pizza
   
   });

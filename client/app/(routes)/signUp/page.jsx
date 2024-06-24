@@ -55,6 +55,9 @@ const Page = () => {
         router.push("/otp");
       }
 
+      const result = await response.json();
+
+
       // Add your logic for a successful signup
     } catch (error) {
       console.error("Error during signup:", error.message);
@@ -84,9 +87,8 @@ const Page = () => {
               <input
                 type="text"
                 id="register-email"
-                className={`w-full px-3 py-2 border ${
-                  errors.firstName ? "border-red-500" : "border-gray-300"
-                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                className={`w-full px-3 py-2 border ${errors.firstName ? "border-red-500" : "border-gray-300"
+                  } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
                 placeholder="Enter your First Name"
                 {...register("firstName", {
                   required: true,
@@ -105,9 +107,8 @@ const Page = () => {
               <input
                 type="text"
                 id="register-email"
-                className={`w-full px-3 py-2 border ${
-                  errors.firstName ? "border-red-500" : "border-gray-300"
-                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                className={`w-full px-3 py-2 border ${errors.firstName ? "border-red-500" : "border-gray-300"
+                  } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
                 placeholder="Enter your Last Name"
                 {...register("lastName", {
                   required: true,
@@ -126,9 +127,8 @@ const Page = () => {
               <input
                 type="email"
                 id="register-email"
-                className={`w-full px-3 py-2 border ${
-                  errors.email ? "border-red-500" : "border-gray-300"
-                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                className={`w-full px-3 py-2 border ${errors.email ? "border-red-500" : "border-gray-300"
+                  } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
                 placeholder="Enter your email"
                 {...register("email", {
                   required: "Email is required",
@@ -154,9 +154,8 @@ const Page = () => {
               <input
                 type="password"
                 id="register-password"
-                className={`w-full px-3 py-2 border ${
-                  errors.password ? "border-red-500" : "border-gray-300"
-                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                className={`w-full px-3 py-2 border ${errors.password ? "border-red-500" : "border-gray-300"
+                  } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
                 placeholder="Enter your password"
                 {...register("password", {
                   required: "Password is required",
@@ -179,9 +178,8 @@ const Page = () => {
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 id="confirm-password"
-                className={`w-full px-3 py-2 border ${
-                  errors.confirmPassword ? "border-red-500" : "border-gray-300"
-                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                className={`w-full px-3 py-2 border ${errors.confirmPassword ? "border-red-500" : "border-gray-300"
+                  } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
                 placeholder="Re-enter your password"
                 {...register("confirmPassword", {
                   required: "Please confirm your password",
