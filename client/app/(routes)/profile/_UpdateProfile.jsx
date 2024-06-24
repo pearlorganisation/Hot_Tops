@@ -18,7 +18,36 @@ const UpdateProfile = () => {
         }
     })
 
-    const onSubmit = (data) => console.log(data)
+    const updateProfile = async (data) => {
+        try {
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/updateProfile`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+
+                        firstName: data?.firstName,
+                        lastName: data?.lastName,
+                        mobileNumber: data?.mobileNumber
+                    }),
+                }
+            );
+            console.log(response, "response")
+
+
+        } catch (error) {
+            console.error("Error during signup:", error.message);
+            // Handle error (e.g., show an error message to the user)
+        }
+    }
+
+    const onSubmit = (data) => {
+        console.log(data)
+        updateProfile(data)
+    }
     return (
         <main className="w-full md:w-3/4 bg-white p-8 rounded-md shadow-md">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
