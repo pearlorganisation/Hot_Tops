@@ -20,6 +20,7 @@ const DrinksCard = ({ data }) => {
         name: data?.drink,
         img: data.banner,
         size: selectedDrink,
+        id: data?._id,
       })
     );
     setIsAddClicked(true);

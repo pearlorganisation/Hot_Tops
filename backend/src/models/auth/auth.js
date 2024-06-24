@@ -19,6 +19,10 @@ const authSchema = new mongoose.Schema(
       type: String,
       required: [true, "password is required"],
     },
+    mobileNumber: {
+      type: String,
+      default:null
+    },
   },
   { timestamps: true }
 );

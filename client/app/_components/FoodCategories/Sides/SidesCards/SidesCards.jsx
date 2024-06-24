@@ -53,6 +53,7 @@ const SidesCards = ({ data, dummyData, idx }) => {
                     name: data?.sideName,
                     img: data?.banner,
                     size: selectedData || data?.price,
+                    id: data?._id,
                   })
                 );
               }}

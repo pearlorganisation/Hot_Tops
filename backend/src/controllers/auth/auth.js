@@ -1,5 +1,5 @@
 import optModel from "../../models/Otp/optModel.js";
-import auth from "../../models/auth/auth.js";
+
 import { asyncErrorHandler } from "../../utils/errors/asyncErrorHandler.js";
 
 import bcrypt, { genSalt } from "bcrypt";
@@ -10,6 +10,7 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { sendMail } from "../../utils/sendmail.js";
 import { genrateOtp } from "../../utils/otp/otp.js";
+import auth from "../../models/auth/auth.js";
 
 export const signUp = asyncErrorHandler(async (req, res) => {
   try {
@@ -84,7 +85,7 @@ export const signUp = asyncErrorHandler(async (req, res) => {
   }
 });
 
-// --------------verifyOtp-----------------------
+// --------------verifyOtp for signup-----------------------
 export const verifyOtp = asyncErrorHandler(async (req, res) => {
   const { email, password, otp, firstName, lastName } = req?.body;
 
@@ -158,4 +159,132 @@ export const logout = asyncErrorHandler(async (req, res) => {
   } catch (error) {
     res.status(500).send(`internal server error: ${error.message}`);
   }
+});
+
+// update profile controller
+export const updateProfile = asyncErrorHandler(async (req, res) => {
+  try {
+    const { id, firstName, lastName, mobileNumber } = req.body;
+
+    const updateUser = await auth.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          firstName,
+          lastName,
+          mobileNumber,
+        },
+      },
+      { new: true }
+    );
+
+    if (!updateUser) {
+      res.status(400).json({
+        status: false,
+        message: " user not exist",
+      });
+    }
+    return res.status(201).json({
+      status: true,
+      message: "profile updated successfully",
+    });
+  } catch (error) {
+    res.status(500).send(`internal server error :${error.message}`);
+  }
+});
+
+// ------------------------reset password controller----------------------------------------
+export const resetPassword = asyncErrorHandler(async (req, res) => {
+  try {
+    const { email, password } = req?.body;
+    const isUserExist = await auth.findOne({ email });
+    if (!isUserExist) {
+      return res.status(404).json({
+        status: false,
+        message: "No user found with this email",
+      });
+    }
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      isUserExist?.password
+    );
+    if (!isPasswordValid) {
+      return res.status(404).json({
+        status: false,
+        message: "wrong password",
+      });
+    }
+
+    // current date
+    const currentDate = new Date();
+
+    // deleting the expire  opt
+    await optModel.deleteMany({
+      expiresAt: { $lt: currentDate },
+      type: "SIGNUP",
+    });
+
+    // genrate the random otp
+    const otp = genrateOtp();
+
+    sendMail(email, otp)
+      .then(async () => {
+        const otpDoc = await optModel.findOneAndUpdate(
+          { email, type: "SIGNUP" },
+          { otp, expiresAt: new Date(Date.now() + 300000) },
+          { $new: true }
+        );
+        if (!otpDoc) {
+          let doc = new optModel({
+            email,
+            type: "FORGOTPASSWORD",
+            otp,
+            expiresAt: new Date(Date.now() + 300000), //expiry time of otp 5mins
+          });
+
+          await doc.save().then(() => {
+            return res
+              .status(200)
+              .json({ success: true, message: "OTP sent successfully" });
+          });
+        } else {
+          return res
+            .status(200)
+            .json({ success: true, message: "OTP sent successfully" });
+        }
+      })
+      .catch((error) => {
+        return res.status(400).json({
+          success: false,
+          message: `Unable to send mail! ${error.message}`,
+        });
+      });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+});
+
+// -----------verify otp for reset password ----------------------------
+export const verifyResetPasswordOtp = asyncErrorHandler(async (req, res) => {
+  const { email, newPassword, otp } = req.body;
+  const isOtpValid = await optModel.findOne({ email, otp });
+  if (!isOtpValid) {
+    return res.status(400).json({ status: false, message: "incorrect otp" });
+  }
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+  const newPass = await auth.findOneAndUpdate(
+    { email },
+    { password: hashedPassword },
+    { $new: true }
+  );
+
+  res.status(201).json({
+    status: true,
+    message: "password updated successfully",
+  });
 });

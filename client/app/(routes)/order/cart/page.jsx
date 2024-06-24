@@ -2,14 +2,16 @@
 
 import React from "react";
 import { useAppSelector } from "@/app/lib/hooks";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import { deletefromCart } from "@/app/lib/features/cartSlice/cartSlice";
 
 const Cart = () => {
   // ----------------------hooks------------------------------------
   const cart = useSelector((state) => state.cart.cartData);
+  const dispatch = useDispatch();
 
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <>
@@ -46,7 +48,10 @@ const Cart = () => {
                   <button className="bg-blue-500 text-white px-2 py-1 rounded">
                     ✎
                   </button>
-                  <button className="bg-red-500 text-white px-2 py-1 rounded">
+                  <button
+                    className="bg-red-500 text-white px-2 py-1 rounded"
+                    onClick={() => dispatch(deletefromCart({ id: data?.id }))}
+                  >
                     🗑
                   </button>
                 </div>
@@ -56,9 +61,12 @@ const Cart = () => {
               </div>
             );
           })}
-        <div onClick={()=>{
-          router.push('/order/orders')
-        }} className="bg-green-500 text-white text-center py-3 cursor-pointer">
+        <div
+          onClick={() => {
+            router.push("/order/orders");
+          }}
+          className="bg-green-500 text-white text-center py-3 cursor-pointer"
+        >
           <span>Select time & place</span>
         </div>
       </div>
