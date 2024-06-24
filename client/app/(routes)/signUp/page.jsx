@@ -51,7 +51,7 @@ const Page = () => {
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
       }
-   if(response.status ===true){
+   if(newData.status ===true){
 
   router.push("/otp");
    }
