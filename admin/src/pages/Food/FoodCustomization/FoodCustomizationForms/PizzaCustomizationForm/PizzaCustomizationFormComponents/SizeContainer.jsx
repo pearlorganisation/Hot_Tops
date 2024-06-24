@@ -3,9 +3,10 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import SizeAndBasesModal from "../../../../../../components/FoodCustomizationDialog/SizeAndBasesModal";
 import { useDispatch, useSelector } from "react-redux";
 import { RiDeleteBin5Line } from "react-icons/ri";
-import { deleteSizePizza } from "../../../../../../features/actions/pizza/deleteCustomization/deleteSizePizza";
+
 import { ConnectingAirportsOutlined } from "@mui/icons-material";
 import EditItem from "../../../../../../components/FoodCustomizationDialog/EditItemModel/EditItem";
+import { deleteSizePizza } from "../../../../../../features/actions/pizza/deleteCustomization";
 
 
 

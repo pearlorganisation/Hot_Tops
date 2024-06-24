@@ -3,12 +3,9 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import FoodModal from "../../../../../../components/FoodCustomizationDialog/FoodModal";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { useDispatch } from "react-redux";
-import { deleteBasePizza } from "../../../../../../features/actions/pizza/deleteCustomization/deleteBasePizza";
-import { deleteSaucePizza } from "../../../../../../features/actions/pizza/deleteCustomization/deleteSaucePizza";
-import { deleteCheesePizza } from "../../../../../../features/actions/pizza/deleteCustomization/deleteCheesePizza";
-import { deleteMeatTopping } from "../../../../../../features/actions/pizza/deleteCustomization/deleteMeatTopping";
-import { deleteVegTopping } from "../../../../../../features/actions/pizza/deleteCustomization/deleteVegTopping";
+import { deleteCheesePizza, deleteMeatTopping, deleteSaucePizza, deleteVegTopping } from "../../../../../../features/actions/pizza/deleteCustomization";
 import EditItem from "../../../../../../components/FoodCustomizationDialog/EditItemModel/EditItem";
+
 
 const CommonContainer = ({ itemName, items }) => {
 

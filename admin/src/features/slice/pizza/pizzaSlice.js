@@ -1,368 +1,114 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-
-import { postBasePizza } from "../../actions/pizza/postCustomization/postBasePizza";
-import { postCheesePizza } from "../../actions/pizza/postCustomization/postCheesePizza";
-import { postSizePizza } from "../../actions/pizza/postCustomization/postSizePizza";
-import { postSaucePizza } from "../../actions/pizza/postCustomization/postSaucePizza";
-import { postVegTopping } from "../../actions/pizza/postCustomization/postVegTopping";
-import { postMeatTopping } from "../../actions/pizza/postCustomization/postMeatTopping";
-import { deleteBasePizza } from "../../actions/pizza/deleteCustomization/deleteBasePizza";
-import { deleteSizePizza } from "../../actions/pizza/deleteCustomization/deleteSizePizza";
-import { deleteCheesePizza } from "../../actions/pizza/deleteCustomization/deleteCheesePizza";
-import { deleteSaucePizza } from "../../actions/pizza/deleteCustomization/deleteSaucePizza";
-import { deleteVegTopping } from "../../actions/pizza/deleteCustomization/deleteVegTopping";
-import { deleteMeatTopping } from "../../actions/pizza/deleteCustomization/deleteMeatTopping";
-import { updateBasePizza } from "../../actions/pizza/updateCustomization/updateBasePizza";
-import { updateSizePizza } from "../../actions/pizza/updateCustomization/updateSizePizza";
-import { updateCheesePizza } from "../../actions/pizza/updateCustomization/updateCheesePizza";
-import { updateSaucePizza } from "../../actions/pizza/updateCustomization/updateSaucePizza";
-import { updateVegTopping } from "../../actions/pizza/updateCustomization/updateVegTopping";
-import { updateMeatTopping } from "../../actions/pizza/updateCustomization/updateMeatTopping";
-import { getBasePizza, getCheesePizza, getMeatTopping, getSaucePizza, getSizePizza, getVegetarianTopping } from "../../actions/pizza/getCustomization";
-
+import { createPizza, deletePizza, getPizza, updatePizza } from "../../actions/pizza/pizza";
+import { toast } from "sonner";
 
 const initialState = {
   isLoading: false,
-  PizzaData: [],
-  isError: false,
-  pizzaFilter: [],
-  pizzaCategory: [],
-  pizzaCustomization: [],
-  base: [],
-  size: [],
-  vegetarianToppings: [],
-  sauce: [],
-  cheese: [],
-  seaTopping: [],
-  meatToppings: [],
+  isSuccess: false,
+  pizzaData: [],
+  isDeleted:false,
+  errorMessage: "",
 };
 
-const pizzaSlice = createSlice({
-  name: "pizza",
+// ---------------------------------------------------------------------------------------
+
+export const pizzaSlice = createSlice({
+  name: "pizzaSlice",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
 
-
-
-    // ---------------------------------------Customization api's  bases,size,etc---------------------
-    // bases get api action and state
-    builder.addCase(getBasePizza.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getBasePizza.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.base = action.payload.data;
-    });
-    builder.addCase(getBasePizza.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // bases post api action and state
-    builder.addCase(postBasePizza.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(postBasePizza.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.base = action.payload.updatedData; // Assuming the response has the new base pizza data
-    });
-    builder.addCase(postBasePizza.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // updateBasePizza cases
-    builder.addCase(updateBasePizza.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(updateBasePizza.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.base = action.payload.updatedData;
-    });
-    builder.addCase(updateBasePizza.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // deleteBasePizza cases
-    builder.addCase(deleteBasePizza.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(deleteBasePizza.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.base = action.payload.data;
-    });
-    builder.addCase(deleteBasePizza.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // Size get api action and state
-    builder.addCase(getSizePizza.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getSizePizza.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.size = action.payload.data;
-    });
-    builder.addCase(getSizePizza.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // size post api action and state
-    builder.addCase(postSizePizza.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(postSizePizza.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.size=action.payload.updatedData; // Assuming the response has the new base pizza data
-    });
-    builder.addCase(postSizePizza.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // updateSizePizza cases
-    builder.addCase(updateSizePizza.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(updateSizePizza.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.size = action.payload.updatedData;
-    });
-    builder.addCase(updateSizePizza.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // deleteSizePizza cases
-    builder.addCase(deleteSizePizza.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(deleteSizePizza.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.size = action.payload.data;
-    });
-    builder.addCase(deleteSizePizza.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // cheese get api action and state
-    builder.addCase(getCheesePizza.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getCheesePizza.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.cheese = action.payload.data;
-    });
-    builder.addCase(getCheesePizza.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // cheese post api action and state
-    builder.addCase(postCheesePizza.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(postCheesePizza.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.cheese = action.payload.updatedData; // Assuming the response has the new base pizza data
-    });
-    builder.addCase(postCheesePizza.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // updateCheesePizza cases
-    builder.addCase(updateCheesePizza.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(updateCheesePizza.fulfilled, (state, action) => {
-      state.isLoading = false;
-      const updatedCheese = action.payload.data;
-      state.cheese = action.payload.updatedData;
-    });
-    builder.addCase(updateCheesePizza.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // deleteCheesePizza cases
-    builder.addCase(deleteCheesePizza.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(deleteCheesePizza.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.cheese = action.payload.data;
-    });
-    builder.addCase(deleteCheesePizza.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // Sauce get api action and state
-    builder.addCase(getSaucePizza.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getSaucePizza.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.sauce = action.payload.data;
-    });
-    builder.addCase(getSaucePizza.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // Sauce post api action and state
-    builder.addCase(postSaucePizza.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(postSaucePizza.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.sauce = action.payload.updatedData; // Assuming the response has the new base pizza data
-    });
-    builder.addCase(postSaucePizza.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // updateSaucePizza cases
-    builder.addCase(updateSaucePizza.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(updateSaucePizza.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.sauce = action.payload.updatedData;
-    });
-    builder.addCase(updateSaucePizza.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // deleteSaucePizza cases
-    builder.addCase(deleteSaucePizza.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(deleteSaucePizza.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.sauce = action.payload.data;
-    });
-    builder.addCase(deleteSaucePizza.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-
-    // Vegetarian Topping get api action and state
-    builder.addCase(getVegetarianTopping.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getVegetarianTopping.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.vegetarianToppings = action.payload.data;
-    });
-    builder.addCase(getVegetarianTopping.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // Veg post api action and state
-    builder.addCase(postVegTopping.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(postVegTopping.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.vegetarianToppings = action.payload.updatedData; // Assuming the response has the new base pizza data
-    });
-    builder.addCase(postVegTopping.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // updateVegPizza cases
-    builder.addCase(updateVegTopping.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(updateVegTopping.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.vegetarianToppings = action.payload.updatedData;
-    });
-    builder.addCase(updateVegTopping.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // delete veg topping cases
-    builder.addCase(deleteVegTopping.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(deleteVegTopping.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.vegetarianToppings = action.payload.data;
-    });
-    builder.addCase(deleteVegTopping.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // MeatTopping get api action and state
-    builder.addCase(getMeatTopping.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getMeatTopping.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.meatToppings = action.payload.data;
-    });
-    builder.addCase(getMeatTopping.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // MeatTopping post api action and state
-    builder.addCase(postMeatTopping.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(postMeatTopping.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.meatToppings =  action.payload.updatedData; // Assuming the response has the new base pizza data
-    });
-    builder.addCase(postMeatTopping.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // updateMeatTopping cases
-    builder.addCase(updateMeatTopping.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(updateMeatTopping.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.meatToppings = action.payload.updatedData;
-    });
-    builder.addCase(updateMeatTopping.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // delete meat topping cases
-    builder.addCase(deleteMeatTopping.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(deleteMeatTopping.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.meatToppings = action.payload.data;
-    });
-    builder.addCase(deleteMeatTopping.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // ----------------------------------------------------------------------------------------------------------------
+      .addCase(createPizza.pending, (state, action) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.errorMessage = "";
+      })
+      .addCase(createPizza.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.errorMessage = "";
+        state.pizzaData = action.payload.data;
+        console.log(state.pizzaData)
+        toast.success("Pizza Added Successfully...",{
+          position:"top-center"
+        });
+      })
+      .addCase(createPizza.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.errorMessage = action.payload;
+        toast.error(action?.payload || "Something went wrong",{
+          position:"top-center"
+        });
+      })
+      .addCase(deletePizza.pending, (state, action) => {
+        state.isLoading = true;
+        state.isDeleted = false;
+        state.errorMessage = "";
+      })
+      .addCase(deletePizza.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isDeleted = true;
+        state.errorMessage = "";
+        toast.success("Pizza Deleted Successfully...",{
+          position:"top-center"
+        });
+      })
+      .addCase(deletePizza.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isDeleted = false;
+        state.errorMessage = action.payload;
+        toast.error(action?.payload || "Something went wrong",{
+          position:"top-center"
+        });
+      })
+      .addCase(updatePizza.pending, (state, action) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.errorMessage = "";
+      })
+      .addCase(updatePizza.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.errorMessage = "";
+        state.pizzaData = action.payload.data;
+        toast.success("Pizza Updated Successfully...",{
+          position:"top-center"
+        });
+      })
+      .addCase(updatePizza.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.errorMessage = action.payload;
+        toast.error(action?.payload || "Something went wrong",{
+          position:"top-center"
+        });
+      })
+      .addCase(getPizza.pending, (state, action) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.errorMessage = "";
+      })
+      .addCase(getPizza.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.errorMessage = "";
+        state.pizzaData = action.payload.data;
+      })
+      .addCase(getPizza.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.errorMessage = action.payload;
+        toast.error(action?.payload || "Something went wrong",{
+            position:"top-center"
+          });
+      });
   },
 });
 
+// -------------------------------------------------------------------------
+
+// Action creators are generated for each case reducer function
+export const {} = pizzaSlice.actions;
 export default pizzaSlice.reducer;
