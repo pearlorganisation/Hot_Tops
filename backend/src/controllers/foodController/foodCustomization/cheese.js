@@ -19,13 +19,12 @@ export const updateCheeseCustomization = asyncErrorHandler(async (req, res, next
       if (!data)
         return next(new CustomError("No data found with given id!!", 400));
 
-      const updatedData = await cheeseCustomizationModel.find();
 
 
     return res.status(200).json({
       success: true,
       message: `Cheese Customization Updated Successfully`,
-      updatedData
+      
     });
   }
 );
@@ -39,7 +38,7 @@ export const createCheeseCustomization = asyncErrorHandler( async(req,res,next)=
   await data.save()
   const updatedData = await cheeseCustomizationModel.find();
 
- res.status(201).json({status:true,message:"Cheese Customization created successfully",updatedData})
+ res.status(201).json({status:true,message:"Cheese Customization created successfully"})
   }
 )
 
@@ -66,7 +65,7 @@ return next(new CustomError("No data found with given id!!", 400))
 const data = await cheeseCustomizationModel.find();
 
 
-res.status(200).json({status:true,message:"Cheese Customization data deleted successfully",data})
+res.status(200).json({status:true,message:"Cheese Customization data deleted successfully"})
 }
 
 )
