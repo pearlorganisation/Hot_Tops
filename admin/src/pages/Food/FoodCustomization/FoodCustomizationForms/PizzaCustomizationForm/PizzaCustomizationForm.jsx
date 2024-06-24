@@ -23,12 +23,14 @@ const PizzaCustomizationForm = () => {
   useEffect(() => {
     dispatch(getBasePizza());
     dispatch(getSaucePizza());
-    dispatch(getCheesePizza());
+    
+    
     dispatch(getSizePizza());
     dispatch(getMeatTopping());
     dispatch(getVegetarianTopping());
 
   }, [dispatch]);
+
 
   return (
     <div className="categoryCustomizationFormContainer p-5 m-3 border border-gray-200 bg-gray-50 rounded-lg grid grid-cols-2 gap-10">
