@@ -7,7 +7,7 @@ export const deleteBasePizza = createAsyncThunk(
     "deleteBasePizza",
     async (id) => {
       try {
-        const res = await instance.delete(`https://hot-house.onrender.com/api/v1/food/customization/base/${id}`);
+        const res = await instance.delete(`/food/customization/base/${id}`);
         return res.data;
       } catch (error) {
         throw new Error("Failed to delete base pizza");
@@ -19,7 +19,7 @@ export const deleteBasePizza = createAsyncThunk(
     "deleteCheesePizza",
     async (id) => {
       try {
-        const res = await instance.delete(`https://hot-house.onrender.com/api/v1/food/customization/cheese/${id}`);
+        const res = await instance.delete(`/food/customization/cheese/${id}`);
         return res.data;
       } catch (error) {
         throw new Error("Failed to delete cheese pizza");
@@ -31,7 +31,7 @@ export const deleteBasePizza = createAsyncThunk(
     "deleteMeatTopping",
     async (id) => {
       try {
-        const res = await instance.delete(`https://hot-house.onrender.com/api/v1/food/customization/meatToppings/${id}`);
+        const res = await instance.delete(`/food/customization/meatToppings/${id}`);
         return res.data;
       } catch (error) {
         throw new Error("Failed to delete meat topping");
@@ -43,7 +43,7 @@ export const deleteBasePizza = createAsyncThunk(
     "deleteSaucePizza",
     async (id) => {
       try {
-        const res = await instance.delete(`https://hot-house.onrender.com/api/v1/food/customization/sauce/${id}`);
+        const res = await instance.delete(`/food/customization/sauce/${id}`);
         return res.data;
       } catch (error) {
         throw new Error("Failed to delete sauce pizza");
@@ -55,7 +55,7 @@ export const deleteBasePizza = createAsyncThunk(
     "deleteSizePizza",
     async (id) => {
       try {
-        const res = await instance.delete(`https://hot-house.onrender.com/api/v1/food/customization/size/${id}`);
+        const res = await instance.delete(`/food/customization/size/${id}`);
         return res.data;
       } catch (error) {
         throw new Error("Failed to delete size pizza");
@@ -67,7 +67,7 @@ export const deleteBasePizza = createAsyncThunk(
     "deleteVegTopping",
     async (id) => {
       try {
-        const res = await instance.delete(`https://hot-house.onrender.com/api/v1/food/customization/vegetarianToppings/${id}`);
+        const res = await instance.delete(`/food/customization/vegetarianToppings/${id}`);
         return res.data;
       } catch (error) {
         throw new Error("Failed to delete vegetarian topping");

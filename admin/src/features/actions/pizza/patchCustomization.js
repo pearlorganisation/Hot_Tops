@@ -6,7 +6,7 @@ export const updateBasePizza = createAsyncThunk(
   async (data) => {
     console.log(data);
     const res = await instance.patch(
-      `https://hot-house.onrender.com/api/v1/food/customization/base/${data._id}`,
+      `food/customization/base/${data._id}`,
       data
     );
 
@@ -22,7 +22,7 @@ export const updateCheesePizza = createAsyncThunk(
   "updateCheesePizza",
   async (data) => {
     const res = await instance.patch(
-      `https://hot-house.onrender.com/api/v1/food/customization/cheese/${data?._id}`,
+      `food/customization/cheese/${data?._id}`,
       data
     );
 
@@ -45,7 +45,7 @@ export const updateMeatTopping = createAsyncThunk(
   "updateMeatTopping",
   async (data) => {
     const res = await instance.patch(
-      `https://hot-house.onrender.com/api/v1/food/customization/meatToppings/${data?._id}`,
+      `food/customization/meatToppings/${data?._id}`,
       data
     );
 
@@ -61,7 +61,7 @@ export const updateSaucePizza = createAsyncThunk(
   "updateSaucePizza",
   async (data) => {
     const res = await instance.patch(
-      `https://hot-house.onrender.com/api/v1/food/customization/sauce/${data?._id}`,
+      `food/customization/sauce/${data?._id}`,
       data
     );
 
@@ -84,7 +84,7 @@ export const updateSizePizza = createAsyncThunk(
   "updateSizePizza",
   async (data) => {
     const res = await instance.patch(
-      `https://hot-house.onrender.com/api/v1/food/customization/size/${data?._id}`,
+      `food/customization/size/${data?._id}`,
       data
     );
 
@@ -100,7 +100,7 @@ export const updateVegTopping = createAsyncThunk(
   "updateVegTopping",
   async (data) => {
     const res = await instance.patch(
-      `https://hot-house.onrender.com/api/v1/food/customization/vegetarianToppings/${data?._id}`,
+      `food/customization/vegetarianToppings/${data?._id}`,
       data
     );
 

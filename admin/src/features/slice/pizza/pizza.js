@@ -17,17 +17,12 @@ import { deleteBasePizza , deleteSizePizza , deleteCheesePizza , deleteSaucePizz
 const initialState = {
   isSuccess:false,
   isLoading: false,
-  PizzaData: [],
   isError: false,
-  pizzaFilter: [],
-  pizzaCategory: [],
-  pizzaCustomization: [],
   base: [],
   size: [],
   vegetarianToppings: [],
   sauce: [],
   cheese: [],
-  seaTopping: [],
   meatToppings: [],
 };
 
@@ -270,7 +265,7 @@ const pizza = createSlice({
     });
     builder.addCase(getVegetarianTopping.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
+      state.vegetarianToppings = action.payload.data;
 
     });
     builder.addCase(getVegetarianTopping.rejected, (state) => {
@@ -325,8 +320,7 @@ const pizza = createSlice({
     });
     builder.addCase(getMeatTopping.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
-
+      state.meatToppings = action.payload.data;
     });
     builder.addCase(getMeatTopping.rejected, (state) => {
       state.isLoading = false;
