@@ -19,7 +19,7 @@ export const updateCategory = asyncErrorHandler(async(req,res,next)=>{
 return next ( new CustomError("This Id Doesn't exist",400) )
   }
 
-  res.status(200).json({status:true,message:"Dessert Updated Successfully"})
+  res.status(200).json({status:true,message:"Dessert Updated Successfully",data})
 })
 
 export const deleteCategory = asyncErrorHandler(async(req,res,next)=>{

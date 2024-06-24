@@ -1,22 +1,49 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Stack, Skeleton } from '@mui/material';
-import { getSides } from '../../features/actions/sides/sides';
+import { deleteSides, getSides } from '../../features/actions/sides/sides';
+import Delete from '../../components/delete';
+import { getCategory } from '../../features/actions/sides/categorySides';
+import { getFilter } from '../../features/actions/sides/filterSides';
 
 
 
 const Sides = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { sidesData, isLoading } = useSelector(state => state.sides)
-  useEffect(() => {
-    dispatch(getSides())
-  }, [])
-
+  const {isDeleted, sidesData, isLoading } = useSelector(state => state.sides)
+  
   const handleAddCategory = () => {
     navigate('/createSides');
-  };
+    };
+
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [id, setId] = useState();
+    
+    const handleModal = (ID) => {
+      setShowDeleteModal(true);
+      setId(ID);
+      }; 
+      const handleDelete = () => {
+        dispatch(deleteSides(id));
+        
+        setShowDeleteModal(false);
+        setId('');
+        };
+    
+    useEffect(() => {
+      dispatch(getSides())
+      dispatch(getCategory())
+      dispatch(getFilter())
+    }, [])
+
+  useEffect(() => {
+    if(isDeleted){
+      dispatch(getSides());
+    }
+      }, [isDeleted]);
+    
 
   return (
     <>
@@ -87,17 +114,17 @@ const Sides = () => {
 
                     <td className=" whitespace-nowrap">
                       <a
-                        //   onClick={() => {
-                        //     navigate(`/updateCategory/${item?._id}`, { state: item  });
-                        //   }}
+                          onClick={() => {
+                            navigate(`/updateSides/${item?._id}`, { state: item  });
+                          }}
                         className="cursor-pointer py-2 px-3 font-semibold text-green-600 hover:text-green-700 duration-150 hover:bg-gray-50 rounded-lg"
                       >
                         Edit
                       </a>
                       <button
-                        //   onClick={() => {
-                        //     handleModal(item?._id);
-                        //   }}
+                          onClick={() => {
+                            handleModal(item?._id);
+                          }}
                         className="py-2 leading-none px-3 font-semibold text-red-500 hover:text-red-600 duration-150 hover:bg-gray-50 rounded-lg"
                       >
                         Delete
@@ -111,9 +138,9 @@ const Sides = () => {
           </table>
         </div>
       </div>
-      {/* {showDeleteModal && (
+      {showDeleteModal && (
           <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
-        )} */}
+        )}
     </>
   )
 }

@@ -1,17 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createPizza } from "../../actions/pizza/createPizza";
-import { getPizzasFilter } from "../../actions/pizza/getPizzasFilter";
-import { getPizzasCategories } from "../../actions/pizza/getPizzasCategories";
-import { getPizzaCustomization } from "../../actions/pizza/getPizzaCustomization";
-import { putPizzaCustomization } from "../../actions/pizza/postCustomization/postPizzaCustomization";
-import { getBasePizza } from "../../actions/pizza/getCustomization/getBasePizza";
+
+
 import { postBasePizza } from "../../actions/pizza/postCustomization/postBasePizza";
-import { getSizePizza } from "../../actions/pizza/getCustomization/getSlicePizza";
-import { getSaucePizza } from "../../actions/pizza/getCustomization/getSaucePizza";
-import { getCheesePizza } from "../../actions/pizza/getCustomization/getCheesePizza";
-import { getSeaFoodTopping } from "../../actions/pizza/getCustomization/getSeaFoodTopping";
-import { getMeatTopping } from "../../actions/pizza/getCustomization/getMeatTopping";
-import { getVegetarianTopping } from "../../actions/pizza/getCustomization/getVegetarianTopping";
 import { postCheesePizza } from "../../actions/pizza/postCustomization/postCheesePizza";
 import { postSizePizza } from "../../actions/pizza/postCustomization/postSizePizza";
 import { postSaucePizza } from "../../actions/pizza/postCustomization/postSaucePizza";
@@ -29,6 +19,8 @@ import { updateCheesePizza } from "../../actions/pizza/updateCustomization/updat
 import { updateSaucePizza } from "../../actions/pizza/updateCustomization/updateSaucePizza";
 import { updateVegTopping } from "../../actions/pizza/updateCustomization/updateVegTopping";
 import { updateMeatTopping } from "../../actions/pizza/updateCustomization/updateMeatTopping";
+import { getBasePizza, getCheesePizza, getMeatTopping, getSaucePizza, getSizePizza, getVegetarianTopping } from "../../actions/pizza/getCustomization";
+
 
 const initialState = {
   isLoading: false,
@@ -51,70 +43,8 @@ const pizzaSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // create pizza api action and state
-    builder.addCase(createPizza.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(createPizza.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.PizzaData = action.payload;
-    });
-    builder.addCase(createPizza.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
 
-    // pizza filter api action and state
-    builder.addCase(getPizzasFilter.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getPizzasFilter.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.pizzaFilter = action.payload;
-    });
-    builder.addCase(getPizzasFilter.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
 
-    // category api action and state
-    builder.addCase(getPizzasCategories.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getPizzasCategories.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.pizzaCategory = action.payload;
-    });
-    builder.addCase(getPizzasCategories.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // customization api action and state
-    builder.addCase(getPizzaCustomization.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getPizzaCustomization.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.pizzaCustomization = action.payload;
-    });
-    builder.addCase(getPizzaCustomization.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
-
-    // customization put api action and state
-    builder.addCase(putPizzaCustomization.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(putPizzaCustomization.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.pizzaCustomization = action.payload;
-    });
-    builder.addCase(putPizzaCustomization.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
 
     // ---------------------------------------Customization api's  bases,size,etc---------------------
     // bases get api action and state
@@ -326,18 +256,6 @@ const pizzaSlice = createSlice({
       state.isError = true;
     });
 
-    // SeaTopping get api action and state
-    builder.addCase(getSeaFoodTopping.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getSeaFoodTopping.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.seaTopping = action.payload.data;
-    });
-    builder.addCase(getSeaFoodTopping.rejected, (state) => {
-      state.isLoading = false;
-      state.isError = true;
-    });
 
     // Vegetarian Topping get api action and state
     builder.addCase(getVegetarianTopping.pending, (state) => {

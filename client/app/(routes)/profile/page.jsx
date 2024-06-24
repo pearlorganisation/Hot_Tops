@@ -29,9 +29,9 @@ const page = ({ searchParams }) => {
                                 </Link>
                             </li>
                             <li>
-                                <a href="#" className="block p-2 text-red-500 hover:underline">
+                                <Link href="#" className="block p-2 text-red-500 hover:underline">
                                     Delete my account
-                                </a>
+                                </Link>
                             </li>
                             <li>
                                 <button onClick={() => {

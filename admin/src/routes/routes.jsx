@@ -25,6 +25,17 @@ import CreatePizzaFilter from "../pages/Pizza/Filter/CreateFilter";
 import Pizza from "../pages/Pizza/Pizza";
 import CreatePizza from "../pages/Pizza/CreatePizza";
 import UpdateDessert from "../pages/Dessert/EditDessert";
+import UpdateSides from "../pages/Sides/EditSides";
+import UpdatePizza from "../pages/Pizza/EditPizza";
+import UpdateDip from "../pages/Dip/EditDip";
+import UpdateDrink from "../pages/Drink/EditDrink";
+import UpdateDessertCategory from "../pages/Dessert/Category/EditCategory"
+import UpdateDessertFilter from "../pages/Dessert/Filter/EditFilter"
+import UpdatePizzaCategory from "../pages/Pizza/Category/EditCategory"
+import UpdatePizzaFilter from "../pages/Pizza/Filter/EditFilter"
+import UpdateSidesCategory from "../pages/Sides/Category/EditCategory"
+import UpdateSidesFilter from "../pages/Sides/Filter/EditFilter"
+
 // ---------------------------------------------------------------------------------------------------
 
 export const appRouter = createBrowserRouter([
@@ -32,24 +43,20 @@ export const appRouter = createBrowserRouter([
     path: "/",
     element: <DefaultLayout />,
     children: [
-      // {
-      //   path: "/food-items",
-      //   element: <FoodItems />,
-      // },
       {
         path: "/food-customization",
         element: <FoodCustomization />,
       },
       {
-        path: "/create-pizza",
-        element: <CreatePizza />,
-      },
-      {
-        path: "/category",
+        path: "/sidesCategory",
         element: <Category />,
       },
       {
-        path: "/createCategory",
+        path: "/updateSidesCategory/:id",
+        element: <UpdateSidesCategory />,
+      },
+      {
+        path: "/createSidesCategory",
         element: <CreateCategory />,
       },
       {
@@ -61,12 +68,20 @@ export const appRouter = createBrowserRouter([
         element: <CreateSides />,
       },
       {
+        path: "/updateSides/:id",
+        element: <UpdateSides />,
+      },
+      {
         path: "/sidesFilter",
         element: <Filter />,
       },
       {
         path: "/createSidesFilter",
         element: <CreateFilter />,
+      },
+      {
+        path: "/updateSidesFilter/:id",
+        element: <UpdateSidesFilter />,
       },
       {
         path: "/dessertCategory",
@@ -77,12 +92,20 @@ export const appRouter = createBrowserRouter([
         element: <CreateDessertCategory />,
       },
       {
+        path: "/updateDessertCategory/:id",
+        element: <UpdateDessertCategory />,
+      },
+      {
         path: "/createDessertFilter",
         element: <CreateDessertFilter />,
       },
       {
         path: "/dessertFilter",
         element: <DessertFilter />,
+      },
+      {
+        path: "/updateDessertFilter/:id",
+        element: <UpdateDessertFilter />,
       },
       {
         path: "/dessert",
@@ -105,12 +128,20 @@ export const appRouter = createBrowserRouter([
         element: <CreateDrink />,
       },
       {
+        path: "/updateDrink/:id",
+        element: <UpdateDrink />,
+      },
+      {
         path: "/dip",
         element: <Dip />,
       },
       {
         path: "/createDip",
         element: <CreateDip />,
+      },
+      {
+        path: "/updateDip/:id",
+        element: <UpdateDip />,
       },
       {
         path: "/pizzaCategory",
@@ -121,6 +152,10 @@ export const appRouter = createBrowserRouter([
         element: <CreatePizzaCategory />,
       },
       {
+        path: "/updatePizzaCategory/:id",
+        element: <UpdatePizzaCategory />,
+      },
+      {
         path: "/pizzaFilter",
         element: <PizzaFilter />,
       },
@@ -129,12 +164,20 @@ export const appRouter = createBrowserRouter([
         element: <CreatePizzaFilter />,
       },
       {
+        path: "/updatePizzaFilter/:id",
+        element: <UpdatePizzaFilter />,
+      },
+      {
         path: "/pizza",
         element: <Pizza />,
       },
       {
         path: "/createPizza",
         element: <CreatePizza/>,
+      },
+      {
+        path: "/updatePizza/:id",
+        element: <UpdatePizza />,
       },
     ],
   },

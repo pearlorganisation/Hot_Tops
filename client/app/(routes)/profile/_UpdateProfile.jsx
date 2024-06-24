@@ -10,7 +10,13 @@ const UpdateProfile = () => {
         handleSubmit,
         watch,
         formState: { errors },
-    } = useForm()
+    } = useForm({
+        defaultValues: {
+            firstName: userData?.firstName,
+            lastName: userData?.lastName,
+            mobileNumber: userData?.mobileNumber
+        }
+    })
 
     const onSubmit = (data) => console.log(data)
     return (
@@ -66,20 +72,7 @@ const UpdateProfile = () => {
                         {/* <CheckIcon className="absolute top-1/2 right-3 transform -translate-y-1/2 text-red-500" /> */}
                     </div>
                 </div>
-                <div className="space-y-1">
-                    <label htmlFor="telephone" className="block font-medium">
-                        Telephone
-                    </label>
-                    <div className="relative">
-                        <input
-                            type="text"
-                            id="telephone"
-                            className="w-full p-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                            placeholder='Enter Telephone'
-                        />
-                        {/* <CheckIcon className="absolute top-1/2 right-3 transform -translate-y-1/2 text-red-500" /> */}
-                    </div>
-                </div>
+
                 <div className="flex items-start space-x-2">
                     <input type="checkbox" id="offers" className=" accent-red-500" />
                     <label htmlFor="offers" className="text-sm font-medium leading-none">

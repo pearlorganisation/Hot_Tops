@@ -1,21 +1,44 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { deleteFilter, getFilter } from '../../../features/actions/dessert/filterDessert'
 import { Stack,Skeleton } from '@mui/material';
-import { getFilter } from '../../../features/actions/dessert/filterDessert';
+import Delete from '../../../components/delete';
 
 
 const Filter = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const { filterData,isLoading } = useSelector(state => state.dessertFilter)
-    useEffect(() => {
-        dispatch(getFilter())
-    }, [])
-
-    const handleAddCategory = () => {
-        navigate('/createDessertFilter');
+    const {isDeleted,filterData,isLoading } = useSelector(state => state.dessertFilter)
+  
+    
+    const handleAddFilter = () => {
+      navigate('/createDessertFilter');
       };
+
+      const [showDeleteModal, setShowDeleteModal] = useState(false);
+      const [id, setId] = useState();
+      
+      const handleModal = (ID) => {
+        setShowDeleteModal(true);
+        setId(ID);
+        }; 
+        const handleDelete = () => {
+          dispatch(deleteFilter(id));
+          
+          setShowDeleteModal(false);
+          setId('');
+          };
+      
+      useEffect(() => {
+          dispatch(getFilter())
+      }, [])
+
+      useEffect(() => {
+        if(isDeleted){
+          dispatch(getFilter());
+        }
+          }, [isDeleted]);
 
     return (
         <>
@@ -26,12 +49,12 @@ const Filter = () => {
                 Manage Dessert Filter
               </h3>
               <p className="text-gray-600 text-sm mt-2">
-              This page is for handle dessert filter by create , update and delete
+              This page is for handle dessert filter by create, update and delete
               </p>
             </div>
             <div className="mt-3 md:mt-0">
               <button
-                onClick={handleAddCategory}
+                onClick={handleAddFilter}
                 className="inline-block px-4 py-2 text-white duration-150 font-medium bg-red-500 rounded-lg hover:bg-red-600 active:bg-red-500 md:text-sm"
               >
                 Add Filter
@@ -74,17 +97,17 @@ const Filter = () => {
                      
                       <td className=" whitespace-nowrap">
                         <a
-                        //   onClick={() => {
-                        //     navigate(`/updateCategory/${item?._id}`, { state: item  });
-                        //   }}
+                          onClick={() => {
+                            navigate(`/updateDessertFilter/${item?._id}`, { state: item  });
+                          }}
                           className="cursor-pointer py-2 px-3 font-semibold text-green-600 hover:text-green-700 duration-150 hover:bg-gray-50 rounded-lg"
                         >
                           Edit
                         </a>
                         <button
-                        //   onClick={() => {
-                        //     handleModal(item?._id);
-                        //   }}
+                          onClick={() => {
+                            handleModal(item?._id);
+                          }}
                           className="py-2 leading-none px-3 font-semibold text-red-500 hover:text-red-600 duration-150 hover:bg-gray-50 rounded-lg"
                         >
                           Delete
@@ -98,14 +121,11 @@ const Filter = () => {
             </table>
           </div>
         </div>
-        {/* {showDeleteModal && (
+        {showDeleteModal && (
           <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
-        )} */}
+        )}
       </>
     )
 }
 
-
-
 export default Filter
-

@@ -1,23 +1,50 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Stack,Skeleton } from '@mui/material';
-import { getPizza } from '../../features/actions/pizza/pizza';
+import { deletePizza, getPizza } from '../../features/actions/pizza/pizza';
+import Delete from '../../components/delete';
+import { getCategory } from '../../features/actions/pizza/categoryPizza';
+import { getFilter } from '../../features/actions/pizza/filterPizza';
 
 
 
 const Pizza = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const { pizzaData,isLoading } = useSelector(state => state.pizza)
-    useEffect(() => {
-        dispatch(getPizza())
-    }, [])
-
+    const { isDeleted,pizzaData,isLoading } = useSelector(state => state.pizza)
+    
     const handleAddCategory = () => {
-        navigate('/createPizza');
+      navigate('/createPizza');
       };
 
+      const [showDeleteModal, setShowDeleteModal] = useState(false);
+      const [id, setId] = useState();
+      
+      const handleModal = (ID) => {
+        setShowDeleteModal(true);
+        setId(ID);
+        }; 
+        const handleDelete = () => {
+          dispatch(deletePizza(id));
+          
+          setShowDeleteModal(false);
+          setId('');
+          };
+      
+      useEffect(() => {
+          dispatch(getPizza())
+          dispatch(getCategory())
+          dispatch(getFilter())
+          
+      }, [])
+
+      useEffect(() => {
+        if(isDeleted){
+          dispatch(getPizza());
+        }
+          }, [isDeleted]);
+        
     return (
         <>
         <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-4">
@@ -96,17 +123,17 @@ const Pizza = () => {
                      
                       <td className=" whitespace-nowrap">
                         <a
-                        //   onClick={() => {
-                        //     navigate(`/updateCategory/${item?._id}`, { state: item  });
-                        //   }}
+                          onClick={() => {
+                            navigate(`/updatePizza/${item?._id}`, { state: item  });
+                          }}
                           className="cursor-pointer py-2 px-3 font-semibold text-green-600 hover:text-green-700 duration-150 hover:bg-gray-50 rounded-lg"
                         >
                           Edit
                         </a>
                         <button
-                        //   onClick={() => {
-                        //     handleModal(item?._id);
-                        //   }}
+                          onClick={() => {
+                            handleModal(item?._id);
+                          }}
                           className="py-2 leading-none px-3 font-semibold text-red-500 hover:text-red-600 duration-150 hover:bg-gray-50 rounded-lg"
                         >
                           Delete
@@ -120,9 +147,9 @@ const Pizza = () => {
             </table>
           </div>
         </div>
-        {/* {showDeleteModal && (
+        {showDeleteModal && (
           <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
-        )} */}
+        )}
       </>
     )
 }

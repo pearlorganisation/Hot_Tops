@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createFilter, getFilter } from "../../actions/sides/filterSides";
+import { createFilter, deleteFilter, getFilter, updateFilter } from "../../actions/sides/filterSides";
 import { toast } from "sonner";
 
 const initialState = {
@@ -41,7 +41,49 @@ export const filterSidesSlice = createSlice({
           position:"top-center"
         });
       })
-
+      .addCase(deleteFilter.pending, (state, action) => {
+        state.isLoading = true;
+        state.isDeleted = false;
+        state.errorMessage = "";
+      })
+      .addCase(deleteFilter.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isDeleted = true;
+        state.errorMessage = "";
+        toast.success("Filter Deleted Successfully...",{
+          position:"top-center"
+        });
+      })
+      .addCase(deleteFilter.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isDeleted = false;
+        state.errorMessage = action.payload;
+        toast.error(action?.payload || "Something went wrong",{
+          position:"top-center"
+        });
+      })
+      .addCase(updateFilter.pending, (state, action) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.errorMessage = "";
+      })
+      .addCase(updateFilter.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.errorMessage = "";
+        state.filterData = action.payload.data;
+        toast.success("Filter Updated Successfully...",{
+          position:"top-center"
+        });
+      })
+      .addCase(updateFilter.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.errorMessage = action.payload;
+        toast.error(action?.payload || "Something went wrong",{
+          position:"top-center"
+        });
+      })
       .addCase(getFilter.pending, (state, action) => {
         state.isLoading = true;
         state.isSuccess = false;

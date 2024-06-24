@@ -21,3 +21,38 @@ export const getSides = createAsyncThunk("getSides", async () => {
   console.log(data, "res");
   return data;
 });
+
+  //updateSides api
+  export const updateSides = createAsyncThunk(
+    'updateSides',
+    async ({id,payload}, { rejectWithValue }) => {
+      try {
+        const response = await instance.patch(`/sides/${id}`, payload, {
+          withCredentials: true,
+          headers: {
+            "Content-type": "multipart/form-data",
+          },
+        });
+        return response;
+      } catch (e) {
+        return rejectWithValue(e);
+      }
+    }
+  );
+
+//deleteSides api
+export const deleteSides = createAsyncThunk(
+  'deleteSides',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await instance.delete(
+        `/sides/${id}`,
+        
+        { withCredentials: true }
+      );
+      return response;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);

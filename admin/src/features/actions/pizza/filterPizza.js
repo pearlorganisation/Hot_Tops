@@ -3,21 +3,62 @@ import { instance } from "../../../services/axiosInterceptor";
 
 
 export const createFilter = createAsyncThunk(
-  "createPizzaFilter",
-  async (data) => {
-    const response = await instance.post(
-      "/pizza/filter",
-      data
-    );
-    console.log(response.data, "res");
-    return response;
+  "createFilter",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const response = await instance.post(`/pizza/filter`, payload, {
+        withCredentials: true,
+      });
+      return response;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
   }
 );
 
-export const getFilter = createAsyncThunk("getPizzaFilter", async () => {
-  const {data} = await instance.get(
-    "/pizza/filter"
+export const getFilter = createAsyncThunk("getFilter",    
+  async (payload, { rejectWithValue }) => {
+  try {
+    const {data} = await instance.get(`/pizza/filter`, {
+      withCredentials: true,
+    });
+    return data;
+
+  } catch (e) {
+    return rejectWithValue(e);
+  }
+}
+);
+
+  //updateFilter api
+  export const updateFilter = createAsyncThunk(
+    'updateFilter',
+    async ({id,payload}, { rejectWithValue }) => {
+      try {
+        const response = await instance.patch(`/pizza/filter/${id}`, payload, {
+          withCredentials: true,
+        
+        });
+        return response;
+      } catch (e) {
+        return rejectWithValue(e);
+      }
+    }
   );
-  console.log(data, "res");
-  return data;
-});
+
+//deleteFilter api
+export const deleteFilter = createAsyncThunk(
+  'deleteFilter',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await instance.delete(
+        `/pizza/filter/${id}`,
+        
+        { withCredentials: true }
+      );
+      return response;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);

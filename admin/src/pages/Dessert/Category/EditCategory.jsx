@@ -1,35 +1,37 @@
 import React, { useEffect } from 'react'
 import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from 'react-redux'
-import { cretaeCategory } from '../../../features/actions/sides/categorySides'
-import { useNavigate } from 'react-router-dom'
+import { updateCategory } from '../../../features/actions/dessert/categoryDessert'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners'
 
-const CreateCategory = () => {
+const UpdateCategory = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    
-    const {categoryData,isLoading } = useSelector(state => state.sidesCategory)
+    const {state:item} =useLocation()
+    const {categoryData,isLoading } = useSelector(state => state.dessertCategory)
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
-    } = useForm()
+    } = useForm({defaultValues:{
+        category:item?.category||""
+    }})
     const onSubmit = (data) => {
-        dispatch(cretaeCategory(data))
-        console.log(data)
+        dispatch(updateCategory({id:item?._id,payload:data}))
+        
     }
 
     useEffect(() => {
         if(categoryData?.status){
-          navigate("/sidesCategory")
+          navigate("/dessertCategory")
         }
       }, [categoryData]);
     return (
         <div className="sm:w-[38rem] mx-auto my-10 overflow-hidden rounded-2xl bg-white shadow-lg sm:max-w-lg">
         <div className="bg-[#EF4444] px-10 py-5 text-center text-white font-semibold">
-            Create Sides Category
+            Update Dessert Category
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 px-8 py-10">
             <label className="block" htmlFor="name">
@@ -48,7 +50,7 @@ const CreateCategory = () => {
 <button type="submit" className="mt-4 w-full rounded-lg  bg-gray-700 hover:bg-gray-800 active:bg-gray-700 px-10 py-2 font-semibold text-white">
 {isLoading ? (
                 <ClipLoader color="#c4c2c2" />
-              ) : (<>Create</>)}
+              ) : (<>Update</>)}
 </button>
 </div>
         </form>
@@ -57,4 +59,4 @@ const CreateCategory = () => {
     )
 }
 
-export default CreateCategory
+export default UpdateCategory

@@ -1,23 +1,44 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Stack,Skeleton } from '@mui/material';
-import { getDrink } from '../../features/actions/drink/drink';
+import { deleteDrink, getDrink } from '../../features/actions/drink/drink';
+import Delete from '../../components/delete';
 
 
 
 const Drink = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const { drinkData,isLoading } = useSelector(state => state.drink)
-    useEffect(() => {
-        dispatch(getDrink())
-    }, [])
-
+    const { isDeleted,drinkData,isLoading } = useSelector(state => state.drink)
+    
     const handleAddCategory = () => {
-        navigate('/createDrink');
+      navigate('/createDrink');
       };
 
+      const [showDeleteModal, setShowDeleteModal] = useState(false);
+      const [id, setId] = useState();
+      
+      const handleModal = (ID) => {
+        setShowDeleteModal(true);
+        setId(ID);
+        }; 
+        const handleDelete = () => {
+          dispatch(deleteDrink(id));
+          
+          setShowDeleteModal(false);
+          setId('');
+          };
+      
+      useEffect(() => {
+          dispatch(getDrink())
+      }, [])
+
+      useEffect(() => {
+        if(isDeleted){
+          dispatch(getDrink());
+        }
+          }, [isDeleted]);
     return (
         <>
         <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-4">
@@ -93,17 +114,17 @@ const Drink = () => {
                      
                       <td className=" whitespace-nowrap">
                         <a
-                        //   onClick={() => {
-                        //     navigate(`/updateCategory/${item?._id}`, { state: item  });
-                        //   }}
+                          onClick={() => {
+                            navigate(`/updateDrink/${item?._id}`, { state: item  });
+                          }}
                           className="cursor-pointer py-2 px-3 font-semibold text-green-600 hover:text-green-700 duration-150 hover:bg-gray-50 rounded-lg"
                         >
                           Edit
                         </a>
                         <button
-                        //   onClick={() => {
-                        //     handleModal(item?._id);
-                        //   }}
+                          onClick={() => {
+                            handleModal(item?._id);
+                          }}
                           className="py-2 leading-none px-3 font-semibold text-red-500 hover:text-red-600 duration-150 hover:bg-gray-50 rounded-lg"
                         >
                           Delete
@@ -117,9 +138,9 @@ const Drink = () => {
             </table>
           </div>
         </div>
-        {/* {showDeleteModal && (
+        {showDeleteModal && (
           <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
-        )} */}
+        )}
       </>
     )
 }

@@ -5,10 +5,8 @@ import { postSaucePizza } from "../../features/actions/pizza/postCustomization/p
 import { postCheesePizza } from "../../features/actions/pizza/postCustomization/postCheesePizza";
 import { postMeatTopping } from "../../features/actions/pizza/postCustomization/postMeatTopping";
 import { postVegTopping } from "../../features/actions/pizza/postCustomization/postVegTopping";
-import { getSaucePizza } from "../../features/actions/pizza/getCustomization/getSaucePizza";
-import { getCheesePizza } from "../../features/actions/pizza/getCustomization/getCheesePizza";
-import { getMeatTopping } from "../../features/actions/pizza/getCustomization/getMeatTopping";
-import { getVegetarianTopping } from "../../features/actions/pizza/getCustomization/getVegetarianTopping";
+import { getCheesePizza, getMeatTopping, getSaucePizza, getVegetarianTopping } from "../../features/actions/pizza/getCustomization";
+
 
 const FoodModal = forwardRef((props, ref) => {
   const dialogRef = useRef();
