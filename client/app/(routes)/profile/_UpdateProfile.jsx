@@ -12,6 +12,7 @@ const UpdateProfile = () => {
         formState: { errors },
     } = useForm({
         defaultValues: {
+
             firstName: userData?.firstName,
             lastName: userData?.lastName,
             mobileNumber: userData?.mobileNumber
@@ -28,7 +29,7 @@ const UpdateProfile = () => {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-
+                        id: userData?._id,
                         firstName: data?.firstName,
                         lastName: data?.lastName,
                         mobileNumber: data?.mobileNumber

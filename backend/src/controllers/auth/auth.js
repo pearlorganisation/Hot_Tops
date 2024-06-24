@@ -166,17 +166,19 @@ export const updateProfile = asyncErrorHandler(async (req, res) => {
   try {
     const { id, firstName, lastName, mobileNumber } = req.body;
 
-    const updateUser = await auth.findByIdAndUpdate(
-      id,
-      {
-        $set: {
-          firstName,
-          lastName,
-          mobileNumber,
+    const updateUser = await auth
+      .findByIdAndUpdate(
+        id,
+        {
+          $set: {
+            firstName,
+            lastName,
+            mobileNumber,
+          },
         },
-      },
-      { new: true }
-    );
+        { new: true }
+      )
+      .select("-password");
 
     if (!updateUser) {
       res.status(400).json({
@@ -187,6 +189,7 @@ export const updateProfile = asyncErrorHandler(async (req, res) => {
     return res.status(201).json({
       status: true,
       message: "profile updated successfully",
+      data: updateUser,
     });
   } catch (error) {
     res.status(500).send(`internal server error :${error.message}`);
