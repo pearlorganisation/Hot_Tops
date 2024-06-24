@@ -51,10 +51,10 @@ const Page = () => {
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
       }
-
+   router.push("/otp");
       const result = await response.json();
 
-      router.push("/otp");
+   
       // Add your logic for a successful signup
     } catch (error) {
       console.error("Error during signup:", error.message);
