@@ -20,6 +20,7 @@ const dipssCard = ({ data }) => {
         name: data?.dips,
         img: data.banner,
         size: selecteddips,
+        id: data?._id,
       })
     );
     setIsAddClicked(true);
