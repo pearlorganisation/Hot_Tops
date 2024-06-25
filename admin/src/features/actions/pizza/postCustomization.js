@@ -3,7 +3,7 @@ import { instance } from "../../../services/axiosInterceptor";
 
 export const postBasePizza = createAsyncThunk("postBasePizza", async (data) => {
   const res = await instance.post(
-    "food/customization/base",
+    "/food/customization/base",
 
     data,
     {
@@ -23,8 +23,8 @@ export const postBasePizza = createAsyncThunk("postBasePizza", async (data) => {
 export const postCheesePizza = createAsyncThunk(
   "postCheesePizza",
   async (data) => {
-    const res = await instance(
-      "food/customization/cheese",
+    const res = await instance.post(
+      "/food/customization/cheese",
 
       data,
       {
@@ -52,8 +52,8 @@ export const postCheesePizza = createAsyncThunk(
 export const postMeatTopping = createAsyncThunk(
   "postMeatTopping",
   async (data) => {
-    const res = await instance(
-      "food/customization/meatToppings",
+    const res = await instance.post(
+      "/food/customization/meatToppings",
 
       data,
       {
@@ -74,8 +74,8 @@ export const postMeatTopping = createAsyncThunk(
 export const postSaucePizza = createAsyncThunk(
   "postSaucePizza",
   async (data) => {
-    const res = await instance(
-      "food/customization/sauce",
+    const res = await instance.post(
+      "/food/customization/sauce",
 
       data,
       {
@@ -101,8 +101,8 @@ export const postSaucePizza = createAsyncThunk(
 );
 
 export const postSizePizza = createAsyncThunk("postSizePizza", async (data) => {
-  const res = await instance(
-    "food/customization/size",
+  const res = await instance.post(
+    "/food/customization/size",
 
     data,
     {
@@ -122,8 +122,8 @@ export const postSizePizza = createAsyncThunk("postSizePizza", async (data) => {
 export const postVegTopping = createAsyncThunk(
   "postVegTopping",
   async (data) => {
-    const res = await instance(
-      "food/customization/vegetarianToppings",
+    const res = await instance.post(
+      "/food/customization/vegetarianToppings",
 
       data,
       {

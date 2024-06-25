@@ -2,8 +2,8 @@ import { DevTool } from '@hookform/devtools';
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { postBasePizza } from '../../features/actions/pizza/postCustomization/postBasePizza';
-import { postSizePizza } from '../../features/actions/pizza/postCustomization/postSizePizza';
+import { postBasePizza, postSizePizza } from '../../features/actions/pizza/postCustomization';
+
 
 
 const SizeAndBasesModal = forwardRef((props, ref) => {
@@ -51,12 +51,12 @@ const SizeAndBasesModal = forwardRef((props, ref) => {
     <div className="relative p-4 w-full max-w-2xl max-h-full">
       <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
         <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-            Name: {props.itemName}
+          <h3 className="text-xl bg-red-500 text-white rounded-md font-semibold px-2 dark:text-white">
+            {props.itemName}
           </h3>
           <button
             type="button"
-            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            className="text-white bg-red-500 hover:bg-red-600  rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
             onClick={() => dialogRef.current.close()}
           >
             <svg
@@ -79,7 +79,7 @@ const SizeAndBasesModal = forwardRef((props, ref) => {
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="p-4 md:p-5 space-y-4">
-            <div className="mb-4">
+            <div className="mb-4 space-y-1">
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Name
               </label>
@@ -88,12 +88,11 @@ const SizeAndBasesModal = forwardRef((props, ref) => {
                 {...register("name")}
                 className="border p-1 rounded w-full"
                 placeholder={`Enter ${props.itemName}`}
-                maxLength={38}
                 minLength={2}
                 required
               />
             </div>
-            <div className="mb-4">
+            <div className="mb-4 space-y-1">
                 <label htmlFor="singlePrice" className="block text-sm font-medium text-gray-700">
                   Price
                 </label>
@@ -118,7 +117,7 @@ const SizeAndBasesModal = forwardRef((props, ref) => {
             </button>
             <button
               type="button"
-              className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+              className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-red-600 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
               onClick={() => dialogRef.current.close()}
             >
               Cancel
