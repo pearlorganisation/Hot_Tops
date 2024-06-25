@@ -8,6 +8,7 @@ import { RiEditCircleFill } from "react-icons/ri";
 
 import EditItem from "../../../../../../components/FoodCustomizationDialog/EditItemModel/EditItem";
 import { deleteBasePizza } from "../../../../../../features/actions/pizza/deleteCustomization";
+import Delete from "../../../../../../components/delete";
 
 
 const BaseContainer = () => {
@@ -20,23 +21,35 @@ const BaseContainer = () => {
   function handleModalOpen() {
     modalRef.current.open();
   }
-  
-
-  
 
   function handleEditItem(data) {
     editRef.current.open();
     setEditData(data);
   }
 
-  function handleDeleteItem(id) {
-    dispatch(deleteBasePizza(id))
-  }
+    
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [id, setId] = useState();
+  
+  const handleDeleteModal = (ID) => {
+    setShowDeleteModal(true);
+    setId(ID);
+    }; 
+      
+    const handleDelete = () => {
+        dispatch(deleteBasePizza(id));
+    
+        setShowDeleteModal(false);
+        setId('');
+      };
 
   return (
     <>
       <SizeAndBasesModal ref={modalRef} itemName="Base" />
       <EditItem ref={editRef} data = {editItemData} itemName="Base"/>
+      {showDeleteModal && (
+        <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
+      )}
       <div className="flex flex-col">
         <div className="flex p-2 justify-between">
           <h3 className=" font-semibold  tracking-wide border rounded-md px-2 bg-red-500 text-white text-lg">
@@ -60,7 +73,7 @@ const BaseContainer = () => {
                 {Array.isArray(base) &&
                   base?.map((item) => (
                     <tr key={item?._id}>
-                      <td className="p-2">{item?.name}</td>
+                      <td className="p-2 max-w-[100px] truncate">{item?.name}</td>
                       <td className="p-2">£ {item?.price}</td>
 
                       <td className="flex justify-center items-center gap-4">
@@ -74,7 +87,7 @@ const BaseContainer = () => {
                         <button className="bg-red-700 hover:bg-red-600 rounded-lg text-white px-2 py-1  object-cover">
                           <MdDelete
                             size={28}
-                            onClick={() => handleDeleteItem(item?._id)}
+                            onClick={() => handleDeleteModal(item?._id)}
                           />
                         </button>
                       </td>

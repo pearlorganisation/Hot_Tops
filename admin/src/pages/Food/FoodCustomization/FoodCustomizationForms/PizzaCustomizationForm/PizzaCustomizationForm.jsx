@@ -4,16 +4,14 @@ import BaseContainer from "./PizzaCustomizationFormComponents/BaseContainer";
 import CommonContainer from "./PizzaCustomizationFormComponents/CommonContainer";
 import { useDispatch, useSelector } from "react-redux";
 import { getBasePizza, getCheesePizza, getMeatTopping, getSaucePizza, getSizePizza, getVegetarianTopping  } from "../../../../../features/actions/pizza/getCustomization";
-// import { resetStatus } from "../../../../../features/slice/pizza/pizza";
+import { resetStatus } from "../../../../../features/slice/pizza/pizza";
+
 
 
 
 const PizzaCustomizationForm = () => {
 
-
-  // const { pizzaCustomization } = useSelector((state) => state?.pizza);
-
-  const { sauce ,cheese ,vegetarianToppings,meatToppings ,isSuccess} = useSelector((state) => state?.pizza);
+  const { sauce ,cheese ,vegetarianToppings,meatToppings ,isMeatToppingeSuccess,isVegToppingSuccess,isSauceSuccess,isCheeseSuccess,isSizeSuccess,isBaseSuccess} = useSelector((state) => state?.pizza);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,25 +23,29 @@ const PizzaCustomizationForm = () => {
     dispatch(getMeatTopping());
     dispatch(getVegetarianTopping());
 
-    // dispatch(resetStatus(false));
+    dispatch(resetStatus(false));
     
 
   }, []);
-// console.log(resetStatus());
-//   useEffect(() => {
-//     if(resetStatus().payload)
-//    { dispatch(getBasePizza());
-//     dispatch(getSaucePizza());
-//     dispatch(getCheesePizza());
-//     dispatch(getSizePizza());
-//     dispatch(getMeatTopping());
-//     dispatch(getVegetarianTopping());
+  useEffect(() => {
+    if(isBaseSuccess)
+   { dispatch(getBasePizza());}
+    else if(isSauceSuccess)
+   { dispatch(getSaucePizza());}
+    else if (isCheeseSuccess)
+    {dispatch(getCheesePizza());}
+    else if( isSizeSuccess)
+    {dispatch(getSizePizza());}
+    else if (isMeatToppingeSuccess)
+    {dispatch(getMeatTopping());}
+    else if (isVegToppingSuccess)
+    {dispatch(getVegetarianTopping());}
 
-//     dispatch(resetStatus(false));
-//   }
+    dispatch(resetStatus(false));
+  }
 
 
-//   }, []);
+  , [isMeatToppingeSuccess,isVegToppingSuccess,isSauceSuccess,isCheeseSuccess,isSizeSuccess,isBaseSuccess]);
 
 
 
