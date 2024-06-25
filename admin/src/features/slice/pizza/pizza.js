@@ -30,7 +30,12 @@ const pizza = createSlice({
   initialState,
   reducers: {
     resetStatus: (state, action) => {
-      state.isSuccess = action.payload;
+      state.isBaseSuccess = action.payload;
+      state.isMeatToppingeSuccess = action.payload;
+      state.isVegToppingSuccess = action.payload;
+      state.isSauceSuccess = action.payload;
+      state.isCheeseSuccess = action.payload;
+      state.isSizeSuccess = action.payload;
     },
   },
   extraReducers: (builder) => {
