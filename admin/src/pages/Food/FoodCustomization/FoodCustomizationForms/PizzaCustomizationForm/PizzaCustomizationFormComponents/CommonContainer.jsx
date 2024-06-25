@@ -6,6 +6,7 @@ import EditItem from "../../../../../../components/FoodCustomizationDialog/EditI
 import { IoAddCircleSharp } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { RiEditCircleFill } from "react-icons/ri";
+import Delete from "../../../../../../components/delete";
 
 
 const CommonContainer = ({ itemName, items }) => {
@@ -31,32 +32,45 @@ const CommonContainer = ({ itemName, items }) => {
     modalRef.current.open();
   }
 
-  function handleDeleteItem(id)
-  {
-    if(itemName === "SAUCE")
-    {
-      dispatch(deleteSaucePizza(id))
-    }
-    else if(itemName === "CHEESE"){
-      dispatch(deleteCheesePizza(id))
-
-    }
-    else if(itemName === "MEAT TOPPINGS"){
-      dispatch(deleteMeatTopping(id))
-
-    }
-    else if(itemName === "VEGETARIAN TOPPINGS"){
-      dispatch(deleteVegTopping(id))
-
-    }
     
-  }
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [id, setId] = useState();
+  
+  const handleDeleteModal = (ID) => {
+    setShowDeleteModal(true);
+    setId(ID);
+    }; 
+      
+    const handleDelete = () => {
+      if(itemName === "SAUCE")
+        {
+          dispatch(deleteSaucePizza(id))
+        }
+        else if(itemName === "CHEESE"){
+          dispatch(deleteCheesePizza(id))
+    
+        }
+        else if(itemName === "MEAT TOPPINGS"){
+          dispatch(deleteMeatTopping(id))
+    
+        }
+        else if(itemName === "VEGETARIAN TOPPINGS"){
+          dispatch(deleteVegTopping(id))
+    
+        }
+    
+        setShowDeleteModal(false);
+        setId('');
+      };
 
 
   return (
     <>
     <FoodModal ref={modalRef} itemName={itemName} />
     <EditItem ref={editItemRef} itemName = {itemName} data={editItemData}/>
+    {showDeleteModal && (
+        <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
+      )}
     <div className="flex flex-col">
       <div className="flex justify-between p-2">
         <h3 className="font-semibold  tracking-wide border rounded-md px-2 bg-red-500 text-white text-lg">{itemName}</h3>
@@ -91,7 +105,7 @@ const CommonContainer = ({ itemName, items }) => {
                       >
                        <RiEditCircleFill size={28}/>
                       </button>
-                      <button className="bg-red-700 hover:bg-red-600 rounded-lg text-white px-2 py-1  object-cover"  onClick={() => handleDeleteItem(item?._id)}>
+                      <button className="bg-red-700 hover:bg-red-600 rounded-lg text-white px-2 py-1  object-cover"  onClick={() => handleDeleteModal(item?._id)}>
                         <MdDelete
                           size={28}
                          
