@@ -11,7 +11,7 @@ const OTPReceiver = () => {
   const { userData } = useSelector(
     (state) => state.auth
   );
-  const email = userData.email;
+  const email = userData?.email;
   const id = userData._id;
 
   const [otp, setOtp] = useState("");
