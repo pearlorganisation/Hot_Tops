@@ -9,10 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 const OTPReceiver = () => {
   // ----------------------------------------hooks----------------------------------------
   const { userData } = useSelector(
-    (state) => state.auth
+    (state) => state?.auth
   );
   const email = userData?.email;
-  const id = userData._id;
+  const id = userData?._id;
 
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
