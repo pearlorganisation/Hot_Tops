@@ -230,7 +230,7 @@ export const resetPassword = asyncErrorHandler(async (req, res) => {
     sendMail(email, otp)
       .then(async () => {
         const otpDoc = await optModel.findOneAndUpdate(
-          { email, type: "SIGNUP" },
+          { email, type: "FORGOTPASSWORD" },
           { otp, expiresAt: new Date(Date.now() + 300000) },
           { $new: true }
         );
@@ -286,5 +286,83 @@ export const verifyResetPasswordOtp = asyncErrorHandler(async (req, res) => {
   res.status(201).json({
     status: true,
     message: "password updated successfully",
+  });
+});
+
+// delete account  controller
+
+export const deleteAccount = asyncErrorHandler(async (req, res) => {
+  const { id, email } = req?.body;
+  const isuserExist = await auth.findOne({ _id: id, email });
+  if (!isuserExist) {
+    return res.status(400).json({
+      status: false,
+      message: "user not exist in database",
+    });
+  }
+
+  // current date
+  const currentDate = new Date();
+
+  // deleting the expire  opt
+  await optModel.deleteMany({
+    expiresAt: { $lt: currentDate },
+    type: "SIGNUP",
+  });
+
+  // genrate the random otp
+  const otp = genrateOtp();
+
+  sendMail(email, otp).then(async () => {
+    const otpDoc = await optModel.findOneAndUpdate(
+      { email, type: "FORGOTPASSWORD" },
+      { otp, expiresAt: new Date(Date.now() + 300000) },
+      { $new: true }
+    );
+    if (!otpDoc) {
+      let doc = new optModel({
+        email,
+        type: "FORGOTPASSWORD",
+        otp,
+        expiresAt: new Date(Date.now() + 300000), //expiry time of otp 5mins
+      });
+
+      await doc.save().then(() => {
+        return res
+          .status(200)
+          .json({ success: true, message: "OTP sent successfully" });
+      });
+    } else {
+      return res
+        .status(200)
+        .json({ success: true, message: "OTP sent successfully" });
+    }
+  });
+});
+
+// ------verify otp for delete account------------
+export const verifyOtpForDeleteAccount = asyncErrorHandler(async (req, res) => {
+  const { email, id, otp } = req?.body;
+  const userExist = await auth.findOne({ _id: id, email });
+  if (!userExist) {
+    return res.status(400).json({
+      status: false,
+      message: "user not exist in database",
+    });
+  }
+
+  const isOtpValid = await optModel.findOne({ email, otp });
+  if (!isOtpValid) {
+    return res.status(400).json({
+      status: false,
+      message: "otp is incorrect",
+    });
+  }
+
+  await auth.findByIdAndDelete(id);
+
+  return res.status(201).json({
+    status: true,
+    message: "delete account successfully",
   });
 });
