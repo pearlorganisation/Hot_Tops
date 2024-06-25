@@ -6,6 +6,7 @@ import { deleteSizePizza } from "../../../../../../features/actions/pizza/delete
 import { IoAddCircleSharp } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { RiEditCircleFill } from "react-icons/ri";
+import Delete from "../../../../../../components/delete";
 
 
 
@@ -22,10 +23,6 @@ const SizeContainer = () => {
   const dispatch = useDispatch();
   
   
-  function handleDeleteItem(id)
-  {
-    dispatch(deleteSizePizza(id));
-  }
 
   function handleEditItem(data) {
     editRef.current.open();
@@ -36,10 +33,31 @@ const SizeContainer = () => {
     modalRef.current.open();
   }
 
+  
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [id, setId] = useState();
+  
+  const handleDeleteModal = (ID) => {
+    setShowDeleteModal(true);
+    setId(ID);
+    }; 
+      
+    const handleDelete = () => {
+        dispatch(deleteSizePizza(id));
+    
+        setShowDeleteModal(false);
+        setId('');
+      };
+
+
+
   return (
     <>
       <SizeAndBasesModal ref={modalRef} itemName="Size" />
       <EditItem itemName={"Size"}ref={editRef} data = {editItemData} />
+      {showDeleteModal && (
+        <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
+      )}
       <div className="flex flex-col">
         <div className="flex justify-between p-2">
           <h3 className="font-semibold  tracking-wide border rounded-md px-2 bg-red-500 text-white text-lg">SIZE</h3>
@@ -71,7 +89,7 @@ const SizeContainer = () => {
                         >
                          <RiEditCircleFill size={28}/>
                         </button>
-                        <button className="bg-red-700 hover:bg-red-600 rounded-lg text-white px-2 py-1  object-cover"  onClick={() => handleDeleteItem(item?._id)}>
+                        <button className="bg-red-700 hover:bg-red-600 rounded-lg text-white px-2 py-1  object-cover"  onClick={() => handleDeleteModal(item?._id)}>
                           <MdDelete
                             size={28}
                            

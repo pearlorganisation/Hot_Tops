@@ -3,118 +3,72 @@ import { instance } from "../../../services/axiosInterceptor";
 
 export const updateBasePizza = createAsyncThunk(
   "updateBasePizza",
-  async (data) => {
-    console.log(data);
-    const res = await instance.patch(
-      `food/customization/base/${data._id}`,
-      data
-    );
-
-    if (!res.ok) {
-      throw new Error("Failed to post base pizza");
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await instance.patch(`food/customization/base/${data._id}`, data);
+      return response;
+    } catch (e) {
+      return rejectWithValue(e);
     }
-
-    return res.json();
   }
 );
 
 export const updateCheesePizza = createAsyncThunk(
   "updateCheesePizza",
-  async (data) => {
-    const res = await instance.patch(
-      `food/customization/cheese/${data?._id}`,
-      data
-    );
-
-    if (!res.ok) {
-      // Handle different types of errors more explicitly
-      if (res.status === 404) {
-        throw new Error("Not found");
-      } else if (res.status === 500) {
-        throw new Error("Internal server error");
-      } else {
-        throw new Error("Failed to update pizza customization");
-      }
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await instance.patch(`food/customization/cheese/${data._id}`, data);
+      return response;
+    } catch (e) {
+      return rejectWithValue(e);
     }
-
-    return res.json();
   }
 );
 
 export const updateMeatTopping = createAsyncThunk(
   "updateMeatTopping",
-  async (data) => {
-    const res = await instance.patch(
-      `food/customization/meatToppings/${data?._id}`,
-      data
-    );
-
-    if (!res.ok) {
-      throw new Error("Failed to post base pizza");
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await instance.patch(`food/customization/meatToppings/${data._id}`, data);
+      return response;
+    } catch (e) {
+      return rejectWithValue(e);
     }
-
-    return res.json();
   }
 );
 
 export const updateSaucePizza = createAsyncThunk(
   "updateSaucePizza",
-  async (data) => {
-    const res = await instance.patch(
-      `food/customization/sauce/${data?._id}`,
-      data
-    );
-
-    if (!res.ok) {
-      // Handle different types of errors more explicitly
-      if (res.status === 404) {
-        throw new Error("Not found");
-      } else if (res.status === 500) {
-        throw new Error("Internal server error");
-      } else {
-        throw new Error("Failed to update pizza customization");
-      }
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await instance.patch(`food/customization/sauce/${data._id}`, data);
+      return response;
+    } catch (e) {
+      return rejectWithValue(e);
     }
-
-    return res.json();
   }
 );
 
 export const updateSizePizza = createAsyncThunk(
   "updateSizePizza",
-  async (data) => {
-    const res = await instance.patch(
-      `food/customization/size/${data?._id}`,
-      data
-    );
-
-    if (!res.ok) {
-      throw new Error("Failed to post base pizza");
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await instance.patch(`food/customization/size/${data._id}`, data);
+      return response;
+    } catch (e) {
+      return rejectWithValue(e);
     }
-
-    return res.json();
   }
 );
 
 export const updateVegTopping = createAsyncThunk(
   "updateVegTopping",
-  async (data) => {
-    const res = await instance.patch(
-      `food/customization/vegetarianToppings/${data?._id}`,
-      data
-    );
-
-    if (!res.ok) {
-      // Handle different types of errors more explicitly
-      if (res.status === 404) {
-        throw new Error("Not found");
-      } else if (res.status === 500) {
-        throw new Error("Internal server error");
-      } else {
-        throw new Error("Failed to update pizza customization");
-      }
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await instance.patch(`food/customization/vegetarianToppings/${data._id}`, data);
+      return response;
+    } catch (e) {
+      return rejectWithValue(e);
     }
-
-    return res.json();
   }
 );
