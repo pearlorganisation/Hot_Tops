@@ -1,20 +1,28 @@
 "use client";
-import { getcredentials } from "@/app/lib/features/auth/authSlice";
+
+
+import { userLogout } from "@/app/lib/features/auth/authSlice";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 
 const OTPReceiver = () => {
   // ----------------------------------------hooks----------------------------------------
-  const { email, password, firstName, lastName } = useSelector(
+  const { userData } = useSelector(
     (state) => state.auth
   );
-  const [otp, setOtp] = useState("");
-  const [error, setError] = useState("");
-  const [response, setResponse] = useState("");
-  const dispatch = useDispatch();
-   
+  const email = userData?.email;
+  const id = userData?._id;
 
+  const [otp, setOtp] = useState("");
+  
+  const [error, setError] = useState("");
+
+  const [response, setResponse] = useState("");
+
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -35,28 +43,29 @@ const OTPReceiver = () => {
       // Handle OTP submission logic here
       try {
         const data = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/verifyOtp`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/verifyOtpForDeleteAccount`,
           {
-            method: "post",
+            method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
               email,
-              password,
-              firstName,
-              lastName,
+              id,
               otp,
             }),
           }
         );
         const newData = await data.json();
-
+        setResponse(newData)
         if (newData.status === true) {
-          dispatch(getcredentials({ email: "", password: "" }));
+         
+          dispatch(userLogout());
           router.push("/login");
+          
+          
         }
-        setResponse(newData);
+        
         console.log(newData);
       } catch (error) {
         console.log(error);
@@ -65,9 +74,10 @@ const OTPReceiver = () => {
       setError(""); // Clear error when submitting
     }
   };
-
+console.log(response)
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    
       <div className="max-w-md w-full bg-white shadow-md rounded-lg p-8">
         {response && response?.status == false ? (
           <div className="p-2 text-center text-red-600 font-semibold">

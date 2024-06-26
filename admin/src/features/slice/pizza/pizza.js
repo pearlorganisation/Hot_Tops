@@ -1,12 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-import { postBasePizza } from "../../actions/pizza/postCustomization/postBasePizza";
-import { postCheesePizza } from "../../actions/pizza/postCustomization/postCheesePizza";
-import { postSizePizza } from "../../actions/pizza/postCustomization/postSizePizza";
-import { postSaucePizza } from "../../actions/pizza/postCustomization/postSaucePizza";
-import { postVegTopping } from "../../actions/pizza/postCustomization/postVegTopping";
-import { postMeatTopping } from "../../actions/pizza/postCustomization/postMeatTopping";
+// import { postBasePizza } from "../../actions/pizza/postCustomization/postBasePizza";
+// import { postCheesePizza } from "../../actions/pizza/postCustomization/postCheesePizza";
+// import { postSizePizza } from "../../actions/pizza/postCustomization/postSizePizza";
+// import { postSaucePizza } from "../../actions/pizza/postCustomization/postSaucePizza";
+// import { postVegTopping } from "../../actions/pizza/postCustomization/postVegTopping";
+// import { postMeatTopping } from "../../actions/pizza/postCustomization/postMeatTopping";
+
+
+import { postBasePizza , postCheesePizza , postSizePizza , postVegTopping , postMeatTopping, postSaucePizza } from "../../actions/pizza/postCustomization";
 
 
 import { updateBasePizza ,updateSizePizza, updateCheesePizza  ,updateSaucePizza  ,updateVegTopping ,updateMeatTopping} from "../../actions/pizza/patchCustomization";

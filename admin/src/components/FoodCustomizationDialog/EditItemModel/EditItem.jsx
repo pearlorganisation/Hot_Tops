@@ -6,13 +6,9 @@ import React, {
 } from "react";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
-import { updateBasePizza } from "../../../features/actions/pizza/updateCustomization/updateBasePizza";
+
 import { useDispatch } from "react-redux";
-import { updateSizePizza } from "../../../features/actions/pizza/updateCustomization/updateSizePizza";
-import { updateSaucePizza } from "../../../features/actions/pizza/updateCustomization/updateSaucePizza";
-import { updateMeatTopping } from "../../../features/actions/pizza/updateCustomization/updateMeatTopping";
-import { updateVegTopping } from "../../../features/actions/pizza/updateCustomization/updateVegTopping";
-import { updateCheesePizza } from "../../../features/actions/pizza/updateCustomization/updateCheesePizza";
+import {  updateBasePizza, updateCheesePizza, updateMeatTopping, updateSaucePizza, updateSizePizza, updateVegTopping  } from "../../../features/actions/pizza/patchCustomization";
 
 const EditItem = forwardRef(({ data, itemName }, ref) => {
   const dispatch = useDispatch();
@@ -60,7 +56,7 @@ const EditItem = forwardRef(({ data, itemName }, ref) => {
           })
         );
       }
-      else if(itemName === "Sauce"){
+      else if(itemName === "SAUCE"){
         dispatch(
           updateSaucePizza({
             ...submissionData,
@@ -84,9 +80,9 @@ const EditItem = forwardRef(({ data, itemName }, ref) => {
           })
         );
       }
-      else if(itemName === "Cheese"){
+      else if(itemName === "CHEESE"){
         dispatch(
-          updateCheesePizza ({
+          updateCheesePizza({
             ...submissionData,
             _id: data._id,
           })

@@ -1,19 +1,32 @@
 "use client"
 import { userLogout } from '@/app/lib/features/auth/authSlice'
 import Link from 'next/link'
-import React from 'react'
+import React, { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import UpdateProfile from './_UpdateProfile'
 import ChangePassword from './_ChangePassword'
 import OrderDetails from './_OrderDetails'
+import { Hand } from 'lucide-react'
+import DeleteAccountModal from '@/app/_components/Modals/DeleteAccountModal'
 
 const page = ({ searchParams }) => {
+
+
+
+
     const { tab } = searchParams
     const dispatch = useDispatch()
+    const modalRef = useRef(null);
+    function handleDeleteAccount()
+    {
+        modalRef.current.open();
+    }
+
     console.log(tab, "tab")
     return (
         <div>
             <div className="flex flex-col md:flex-row p-8 space-y-8 md:space-y-0 md:space-x-8 bg-gray-100 min-h-screen">
+             <DeleteAccountModal ref={modalRef}/>
                 <aside className="w-full md:w-1/4 space-y-8">
                     <div>
                         <h2 className="text-xl font-bold">SETTINGS</h2>
@@ -29,9 +42,11 @@ const page = ({ searchParams }) => {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#" className="block p-2 text-red-500 hover:underline">
+                                <button onClick={handleDeleteAccount} className="block p-2 text-red-500 hover:underline">
+                                   
                                     Delete my account
-                                </Link>
+
+                                </button>
                             </li>
                             <li>
                                 <button onClick={() => {

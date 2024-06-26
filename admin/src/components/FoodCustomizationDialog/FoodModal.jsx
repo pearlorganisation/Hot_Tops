@@ -1,11 +1,8 @@
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import { useForm} from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { postCheesePizza, postMeatTopping, postSaucePizza, postVegTopping } from "../../features/actions/pizza/postCustomization";
 
-import { postSaucePizza } from "../../features/actions/pizza/postCustomization/postSaucePizza";
-import { postCheesePizza } from "../../features/actions/pizza/postCustomization/postCheesePizza";
-import { postMeatTopping } from "../../features/actions/pizza/postCustomization/postMeatTopping";
-import { postVegTopping } from "../../features/actions/pizza/postCustomization/postVegTopping";
 
 
 const FoodModal = forwardRef((props, ref) => {
@@ -27,10 +24,10 @@ const FoodModal = forwardRef((props, ref) => {
 
   const onSubmit = (data) => {
     
-    if(props.itemName === 'Sauce'){
+    if(props.itemName === 'SAUCE'){
       dispatch(postSaucePizza(data));
     }
-    else if (props.itemName === 'Cheese'){
+    else if (props.itemName === 'CHEESE'){
       dispatch(postCheesePizza(data));
     }
       

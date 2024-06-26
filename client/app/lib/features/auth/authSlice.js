@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   userData: null,
   isUserLoggedIn: false,
+  newPassword:""
 };
 // Function to load user data from localStorage
 const loadUserData = () => {
@@ -26,6 +27,10 @@ const authslice = createSlice({
     getcredentials: (state, action) => {
       return (state = action.payload);
     },
+    addNewPassword: (state, action) => {
+      state.newPassword = action.payload;
+    },
+
     addUserData: (state, action) => {
       const data = action.payload;
       console.log(data);
@@ -46,5 +51,5 @@ const authslice = createSlice({
     },
   },
 });
-export const { getcredentials, addUserData, userLogout } = authslice.actions;
+export const { getcredentials,addNewPassword, addUserData, userLogout } = authslice.actions;
 export default authslice.reducer;

@@ -40,15 +40,15 @@ const SizeContainer = () => {
     <>
       <SizeAndBasesModal ref={modalRef} itemName="Size" />
       <EditItem itemName={"Size"}ref={editRef} data = {editItemData} />
-      <div className="sizeContainer flex flex-col">
+      <div className="flex flex-col">
         <div className="flex justify-between p-2">
           <h3 className="font-semibold  tracking-wide border rounded-md px-2 bg-red-500 text-white text-lg">SIZE</h3>
-          <div>
+          <div onClick={handleModalOpen}>
           <IoAddCircleSharp size={32} className=" cursor-pointer  hover:bg-slate-600 bg-slate-700 rounded-lg text-white " />
           </div>
         </div>
         <div className="p-2">
-          <div className=" text-slate-700 sizeList p-3 border shadow-md bg-white border-gray-400 rounded-lg h-[400px] overflow-auto">
+          <div className=" text-slate-700 p-3 border shadow-md bg-white border-gray-400 rounded-lg h-[400px] overflow-auto">
             <table className="min-w-full border-separate border-spacing-x-2 border-spacing-y-2">
               <thead className="hidden border-b lg:table-header-group"  >
                 <tr>
@@ -60,7 +60,7 @@ const SizeContainer = () => {
               <tbody className="font-medium">
                 {size?.map((item) => (
                   <tr key={item?._id}>
-                    <td className="p-2">{item?.name}</td>
+                    <td className="p-2 max-w-[100px] truncate">{item?.name}</td>
                     <td className="p-2">£ {item?.price}</td>
 
                     <td className="flex justify-center items-center gap-4">
@@ -71,10 +71,10 @@ const SizeContainer = () => {
                         >
                          <RiEditCircleFill size={28}/>
                         </button>
-                        <button className="bg-red-700 hover:bg-red-600 rounded-lg text-white px-2 py-1  object-cover">
+                        <button className="bg-red-700 hover:bg-red-600 rounded-lg text-white px-2 py-1  object-cover"  onClick={() => handleDeleteItem(item?._id)}>
                           <MdDelete
                             size={28}
-                            onClick={() => handleDeleteItem(item?._id)}
+                           
                           />
                         </button>
                     

@@ -60,7 +60,7 @@ const BaseContainer = () => {
                 {Array.isArray(base) &&
                   base?.map((item) => (
                     <tr key={item?._id}>
-                      <td className="p-2">{item?.name}</td>
+                      <td className="p-2 max-w-[100px] truncate">{item?.name}</td>
                       <td className="p-2">£ {item?.price}</td>
 
                       <td className="flex justify-center items-center gap-4">
