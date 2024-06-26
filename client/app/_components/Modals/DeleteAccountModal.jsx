@@ -37,7 +37,7 @@ const DeleteAccountModal = forwardRef((props, ref) => {
         const newData = await response.json();
         setResponse(newData);
         console.log(newData);
-        if (newData?.status === true) {
+        if (newData?.success === true) {
         //   dispatch(addNewPassword(data.newPassword));
           router.push("/account_deletion_otp");
         }
