@@ -11,21 +11,17 @@ export const updateMeatToppingsCustomization = asyncErrorHandler(async (req, res
    
 
     const { id } = req?.params;
-
       const data = await meatToppingsCustomizationModel.findByIdAndUpdate(
-        id,{...req?.body},{new:true}
+        id,{...req?.body}
       );
 
       if (!data)
         return next(new CustomError("No data found with given id!!", 400));
 
-
-      const updatedData = await meatToppingsCustomizationModel.find();
-
     return res.status(200).json({
       success: true,
       message: `MeatToppings Customization Updated Successfully`,
-      updatedData
+
     });
   }
 );
@@ -37,9 +33,9 @@ export const createMeatToppingsCustomization = asyncErrorHandler( async(req,res,
   })
 
   await data.save()
-  const updatedData = await meatToppingsCustomizationModel.find();
+
  
- res.status(201).json({status:true,message:"MeatToppings Customization created successfully",updatedData})
+ res.status(201).json({status:true,message:"MeatToppings Customization created successfully"})
   }
 )
 
@@ -56,16 +52,13 @@ export const getAllMeatToppingsCustomization = asyncErrorHandler( async(req,res,
 
 export const deleteMeatToppingsCustomization = asyncErrorHandler( async(req,res,next)=>{
   const {id}= req?.params
-      console.log(id)
 
 const isValidId =await meatToppingsCustomizationModel.findByIdAndDelete(id)
 if(!isValidId){
 return next(new CustomError("No data found with given id!!", 400))
 }
-const data = await meatToppingsCustomizationModel.find();
 
-
-res.status(200).json({status:true,message:"MeatToppings Customization data deleted successfully",data})
+res.status(200).json({status:true,message:"MeatToppings Customization data deleted successfully"})
 }
 
 )

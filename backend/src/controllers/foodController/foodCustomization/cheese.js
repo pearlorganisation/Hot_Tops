@@ -13,7 +13,7 @@ export const updateCheeseCustomization = asyncErrorHandler(async (req, res, next
     const { id } = req?.params;
 
       const data = await cheeseCustomizationModel.findByIdAndUpdate(
-        id,{...req?.body},{new:true}
+        id,{...req?.body}
       );
 
       if (!data)
@@ -36,7 +36,6 @@ export const createCheeseCustomization = asyncErrorHandler( async(req,res,next)=
   })
 
   await data.save()
-  const updatedData = await cheeseCustomizationModel.find();
 
  res.status(201).json({status:true,message:"Cheese Customization created successfully"})
   }
@@ -55,15 +54,12 @@ export const getAllCheeseCustomization = asyncErrorHandler( async(req,res,next)=
 
 export const deleteCheeseCustomization = asyncErrorHandler( async(req,res,next)=>{
   const {id}= req?.params
-      console.log(id)
+ 
 
 const isValidId =await cheeseCustomizationModel.findByIdAndDelete(id)
 if(!isValidId){
 return next(new CustomError("No data found with given id!!", 400))
 }
-
-const data = await cheeseCustomizationModel.find();
-
 
 res.status(200).json({status:true,message:"Cheese Customization data deleted successfully"})
 }
