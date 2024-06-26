@@ -1,10 +1,13 @@
 "use client"
+import { addUserData } from '@/app/lib/features/auth/authSlice'
 import { useAppSelector } from '@/app/lib/hooks'
 import React from 'react'
 import { useForm } from "react-hook-form"
+import { useDispatch } from 'react-redux'
 
 const UpdateProfile = () => {
     const { userData, isUserLoggedIn } = useAppSelector(state => state.auth)
+    const dispatch = useDispatch()
     const {
         register,
         handleSubmit,
@@ -36,7 +39,11 @@ const UpdateProfile = () => {
                     }),
                 }
             );
-            console.log(response, "response")
+            const responseData = await response.json()
+            const updatedData = { isUserLoggedIn: true, data: responseData.data }
+
+            dispatch(addUserData(updatedData))
+            console.log(responseData, "response")
 
 
         } catch (error) {
