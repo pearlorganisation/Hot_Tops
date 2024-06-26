@@ -1,14 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
-// import { postBasePizza } from "../../actions/pizza/postCustomization/postBasePizza";
-// import { postCheesePizza } from "../../actions/pizza/postCustomization/postCheesePizza";
-// import { postSizePizza } from "../../actions/pizza/postCustomization/postSizePizza";
-// import { postSaucePizza } from "../../actions/pizza/postCustomization/postSaucePizza";
-// import { postVegTopping } from "../../actions/pizza/postCustomization/postVegTopping";
-// import { postMeatTopping } from "../../actions/pizza/postCustomization/postMeatTopping";
-
-
 import { postBasePizza , postCheesePizza , postSizePizza , postVegTopping , postMeatTopping, postSaucePizza } from "../../actions/pizza/postCustomization";
 
 
@@ -18,7 +9,12 @@ import { deleteBasePizza , deleteSizePizza , deleteCheesePizza , deleteSaucePizz
 
 
 const initialState = {
-  isSuccess:false,
+  isBaseSuccess:false,
+  isSizeSuccess:false,
+  isCheeseSuccess:false,
+  isSauceSuccess:false,
+  isVegToppingSuccess:false,
+  isMeatToppingeSuccess:false,
   isLoading: false,
   isError: false,
   base: [],
@@ -34,7 +30,12 @@ const pizza = createSlice({
   initialState,
   reducers: {
     resetStatus: (state, action) => {
-      state.isSuccess = action.payload;
+      state.isBaseSuccess = action.payload;
+      state.isMeatToppingeSuccess = action.payload;
+      state.isVegToppingSuccess = action.payload;
+      state.isSauceSuccess = action.payload;
+      state.isCheeseSuccess = action.payload;
+      state.isSizeSuccess = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -63,11 +64,7 @@ const pizza = createSlice({
     });
     builder.addCase(postBasePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      
-      state.isSuccess = true;
-      
-      
-       // Assuming the response has the new base pizza data
+      state.isBaseSuccess = true;
     });
     builder.addCase(postBasePizza.rejected, (state) => {
       state.isLoading = false;
@@ -81,7 +78,7 @@ const pizza = createSlice({
     });
     builder.addCase(updateBasePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
+      state.isBaseSuccess = true;
     });
     builder.addCase(updateBasePizza.rejected, (state) => {
       state.isLoading = false;
@@ -94,7 +91,7 @@ const pizza = createSlice({
     });
     builder.addCase(deleteBasePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
+      state.isBaseSuccess = true;
     });
     builder.addCase(deleteBasePizza.rejected, (state) => {
       state.isLoading = false;
@@ -120,7 +117,7 @@ const pizza = createSlice({
     });
     builder.addCase(postSizePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true; 
+      state.isSizeSuccess = true; 
     });
     builder.addCase(postSizePizza.rejected, (state) => {
       state.isLoading = false;
@@ -133,7 +130,7 @@ const pizza = createSlice({
     });
     builder.addCase(updateSizePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
+      state.isSizeSuccess = true;
     });
     builder.addCase(updateSizePizza.rejected, (state) => {
       state.isLoading = false;
@@ -146,7 +143,7 @@ const pizza = createSlice({
     });
     builder.addCase(deleteSizePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
+      state.isSizeSuccess = true;
     });
     builder.addCase(deleteSizePizza.rejected, (state) => {
       state.isLoading = false;
@@ -172,7 +169,7 @@ const pizza = createSlice({
     });
     builder.addCase(postCheesePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
+      state.isCheeseSuccess = true;
     });
     builder.addCase(postCheesePizza.rejected, (state) => {
       state.isLoading = false;
@@ -185,7 +182,7 @@ const pizza = createSlice({
     });
     builder.addCase(updateCheesePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
+      state.isCheeseSuccess = true;
 
     });
     builder.addCase(updateCheesePizza.rejected, (state) => {
@@ -199,7 +196,7 @@ const pizza = createSlice({
     });
     builder.addCase(deleteCheesePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
+      state.isCheeseSuccess = true;
 
     });
     builder.addCase(deleteCheesePizza.rejected, (state) => {
@@ -226,7 +223,7 @@ const pizza = createSlice({
     });
     builder.addCase(postSaucePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
+      state.isSauceSuccess = true;
     });
     builder.addCase(postSaucePizza.rejected, (state) => {
       state.isLoading = false;
@@ -239,7 +236,7 @@ const pizza = createSlice({
     });
     builder.addCase(updateSaucePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
+      state.isSauceSuccess = true;
 
     });
     builder.addCase(updateSaucePizza.rejected, (state) => {
@@ -253,7 +250,7 @@ const pizza = createSlice({
     });
     builder.addCase(deleteSaucePizza.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
+      state.isSauceSuccess = true;
 
     });
     builder.addCase(deleteSaucePizza.rejected, (state) => {
@@ -282,7 +279,7 @@ const pizza = createSlice({
     });
     builder.addCase(postVegTopping.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
+      state.isVegToppingSuccess = true;
     });
     builder.addCase(postVegTopping.rejected, (state) => {
       state.isLoading = false;
@@ -295,7 +292,7 @@ const pizza = createSlice({
     });
     builder.addCase(updateVegTopping.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
+      state.isVegToppingSuccess = true;
 
     });
     builder.addCase(updateVegTopping.rejected, (state) => {
@@ -309,7 +306,7 @@ const pizza = createSlice({
     });
     builder.addCase(deleteVegTopping.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
+      state.isVegToppingSuccess = true;
 
     });
     builder.addCase(deleteVegTopping.rejected, (state) => {
@@ -336,7 +333,7 @@ const pizza = createSlice({
     });
     builder.addCase(postMeatTopping.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
+      state.isMeatToppingeSuccess = true;
     });
     builder.addCase(postMeatTopping.rejected, (state) => {
       state.isLoading = false;
@@ -349,7 +346,7 @@ const pizza = createSlice({
     });
     builder.addCase(updateMeatTopping.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
+      state.isMeatToppingeSuccess = true;
 
     });
     builder.addCase(updateMeatTopping.rejected, (state) => {
@@ -363,7 +360,7 @@ const pizza = createSlice({
     });
     builder.addCase(deleteMeatTopping.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
+      state.isMeatToppingeSuccess = true;
       
     });
     builder.addCase(deleteMeatTopping.rejected, (state) => {
