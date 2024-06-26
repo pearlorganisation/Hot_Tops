@@ -7,13 +7,15 @@ import { IoAddCircleSharp } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { RiEditCircleFill } from "react-icons/ri";
 import Delete from "../../../../../../components/delete";
+import { useSelector } from "react-redux";
+import { Stack,Skeleton } from '@mui/material';
 
 
 const CommonContainer = ({ itemName, items }) => {
 
 
  const dispatch = useDispatch();
-
+const {isMeatToppingeLoading,isVegToppingLoading,isSauceLoading,isCheeseLoading} =useSelector((state)=>state.pizza)
 
  const [editItemData , setEditItem] = useState();
 
@@ -90,7 +92,52 @@ const CommonContainer = ({ itemName, items }) => {
               </tr>
             </thead>
             <tbody className="font-medium">
-              {items?.map((item) => (
+           {
+          (itemName === "SAUCE" && isSauceLoading) ||
+          (itemName === "CHEESE" && isCheeseLoading) ||
+          (itemName === "MEAT TOPPINGS" && isMeatToppingeLoading) ||
+          (itemName === "VEGETARIAN TOPPINGS" && isVegToppingLoading) ? (
+          <td colSpan="4" className="text-center px-6 py-8">
+            <Stack spacing={4}>
+              {itemName === "SAUCE" && isSauceLoading && (
+                <>
+                  <Skeleton variant="rounded" height={30} />
+                  <Skeleton variant="rounded" height={25} />
+                  <Skeleton variant="rounded" height={20} />
+                  <Skeleton variant="rounded" height={20} />
+                  <Skeleton variant="rounded" height={20} />
+                </>
+              )}
+              {itemName === "CHEESE" && isCheeseLoading && (
+                <>
+                  <Skeleton variant="rounded" height={30} />
+                  <Skeleton variant="rounded" height={25} />
+                  <Skeleton variant="rounded" height={20} />
+                  <Skeleton variant="rounded" height={20} />
+                  <Skeleton variant="rounded" height={20} />
+                </>
+              )}
+              {itemName === "MEAT TOPPINGS" && isMeatToppingeLoading && (
+                <>
+                  <Skeleton variant="rounded" height={30} />
+                  <Skeleton variant="rounded" height={25} />
+                  <Skeleton variant="rounded" height={20} />
+                  <Skeleton variant="rounded" height={20} />
+                  <Skeleton variant="rounded" height={20} />
+                </>
+              )}
+              {itemName === "VEGETARIAN TOPPINGS" && isVegToppingLoading && (
+                <>
+                  <Skeleton variant="rounded" height={30} />
+                  <Skeleton variant="rounded" height={25} />
+                  <Skeleton variant="rounded" height={20} />
+                  <Skeleton variant="rounded" height={20} />
+                  <Skeleton variant="rounded" height={20} />
+                </>
+              )}
+            </Stack>
+          </td>
+        ):(items?.map((item) => (
                 <tr key={item?._id}>
                   <td className="p-2 max-w-[100px] truncate">{item?.name}</td>
                   <td className="p-2">£ {item?.singlePrice}</td>
@@ -114,7 +161,8 @@ const CommonContainer = ({ itemName, items }) => {
                   
                   </td>
                 </tr>
-              ))}
+              )))
+              }
 
               
             </tbody>

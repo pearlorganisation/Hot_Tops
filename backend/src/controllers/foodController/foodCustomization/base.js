@@ -63,7 +63,6 @@ if (skip >= dataCount) {
 export const deleteBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
        const {id}= req?.params
 
-       console.log(id)
        
        const isValidId =await baseCustomizationModel.findByIdAndDelete(id)
        if(!isValidId){

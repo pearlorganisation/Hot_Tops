@@ -11,7 +11,8 @@ import { resetStatus } from "../../../../../features/slice/pizza/pizza";
 
 const PizzaCustomizationForm = () => {
 
-  const { sauce ,cheese ,vegetarianToppings,meatToppings ,isMeatToppingeSuccess,isVegToppingSuccess,isSauceSuccess,isCheeseSuccess,isSizeSuccess,isBaseSuccess} = useSelector((state) => state?.pizza);
+  const { sauce ,cheese ,vegetarianToppings,meatToppings ,isMeatToppingeSuccess,isVegToppingSuccess,isSauceSuccess,isCheeseSuccess,isSizeSuccess,isBaseSuccess } = useSelector((state) => state?.pizza);
+
   const dispatch = useDispatch();
 
   useEffect(() => {

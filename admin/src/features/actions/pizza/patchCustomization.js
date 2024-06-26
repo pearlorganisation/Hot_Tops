@@ -29,6 +29,7 @@ export const updateMeatTopping = createAsyncThunk(
   "updateMeatTopping",
   async (data, { rejectWithValue }) => {
     try {
+      console.log(data)
       const response = await instance.patch(`food/customization/meatToppings/${data._id}`, data);
       return response;
     } catch (e) {

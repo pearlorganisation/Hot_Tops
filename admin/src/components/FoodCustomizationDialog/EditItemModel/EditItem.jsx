@@ -32,11 +32,11 @@ const EditItem = forwardRef(({ data, itemName }, ref) => {
       setValue("name", data.name);
       setValue("price", data.price);
     }
-    else if(data)
+    else if(data )
       {
       setValue("name", data.name);
-      setValue("single", data.singlePrice);
-      setValue("double", data.doublePrice );
+      setValue("singlePrice", data.singlePrice);
+      setValue("doublePrice", data.doublePrice );
       }
   }, [data, setValue ,itemName]);
 
@@ -64,6 +64,7 @@ const EditItem = forwardRef(({ data, itemName }, ref) => {
             _id: data._id,
           })
         );
+        console.log(submissionData)
       }
       else if(itemName === "MEAT TOPPINGS"){
         dispatch(
@@ -173,27 +174,27 @@ const EditItem = forwardRef(({ data, itemName }, ref) => {
 
               {itemName !== "Base" && itemName != "Size" && (
                 <>
-                  <div className="mb-4">
+                  <div className="mb-4 space-y-1">
                     <label
-                      htmlFor="single"
-                      className="block text-sm font-medium text-gray-700"
+                      htmlFor="singlePrice"
+                      className="block font-medium text-gray-700"
                     >
                       Single
                     </label>
                     <input
-                      {...register("single")}
+                      {...register("singlePrice")}
                       className="border p-1 rounded w-full"
                     />
                   </div>
-                  <div className="mb-4">
+                  <div className="mb-4 space-y-1">
                     <label
-                      htmlFor="double"
-                      className="block text-sm font-medium text-gray-700"
+                      htmlFor="doublePrice"
+                      className="block font-medium text-gray-700"
                     >
                       Double
                     </label>
                     <input
-                      {...register("double")}
+                      {...register("doublePrice")}
                       className="border p-1 rounded w-full"
                     />
                   </div>

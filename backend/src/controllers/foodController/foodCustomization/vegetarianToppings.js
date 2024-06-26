@@ -13,18 +13,17 @@ export const updateVegetarianToppingsCustomization = asyncErrorHandler(async (re
     const { id } = req?.params;
 
       const data = await vegetarianToppingsCustomizationModel.findByIdAndUpdate(
-        id,{...req?.body},{new:true}
+        id,{...req?.body}
       );
 
       if (!data)
         return next(new CustomError("No data found with given id!!", 400));
     
-      const updatedData = await vegetarianToppingsCustomizationModel.find();
+
 
     return res.status(200).json({
       success: true,
-      message: `VegetarianToppings Customization Updated Successfully`,
-      updatedData
+      message: `VegetarianToppings Customization Updated Successfully`
     });
   }
 );
@@ -36,9 +35,9 @@ export const createVegetarianToppingsCustomization = asyncErrorHandler( async(re
   })
 
   await data.save()
-  const updatedData = await vegetarianToppingsCustomizationModel.find();
 
- res.status(201).json({status:true,message:"VegetarianToppings Customization created successfully",updatedData})
+
+ res.status(201).json({status:true,message:"VegetarianToppings Customization created successfully"})
   }
 )
 
@@ -55,17 +54,16 @@ export const getAllVegetarianToppingsCustomization = asyncErrorHandler( async(re
 
 export const deleteVegetarianToppingsCustomization = asyncErrorHandler( async(req,res,next)=>{
   const {id}= req?.params
-      console.log(id)
+
 
 const isValidId =await vegetarianToppingsCustomizationModel.findByIdAndDelete(id)
 if(!isValidId){
 return next(new CustomError("No data found with given id!!", 400))
 }
 
-const data = await vegetarianToppingsCustomizationModel.find();
 
 
-res.status(200).json({status:true,message:"VegetarianToppings Customization data deleted successfully",data})
+res.status(200).json({status:true,message:"VegetarianToppings Customization data deleted successfully"})
 }
 
 )
