@@ -13,17 +13,17 @@ export const updateSizeCustomization = asyncErrorHandler(async (req, res, next) 
     const { id } = req?.params;
 
       const data = await sizeCustomizationModel.findByIdAndUpdate(
-        id,{...req?.body},{new:true}
+        id,{...req?.body}
       );
 
       if (!data)
         return next(new CustomError("No data found with given id!!", 400));
-      const updatedData = await sizeCustomizationModel.find();
+   
 
     return res.status(200).json({
       success: true,
       message: `Size Customization Updated Successfully`,
-      updatedData
+
     });
   }
 );
@@ -35,9 +35,9 @@ export const createSizeCustomization = asyncErrorHandler( async(req,res,next)=>{
   })
 
   await data.save()
-  const updatedData = await sizeCustomizationModel.find();
 
- res.status(201).json({status:true,message:"Size Customization created successfully",updatedData})
+
+ res.status(201).json({status:true,message:"Size Customization created successfully"})
   }
 )
 
@@ -54,17 +54,15 @@ export const getAllSizeCustomization = asyncErrorHandler( async(req,res,next)=>{
 
 export const deleteSizeCustomization = asyncErrorHandler( async(req,res,next)=>{
   const {id}= req?.params
-      console.log(id)
 
 const isValidId =await sizeCustomizationModel.findByIdAndDelete(id)
 if(!isValidId){
 return next(new CustomError("No data found with given id!!", 400))
 }
 
-const data = await sizeCustomizationModel.find();
 
 
-res.status(200).json({status:true,message:"Size Customization data deleted successfully",data})
+res.status(200).json({status:true,message:"Size Customization data deleted successfully"})
 }
 
 )

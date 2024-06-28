@@ -126,8 +126,7 @@ const FoodModal = forwardRef((props, ref) => {
                   {...register("singlePrice")}
                   className="border p-[7px] rounded-md outline-slate-600 w-full"
                   placeholder="Price for Single"
-                  min={0.1}
-                  max={10000}
+                 
                 />
               </div>
               <div className="mb-4">
@@ -139,8 +138,7 @@ const FoodModal = forwardRef((props, ref) => {
                   {...register("doublePrice")}
                   className="border p-[7px] rounded-md outline-slate-600 w-full"
                   placeholder="Price for Double"
-                  min={0.1}
-                  max={10000}
+              
                 />
               </div>
             </div>

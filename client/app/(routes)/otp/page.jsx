@@ -1,5 +1,6 @@
 "use client";
 import { getcredentials } from "@/app/lib/features/auth/authSlice";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -9,11 +10,12 @@ const OTPReceiver = () => {
   const { email, password, firstName, lastName } = useSelector(
     (state) => state.auth
   );
+  const router = useRouter()
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
   const [response, setResponse] = useState("");
   const dispatch = useDispatch();
-   
+
 
 
   const handleChange = (e) => {
@@ -51,6 +53,7 @@ const OTPReceiver = () => {
           }
         );
         const newData = await data.json();
+        console.log(newData, "newData")
 
         if (newData.status === true) {
           dispatch(getcredentials({ email: "", password: "" }));

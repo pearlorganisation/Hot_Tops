@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { RiEditCircleFill } from "react-icons/ri";
+import { Stack,Skeleton } from '@mui/material';
 
 
 import EditItem from "../../../../../../components/FoodCustomizationDialog/EditItemModel/EditItem";
@@ -12,7 +13,7 @@ import Delete from "../../../../../../components/delete";
 
 
 const BaseContainer = () => {
-  const { base } = useSelector((state) => state.pizza);
+  const { base,isBaseLoading} = useSelector((state) => state.pizza);
   const [editItemData,setEditData] = useState({});
   const modalRef = useRef();
   const editRef = useRef();
@@ -70,7 +71,16 @@ const BaseContainer = () => {
                 </tr>
               </thead>
               <tbody className="font-medium"> 
-                {Array.isArray(base) &&
+               { isBaseLoading ?
+               (<td colSpan="3" className="text-center px-6 py-8">
+                <Stack spacing={4}>
+                  <Skeleton variant="rounded" height={30} />
+                  <Skeleton variant="rounded" height={25}/>
+                  <Skeleton variant="rounded" height={20}/>
+                  <Skeleton variant="rounded" height={20}/>
+                  <Skeleton variant="rounded" height={20}/>
+                </Stack>
+              </td> ) :  (Array.isArray(base) &&
                   base?.map((item) => (
                     <tr key={item?._id}>
                       <td className="p-2 max-w-[100px] truncate">{item?.name}</td>
@@ -92,7 +102,9 @@ const BaseContainer = () => {
                         </button>
                       </td>
                     </tr>
-                  ))}
+                  ))
+                )
+                  } 
               </tbody>
             </table>
           </div>

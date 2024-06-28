@@ -1,6 +1,7 @@
 "use client";
 
 
+import { userLogout } from "@/app/lib/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,14 +10,17 @@ import { useDispatch, useSelector } from "react-redux";
 const OTPReceiver = () => {
   // ----------------------------------------hooks----------------------------------------
   const { userData } = useSelector(
-    (state) => state.auth
+    (state) => state?.auth
   );
-  const email = userData.email;
-  const id = userData._id;
+  const email = userData?.email;
+  const id = userData?._id;
 
   const [otp, setOtp] = useState("");
+  
   const [error, setError] = useState("");
+
   const [response, setResponse] = useState("");
+
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -54,9 +58,11 @@ const OTPReceiver = () => {
         );
         const newData = await data.json();
         setResponse(newData)
-        if (newData.success === true) {
+        if (newData.status === true) {
          
+          dispatch(userLogout());
           router.push("/login");
+          
           
         }
         
@@ -73,7 +79,7 @@ console.log(response)
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
     
       <div className="max-w-md w-full bg-white shadow-md rounded-lg p-8">
-        {response && response?.success == false ? (
+        {response && response?.status == false ? (
           <div className="p-2 text-center text-red-600 font-semibold">
             {response?.message}!
           </div>
