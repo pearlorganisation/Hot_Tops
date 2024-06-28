@@ -10,6 +10,6 @@ export const makeStore = () => {
       cart: cartReducer,
       auth: authReducer,
     },
-    devTools: true,
+   devTools:true
   });
 };

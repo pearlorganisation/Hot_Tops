@@ -1,16 +1,39 @@
 "use client"
 import { userLogout } from '@/app/lib/features/auth/authSlice'
 import Link from 'next/link'
-import React from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import UpdateProfile from './_UpdateProfile'
+import ChangePassword from './_ChangePassword'
+import OrderDetails from './_OrderDetails'
+import { Hand } from 'lucide-react'
+import DeleteAccountModal from '@/app/_components/Modals/DeleteAccountModal'
+import { useRouter } from 'next/navigation'
 
 const page = ({ searchParams }) => {
+    const { userData, isUserLoggedIn } = useSelector((state) => state?.auth);
+    const router = useRouter()
+
+
+
     const { tab } = searchParams
     const dispatch = useDispatch()
+    const modalRef = useRef(null);
+    function handleDeleteAccount() {
+        modalRef.current.open();
+    }
+
     console.log(tab, "tab")
+    useEffect(() => {
+        if (!isUserLoggedIn) {
+            router.push('/')
+        }
+    }, [isUserLoggedIn])
+
     return (
         <div>
             <div className="flex flex-col md:flex-row p-8 space-y-8 md:space-y-0 md:space-x-8 bg-gray-100 min-h-screen">
+                <DeleteAccountModal ref={modalRef} />
                 <aside className="w-full md:w-1/4 space-y-8">
                     <div>
                         <h2 className="text-xl font-bold">SETTINGS</h2>
@@ -26,9 +49,11 @@ const page = ({ searchParams }) => {
                                 </Link>
                             </li>
                             <li>
-                                <a href="#" className="block p-2 text-red-500 hover:underline">
+                                <button onClick={handleDeleteAccount} className="block p-2 text-red-500 hover:underline">
+
                                     Delete my account
-                                </a>
+
+                                </button>
                             </li>
                             <li>
                                 <button onClick={() => {
@@ -51,131 +76,16 @@ const page = ({ searchParams }) => {
                     </div>
                 </aside>
                 {
-                    Number(tab) === 1 && <main className="w-full md:w-3/4 bg-white p-8 rounded-md shadow-md">
-                        <form className="space-y-6">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="space-y-1">
-                                    <label htmlFor="first-name" className="block font-medium">
-                                        First Name *
-                                    </label>
-                                    <div className="relative">
-                                        <input
-                                            type="text"
-                                            id="first-name"
-                                            className="w-full p-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                                            placeholder='Enter Your First Name'
-                                        />
-                                        {/* <CheckIcon className="absolute top-1/2 right-3 transform -translate-y-1/2 text-red-500" /> */}
-                                    </div>
-                                </div>
-                                <div className="space-y-1">
-                                    <label htmlFor="last-name" className="block font-medium">
-                                        Last Name *
-                                    </label>
-                                    <div className="relative">
-                                        <input
-                                            type="text"
-                                            id="last-name"
-                                            className="w-full p-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                                            placeholder='Enter Your Last Name'
-                                        />
-                                        {/* <CheckIcon className="absolute top-1/2 right-3 transform -translate-y-1/2 text-red-500" /> */}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="space-y-1">
-                                <label htmlFor="mobile" className="block font-medium">
-                                    Mobile *
-                                </label>
-                                <div className="relative">
-                                    <input
-                                        type="text"
-                                        id="mobile"
-                                        className="w-full p-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                                        placeholder='Enter Mobile Number'
-                                    />
-                                    {/* <CheckIcon className="absolute top-1/2 right-3 transform -translate-y-1/2 text-red-500" /> */}
-                                </div>
-                            </div>
-                          
-                            <div className="flex items-start space-x-2">
-                                <input type="checkbox" id="offers" className=" accent-red-500" />
-                                <label htmlFor="offers" className="text-sm font-medium leading-none">
-                                    Please send me exclusive deals and amazing pizza offers via email
-                                </label>
-                            </div>
-                            <p className="text-sm text-gray-600">
-                                Tops Pizza's does not sell, trade or rent your personal information to others. Any data collected will be
-                                used solely for the purpose of providing the services you request, communicating information about our
-                                brands, products and services and internal analysis.
-                            </p>
-                            <button type="submit" className="w-full py-3 bg-red-500 text-white rounded-md hover:bg-red-600">
-                                Save & continue
-                            </button>
-                        </form>
-                    </main>
+                    Number(tab) === 1 && <UpdateProfile />
                 }
                 {
-                    Number(tab) === 2 && <main className="w-full md:w-3/4 bg-white p-8 rounded-md shadow-md">
-                        <form className="space-y-6">
-
-                            <div className="space-y-1">
-                                <label htmlFor="mobile" className="block font-medium">
-                                    Current Password
-                                </label>
-                                <div className="relative">
-                                    <input
-                                        type="text"
-                                        id="mobile"
-                                        className="w-full p-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                                        placeholder='Current Password'
-                                    />
-                                    {/* <CheckIcon className="absolute top-1/2 right-3 transform -translate-y-1/2 text-red-500" /> */}
-                                </div>
-                            </div>
-                            <div className="space-y-1">
-                                <label htmlFor="newPassword" className="block font-medium">
-                                    New Password
-                                </label>
-                                <div className="relative">
-                                    <input
-                                        type="text"
-                                        id="newPassword"
-                                        className="w-full p-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                                        placeholder='New Password'
-                                    />
-                                    {/* <CheckIcon className="absolute top-1/2 right-3 transform -translate-y-1/2 text-red-500" /> */}
-                                </div>
-                            </div>
-                            <div className="space-y-1">
-                                <label htmlFor="confirmPassword" className="block font-medium">
-                                    Confirm Password
-                                </label>
-                                <div className="relative">
-                                    <input
-                                        type="text"
-                                        id="confirmPassword"
-                                        className="w-full p-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                                        placeholder='Confirm Password'
-                                    />
-                                    {/* <CheckIcon className="absolute top-1/2 right-3 transform -translate-y-1/2 text-red-500" /> */}
-                                </div>
-                            </div>
-
-
-                            <button type="submit" className="w-full py-3 bg-red-500 text-white rounded-md hover:bg-red-600">
-                                Save & continue
-                            </button>
-                        </form>
-                    </main>
+                    Number(tab) === 2 && <ChangePassword />
                 }
                 {
-                    Number(tab) === 3 && <main className="w-full md:w-3/4 grid place-items-center bg-white p-8 rounded-md shadow-md">
-                        <p className='font-medium text-2xl'>No Orders</p>
-                    </main>
+                    Number(tab) === 3 && <OrderDetails />
                 }
             </div>
-        </div>
+        </div >
     )
 }
 

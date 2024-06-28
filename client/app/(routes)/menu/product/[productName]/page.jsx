@@ -8,77 +8,77 @@ const Product = () => {
   const [vegetarianSelections, setVegetarianSelections] = useState({});
   const [meatSelections, setMeatSelections] = useState({});
   const [seafoodSelections, setSeafoodSelections] = useState({});
-   
 
 
-    // -------------------data fetching function-----------------------
-    const baseFetcher = async(...args) => fetch(...args).then((res) => {
+
+  // -------------------data fetching function-----------------------
+  const baseFetcher = async (...args) => fetch(...args).then((res) => {
     return res.json();
-    });
-    const sizeFetcher = async(...args) => fetch(...args).then((res) => {
-      return res.json()
-    });
-    const sauceFetcher = async(...args) => fetch(...args).then((res) => {
-      return res.json()
-    });
-    const cheeseFetcher = async(...args) => fetch(...args).then((res) => {
-      return res.json()
-    });
-    const vegFetcher = async(...args) => fetch(...args).then((res) => {
-      return res.json()
-    });
-    const meatFetcher = async(...args) => fetch(...args).then((res) => {
-      return res.json()
-    });
-
-      
-
-    // =-------------------------data fetching---------------------------
-    const {data:baseData, error : baseError, isLoading :baseLoading } = useSWR(
-      `https://hot-house.onrender.com/api/v1/food/customization/base`,
-      baseFetcher
-    );
-    const {data:sizeData, error : sizeError, isLoading : sizeLoading } = useSWR(
-      `https://hot-house.onrender.com/api/v1/food/customization/size`,
-      sizeFetcher
-    );
-    const {data:sauceData, error : sauceError, isLoading : sauceLoading} = useSWR(
-      `https://hot-house.onrender.com/api/v1/food/customization/sauce`,
-      sauceFetcher
-    );
-    const {data:cheeseData, error : cheeseError, isLoading : cheeseLoading } = useSWR(
-      `https://hot-house.onrender.com/api/v1/food/customization/cheese`,
-      cheeseFetcher
-    );
-    const {data:vegData, error : vegError, isLoading : vegLoading} = useSWR(
-      `https://hot-house.onrender.com/api/v1/food/customization/vegetarianToppings`,
-      vegFetcher
-    );
-    const {data:meatData, error : meatError, isLoading  : meatLoading} = useSWR(
-      `https://hot-house.onrender.com/api/v1/food/customization/meatToppings`,
-      meatFetcher
-    );
-
-    if (baseLoading) return <div>Loading...</div>;
-    if (baseError) return <div>Error loading data</div>;
-    console.log('Base Data:', baseData); // Add this line for debugging
-
-    if (sizeLoading) return <div>Loading...</div>;
-    if (sizeError) return <div>Error loading data</div>;
-
-    if (sauceLoading) return <div>Loading...</div>;
-    if (sauceError) return <div>Error loading data</div>;
-
-    if (vegLoading) return <div>Loading...</div>;
-    if (vegError) return <div>Error loading data</div>;
+  });
+  const sizeFetcher = async (...args) => fetch(...args).then((res) => {
+    return res.json()
+  });
+  const sauceFetcher = async (...args) => fetch(...args).then((res) => {
+    return res.json()
+  });
+  const cheeseFetcher = async (...args) => fetch(...args).then((res) => {
+    return res.json()
+  });
+  const vegFetcher = async (...args) => fetch(...args).then((res) => {
+    return res.json()
+  });
+  const meatFetcher = async (...args) => fetch(...args).then((res) => {
+    return res.json()
+  });
 
 
-    if (meatLoading) return <div>Loading...</div>;
-    if (meatError) return <div>Error loading data</div>;
 
-    
-    if (cheeseLoading) return <div>Loading...</div>;
-    if (cheeseError) return <div>Error loading data</div>;
+  // =-------------------------data fetching---------------------------
+  const { data: baseData, error: baseError, isLoading: baseLoading } = useSWR(
+    `https://hot-house.onrender.com/api/v1/food/customization/base`,
+    baseFetcher
+  );
+  const { data: sizeData, error: sizeError, isLoading: sizeLoading } = useSWR(
+    `https://hot-house.onrender.com/api/v1/food/customization/size`,
+    sizeFetcher
+  );
+  const { data: sauceData, error: sauceError, isLoading: sauceLoading } = useSWR(
+    `https://hot-house.onrender.com/api/v1/food/customization/sauce`,
+    sauceFetcher
+  );
+  const { data: cheeseData, error: cheeseError, isLoading: cheeseLoading } = useSWR(
+    `https://hot-house.onrender.com/api/v1/food/customization/cheese`,
+    cheeseFetcher
+  );
+  const { data: vegData, error: vegError, isLoading: vegLoading } = useSWR(
+    `https://hot-house.onrender.com/api/v1/food/customization/vegetarianToppings`,
+    vegFetcher
+  );
+  const { data: meatData, error: meatError, isLoading: meatLoading } = useSWR(
+    `https://hot-house.onrender.com/api/v1/food/customization/meatToppings`,
+    meatFetcher
+  );
+
+  if (baseLoading) return <div>Loading...</div>;
+  if (baseError) return <div>Error loading data</div>;
+  console.log('Base Data:', baseData); // Add this line for debugging
+
+  if (sizeLoading) return <div>Loading...</div>;
+  if (sizeError) return <div>Error loading data</div>;
+
+  if (sauceLoading) return <div>Loading...</div>;
+  if (sauceError) return <div>Error loading data</div>;
+
+  if (vegLoading) return <div>Loading...</div>;
+  if (vegError) return <div>Error loading data</div>;
+
+
+  if (meatLoading) return <div>Loading...</div>;
+  if (meatError) return <div>Error loading data</div>;
+
+
+  if (cheeseLoading) return <div>Loading...</div>;
+  if (cheeseError) return <div>Error loading data</div>;
 
 
 
@@ -129,35 +129,35 @@ const Product = () => {
                     )
                   }
                 />
-              <>{item?.doublePrice} £</>
+                <>{item?.doublePrice} £</>
 
 
               </td>
               <td className="py-2 px-4 border-b text-center">
-                
+
                 <div>
-                <input
-                  className="mx-2"
-                  type="checkbox"
-                  checked={
-                    selections[
+                  <input
+                    className="mx-2"
+                    type="checkbox"
+                    checked={
+                      selections[
                       item?.name
-                    ] === "double"
-                  }
-                  onChange={() =>
-                    handleSelectionChange(
-                      setSelections,
-                      item.SauceName || item.CheeseName || item.toppingName,
-                      "double"
-                    )
-                  }
-                />
+                      ] === "double"
+                    }
+                    onChange={() =>
+                      handleSelectionChange(
+                        setSelections,
+                        item.SauceName || item.CheeseName || item.toppingName,
+                        "double"
+                      )
+                    }
+                  />
                   {item?.doublePrice} £
                 </div>
-               
 
 
-              
+
+
               </td>
             </tr>
           ))}
@@ -190,10 +190,10 @@ const Product = () => {
                       type="radio"
                       className="form-radio"
                       name="size"
-                      // value={size.toLowerCase().replace(/\"| /g, "")}
+                    // value={size.toLowerCase().replace(/\"| /g, "")}
                     />
                     <span className="ml-2">{size?.name} <>{size?.price}$</></span>
-                    
+
                   </label>
                 ))}
               </div>
@@ -208,7 +208,7 @@ const Product = () => {
                       type="radio"
                       className="form-radio"
                       name="base"
-                      // value={base.toLowerCase().replace(/\"| /g, "")}
+                    // value={base.toLowerCase().replace(/\"| /g, "")}
                     />
                     <span className="ml-2">{base?.name} <>{base?.price}$</></span>
 
@@ -233,7 +233,7 @@ const Product = () => {
       {/* SAUCE: */}
       <div className="max-w-4xl mx-auto p-4 bg-white rounded-lg">
         <h2 className="text-lg font-semibold text-gray-800">SAUCE:</h2>
-        {sauceData &&  renderTable(sauceData?.data, sauceSelections, setSauceSelections)}
+        {sauceData && renderTable(sauceData?.data, sauceSelections, setSauceSelections)}
       </div>
 
       {/* CHEESE: */}
