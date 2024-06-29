@@ -310,7 +310,7 @@ export const deleteAccount = asyncErrorHandler(async (req, res) => {
   // deleting the expire  opt
   await optModel.deleteMany({
     expiresAt: { $lt: currentDate },
-    type: "SIGNUP",
+    type: "FORGOTPASSWORD",
   });
 
   // genrate the random otp
@@ -367,5 +367,113 @@ export const verifyOtpForDeleteAccount = asyncErrorHandler(async (req, res) => {
   return res.status(201).json({
     status: true,
     message: "delete account successfully",
+  });
+});
+
+// ---------------forget passsword ------email verification + otp genrator  controller
+export const forgetPassword = asyncErrorHandler(async (req, res) => {
+  const { email } = req.body;
+  const userExist = await auth.findOne({ email });
+  if (!userExist) {
+    return res.status(400).json({
+      status: false,
+      message: "no user found with this email",
+    });
+  }
+  // current date
+  const currentDate = new Date();
+
+  // deleting the expire  opt
+  await optModel.deleteMany({
+    expiresAt: { $lt: currentDate },
+    type: "FORGOTPASSWORD",
+  });
+
+  // genrate the random otp
+  const otp = genrateOtp();
+
+  sendMail(email, otp).then(async () => {
+    const otpDoc = await optModel.findOneAndUpdate(
+      { email, type: "FORGOTPASSWORD" },
+      { otp, expiresAt: new Date(Date.now() + 300000) },
+      { $new: true }
+    );
+    if (!otpDoc) {
+      let doc = new optModel({
+        email,
+        type: "FORGOTPASSWORD",
+        otp,
+        expiresAt: new Date(Date.now() + 300000), //expiry time of otp 5mins
+      });
+
+      await doc.save().then(() => {
+        return res
+          .status(200)
+          .json({ status: true, message: "OTP sent successfully" });
+      });
+    } else {
+      return res
+        .status(200)
+        .json({ status: true, message: "OTP sent successfully" });
+    }
+  });
+});
+
+// ------verify otp for forgot password------------
+export const verifyOtpForForgotPassword = asyncErrorHandler(
+  async (req, res) => {
+    const { email, otp } = req?.body;
+    const userExist = await auth.findOne({ email });
+    if (!userExist) {
+      return res.status(400).json({
+        status: false,
+        message: "user not exist in database",
+      });
+    }
+
+    const isOtpValid = await optModel.findOne({ email, otp });
+    if (!isOtpValid) {
+      return res.status(400).json({
+        status: false,
+        message: "otp is incorrect",
+      });
+    }
+
+    return res.status(201).json({
+      status: true,
+      message: "verify otp sussessfully",
+    });
+  }
+);
+
+// -----------------new password using forget password controller----------------
+export const newPassword = asyncErrorHandler(async (req, res) => {
+  const { email, newPassword } = req?.body;
+
+  const userExist = await auth.findOne({ email });
+  if (!userExist) {
+    return res.status(400).json({
+      status: false,
+      message: "email not exist in database",
+    });
+  }
+  // const ispasswordValid = await bcrypt.compare(
+  //   newPassword,
+  //   userExist?.password
+  // );
+  // if (!isPasswordValid) {
+  //   return res.status(400).json({ status: false, message: "invalid password" });
+  // }
+
+  const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+  await auth.findOneAndUpdate(
+    { email },
+    { password: hashedNewPassword },
+    { $new: true }
+  );
+
+  res.status(201).json({
+    status: true,
+    message: "password changed successfully",
   });
 });

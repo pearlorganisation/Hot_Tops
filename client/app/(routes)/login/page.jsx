@@ -104,9 +104,9 @@ const Page = () => {
               )}
             </div>
             <div className="flex items-center justify-between mb-4">
-              <a href="#" className="text-red-500">
+              <Link href="forget_password" className="text-red-500">
                 Forgot password?
-              </a>
+              </Link>
               <button
                 type="submit"
                 className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
