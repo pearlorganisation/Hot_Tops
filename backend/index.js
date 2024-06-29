@@ -87,6 +87,7 @@ import dessertRoutes from "./src/routes/dessert.js";
 import drinksRoutes from "./src/routes/drink.js";
 import dipsRoutes from "./src/routes/dips.js";
 import authRoutes from "./src/routes/authRoutes/authRoutes.js";
+import adminAuth from "./src/routes/admin/auth.js"
 // Route Middlewarespull origin gaurav-code
 
 app.all(["/", "/api", "/api/v1"], (req, res, next) => {
@@ -119,6 +120,7 @@ app.use("/api/v1/dessert", dessertRoutes);
 app.use("/api/v1/drinks", drinksRoutes);
 app.use("/api/v1/dips", dipsRoutes);
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/auth/adminSignUp",adminAuth)
 
 // -------------------------------------------------------------------------------------------------------------
 
