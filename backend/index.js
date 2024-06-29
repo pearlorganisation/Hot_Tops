@@ -29,6 +29,7 @@ app.use(
             "http://localhost:5173",
             "http://localhost:5174",
             "http://localhost:4114",
+            "https://hot-house-git-shashank-code-pearlorganisations-projects.vercel.app/"
           ],
           credentials: true,
         }
@@ -44,6 +45,7 @@ app.use(
             "http://localhost:5010",
             "http://localhost:4113",
             "http://localhost:4114",
+            "https://hot-house-git-shashank-code-pearlorganisations-projects.vercel.app"
           ],
           methods: ["GET", "PUT", "POST", "PATCH", "DELETE"],
           allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
