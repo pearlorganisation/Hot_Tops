@@ -1,18 +1,29 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useAppSelector } from "@/app/lib/hooks";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
-import { deletefromCart } from "@/app/lib/features/cartSlice/cartSlice";
+import { usePathname, useRouter } from "next/navigation";
+
+import {
+  deletefromCart,
+  orderCheckedout,
+} from "@/app/lib/features/cartSlice/cartSlice";
+import { getPreviousPath } from "@/app/lib/features/path/pathslice";
 
 const Cart = () => {
   // ----------------------hooks------------------------------------
   const cart = useSelector((state) => state.cart.cartData);
+  const pathname = usePathname();
   const dispatch = useDispatch();
 
-  const router = useRouter();
+  useEffect(() => {
+    dispatch(orderCheckedout(false));
+  }, []);
 
+  const router = useRouter();
+  console.log(pathname);
+  const data = { previousRoute: pathname.toString() };
   return (
     <>
       <div className="max-w-7xl mx-auto bg-white shadow-md rounded-lg overflow-hidden my-4">
@@ -63,6 +74,8 @@ const Cart = () => {
           })}
         <div
           onClick={() => {
+            dispatch(orderCheckedout(true));
+            dispatch(getPreviousPath(pathname));
             router.push("/order/orders");
           }}
           className="bg-green-500 text-white text-center py-3 cursor-pointer"
