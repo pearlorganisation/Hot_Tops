@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 
 const page = () => {
   const { previousPath } = useSelector((state) => state.path);
-
   console.log(previousPath);
   const router = useRouter();
   const cart = useSelector((state) => state.cart.cartData);
@@ -87,8 +86,11 @@ const page = () => {
             >
               Edit Order
             </button>
-            <button className="px-4 py-2 bg-green-500 text-white rounded-md">
-              Make Payment of £17.49
+            <button
+              className="px-4 py-2 bg-green-500 text-white rounded-md"
+              onClick={() => router.push("/order/tracker")}
+            >
+              Order
             </button>
           </div>
         </div>

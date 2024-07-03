@@ -5,7 +5,7 @@ const page = () => {
     <section className=" py-4 md:py-2 rounded-2xl">
       <div className="flex flex-col gap-8 justify-center items-center">
         <h1 className="my-8 font-bold text-xl text-center">
-          THANKS , YOUR ORDER IS BEING DEALT WITH BY BATTLESEA STORE
+          THANKS , YOUR ORDER IS BEING DEALT WITH BY HOT HOUSE
         </h1>
 
         <div
@@ -39,7 +39,7 @@ const page = () => {
 
           <h1 className="mx-1 my-5 text-center">
             {" "}
-            PIZZA DELIVERY AND TAKEAWAY DEALS IN BATTERSEA{" "}
+            PIZZA DELIVERY AND TAKEAWAY DEALS IN HOTHOUSE{" "}
           </h1>
 
           <div className="grid md:grid-cols-2   justify-center gap-4">
@@ -51,35 +51,35 @@ const page = () => {
 
               <div className="flex gap-2 px-3 py-2">
                 <p>Tuesday </p>
-                <p>11:30,01:00</p>
+                <p>11:30, 01:00</p>
               </div>
               <div className="flex gap-2 border-y-[1px] border-slate-100 bg-slate-400/30 px-3 py-2  ">
                 <p>Wednesday </p>
-                <p>11:30,01:00</p>
+                <p>11:30, 01:00</p>
               </div>
               <div className="flex gap-2 px-3 py-2">
                 <p>Thursday </p>
-                <p>11:30,01:00</p>
+                <p>11:30, 01:00</p>
               </div>
 
               <div className="flex gap-2  border-y-[1px] border-slate-100 bg-slate-400/30 px-3 py-2 ">
                 <div className="border-1 border-blue-400" />
                 <p>Friday </p>
-                <p>11:30,01:00</p>
+                <p>11:30, 01:00</p>
               </div>
               <div className="flex gap-2 px-3 py-2">
                 <p>Saturday </p>
-                <p>11:30,01:00</p>
+                <p>11:30, 01:00</p>
               </div>
               <div className="flex gap-2 border-y-[1px] border-slate-100 bg-slate-400/30 px-3 py-2 ">
                 <p>Sunday </p>
-                <p>11:30,01:00</p>
+                <p>11:30, 01:00</p>
               </div>
             </div>
 
             <div className=" text-center md:py-2  items-center md:block flex justify-center">
               <div className="md:w-1/2 md:flex-none flex flex-col  justify-center items-center ">
-                <p>163 BatterSea Park Road , BatterSea Wandsworth SW84BU</p>
+                <p>163 HOTHOUSE Park Road , HOTHOUSE Wandsworth SW84BU</p>
                 <p className=" flex gap-3">
                   <BsFillTelephoneOutboundFill /> <p>0209713789</p>
                 </p>
