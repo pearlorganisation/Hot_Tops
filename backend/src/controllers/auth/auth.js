@@ -477,3 +477,5 @@ export const newPassword = asyncErrorHandler(async (req, res) => {
     message: "password changed successfully",
   });
 });
+
+

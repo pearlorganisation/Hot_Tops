@@ -29,7 +29,7 @@ app.use(
             "http://localhost:5173",
             "http://localhost:5174",
             "http://localhost:4114",
-            "https://hot-house-git-shashank-code-pearlorganisations-projects.vercel.app/"
+            "https://hot-house-git-shashank-code-pearlorganisations-projects.vercel.app/",
           ],
           credentials: true,
         }
@@ -45,7 +45,7 @@ app.use(
             "http://localhost:5010",
             "http://localhost:4113",
             "http://localhost:4114",
-            "https://hot-house-git-shashank-code-pearlorganisations-projects.vercel.app"
+            "https://hot-house-git-shashank-code-pearlorganisations-projects.vercel.app",
           ],
           methods: ["GET", "PUT", "POST", "PATCH", "DELETE"],
           allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
@@ -89,8 +89,9 @@ import dessertRoutes from "./src/routes/dessert.js";
 import drinksRoutes from "./src/routes/drink.js";
 import dipsRoutes from "./src/routes/dips.js";
 import authRoutes from "./src/routes/authRoutes/authRoutes.js";
-import addressRoutes from "./src/routes/address.js"
-import orderRoutes from "./src/routes/order.js"
+import adminAuth from "./src/routes/admin/auth.js";
+import addressRoutes from "./src/routes/address.js";
+import orderRoutes from "./src/routes/order.js";
 // Route Middlewarespull origin gaurav-code
 
 app.all(["/", "/api", "/api/v1"], (req, res, next) => {
@@ -123,6 +124,7 @@ app.use("/api/v1/dessert", dessertRoutes);
 app.use("/api/v1/drinks", drinksRoutes);
 app.use("/api/v1/dips", dipsRoutes);
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/auth/adminSignUp", adminAuth);
 app.use("/api/v1/address", addressRoutes);
 app.use("/api/v1/order", orderRoutes);
 

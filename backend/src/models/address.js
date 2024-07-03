@@ -7,7 +7,7 @@ const addressSchema = new mongoose.Schema({
     },
 name:{
     type:String,
-    required:[true,'Name is required!']
+    // required:[true,'Name is required!']
 },
 address:{
     type:String,
@@ -15,11 +15,11 @@ address:{
 },
 postCode:{
     type:String,
-    required:[true,"Post Code is Required!"]
+    // required:[true,"Post Code is Required!"]
 },
 note:{
     type:String,
-    required:[true,"Note is Required!"]
+    // required:[true,"Note is Required!"]
 }
 })
 

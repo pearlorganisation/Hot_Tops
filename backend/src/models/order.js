@@ -8,7 +8,8 @@ const orderSchema= new mongoose.Schema({
     },
     address:{
         type:{},
-        required:[true,"address is required!"]
+        required: [true, "address is required!"]
+        
     },
     time:{
         type:String,
