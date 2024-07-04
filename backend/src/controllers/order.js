@@ -8,7 +8,7 @@ export const newOrder = asyncErrorHandler(async (req, res, next) => {
       req?.body
     );
     
-    newOrder.calculateTotalPrice();
+    // newOrder.calculateTotalPrice();
 
     await newOrder.save();
     

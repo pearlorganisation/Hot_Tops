@@ -39,6 +39,7 @@ const page = () => {
       getorderDetails({
         address: data?.address,
         time: data?.daytime,
+        orderType: step === 1 ? "collection" : "delivery",
       })
     );
     try {

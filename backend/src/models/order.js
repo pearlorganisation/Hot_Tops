@@ -16,25 +16,35 @@ const orderSchema = new mongoose.Schema(
       required: [true, "time is required!"],
     },
     totalAmount: {
-      type: Number,
+      type: {},
     },
     orderBy: {
       type: mongoose.Types.ObjectId,
       ref: "auth",
       required: [true, "orderBy is required!"],
     },
-    pizza: [
-      {
-        pizzaName: { type: String },
-        customization: [{ name: String, price: Number }],
-        size: { name: String, price: Number },
-        base: { name: String, price: Number },
-      },
-    ],
-    drink: [{ name: String, drinkType: String, price: Number }],
-    dips: [{ name: String, dipType: String, price: Number }],
-    sides: [{ name: String, price: Number }],
-    dessert: [{ name: String, price: Number }],
+    items: {
+      type: [],
+      required: [true, "items are required"],
+    },
+    comment: {
+      type: String,
+    },
+    paymentMethode: {
+      type: String,
+    },
+    // pizza: [
+    //   {
+    //     pizzaName: { type: String },
+    //     customization: [{ name: String, price: Number }],
+    //     size: { name: String, price: Number },
+    //     base: { name: String, price: Number },
+    //   },
+    // ],
+    // drink: [{ name: String, drinkType: String, price: Number }],
+    // dips: [{ name: String, dipType: String, price: Number }],
+    // sides: [{ name: String, price: Number }],
+    // dessert: [{ name: String, price: Number }],
   },
   { timestamps: true }
 );
