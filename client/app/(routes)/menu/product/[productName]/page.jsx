@@ -1,8 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import useSWR from "swr";
+// import { useParams } from 'next/navigation';
 
 const Product = () => {
+  // const params = useParams();
+  // const pizzaName= params?.productName
+
   const [cheeseSelections, setCheeseSelections] = useState({});
   const [sauceSelections, setSauceSelections] = useState({});
   const [vegetarianSelections, setVegetarianSelections] = useState({});
@@ -29,7 +33,7 @@ const Product = () => {
   const meatFetcher = async (...args) => fetch(...args).then((res) => {
     return res.json()
   });
-
+  // const pizzaFetcher = (...args) => fetch(...args).then((res) => res.json());
 
 
   // =-------------------------data fetching---------------------------
@@ -57,6 +61,11 @@ const Product = () => {
     `https://hot-house.onrender.com/api/v1/food/customization/meatToppings`,
     meatFetcher
   );
+  // const { data:pizzaData, error, isLoading } = useSWR(
+  //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/pizza`,
+  //   pizzaFetcher
+  // );
+  
 
   if (baseLoading) return <div>Loading...</div>;
   if (baseError) return <div>Error loading data</div>;

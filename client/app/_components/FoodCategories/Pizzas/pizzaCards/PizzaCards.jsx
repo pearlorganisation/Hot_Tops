@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { PiNotePencilFill } from "react-icons/pi";
+import { TbEdit } from "react-icons/tb";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import Link from "next/link";
@@ -8,11 +8,13 @@ import AddedToCartModel from "@/app/_components/Modals/AddedToCartModel";
 const PizzaCards = ({ data, idx }) => {
   console.log("dataa", data);
   // =-----------------------hooks--------------------------------
+
   const dispatch = useDispatch();
   const [selectedData, setSelectedData] = useState(
-    data?.priceSection[0]?.size + "-" + data?.priceSection[0]?.price
+    data?.priceSection[0]?.size.name + "-" + data?.priceSection[0]?.price
   );
   const [isAddClicked, setIsAddClicked] = useState(false);
+  console.log(data?.priceSection[0]?.size?.name)
   return (
     <div
       className=" p-3 bg-white shadow-md rounded-lg max-w-[15rem] 2xl:max-w-xs w-full newshadow"
@@ -24,7 +26,12 @@ const PizzaCards = ({ data, idx }) => {
         className="rounded-t-lg w-full object-cover"
       />
       <div className="p-4">
-        <h2 className="text-xl font-semibold mb-4">{data?.pizzaName}</h2>
+        <h2 className="text-xl font-semibold mb-1">{data?.pizzaName}</h2>
+        <p
+          className="text-sm font-semibold text-slate-800 mb-4"
+        >
+         {data?.meatToppingsName}{data?.meatToppingsName && ", "}{data?.vegetarianToppingsName}{data?.vegetarianToppingsName && ", "}{data?.cheeseName}{data?.cheeseName && ", "}{data?.sauceName}
+        </p>
         <div>
           <select
             onChange={(Event) => {
@@ -34,7 +41,7 @@ const PizzaCards = ({ data, idx }) => {
             value={selectedData}
             name="pizzas"
             id="pizzas"
-            className="border-2 p-2 w-full m-1"
+            className="border-2 mx-auto p-2 w-full m-1"
           >
             {data?.priceSection.map((data, idx) => {
               return (
@@ -45,16 +52,10 @@ const PizzaCards = ({ data, idx }) => {
             })}
           </select>
         </div>
-        {/* <p
-          className={`text-red-600 font-bold ${
-            isAddClicked && !selectedData ? "block" : "hidden"
-          } `}
-        >
-          please select size first
-        </p> */}
-        <div className="relative flex items-center ">
+    
+        <div className="relative flex justify-between items-center ">
           <Link href={`/menu/product/${data?.pizzaName}`}>
-            <PiNotePencilFill size={30} />
+            <TbEdit size={30} />
           </Link>
           <div className="bg-green-600 flex gap-2 items-center justify-center w-[80%]">
             <button
