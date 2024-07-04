@@ -12,7 +12,7 @@ import { getFilter } from '../../features/actions/pizza/filterPizza';
 const Pizza = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const { isDeleted,pizzaData,isLoading } = useSelector(state => state.pizza)
+    const { isDeleted,pizzaData,isLoading } = useSelector(state => state.pizzaSlice)
     
     const handleAddCategory = () => {
       navigate('/createPizza');
@@ -111,7 +111,7 @@ const Pizza = () => {
                          <div className=' bg-slate-100 flex mb-2 rounded-md px-2 gap-2 w-fit' key={idy}>
                          <div className='flex items-center '><span className='bg-white  rounded-md px-2'>{idy+1} :</span> </div>
                          <div className='p-2 space-x-2'>
-                      <span className='bg-white mb-2 rounded-md px-2 '> Type : {priceItem?.size}</span>
+                      <span className='bg-white mb-2 rounded-md px-2 '> Size : {priceItem?.size?.name}</span>
                       <span className='bg-white mb-2 rounded-md px-2 '>MRP : £ {priceItem?.price}</span> 
                    
                       </div>

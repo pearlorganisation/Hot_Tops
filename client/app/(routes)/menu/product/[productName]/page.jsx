@@ -1,15 +1,22 @@
 "use client";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import useSWR from "swr";
+// import { useParams } from 'next/navigation';
 
 const Product = () => {
+  // const params = useParams();
+  // const pizzaName= params?.productName
+const {customizationData}= useSelector((state)=>state.orderDetails)
   const [cheeseSelections, setCheeseSelections] = useState({});
   const [sauceSelections, setSauceSelections] = useState({});
   const [vegetarianSelections, setVegetarianSelections] = useState({});
   const [meatSelections, setMeatSelections] = useState({});
-  const [seafoodSelections, setSeafoodSelections] = useState({});
 
-
+const selectedSize= String(customizationData?.selectedSize).includes("-")
+? customizationData?.selectedSize?.split("-")
+: customizationData?.selectedSize;
+// console.log(selectedSize[0]);
 
   // -------------------data fetching function-----------------------
   const baseFetcher = async (...args) => fetch(...args).then((res) => {
@@ -30,7 +37,7 @@ const Product = () => {
   const meatFetcher = async (...args) => fetch(...args).then((res) => {
     return res.json()
   });
-
+  // const pizzaFetcher = (...args) => fetch(...args).then((res) => res.json());
 
 
   // =-------------------------data fetching---------------------------
@@ -58,6 +65,11 @@ const Product = () => {
     `https://hot-house.onrender.com/api/v1/food/customization/meatToppings`,
     meatFetcher
   );
+  // const { data:pizzaData, error, isLoading } = useSWR(
+  //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/pizza`,
+  //   pizzaFetcher
+  // );
+  
 
   if (baseLoading) return <div>Loading...</div>;
   if (baseError) return <div>Error loading data</div>;
@@ -171,9 +183,9 @@ const Product = () => {
       <div className="max-w-4xl mx-auto p-4 bg-white shadow-md rounded-lg mt-8">
         <div className="flex flex-col md:flex-row items-center">
           <div className="flex-1">
-            <h1 className="text-3xl font-bold text-gray-800">HAWAIIAN</h1>
+            <h1 className="text-3xl font-bold text-gray-800">{customizationData?.name}</h1>
             <p className="mt-2 text-gray-600">
-              Tops mozzarella cheese, Special tomato sauce, Pineapple & Ham
+            {customizationData?.meatToppingsName}{customizationData?.meatToppingsName && ", "}{customizationData?.vegetarianToppingsName}{customizationData?.vegetarianToppingsName && ", "}{customizationData?.cheeseName}{customizationData?.cheeseName && ", "}{customizationData?.sauceName}
             </p>
             <div className="mt-4">
               <button className="w-full px-4 py-2 bg-green-600 text-white rounded-lg">
@@ -182,17 +194,20 @@ const Product = () => {
             </div>
 
             <div className="mt-4">
-              <h2 className="text-lg font-semibold text-gray-800">SIZES:</h2>
+              <h2 className="text-lg font-semibold text-gray-800">SIZES</h2>
               <div className="mt-2 space-y-2">
-                {sizeData && sizeData?.data.map((size) => (
-                  <label key={size?._id} className="inline-flex items-center">
+                {customizationData && customizationData?.priceSection.map((data,idx) => (
+                  <label key={idx} className="inline-flex gap-2 items-center">
                     <input
+                    checked={selectedSize[0]===data?.size?.name}
                       type="radio"
                       className="form-radio"
                       name="size"
-                    // value={size.toLowerCase().replace(/\"| /g, "")}
+                      defaultValue={selectedSize[0]}
+                    value={data?.size?.name}
+                    onClick={(e)=>console.log(e.target.value)}
                     />
-                    <span className="ml-2">{size?.name} <>{size?.price}$</></span>
+                    <span className="mr-4 ">{data?.size?.name}</span>
 
                   </label>
                 ))}
@@ -200,17 +215,18 @@ const Product = () => {
             </div>
 
             <div className="mt-4">
-              <h2 className="text-lg font-semibold text-gray-800">BASE:</h2>
+              <h2 className="text-lg font-semibold text-gray-800">BASE</h2>
               <div className="mt-2 space-y-2">
                 {baseData && baseData.data?.map((base) => (
-                  <label key={base?._id} className="inline-flex items-center">
+                  <label key={base?._id} className="inline-flex gap-2 items-center">
                     <input
                       type="radio"
                       className="form-radio"
                       name="base"
+                      // defaultValue={customizationData?.baseName}
                     // value={base.toLowerCase().replace(/\"| /g, "")}
                     />
-                    <span className="ml-2">{base?.name} <>{base?.price}$</></span>
+                    <span className="mr-4">{base?.name} <>+ £{base?.price}</></span>
 
                   </label>
                 ))}
@@ -219,12 +235,12 @@ const Product = () => {
           </div>
           <div className="mt-4 md:mt-0 md:ml-8">
             <img
-              src="https://topspizza.co.uk/storage/2.jpg"
+              src={customizationData?.img}
               alt="Hawaiian Pizza"
               className="w-[360px] h-[360px] rounded-lg"
             />
             <p className="mt-2 text-gray-600 text-center">
-              Pineapple, Ham, Mozzarella, No Sauce
+            {customizationData?.meatToppingsName}{customizationData?.meatToppingsName && ", "}{customizationData?.vegetarianToppingsName}{customizationData?.vegetarianToppingsName && ", "}{customizationData?.cheeseName}{customizationData?.cheeseName && ", "}{customizationData?.sauceName}
             </p>
           </div>
         </div>
@@ -232,27 +248,27 @@ const Product = () => {
 
       {/* SAUCE: */}
       <div className="max-w-4xl mx-auto p-4 bg-white rounded-lg">
-        <h2 className="text-lg font-semibold text-gray-800">SAUCE:</h2>
+        <h2 className="text-lg font-semibold text-gray-800">SAUCE</h2>
         {sauceData && renderTable(sauceData?.data, sauceSelections, setSauceSelections)}
       </div>
 
       {/* CHEESE: */}
       <div className="max-w-4xl mx-auto p-4 bg-white rounded-lg">
-        <h2 className="text-lg font-semibold text-gray-800">CHEESE:</h2>
+        <h2 className="text-lg font-semibold text-gray-800">CHEESE</h2>
         {cheeseData && renderTable(cheeseData?.data, cheeseSelections, setCheeseSelections)}
       </div>
 
       {/* VEGETARIAN TOPPINGS: */}
       <div className="max-w-4xl mx-auto p-4 bg-white rounded-lg">
         <h2 className="text-lg font-semibold text-gray-800">
-          VEGETARIAN TOPPINGS:
+          VEGETARIAN TOPPINGS
         </h2>
         {vegData && renderTable(vegData?.data, vegetarianSelections, setVegetarianSelections)}
       </div>
 
       {/* MEAT TOPPINGS: */}
       <div className="max-w-4xl mx-auto p-4 bg-white rounded-lg">
-        <h2 className="text-lg font-semibold text-gray-800">MEAT TOPPINGS:</h2>
+        <h2 className="text-lg font-semibold text-gray-800">MEAT TOPPINGS</h2>
         {meatData && renderTable(meatData?.data, meatSelections, setMeatSelections)}
       </div>
 

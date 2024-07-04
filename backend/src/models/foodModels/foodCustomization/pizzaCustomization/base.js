@@ -7,10 +7,13 @@ const baseCustomizationSchema = new mongoose.Schema({
         type: String,
         required: [true, "Base name is a required field"],
       },
-      price: {
-        type: Number,
-        required: [true, "Base Price is a required field"],
-      },
+      price:[{
+        size:
+        {type:mongoose.Types.ObjectId,
+          ref:"size_Customization"
+        },
+        price:Number,
+      }],
     }
 );
 

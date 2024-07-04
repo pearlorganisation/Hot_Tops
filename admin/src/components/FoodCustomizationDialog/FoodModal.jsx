@@ -1,15 +1,37 @@
-import React, { forwardRef, useImperativeHandle, useRef } from "react";
-import { useForm} from "react-hook-form";
+import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import { Controller, useFieldArray, useForm} from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { postCheesePizza, postMeatTopping, postSaucePizza, postVegTopping } from "../../features/actions/pizza/postCustomization";
-
+import Select from 'react-select'
+import { useSelector } from "react-redux";
 
 
 const FoodModal = forwardRef((props, ref) => {
+
+  const {sauce,cheese,vegetarianToppings,meatToppings,size} = useSelector((state)=>state.pizza)
   const dialogRef = useRef();
-  const { register, handleSubmit,watch, setError, clearErrors  } = useForm({
-    mode: "watch",
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control
+} = useForm({
+    defaultValues:{
+      price:[{size:"",price:""}]
+    }
+})
+
+const [selectedSizes, setSelectedSizes] = useState([]);
+const sizeOptions = (size) =>
+  size.filter(item => !selectedSizes.includes(item._id)).map(item => ({
+    value: item?._id,
+    label: item?.name,
+  }));
+
+const { fields: priceFields, append: appendPrice, remove: removePrice } = useFieldArray({
+  control,
+  name: "price"
+});
 
   useImperativeHandle(ref, () => ({
     open: () => {
@@ -23,38 +45,26 @@ const FoodModal = forwardRef((props, ref) => {
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
-    
+    const{price,name} = data
+    const priceFilter= (price).map(item=>{ return {size:item?.size?.value,singlePrice:item?.singlePrice,doublePrice:item?.doublePrice}})
+    const newData = {name,price:priceFilter}
     if(props.itemName === 'SAUCE'){
-      dispatch(postSaucePizza(data));
+      dispatch(postSaucePizza(newData));
     }
     else if (props.itemName === 'CHEESE'){
-      dispatch(postCheesePizza(data));
+
+      dispatch(postCheesePizza(newData));
     }
       
     else if(props.itemName === 'MEAT TOPPINGS'){
-      dispatch(postMeatTopping(data));
+      dispatch(postMeatTopping(newData));
     }
     
     else if(props.itemName === "VEGETARIAN TOPPINGS"){
-      dispatch(postVegTopping(data));
+      dispatch(postVegTopping(newData));
     }
       
-    console.log(data);
-  };
-
-  const singlePrice = watch("singlePrice");
-  const doublePrice = watch("doublePrice");
-
-  const validatePrices = () => {
-    if (!singlePrice && !doublePrice) {
-      setError("singlePrice", { type: "manual", message: "At least one price must be entered" });
-      setError("doublePrice", { type: "manual", message: "At least one price must be entered" });
-      return false;
-    } else {
-      clearErrors("singlePrice");
-      clearErrors("doublePrice");
-      return true;
-    }
+    console.log(newData);
   };
 
   return (
@@ -64,7 +74,7 @@ const FoodModal = forwardRef((props, ref) => {
       data-modal-backdrop="static"
       tabIndex="-1"
       aria-hidden="true"
-      className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center rounded-2xl w-[500px] md:inset-0 max-h-full"
+      className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center rounded-2xl w-[600px] md:inset-0 max-h-full"
       style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
     >
       <div className="relative p-4 w-full max-w-2xl max-h-full">
@@ -97,13 +107,11 @@ const FoodModal = forwardRef((props, ref) => {
             </button>
           </div>
           <form onSubmit={handleSubmit((data) => {
-              if (validatePrices()) {
-                onSubmit(data);
+            onSubmit(data);
                 dialogRef.current.close();
-              }
             })}>
             <div className="p-4 md:p-5 space-y-4">
-              <div className="mb-4 space-y-1">
+              <div className="mb-2 space-y-1">
                 <label htmlFor="name" className="block font-medium text-gray-700">
                   Name
                 </label>
@@ -117,31 +125,93 @@ const FoodModal = forwardRef((props, ref) => {
                   
                 />
               </div>
-              <div className="mb-4 space-y-1">
-                <label htmlFor="singlePrice" className="block  font-medium text-gray-700">
-                  Single
-                </label>
-                <input
-                  id="singlePrice"
-                  {...register("singlePrice")}
-                  className="border p-[7px] rounded-md outline-slate-600 w-full"
-                  placeholder="Price for Single"
-                 
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="doublePrice" className="block  font-medium text-gray-700">
-                  Double
-                </label>
-                <input
-                  id="doublePrice"
-                  {...register("doublePrice")}
-                  className="border p-[7px] rounded-md outline-slate-600 w-full"
-                  placeholder="Price for Double"
-              
-                />
-              </div>
-            </div>
+              <label className="font-medium text-gray-700">Size and Price </label>
+<button
+type="button"
+className=" border rounded-md  bg-slate-700 text-white font-semibold text-xl px-2   hover:bg-slate-800"
+onClick={() => appendPrice({ price: ""})}
+>
++
+</button>
+
+<ul>
+{priceFields.map((item, index) => (
+<li key={item.id}>
+
+<div className="sm:flex gap-5 ">
+<div className="w-[50%] mb-4 ">
+
+    <Controller 
+                                      control={control}
+                                      name={`price.${index}.size`}
+                                      render={({ field }) => (
+                                          <Select
+                                              value={field.value}
+                                              options={sizeOptions(size)}
+                                              onChange={(selectedOption) => 
+                                               { field.onChange(selectedOption)
+                                                setSelectedSizes([...selectedSizes, selectedOption.value]);
+                                              }}
+                                              className="mt-2 "
+                                              placeholder="Choose Pizza Size "
+                                              styles={{
+                                                control: (provided) => ({
+                                                    ...provided,
+                                                    border: '1px solid #CBD5E1', // Set custom border style
+                                                    borderRadius: '0.400rem', // Set custom border radius
+                                                    height: '40px', // Add height here
+                                                }),
+                                                placeholder: (provided) => ({
+                                                    ...provided,
+                                                    color: '#9CA3AF', // Set custom placeholder color
+                                                }),
+                                            }}
+
+                                              
+ 
+                                          />
+                                     )}
+                                      rules={{ required: true }}
+                                      
+                                  />
+
+</div>
+<div className="w-[25%] ">
+
+<input
+{...register(`price.${index}.singlePrice`, { required: true })}
+  type="text"
+  placeholder="Single Price "
+  className="w-full mt-2 px-5 py-[7px] text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+/>
+
+</div>
+<div className="w-[25%] ">
+
+<input
+{...register(`price.${index}.doublePrice`, { required: true })}
+  type="text"
+  placeholder="Double Price "
+  className="w-full mt-2 px-5 py-[7px] text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+/>
+
+</div>
+
+</div>
+{ index>0 && (
+<button className=" border rounded-md bg-red-500 font-semibold text-white text-sm px-2  hover:bg-red-600" type="button" onClick={() => removePrice(index)}>Remove</button>)
+}
+</li>
+
+))}
+</ul>
+{errors.priceSection && (
+<span className="text-sm font-medium text-red-500">
+  Both Fields are required
+</span>
+)}
+</div>
+    
             <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
               <button
                 type="submit"
@@ -157,6 +227,7 @@ const FoodModal = forwardRef((props, ref) => {
                 Cancel
               </button>
             </div>
+
           </form>
         </div>
       </div>

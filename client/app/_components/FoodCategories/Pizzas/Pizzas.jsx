@@ -43,61 +43,14 @@ const Pizzas = () => {
   const categories = [];
   categoryData &&
     categoryData?.data?.map((data) => categories.push(data?.category));
-  // ---------------------------------dummyData------------------------------------------------------
-  const dummyData = {
-    // =-------------------------data fetching---------------------------
-    filter: ["All", "Hot", "BBQ", "Garlic", "Tomato"],
-    categories,
-    price: [
-      {
-        name: "supersize",
-        price: "1050",
-      },
-      {
-        name: "large",
-        price: "750",
-      },
-      {
-        name: "medium",
-        price: "450",
-      },
-      {
-        name: "small",
-        price: "350",
-      },
-    ],
-    categoryData: [
-      {
-        category: "Meat",
-        type: "Hot",
-        Name: "Hawaiian",
-        img: "https://topspizza.co.uk/storage/6.jpg",
-      },
-      {
-        category: "Meat",
-        type: "BBQ",
-        Name: "BBQ chicken",
-        img: "https://topspizza.co.uk/storage/8.jpg",
-      },
-      {
-        category: "vegetarian",
-        type: "Garlic",
-        Name: "Aloo gobhi",
-        img: "https://topspizza.co.uk/storage/4.jpg",
-      },
-      {
-        category: "vegetarian",
-        type: "Hot",
-        Name: "vegi hot",
-        img: "https://topspizza.co.uk/storage/9.jpg",
-      },
-    ],
-  };
+ 
   console.log(categories);
 
   if (error || filterError) return <div>failed to load</div>;
   if (isLoading || filterLoading) return <div>....loading</div>;
   console.log(data);
+  
+  
   return (
     <div className="my-4">
       <div>
@@ -150,7 +103,7 @@ const Pizzas = () => {
                         return (
                           <PizzaCards
                             data={data}
-                            dummyData={dummyData}
+                            
                             idx={idx}
                           />
                         );

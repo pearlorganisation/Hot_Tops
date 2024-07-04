@@ -86,8 +86,7 @@ const {isMeatToppingeLoading,isVegToppingLoading,isSauceLoading,isCheeseLoading}
             <thead className="hidden border-b lg:table-header-group"  >
               <tr>
               <th className="border-b-2 p-2 text-left">Name</th>
-                <th className="border-b-2 p-2 text-left">Single </th>
-                <th className="border-b-2 p-2 text-left">Double </th>
+    
                 <th className="border-b-2 p-2 ">Actions</th>
               </tr>
             </thead>
@@ -139,11 +138,11 @@ const {isMeatToppingeLoading,isVegToppingLoading,isSauceLoading,isCheeseLoading}
           </td>
         ):(items?.map((item) => (
                 <tr key={item?._id}>
-                  <td className="p-2 max-w-[100px] truncate">{item?.name}</td>
-                  <td className="p-2">£ {item?.singlePrice}</td>
-                  <td className="p-2">
-                      £ {item?.doublePrice}
+                  <td className="p-2 max-w-[100px] truncate">
+                    {item?.name}
                     </td>
+                 
+       
                   <td className="flex justify-center items-center gap-4">
                   <button
                         className="inline-flex items-center rounded-lg font-medium text-white bg-green-800 hover:bg-green-700

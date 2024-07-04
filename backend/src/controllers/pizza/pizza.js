@@ -4,12 +4,13 @@ import pizza from "../../models/pizza/pizza.js";
 
 export const createNewPizza = asyncErrorHandler(async (req, res, next) => {
   const { priceSection } = req?.body;
-  console.log(typeof JSON.parse(priceSection)[0].price);
+
   const newPizza = new pizza({
     ...req?.body,
     banner: req?.file?.path,
-    priceSection: JSON.parse(priceSection),
+    priceSection: JSON.parse(priceSection)
   });
+ 
   await newPizza.save();
   res
     .status(200)
@@ -47,6 +48,6 @@ export const deletePizza = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const getAllPizza = asyncErrorHandler(async (req, res, next) => {
-  const data = await pizza.find().populate("category").populate("filter");
+  const data = await pizza.find().populate("category").populate("filter").populate("priceSection.size");
   res.status(200).json({ status: true, data });
 });

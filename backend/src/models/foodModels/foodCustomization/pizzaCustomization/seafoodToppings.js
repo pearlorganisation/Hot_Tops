@@ -8,14 +8,14 @@ const seafoodToppingsCustomizationSchema = new mongoose.Schema({
         type: String,
         required: [true, "Sauce Name is a required field"],
       },
-      singlePrice: {
-        type: Number,
-        required: [true, "Sauce Price is a required field"],
+      price:{
+        size:
+        {type:mongoose.Types.ObjectId,
+          ref:"size_Customization"
+        },
+        singlePrice:Number,
+        doublePrice:Number
       },
-      doublePrice: {
-        type: Number,
-        required: [true, "Sauce Price is a required field"],
-      }
  
 });
 
