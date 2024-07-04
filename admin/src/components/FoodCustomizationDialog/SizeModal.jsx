@@ -6,7 +6,7 @@ import { postBasePizza, postSizePizza } from '../../features/actions/pizza/postC
 
 
 
-const SizeAndBasesModal = forwardRef((props, ref) => {
+const SizeModal = forwardRef((props, ref) => {
   const dialogRef = useRef();
   const { register, handleSubmit, control } = useForm({
     mode: "watch",
@@ -81,7 +81,7 @@ const SizeAndBasesModal = forwardRef((props, ref) => {
           <div className="p-4 md:p-5 space-y-4">
             <div className="mb-4 space-y-1">
               <label htmlFor="name" className="block font-medium  text-gray-700">
-                Name
+                Pizza Size
               </label>
               <input
                 id="name"
@@ -92,19 +92,7 @@ const SizeAndBasesModal = forwardRef((props, ref) => {
                 required
               />
             </div>
-            <div className="mb-4 space-y-1">
-                <label htmlFor="singlePrice" className="block font-medium text-gray-700">
-                  Price
-                </label>
-                <input
-                  id="price"
-                  {...register("price")}
-                  className="border p-[7px] rounded-md outline-slate-600 w-full"
-                  placeholder="Price "
-                  required
-
-                />
-              </div>
+       
 
           </div>
           <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
@@ -131,4 +119,4 @@ const SizeAndBasesModal = forwardRef((props, ref) => {
   );
 });
 
-export default SizeAndBasesModal;
+export default SizeModal;

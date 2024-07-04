@@ -1,15 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import SizeAndBasesModal from "../../../../../../components/FoodCustomizationDialog/SizeAndBasesModal";
 import { useDispatch, useSelector } from "react-redux";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { RiEditCircleFill } from "react-icons/ri";
 import { Stack,Skeleton } from '@mui/material';
-
-
 import EditItem from "../../../../../../components/FoodCustomizationDialog/EditItemModel/EditItem";
 import { deleteBasePizza } from "../../../../../../features/actions/pizza/deleteCustomization";
 import Delete from "../../../../../../components/delete";
+import BaseModal from "../../../../../../components/FoodCustomizationDialog/BaseModal";
 
 
 const BaseContainer = () => {
@@ -46,7 +44,7 @@ const BaseContainer = () => {
 
   return (
     <>
-      <SizeAndBasesModal ref={modalRef} itemName="Base" />
+      <BaseModal ref={modalRef} itemName="Base" />
       <EditItem ref={editRef} data = {editItemData} itemName="Base"/>
       {showDeleteModal && (
         <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
@@ -54,7 +52,7 @@ const BaseContainer = () => {
       <div className="flex flex-col">
         <div className="flex p-2 justify-between">
           <h3 className=" font-semibold  tracking-wide border rounded-md px-2 bg-red-500 text-white text-lg">
-            BASE
+            PIZZA BASE
           </h3>
           <div onClick={handleModalOpen}>
             <IoAddCircleSharp size={32} className=" cursor-pointer  hover:bg-slate-600 bg-slate-700 rounded-lg text-white " />
@@ -65,8 +63,7 @@ const BaseContainer = () => {
             <table className="min-w-full text-slate-700  border-separate border-spacing-x-2 border-spacing-y-2">
               <thead className="hidden border-b lg:table-header-group" >
                 <tr>
-                  <th className="border-b-2 p-2 text-left">Name</th>
-                  <th className="border-b-2 p-2 text-left">Price</th>
+                  <th className="border-b-2 p-2 text-left">Pizza Base</th>
                   <th className="border-b-2 p-2 ">Actions</th>
                 </tr>
               </thead>
@@ -84,7 +81,8 @@ const BaseContainer = () => {
                   base?.map((item) => (
                     <tr key={item?._id}>
                       <td className="p-2 max-w-[100px] truncate">{item?.name}</td>
-                      <td className="p-2">£ {item?.price}</td>
+
+                      {/* <td className="p-2">£ {item?.price}</td> */}
 
                       <td className="flex justify-center items-center gap-4">
                         <button
