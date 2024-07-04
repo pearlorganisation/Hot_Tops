@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import Link from "next/link";
 import AddedToCartModel from "@/app/_components/Modals/AddedToCartModel";
+import { getCustomizationDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
 
 const PizzaCards = ({ data, idx }) => {
   console.log("dataa", data);
@@ -54,7 +55,21 @@ const PizzaCards = ({ data, idx }) => {
         </div>
     
         <div className="relative flex justify-between items-center ">
-          <Link href={`/menu/product/${data?.pizzaName}`}>
+          <Link onClick={()=>{
+            selectedData && dispatch(getCustomizationDetails({
+              name: data?.pizzaName,
+              img: data?.banner,
+              priceSection: data?.priceSection,
+              id: data?._id,
+              sauceName:data?.sauceName,
+              cheeseName:data?.cheeseName,
+              vegetarianToppingsName:data?.vegetarianToppingsName,
+              meatToppingsName:data?.meatToppingsName,
+              baseName:data?.baseName,
+              selectedSize:selectedData
+
+            }))
+          }} href={`/menu/product/${data?.pizzaName}`}>
             <TbEdit size={30} />
           </Link>
           <div className="bg-green-600 flex gap-2 items-center justify-center w-[80%]">
