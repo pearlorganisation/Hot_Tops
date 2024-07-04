@@ -48,11 +48,13 @@ const page = () => {
           body: JSON.stringify(newData),
         }
       );
+      const responsejson = await response.json();
+      if (responsejson?.status === true) {
+        router.push("/order/tracker");
+      }
     } catch (error) {
       console.log(error);
     }
-
-    // router.push("/order/tracker")
   };
 
   // -----------------------------------useeffects-------------------------------------------
