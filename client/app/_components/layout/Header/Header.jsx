@@ -81,7 +81,7 @@ const Header = () => {
           </Link>
         </ul>
       </div>
-      <div className="bg-red-600 relative">
+      <div className="bg-white relative">
         <Link href="/">
           <Image
             src={logo}
@@ -90,11 +90,11 @@ const Header = () => {
             width={150}
           />
         </Link>
-        <ul className="flex items-center xl:pl-24  text-white font-semibold w-full  lg:w-[50vw]  lg:mx-5 lg:ml-20 flex-wrap">
+        <ul className="flex items-center justify-around xl:pl-24  text-white font-semibold w-full lg:w-[90vw]    lg:mx-5 lg:ml-20 flex-wrap">
           <Link href={`/menu/deals`}>
             <li
-              className={`px-5 hover:bg-[#337ab7] h-[36px] md:h-[56px] flex items-center ${
-                selecteditem === -1 ? "bg-blue-600" : "bg-red-600"
+              className={`px-5 hover:bg-[#337ab7] h-[36px] md:h-[56px] flex items-center text-black ${
+                selecteditem === -1 ? "bg-blue-600" : "bg-white"
               }`}
               onClick={() => setSelectedItem(-1)}
             >
@@ -102,14 +102,15 @@ const Header = () => {
               DEALS
             </li>
           </Link>
+
           {Array.isArray(categoryEnum) &&
             categoryEnum.map((data, idx) => {
               return (
                 <>
                   <Link href={`/menu/${data?.toLocaleLowerCase()}`}>
                     <li
-                      className={`hover:bg-[#337ab7] h-[36px] md:h-[56px]  px-5 flex items-center ${
-                        selecteditem === idx ? "bg-blue-600" : "bg-red-600"
+                      className={`hover:bg-[#337ab7] h-[36px] md:h-[56px]  px-5 flex items-center text-black ${
+                        selecteditem === idx ? "bg-blue-600" : "bg-white"
                       }`}
                       onClick={() => setSelectedItem(idx)}
                     >
@@ -120,6 +121,20 @@ const Header = () => {
               );
             })}
 
+          <div className="animate-bounce focus:animate-none hover:animate-none ">
+            <a
+              href=""
+              class=" inline-flex text-md font-medium bg-red-800 mt-3 px-4 py-2 boreder-r-2  tracking-wide text-white shadow-[0_3px_10px_rgb(0,0,0,0.2)]"
+            >
+              <span class="ml-2">Delivery 🏀</span>
+            </a>
+            <a
+              href=""
+              class=" inline-flex text-md font-medium bg-red-800 mt-3 px-4 py-2 shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800 tracking-wide text-white"
+            >
+              <span class="ml-2">Collection 🏀</span>
+            </a>
+          </div>
           {/* <li>SIDES</li>
           <li>DRINKS</li>
           <li>DESSERTS</li>
