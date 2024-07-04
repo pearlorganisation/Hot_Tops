@@ -33,6 +33,9 @@ const orderSchema = new mongoose.Schema(
     paymentMethode: {
       type: String,
     },
+    count: {
+      type: String,
+    },
     // pizza: [
     //   {
     //     pizzaName: { type: String },
