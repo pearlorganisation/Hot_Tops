@@ -5,7 +5,7 @@ import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import Link from "next/link";
 import AddedToCartModel from "@/app/_components/Modals/AddedToCartModel";
 
-const PizzaCards = ({ data, dummyData, idx }) => {
+const PizzaCards = ({ data, idx }) => {
   console.log("dataa", data);
   // =-----------------------hooks--------------------------------
   const dispatch = useDispatch();
@@ -38,8 +38,8 @@ const PizzaCards = ({ data, dummyData, idx }) => {
           >
             {data?.priceSection.map((data, idx) => {
               return (
-                <option value={`${data?.size}-${data?.price}`}>
-                  {`${data?.size} £${data?.price}`}
+                <option value={`${data?.size?.name}-${data?.price}`}>
+                  {`${data?.size?.name} £ ${data?.price}`}
                 </option>
               );
             })}
@@ -73,7 +73,7 @@ const PizzaCards = ({ data, dummyData, idx }) => {
               data-modal-target="popup-modal"
               data-modal-toggle="popup-modal"
               data-modal-hide="popup-modal"
-              className="text-center p-2 text-white text-center"
+              className="text-center p-2 text-white "
               type="button"
             >
               Add

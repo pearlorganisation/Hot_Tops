@@ -7,7 +7,6 @@ const Product = () => {
   const [sauceSelections, setSauceSelections] = useState({});
   const [vegetarianSelections, setVegetarianSelections] = useState({});
   const [meatSelections, setMeatSelections] = useState({});
-  const [seafoodSelections, setSeafoodSelections] = useState({});
 
 
 
