@@ -8,14 +8,14 @@ const cheeseCustomizationSchema = new mongoose.Schema({
         type: String,
         required: [true, "Cheese Name is a required field"],
       },
-      singlePrice: {
-        type: Number,
-        required: [true, "Cheese Price is a required field"],
+      price:[{
+      size:
+      {type:mongoose.Types.ObjectId,
+        ref:"size_Customization"
       },
-      doublePrice: {
-        type: Number,
-        required: [true, "Cheese Price is a required field"],
-      },
+      singlePrice:Number,
+      doublePrice:Number
+    }],
     }
 );
 

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { Raleway } from "next/font/google";
+import { Raleway, Teko } from "next/font/google";
 import { FaCartShopping } from "react-icons/fa6";
 import logo from "../../../_assets/images/HOTPIZZALOGO.png";
 import { categoryEnum } from "@/app/utils/utils";
@@ -11,11 +11,19 @@ import { useAppSelector } from "@/app/lib/hooks";
 import { FaRegUserCircle } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { addUserData } from "@/app/lib/features/auth/authSlice";
+import { MdDeliveryDining } from "react-icons/md";
+import { FaShop } from "react-icons/fa6";
 
 const raleway = Raleway({
   subsets: ["latin"],
   weight: ["400", "700"],
   variable: "--font-raleway",
+});
+
+const teko = Teko({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-teko",
 });
 
 const Header = () => {
@@ -38,7 +46,7 @@ const Header = () => {
   console.log(totalPrice);
 
   return (
-    <div className=" bg-white z-10 ">
+    <div className=" bg-white z-10 shadow-lg">
       <div className="flex justify-around items-center">
         <Link href="/" className="w-[30%] flex justify-center">
           <Image
@@ -49,11 +57,11 @@ const Header = () => {
           />
         </Link>
         <ul
-          className={`flex justify-end gap-6 items-center w-[70%] ${raleway.variable} font-Raleway font-[700] `}
+          className={`flex justify-end gap-6 items-center w-[70%] ${teko.className} font-teko font-[700] `}
         >
           {isUserLoggedIn ? (
             <Link href="/profile?tab=1">
-              <div className="flex justify-start items-center gap-2">
+              <div className="flex justify-start items-center gap-2 text-black">
                 {" "}
                 <FaRegUserCircle size={25} />
                 {userData?.firstName} {userData?.lastName}
@@ -61,7 +69,7 @@ const Header = () => {
             </Link>
           ) : (
             <div className="flex">
-              <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
+              <li className="py-2 px-1 md:border-r-2 md:border-red-600   h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
                 <Link href="/signUp">Sign in / Register</Link>
               </li>
             </div>
@@ -81,7 +89,7 @@ const Header = () => {
           </Link>
         </ul>
       </div>
-      <div className="bg-red-600 relative">
+      <div className="bg-white relative">
         <Link href="/">
           <Image
             src={logo}
@@ -90,11 +98,13 @@ const Header = () => {
             width={150}
           />
         </Link>
-        <ul className="flex items-center xl:pl-24  text-white font-semibold w-full  lg:w-[50vw]  lg:mx-5 lg:ml-20 flex-wrap">
+        <ul
+          className={`flex items-center justify-around xl:pl-24 ${teko.className} text-xl    text-white font-semibold w-full lg:w-[90vw]    lg:mx-5 lg:ml-20 flex-wrap`}
+        >
           <Link href={`/menu/deals`}>
             <li
-              className={`px-5 hover:bg-[#337ab7] h-[36px] md:h-[56px] flex items-center ${
-                selecteditem === -1 ? "bg-blue-600" : "bg-red-600"
+              className={`px-5 hover:bg-red-800 hover:text-white h-[36px] md:h-[56px] flex items-center text-black ${
+                selecteditem === -1 ? "bg-red-800 text-white" : "bg-white"
               }`}
               onClick={() => setSelectedItem(-1)}
             >
@@ -102,14 +112,17 @@ const Header = () => {
               DEALS
             </li>
           </Link>
+
           {Array.isArray(categoryEnum) &&
             categoryEnum.map((data, idx) => {
               return (
                 <>
                   <Link href={`/menu/${data?.toLocaleLowerCase()}`}>
                     <li
-                      className={`hover:bg-[#337ab7] h-[36px] md:h-[56px]  px-5 flex items-center ${
-                        selecteditem === idx ? "bg-blue-600" : "bg-red-600"
+                      className={`hover:bg-red-800 hover:text-white h-[36px] md:h-[56px]  px-5 flex items-center text-black ${
+                        selecteditem === idx
+                          ? "bg-red-800 text-white"
+                          : "bg-white"
                       }`}
                       onClick={() => setSelectedItem(idx)}
                     >
@@ -120,6 +133,26 @@ const Header = () => {
               );
             })}
 
+          <div className="animate-bounce focus:animate-none hover:animate-none ">
+            <a
+              href=""
+              class=" inline-flex text-md font-medium bg-red-800 mt-3 px-4 py-2 border-r border-r-white  items-center  tracking-wide text-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800 "
+            >
+              <span>
+                <MdDeliveryDining />
+              </span>
+              <span class="ml-2">Delivery </span>
+            </a>
+            <a
+              href=""
+              class=" inline-flex text-md font-medium bg-red-800 mt-3  items-center px-4 py-2 shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800 tracking-wide text-white"
+            >
+              <span>
+                <FaShop />
+              </span>
+              <span class="ml-2">Collection </span>
+            </a>
+          </div>
           {/* <li>SIDES</li>
           <li>DRINKS</li>
           <li>DESSERTS</li>

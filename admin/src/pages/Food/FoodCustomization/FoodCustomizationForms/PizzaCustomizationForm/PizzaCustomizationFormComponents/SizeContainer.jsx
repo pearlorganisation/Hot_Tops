@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import SizeAndBasesModal from "../../../../../../components/FoodCustomizationDialog/SizeAndBasesModal";
 import { useDispatch, useSelector } from "react-redux";
 import EditItem from "../../../../../../components/FoodCustomizationDialog/EditItemModel/EditItem";
 import { deleteSizePizza } from "../../../../../../features/actions/pizza/deleteCustomization";
@@ -8,6 +7,7 @@ import { MdDelete } from "react-icons/md";
 import { RiEditCircleFill } from "react-icons/ri";
 import Delete from "../../../../../../components/delete";
 import { Stack,Skeleton } from '@mui/material';
+import SizeModal from "../../../../../../components/FoodCustomizationDialog/SizeModal";
 
 
 const SizeContainer = () => {
@@ -53,14 +53,14 @@ const SizeContainer = () => {
 
   return (
     <>
-      <SizeAndBasesModal ref={modalRef} itemName="Size" />
+      <SizeModal ref={modalRef} itemName="Size" />
       <EditItem itemName={"Size"}ref={editRef} data = {editItemData} />
       {showDeleteModal && (
         <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
       )}
       <div className="flex flex-col">
         <div className="flex justify-between p-2">
-          <h3 className="font-semibold  tracking-wide border rounded-md px-2 bg-red-500 text-white text-lg">SIZE</h3>
+          <h3 className="font-semibold  tracking-wide border rounded-md px-2 bg-red-500 text-white text-lg">PIZZA SIZE</h3>
           <div onClick={handleModalOpen}>
           <IoAddCircleSharp size={32} className=" cursor-pointer  hover:bg-slate-600 bg-slate-700 rounded-lg text-white " />
           </div>
@@ -70,8 +70,7 @@ const SizeContainer = () => {
             <table className="min-w-full border-separate border-spacing-x-2 border-spacing-y-2">
               <thead className="hidden border-b lg:table-header-group"  >
                 <tr>
-                  <th className="border-b-2 p-2 text-left">Name</th>
-                  <th className="border-b-2 p-2 text-left">Price</th>
+                  <th className="border-b-2 p-2 text-left">Pizza Size</th>
                   <th className="border-b-2 p-2 ">Actions</th>
                 </tr>
               </thead>
@@ -91,7 +90,7 @@ const SizeContainer = () => {
               size?.map((item) => (
                   <tr key={item?._id}>
                     <td className="p-2 max-w-[100px] truncate">{item?.name}</td>
-                    <td className="p-2">£ {item?.price}</td>
+           
 
                     <td className="flex justify-center items-center gap-4">
                     <button
