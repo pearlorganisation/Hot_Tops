@@ -27,7 +27,7 @@ const Cart = () => {
   return (
     <>
       <div className="max-w-7xl mx-auto bg-white shadow-md rounded-lg overflow-hidden my-4">
-        <div className="bg-red-500 text-white text-center py-2">
+        <div className="bg-red-800 text-white text-center py-2">
           <h2 className="text-2xl font-bold">YOUR BASKET</h2>
         </div>
         {Array.isArray(cart) &&
@@ -60,7 +60,7 @@ const Cart = () => {
                     ✎
                   </button>
                   <button
-                    className="bg-red-500 text-white px-2 py-1 rounded"
+                    className="bg-red-800 text-white px-2 py-1 rounded"
                     onClick={() => dispatch(deletefromCart({ id: data?.id }))}
                   >
                     🗑

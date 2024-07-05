@@ -3,11 +3,13 @@
 import { useAppSelector } from "@/app/lib/hooks";
 import { redirect, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
+import { emptyCart } from "@/app/lib/features/cartSlice/cartSlice";
 
 const page = () => {
   const { previousPath } = useSelector((state) => state.path);
+  const dispatch = useDispatch();
   console.log(previousPath);
   const router = useRouter();
   const cart = useSelector((state) => state.cart.cartData);
@@ -50,6 +52,8 @@ const page = () => {
       );
       const responsejson = await response.json();
       if (responsejson?.status === true) {
+        // --------------clearing the cart after successfull order---------------
+        dispatch(emptyCart());
         router.push("/order/tracker");
       }
     } catch (error) {

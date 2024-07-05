@@ -3,6 +3,7 @@ import selectedStoreReducer from "./features/selectedStore/selectedStoreSlice";
 import cartReducer from "./features/cartSlice/cartSlice.js";
 import authReducer from "./features/auth/authSlice.js";
 import orderReducer from "./features/orderDetails/orderDetailsslice.js";
+import receiptReducer from "./features/orderDetails/selectedRecipt.js";
 import { persistStore, persistReducer } from "redux-persist";
 import pathReducer from "./features/path/pathslice.js";
 import storage from "redux-persist/lib/storage";
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   orderDetails: orderReducer,
   path: pathReducer,
+  receipt: receiptReducer,
 });
 
 export const makeStore = () => {

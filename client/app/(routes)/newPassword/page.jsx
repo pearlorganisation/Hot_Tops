@@ -52,9 +52,6 @@ const Page = () => {
         dispatch(setForgetPasswordEmail(false));
         router.push("/login");
         console.log("Redirecting to login");
-
-
-
       } else {
         toast.error("Failed to change password. Please try again.");
       }
@@ -92,7 +89,7 @@ const Page = () => {
                 })}
               />
               {errors.newPassword && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-red-800 text-sm mt-1">
                   {errors.newPassword.message}
                 </p>
               )}
@@ -111,12 +108,11 @@ const Page = () => {
                 {...register("confirmPassword", {
                   required: "Confirm Password is required",
                   validate: (value) =>
-                    value === watch("newPassword") ||
-                    "Passwords do not match",
+                    value === watch("newPassword") || "Passwords do not match",
                 })}
               />
               {errors.confirmPassword && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-red-800 text-sm mt-1">
                   {errors.confirmPassword.message}
                 </p>
               )}

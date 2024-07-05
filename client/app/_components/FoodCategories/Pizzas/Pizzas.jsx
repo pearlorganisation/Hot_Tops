@@ -43,14 +43,13 @@ const Pizzas = () => {
   const categories = [];
   categoryData &&
     categoryData?.data?.map((data) => categories.push(data?.category));
- 
+
   console.log(categories);
 
   if (error || filterError) return <div>failed to load</div>;
   if (isLoading || filterLoading) return <div>....loading</div>;
   console.log(data);
-  
-  
+
   return (
     <div className="my-4">
       <div>
@@ -84,11 +83,11 @@ const Pizzas = () => {
               <React.Fragment key={category}>
                 {isCategoryMatched && (
                   <div class="flex items-center justify-center mb-2 p-5">
-                    <div class="flex-grow border-t border-red-500"></div>
-                    <h1 class="px-4 text-red-500 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
+                    <div class="flex-grow border-t border-red-800"></div>
+                    <h1 class="px-4 text-red-800 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
                       {category}
                     </h1>
-                    <div class="flex-grow border-t border-red-500 "></div>
+                    <div class="flex-grow border-t border-red-800 "></div>
                   </div>
                 )}
 
@@ -100,13 +99,7 @@ const Pizzas = () => {
                         (selectedType === data?.filter?.filter ||
                           selectedType === "All")
                       ) {
-                        return (
-                          <PizzaCards
-                            data={data}
-                            
-                            idx={idx}
-                          />
-                        );
+                        return <PizzaCards data={data} idx={idx} />;
                       }
                       return null;
                     })}
