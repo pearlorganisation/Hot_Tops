@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useSWR from "swr";
 // import { useParams } from 'next/navigation';
@@ -13,10 +13,15 @@ const {customizationData}= useSelector((state)=>state.orderDetails)
   const [vegetarianSelections, setVegetarianSelections] = useState({});
   const [meatSelections, setMeatSelections] = useState({});
 
-const selectedSize= String(customizationData?.selectedSize).includes("-")
+const splitSelectedSize= (String(customizationData?.selectedSize).includes("-")
 ? customizationData?.selectedSize?.split("-")
-: customizationData?.selectedSize;
-console.log(customizationData,"dsdhvbhfdgvbywe");
+: customizationData?.selectedSize) || []  
+console.log(splitSelectedSize)
+const [sizeState,setSizeState] = useState()
+useEffect(() => {
+  setSizeState(splitSelectedSize[0])
+}, [splitSelectedSize])
+
 
   // -------------------data fetching function-----------------------
   const baseFetcher = async (...args) => fetch(...args).then((res) => {
@@ -199,13 +204,17 @@ console.log(customizationData,"dsdhvbhfdgvbywe");
                 {Array.isArray(customizationData?.priceSection) && customizationData?.priceSection.map((data,idx) => (
                   <label key={idx} className="inline-flex gap-2 items-center">
                     <input
-                    checked={selectedSize[0]===data?.size?.name}
+                    
+                    checked={sizeState===data?.size?.name}
                       type="radio"
                       className="form-radio"
                       name="size"
-                      defaultValue={selectedSize[0]}
+                      defaultValue={splitSelectedSize[0]}
                     value={data?.size?.name}
-                    onClick={(e)=>console.log(e.target.value)}
+                    onClick={(e)=>{
+                      console.log(e.target.value)
+                      setSizeState(e.target.value)
+                    }}
                     />
                     <span className="mr-4 ">{data?.size?.name}</span>
 

@@ -17,6 +17,17 @@ const PizzaCards = ({ data, idx }) => {
   const [isAddClicked, setIsAddClicked] = useState(false);
   console.log(data?.priceSection[0]?.size?.name)
 
+  const [sizeState,setSizeState] = useState()
+
+  const splitSelectedSize= (String(selectedData).includes("-")
+  ? selectedData?.split("-")
+  : selectedData) || [];
+
+  useEffect(() => {
+    setSizeState(splitSelectedSize[0])
+  }, [splitSelectedSize])
+
+
   return (
     <div
       className=" p-3 bg-white shadow-md rounded-lg max-w-[15rem] 2xl:max-w-xs w-full newshadow"
@@ -70,7 +81,7 @@ const PizzaCards = ({ data, idx }) => {
               selectedSize:selectedData
 
             }))
-          }} href={`/menu/product/${data?.pizzaName}`}>
+          }} href={`/menu/product/${sizeState}`}>
             <TbEdit size={30} />
           </Link>
           <div className="bg-green-600 flex gap-2 items-center justify-center w-[80%]">

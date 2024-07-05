@@ -29,9 +29,15 @@ export const updateBaseCustomization = asyncErrorHandler(async (req, res, next) 
 );
 
 export const createBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
-  
+  const {price,name} = req?.body
+  const priceWithName = price.map(item => ({
+    ...item,
+    name: name // Add the main name to the nested name field
+  }));
+
     const data = new baseCustomizationModel({
-...req?.body 
+...req?.body,
+price:priceWithName
   })
 
   await data.save()
@@ -43,19 +49,20 @@ export const createBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
 
 export const getAllBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
 
-  const page = req.query.page * 1 || 1;
-  const limit = req.query.limit * 1 || 0;
-const skip = (page - 1) * limit
-const dataCount = await baseCustomizationModel.countDocuments();
+  const {id1,id2} = req?.query
+const data = await baseCustomizationModel.findById(id1)
 
-if (skip >= dataCount) {
-  return next(new CustomError("No data found!!", 400));
+if (!data) {
+  return next(new CustomError("No data found with given id!!", 400));
 }
 
-  const data = await baseCustomizationModel.find().skip(skip).limit(limit)
+// Finding the size inside the price array with the given id2
+const sizeData = data.price.find((item) => item.size.toString() === id2);
 
- 
- res.status(200).json({status:true,message:"Base Customization data found successfully",data, totalPages: Math.ceil(dataCount / limit),})
+if (!sizeData) {
+  return res.status(404).json({ status: false, message: "Size data not found" });
+}
+ res.status(200).json({status:true,message:"Base Customization data found successfully",data:sizeData})
   }
 
 )
