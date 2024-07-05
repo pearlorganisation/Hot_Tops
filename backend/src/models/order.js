@@ -36,6 +36,9 @@ const orderSchema = new mongoose.Schema(
     count: {
       type: String,
     },
+    orderAt: {
+      type: String,
+    },
     // pizza: [
     //   {
     //     pizzaName: { type: String },
