@@ -1,5 +1,6 @@
 "use client";
 
+import ReceiptModal from "@/app/_components/Modals/ReceiptModal";
 import { getSelectedReceipt } from "@/app/lib/features/orderDetails/selectedRecipt";
 import React, { useEffect, useState } from "react";
 import { MdReceiptLong } from "react-icons/md";
@@ -8,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 const OrderDetails = () => {
   const userData = useSelector((state) => state.auth.userData);
   const [orderData, setOrderData] = useState("");
+  const [isReceiptVisible, setIsReceiptVisible] = useState(false);
   const dispatch = useDispatch();
 
   const getOrderDetails = async () => {
@@ -50,11 +52,18 @@ const OrderDetails = () => {
                   </button>
                   <button
                     className="p-3 h-12 bg-red-800 text-white flex items-center"
-                    onClick={() => dispatch(getSelectedReceipt(data))}
+                    onClick={() => {
+                      dispatch(getSelectedReceipt(data));
+                      setIsReceiptVisible(true);
+                    }}
                   >
                     <MdReceiptLong />
                   </button>
                 </div>
+                <ReceiptModal
+                  setIsReceiptVisible={setIsReceiptVisible}
+                  isReceiptVisible={isReceiptVisible}
+                />
               </div>
             </div>
           );
