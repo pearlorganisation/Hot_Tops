@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TbEdit } from "react-icons/tb";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
@@ -16,6 +16,7 @@ const PizzaCards = ({ data, idx }) => {
   );
   const [isAddClicked, setIsAddClicked] = useState(false);
   console.log(data?.priceSection[0]?.size?.name)
+
   return (
     <div
       className=" p-3 bg-white shadow-md rounded-lg max-w-[15rem] 2xl:max-w-xs w-full newshadow"

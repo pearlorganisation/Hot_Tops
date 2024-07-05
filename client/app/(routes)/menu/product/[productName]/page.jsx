@@ -16,7 +16,7 @@ const {customizationData}= useSelector((state)=>state.orderDetails)
 const selectedSize= String(customizationData?.selectedSize).includes("-")
 ? customizationData?.selectedSize?.split("-")
 : customizationData?.selectedSize;
-// console.log(selectedSize[0]);
+console.log(customizationData,"dsdhvbhfdgvbywe");
 
   // -------------------data fetching function-----------------------
   const baseFetcher = async (...args) => fetch(...args).then((res) => {
@@ -118,7 +118,7 @@ const selectedSize= String(customizationData?.selectedSize).includes("-")
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
+          {Array.isArray(data) && data.map((item) => (
             <tr key={item?._id}>
 
               <td className="py-2 px-4 border-b">
@@ -196,7 +196,7 @@ const selectedSize= String(customizationData?.selectedSize).includes("-")
             <div className="mt-4">
               <h2 className="text-lg font-semibold text-gray-800">SIZES</h2>
               <div className="mt-2 space-y-2">
-                {customizationData && customizationData?.priceSection.map((data,idx) => (
+                {Array.isArray(customizationData?.priceSection) && customizationData?.priceSection.map((data,idx) => (
                   <label key={idx} className="inline-flex gap-2 items-center">
                     <input
                     checked={selectedSize[0]===data?.size?.name}
@@ -217,7 +217,7 @@ const selectedSize= String(customizationData?.selectedSize).includes("-")
             <div className="mt-4">
               <h2 className="text-lg font-semibold text-gray-800">BASE</h2>
               <div className="mt-2 space-y-2">
-                {baseData && baseData.data?.map((base) => (
+                {Array.isArray(baseData.data) && baseData.data?.map((base) => (
                   <label key={base?._id} className="inline-flex gap-2 items-center">
                     <input
                       type="radio"
@@ -226,7 +226,7 @@ const selectedSize= String(customizationData?.selectedSize).includes("-")
                       // defaultValue={customizationData?.baseName}
                     // value={base.toLowerCase().replace(/\"| /g, "")}
                     />
-                    <span className="mr-4">{base?.name} <>+ £{base?.price}</></span>
+                    <span className="mr-4">{base?.name} <>+ £ </></span>
 
                   </label>
                 ))}
