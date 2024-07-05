@@ -5,12 +5,9 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-
 const OTPReceiver = () => {
   // ----------------------------------------hooks----------------------------------------
-  const {  newPassword  , userData } = useSelector(
-    (state) => state?.auth
-  );
+  const { newPassword, userData } = useSelector((state) => state?.auth);
   const email = userData?.email;
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
@@ -51,13 +48,12 @@ const OTPReceiver = () => {
           }
         );
         const newData = await data.json();
-        setResponse(newData)
+        setResponse(newData);
         if (newData.status === true) {
-         
           router.push("/");
           dispatch(addNewPassword(""));
         }
-        
+
         console.log(newData);
       } catch (error) {
         console.log(error);
@@ -66,10 +62,9 @@ const OTPReceiver = () => {
       setError(""); // Clear error when submitting
     }
   };
-console.log(response)
+  console.log(response);
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-    
       <div className="max-w-md w-full bg-white shadow-md rounded-lg p-8">
         {response && response?.status == false ? (
           <div className="p-2 text-center text-red-600 font-semibold">
@@ -94,7 +89,7 @@ console.log(response)
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-xl tracking-widest"
               placeholder="------"
             />
-            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+            {error && <p className="text-red-800 text-sm mt-2">{error}</p>}
           </div>
           <button
             type="submit"

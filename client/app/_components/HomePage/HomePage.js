@@ -11,7 +11,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 const HomePage = () => {
   const img = [
     {
-      path: "https://topspizza.co.uk/storage/x9PWLd1tgdQ5xi6dpiYu6KqhbGSezoYTcla07Q1F.jpg",
+      path: "https://www.pizzahut.co.in/order/images/backgrounds/in/en-IN/home-bg-lg.4f1162d6605078aa9cdf4f8cb8c9c6a3.jpg",
     },
     {
       path: "https://topspizza.co.uk/storage/5b88bc077435f2b4f75ae72f75644726.jpg",
@@ -24,12 +24,12 @@ const HomePage = () => {
   return (
     <>
       {" "}
-      <div className="container mx-auto max-w-6xl py-2 md:py-20 ">
+      <div className=" ">
         <Swiper className="mySwiper">
           {img.map((el, i) => {
             return (
               <SwiperSlide>
-                <img src={el.path} className="rounded" />
+                <img src={el.path} className="h-[80vh] w-full object-cover" />
               </SwiperSlide>
             );
           })}
