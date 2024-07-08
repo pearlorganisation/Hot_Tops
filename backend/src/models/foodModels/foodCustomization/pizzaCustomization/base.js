@@ -12,6 +12,7 @@ const baseCustomizationSchema = new mongoose.Schema({
         {type:mongoose.Types.ObjectId,
           ref:"size_Customization"
         },
+        name:String,
         price:Number,
       }],
     }

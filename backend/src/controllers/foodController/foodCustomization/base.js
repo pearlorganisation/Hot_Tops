@@ -29,9 +29,14 @@ export const updateBaseCustomization = asyncErrorHandler(async (req, res, next) 
 );
 
 export const createBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
-  
+  // const {price,name} = req?.body
+  // const priceWithName = price.map(item => ({
+  //   ...item,
+  //   name: name // Add the main name to the nested name field
+  // }));
+
     const data = new baseCustomizationModel({
-...req?.body 
+...req?.body
   })
 
   await data.save()
@@ -41,21 +46,37 @@ export const createBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
   }
 )
 
+export const getBaseCustomizationPrice = asyncErrorHandler(async (req, res, next) => {
+  const { sizeId } = req.query;
+
+  const data = await baseCustomizationModel.find();
+
+  if (!data || data.length === 0) {
+    return next(new CustomError("No data found!!", 400));
+  }
+
+  // Filter prices in each document based on the given sizeId
+  const filteredData = data.map((doc) => {
+    const sizeData = doc.price.filter((item) => item.size.toString() === sizeId);
+    return {
+      ...doc.toObject(),
+      price: sizeData,
+    };
+  });
+
+  res.status(200).json({
+    status: true,
+    message: "Base Customization data found successfully",
+    data: filteredData,
+  });
+});
+
 export const getAllBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
 
-  const page = req.query.page * 1 || 1;
-  const limit = req.query.limit * 1 || 0;
-const skip = (page - 1) * limit
-const dataCount = await baseCustomizationModel.countDocuments();
 
-if (skip >= dataCount) {
-  return next(new CustomError("No data found!!", 400));
-}
+const data = await baseCustomizationModel.find()
 
-  const data = await baseCustomizationModel.find().skip(skip).limit(limit)
-
- 
- res.status(200).json({status:true,message:"Base Customization data found successfully",data, totalPages: Math.ceil(dataCount / limit),})
+ res.status(200).json({status:true,message:"Base Customization data found successfully",data})
   }
 
 )

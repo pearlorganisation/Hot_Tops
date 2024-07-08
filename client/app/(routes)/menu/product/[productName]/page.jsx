@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useSWR from "swr";
 // import { useParams } from 'next/navigation';
@@ -13,18 +13,37 @@ const {customizationData}= useSelector((state)=>state.orderDetails)
   const [vegetarianSelections, setVegetarianSelections] = useState({});
   const [meatSelections, setMeatSelections] = useState({});
 
-const selectedSize= String(customizationData?.selectedSize).includes("-")
-? customizationData?.selectedSize?.split("-")
-: customizationData?.selectedSize;
-// console.log(selectedSize[0]);
+  const [selectedSizeId, setSelectedSizeId] = useState(customizationData?.selectedData || '');
+
+  const [basePrices, setBasePrices] = useState([]);
+
+  const handleRadioChange = async (e) => {
+    const newSizeId = e.target.value;
+    setSelectedSizeId(newSizeId);
+
+    // Fetch new prices based on the selected size
+  await fetchPricesForSelectedSize(newSizeId);
+  };
+
+// const splitSelectedSize= (String(customizationData?.selectedSize).includes("-")
+// ? customizationData?.selectedSize?.split("-")
+// : customizationData?.selectedSize) || []  
+// console.log(splitSelectedSize)
+// const [sizeState,setSizeState] = useState(customizationData?.selectedData)
+// useEffect(() => {
+//   setSizeState(splitSelectedSize[0])
+// }, [splitSelectedSize])
+
+
+
 
   // -------------------data fetching function-----------------------
   const baseFetcher = async (...args) => fetch(...args).then((res) => {
     return res.json();
   });
-  const sizeFetcher = async (...args) => fetch(...args).then((res) => {
-    return res.json()
-  });
+  // const sizeFetcher = async (...args) => fetch(...args).then((res) => {
+  //   return res.json()
+  // });
   const sauceFetcher = async (...args) => fetch(...args).then((res) => {
     return res.json()
   });
@@ -41,64 +60,84 @@ const selectedSize= String(customizationData?.selectedSize).includes("-")
 
 
   // =-------------------------data fetching---------------------------
-  const { data: baseData, error: baseError, isLoading: baseLoading } = useSWR(
-    `https://hot-house.onrender.com/api/v1/food/customization/base`,
-    baseFetcher
-  );
-  const { data: sizeData, error: sizeError, isLoading: sizeLoading } = useSWR(
-    `https://hot-house.onrender.com/api/v1/food/customization/size`,
-    sizeFetcher
-  );
+  // const { data: baseData, error: baseError, isLoading: baseLoading } = useSWR(
+  //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/base`,
+  //   baseFetcher
+  // );
+
+  // const { data: sizeData, error: sizeError, isLoading: sizeLoading } = useSWR(
+  //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/size`,
+  //   sizeFetcher
+  // );
   const { data: sauceData, error: sauceError, isLoading: sauceLoading } = useSWR(
-    `https://hot-house.onrender.com/api/v1/food/customization/sauce`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/sauce`,
     sauceFetcher
   );
   const { data: cheeseData, error: cheeseError, isLoading: cheeseLoading } = useSWR(
-    `https://hot-house.onrender.com/api/v1/food/customization/cheese`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/cheese`,
     cheeseFetcher
   );
   const { data: vegData, error: vegError, isLoading: vegLoading } = useSWR(
-    `https://hot-house.onrender.com/api/v1/food/customization/vegetarianToppings`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/vegetarianToppings`,
     vegFetcher
   );
   const { data: meatData, error: meatError, isLoading: meatLoading } = useSWR(
-    `https://hot-house.onrender.com/api/v1/food/customization/meatToppings`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/meatToppings`,
     meatFetcher
   );
+
+  useEffect(() => {
+    fetchPricesForSelectedSize(selectedSizeId);
+  console.log(selectedSizeId)
+  }, [])
+
+  // -------------------data fetching for price-----------------------
+
+const fetchPricesForSelectedSize = async (sizeId) => {
+  try {
+    const baseResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/base/price?sizeId=${sizeId}`);
+    const basePriceData = await baseResponse.json();
+    
+    // const toppingResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/toppings?mainId=${customizationData._id}&sizeId=${sizeId}`);
+    // const toppingData = await toppingResponse.json();
+    
+    setBasePrices(basePriceData.data);
+    // setToppingPrices(toppingData.data.price);
+  } catch (error) {
+    console.error("Error fetching prices:", error);
+  }
+};
+
+
   // const { data:pizzaData, error, isLoading } = useSWR(
   //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/pizza`,
   //   pizzaFetcher
   // );
   
 
-  if (baseLoading) return <div>Loading...</div>;
-  if (baseError) return <div>Error loading data</div>;
-  console.log('Base Data:', baseData); // Add this line for debugging
+  // if (baseLoading) return <div>Loading...</div>;
+  // if (baseError) return <div>Error loading data</div>;
+  // // console.log('Base Data:', baseData); // Add this line for debugging
 
-  if (sizeLoading) return <div>Loading...</div>;
-  if (sizeError) return <div>Error loading data</div>;
+  // // if (sizeLoading) return <div>Loading...</div>;
+  // // if (sizeError) return <div>Error loading data</div>;
 
-  if (sauceLoading) return <div>Loading...</div>;
-  if (sauceError) return <div>Error loading data</div>;
+  // if (sauceLoading) return <div>Loading...</div>;
+  // if (sauceError) return <div>Error loading data</div>;
 
-  if (vegLoading) return <div>Loading...</div>;
-  if (vegError) return <div>Error loading data</div>;
-
-
-  if (meatLoading) return <div>Loading...</div>;
-  if (meatError) return <div>Error loading data</div>;
+  // if (vegLoading) return <div>Loading...</div>;
+  // if (vegError) return <div>Error loading data</div>;
 
 
-  if (cheeseLoading) return <div>Loading...</div>;
-  if (cheeseError) return <div>Error loading data</div>;
+  // if (meatLoading) return <div>Loading...</div>;
+  // if (meatError) return <div>Error loading data</div>;
+
+
+  // if (cheeseLoading) return <div>Loading...</div>;
+  // if (cheeseError) return <div>Error loading data</div>;
 
 
 
-  const SEAFOODTOPPINGS = [
-    { toppingName: "Anchovy" },
-    { toppingName: "Prawns" },
-    { toppingName: "Tuna" },
-  ];
 
   const handleSelectionChange = (setSelections, name, type) => {
     setSelections((prevSelections) => ({
@@ -107,18 +146,20 @@ const selectedSize= String(customizationData?.selectedSize).includes("-")
     }));
   };
 
+
+
   const renderTable = (data, selections, setSelections) => (
     <div className="mt-4">
-      <table className="min-w-full bg-white border border-gray-300">
+      <table className="min-w-full bg-white border  border-gray-300">
         <thead>
           <tr>
             <th className="py-2 px-4 border-b"></th>
-            <th className="py-2 px-4 border-b">Single £</th>
-            <th className="py-2 px-4 border-b">Double £</th>
+            <th className="py-2 px-4 border-b">Single </th>
+            <th className="py-2 px-4 border-b">Double </th>
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
+          {Array.isArray(data) && data.map((item) => (
             <tr key={item?._id}>
 
               <td className="py-2 px-4 border-b">
@@ -178,6 +219,10 @@ const selectedSize= String(customizationData?.selectedSize).includes("-")
     </div>
   );
 
+
+
+
+
   return (
     <>
       <div className="max-w-4xl mx-auto p-4 bg-white shadow-md rounded-lg mt-8">
@@ -196,16 +241,15 @@ const selectedSize= String(customizationData?.selectedSize).includes("-")
             <div className="mt-4">
               <h2 className="text-lg font-semibold text-gray-800">SIZES</h2>
               <div className="mt-2 space-y-2">
-                {customizationData && customizationData?.priceSection.map((data,idx) => (
+                {Array.isArray(customizationData?.priceSection) && customizationData?.priceSection.map((data,idx) => (
                   <label key={idx} className="inline-flex gap-2 items-center">
                     <input
-                    checked={selectedSize[0]===data?.size?.name}
                       type="radio"
                       className="form-radio"
                       name="size"
-                      defaultValue={selectedSize[0]}
-                    value={data?.size?.name}
-                    onClick={(e)=>console.log(e.target.value)}
+                    value={data?.size?._id}
+                    checked={selectedSizeId === data?.size?._id}
+                    onChange={handleRadioChange}
                     />
                     <span className="mr-4 ">{data?.size?.name}</span>
 
@@ -217,7 +261,8 @@ const selectedSize= String(customizationData?.selectedSize).includes("-")
             <div className="mt-4">
               <h2 className="text-lg font-semibold text-gray-800">BASE</h2>
               <div className="mt-2 space-y-2">
-                {baseData && baseData.data?.map((base) => (
+                {Array.isArray(basePrices) && basePrices?.map((base) => (
+           
                   <label key={base?._id} className="inline-flex gap-2 items-center">
                     <input
                       type="radio"
@@ -226,7 +271,7 @@ const selectedSize= String(customizationData?.selectedSize).includes("-")
                       // defaultValue={customizationData?.baseName}
                     // value={base.toLowerCase().replace(/\"| /g, "")}
                     />
-                    <span className="mr-4">{base?.name} <>+ £{base?.price}</></span>
+                    <span className="mr-4">{base?.name} <>+ £ {base?.price[0]?.price}</></span>
 
                   </label>
                 ))}

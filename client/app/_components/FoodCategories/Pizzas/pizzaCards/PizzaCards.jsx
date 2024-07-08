@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TbEdit } from "react-icons/tb";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
@@ -11,11 +11,18 @@ const PizzaCards = ({ data, idx }) => {
   // =-----------------------hooks--------------------------------
 
   const dispatch = useDispatch();
-  const [selectedData, setSelectedData] = useState(
-    data?.priceSection[0]?.size.name + "-" + data?.priceSection[0]?.price
-  );
+  const selectedSizeId= Array.isArray(data?.priceSection) && data?.priceSection[0]?.size?._id;
+  const [selectedData, setSelectedData] = useState(selectedSizeId);
+  // console.log(selectedSizeId,'dsbds')
+
   const [isAddClicked, setIsAddClicked] = useState(false);
   console.log(data?.priceSection[0]?.size?.name)
+
+  const [sizeState,setSizeState] = useState()
+
+
+
+
   return (
     <div
       className=" p-3 bg-white shadow-md rounded-lg max-w-[15rem] 2xl:max-w-xs w-full newshadow"
@@ -46,7 +53,7 @@ const PizzaCards = ({ data, idx }) => {
           >
             {data?.priceSection.map((data, idx) => {
               return (
-                <option value={`${data?.size?.name}-${data?.price}`}>
+                <option value={data?.size?._id}>
                   {`${data?.size?.name} £ ${data?.price}`}
                 </option>
               );
@@ -66,7 +73,7 @@ const PizzaCards = ({ data, idx }) => {
               vegetarianToppingsName:data?.vegetarianToppingsName,
               meatToppingsName:data?.meatToppingsName,
               baseName:data?.baseName,
-              selectedSize:selectedData
+              selectedData:selectedData
 
             }))
           }} href={`/menu/product/${data?.pizzaName}`}>
