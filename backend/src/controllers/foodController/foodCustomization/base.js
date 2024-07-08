@@ -29,15 +29,14 @@ export const updateBaseCustomization = asyncErrorHandler(async (req, res, next) 
 );
 
 export const createBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
-  const {price,name} = req?.body
-  const priceWithName = price.map(item => ({
-    ...item,
-    name: name // Add the main name to the nested name field
-  }));
+  // const {price,name} = req?.body
+  // const priceWithName = price.map(item => ({
+  //   ...item,
+  //   name: name // Add the main name to the nested name field
+  // }));
 
     const data = new baseCustomizationModel({
-...req?.body,
-price:priceWithName
+...req?.body
   })
 
   await data.save()
@@ -47,22 +46,37 @@ price:priceWithName
   }
 )
 
+export const getBaseCustomizationPrice = asyncErrorHandler(async (req, res, next) => {
+  const { sizeId } = req.query;
+
+  const data = await baseCustomizationModel.find();
+
+  if (!data || data.length === 0) {
+    return next(new CustomError("No data found!!", 400));
+  }
+
+  // Filter prices in each document based on the given sizeId
+  const filteredData = data.map((doc) => {
+    const sizeData = doc.price.filter((item) => item.size.toString() === sizeId);
+    return {
+      ...doc.toObject(),
+      price: sizeData,
+    };
+  });
+
+  res.status(200).json({
+    status: true,
+    message: "Base Customization data found successfully",
+    data: filteredData,
+  });
+});
+
 export const getAllBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
 
-  const {id1,id2} = req?.query
-const data = await baseCustomizationModel.findById(id1)
 
-if (!data) {
-  return next(new CustomError("No data found with given id!!", 400));
-}
+const data = await baseCustomizationModel.find()
 
-// Finding the size inside the price array with the given id2
-const sizeData = data.price.find((item) => item.size.toString() === id2);
-
-if (!sizeData) {
-  return res.status(404).json({ status: false, message: "Size data not found" });
-}
- res.status(200).json({status:true,message:"Base Customization data found successfully",data:sizeData})
+ res.status(200).json({status:true,message:"Base Customization data found successfully",data})
   }
 
 )

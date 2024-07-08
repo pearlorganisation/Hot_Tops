@@ -11,21 +11,16 @@ const PizzaCards = ({ data, idx }) => {
   // =-----------------------hooks--------------------------------
 
   const dispatch = useDispatch();
-  const [selectedData, setSelectedData] = useState(
-    data?.priceSection[0]?.size.name + "-" + data?.priceSection[0]?.price
-  );
+  const selectedSizeId= Array.isArray(data?.priceSection) && data?.priceSection[0]?.size?._id;
+  const [selectedData, setSelectedData] = useState(selectedSizeId);
+  // console.log(selectedSizeId,'dsbds')
+
   const [isAddClicked, setIsAddClicked] = useState(false);
   console.log(data?.priceSection[0]?.size?.name)
 
   const [sizeState,setSizeState] = useState()
 
-  const splitSelectedSize= (String(selectedData).includes("-")
-  ? selectedData?.split("-")
-  : selectedData) || [];
 
-  useEffect(() => {
-    setSizeState(splitSelectedSize[0])
-  }, [splitSelectedSize])
 
 
   return (
@@ -58,7 +53,7 @@ const PizzaCards = ({ data, idx }) => {
           >
             {data?.priceSection.map((data, idx) => {
               return (
-                <option value={`${data?.size?.name}-${data?.price}`}>
+                <option value={data?.size?._id}>
                   {`${data?.size?.name} £ ${data?.price}`}
                 </option>
               );
@@ -78,10 +73,10 @@ const PizzaCards = ({ data, idx }) => {
               vegetarianToppingsName:data?.vegetarianToppingsName,
               meatToppingsName:data?.meatToppingsName,
               baseName:data?.baseName,
-              selectedSize:selectedData
+              selectedData:selectedData
 
             }))
-          }} href={`/menu/product/${sizeState}`}>
+          }} href={`/menu/product/${data?.pizzaName}`}>
             <TbEdit size={30} />
           </Link>
           <div className="bg-green-600 flex gap-2 items-center justify-center w-[80%]">
