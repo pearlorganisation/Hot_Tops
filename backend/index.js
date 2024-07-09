@@ -81,7 +81,6 @@ import { cheeseCustomizationRouter } from "./src/routes/foodRoutes/foodCustomiza
 import { sauceCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/sauce.js";
 import { meatToppingsCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/meatToppings.js";
 import { vegetarianToppingsCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/vegetarianToppings.js";
-import { seafoodToppingsCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/seafoodToppings.js";
 import pizzaRoutes from "./src/routes/pizza/pizza.js";
 import sidesRoutes from "./src/routes/sides.js";
 import dessertRoutes from "./src/routes/dessert.js";
@@ -109,14 +108,7 @@ app.use(foodCustomization("size"), sizeCustomizationRouter);
 app.use(foodCustomization("cheese"), cheeseCustomizationRouter);
 app.use(foodCustomization("sauce"), sauceCustomizationRouter);
 app.use(foodCustomization("meatToppings"), meatToppingsCustomizationRouter);
-app.use(
-  foodCustomization("vegetarianToppings"),
-  vegetarianToppingsCustomizationRouter
-);
-app.use(
-  foodCustomization("seafoodToppings"),
-  seafoodToppingsCustomizationRouter
-);
+app.use(foodCustomization("vegetarianToppings"),vegetarianToppingsCustomizationRouter);
 
 app.use("/api/v1/pizza", pizzaRoutes);
 app.use("/api/v1/sides", sidesRoutes);

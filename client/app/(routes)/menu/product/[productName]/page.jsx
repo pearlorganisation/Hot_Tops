@@ -7,6 +7,7 @@ import useSWR from "swr";
 const Product = () => {
   // const params = useParams();
   // const pizzaName= params?.productName
+
 const {customizationData}= useSelector((state)=>state.orderDetails)
   const [cheeseSelections, setCheeseSelections] = useState({});
   const [sauceSelections, setSauceSelections] = useState({});
@@ -16,6 +17,10 @@ const {customizationData}= useSelector((state)=>state.orderDetails)
   const [selectedSizeId, setSelectedSizeId] = useState(customizationData?.selectedData || '');
 
   const [basePrices, setBasePrices] = useState([]);
+  const [cheesePrices, setCheesePrices] = useState([]);
+  const [saucePrices, setSaucePrices] = useState([]);
+  const [vegetarianToppingsPrices, setVegetarianToppingsPrices] = useState([]);
+  const [meatToppingsPrices, setMeatToppingsPrices] = useState([]);
 
   const handleRadioChange = async (e) => {
     const newSizeId = e.target.value;
@@ -35,109 +40,65 @@ const {customizationData}= useSelector((state)=>state.orderDetails)
 // }, [splitSelectedSize])
 
 
-
-
-  // -------------------data fetching function-----------------------
-  const baseFetcher = async (...args) => fetch(...args).then((res) => {
-    return res.json();
-  });
-  // const sizeFetcher = async (...args) => fetch(...args).then((res) => {
+  // const sauceFetcher = async (...args) => fetch(...args).then((res) => {
   //   return res.json()
   // });
-  const sauceFetcher = async (...args) => fetch(...args).then((res) => {
-    return res.json()
-  });
-  const cheeseFetcher = async (...args) => fetch(...args).then((res) => {
-    return res.json()
-  });
-  const vegFetcher = async (...args) => fetch(...args).then((res) => {
-    return res.json()
-  });
-  const meatFetcher = async (...args) => fetch(...args).then((res) => {
-    return res.json()
-  });
-  // const pizzaFetcher = (...args) => fetch(...args).then((res) => res.json());
 
-
-  // =-------------------------data fetching---------------------------
-  // const { data: baseData, error: baseError, isLoading: baseLoading } = useSWR(
-  //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/base`,
-  //   baseFetcher
+  // const { data: sauceData, error: sauceError, isLoading: sauceLoading } = useSWR(
+  //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/sauce`,
+  //   sauceFetcher
   // );
 
-  // const { data: sizeData, error: sizeError, isLoading: sizeLoading } = useSWR(
-  //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/size`,
-  //   sizeFetcher
-  // );
-  const { data: sauceData, error: sauceError, isLoading: sauceLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/sauce`,
-    sauceFetcher
-  );
-  const { data: cheeseData, error: cheeseError, isLoading: cheeseLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/cheese`,
-    cheeseFetcher
-  );
-  const { data: vegData, error: vegError, isLoading: vegLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/vegetarianToppings`,
-    vegFetcher
-  );
-  const { data: meatData, error: meatError, isLoading: meatLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/meatToppings`,
-    meatFetcher
-  );
+    // if (sauceLoading) return <div>Loading...</div>;
+  // if (sauceError) return <div>Error loading data</div>;
+
 
   useEffect(() => {
     fetchPricesForSelectedSize(selectedSizeId);
   console.log(selectedSizeId)
-  }, [])
+  }, [selectedSizeId])
+
+  useEffect(()=>{
+    setSelectedSizeId(customizationData?.selectedData)
+  },[customizationData])
+
+  useEffect(()=>{
+    console.log(selectedSizeId) 
+  },[selectedSizeId])
 
   // -------------------data fetching for price-----------------------
 
 const fetchPricesForSelectedSize = async (sizeId) => {
+  console.log(sizeId)
   try {
-    const baseResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/base/price?sizeId=${sizeId}`);
+ if(sizeId) {  const baseResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/base/price?sizeId=${sizeId}`);
     const basePriceData = await baseResponse.json();
+
+    const sauceResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/sauce/price?sizeId=${sizeId}`);
+    const saucePriceData = await sauceResponse.json();
+
+    const cheeseResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/cheese/price?sizeId=${sizeId}`);
+    const cheesePriceData = await cheeseResponse.json();
+
+    const meatToppingsResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/meatToppings/price?sizeId=${sizeId}`);
+    const meatToppingsPriceData = await meatToppingsResponse.json();
+
+    const vegetarianToppingsResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/vegetarianToppings/price?sizeId=${sizeId}`);
+    const vegetarianToppingsPriceData = await vegetarianToppingsResponse.json();
     
-    // const toppingResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/toppings?mainId=${customizationData._id}&sizeId=${sizeId}`);
-    // const toppingData = await toppingResponse.json();
+
     
     setBasePrices(basePriceData.data);
-    // setToppingPrices(toppingData.data.price);
+    setMeatToppingsPrices(meatToppingsPriceData.data);
+    setVegetarianToppingsPrices(vegetarianToppingsPriceData.data);
+    setSaucePrices(saucePriceData.data);
+    setCheesePrices(cheesePriceData.data);
+}
+
   } catch (error) {
     console.error("Error fetching prices:", error);
   }
 };
-
-
-  // const { data:pizzaData, error, isLoading } = useSWR(
-  //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/pizza`,
-  //   pizzaFetcher
-  // );
-  
-
-  // if (baseLoading) return <div>Loading...</div>;
-  // if (baseError) return <div>Error loading data</div>;
-  // // console.log('Base Data:', baseData); // Add this line for debugging
-
-  // // if (sizeLoading) return <div>Loading...</div>;
-  // // if (sizeError) return <div>Error loading data</div>;
-
-  // if (sauceLoading) return <div>Loading...</div>;
-  // if (sauceError) return <div>Error loading data</div>;
-
-  // if (vegLoading) return <div>Loading...</div>;
-  // if (vegError) return <div>Error loading data</div>;
-
-
-  // if (meatLoading) return <div>Loading...</div>;
-  // if (meatError) return <div>Error loading data</div>;
-
-
-  // if (cheeseLoading) return <div>Loading...</div>;
-  // if (cheeseError) return <div>Error loading data</div>;
-
-
-
 
   const handleSelectionChange = (setSelections, name, type) => {
     setSelections((prevSelections) => ({
@@ -147,70 +108,42 @@ const fetchPricesForSelectedSize = async (sizeId) => {
   };
 
 
-
-  const renderTable = (data, selections, setSelections) => (
+  const renderTable = (data, selections, setSelections,itemType) => (
     <div className="mt-4">
-      <table className="min-w-full bg-white border  border-gray-300">
+      <table className="min-w-full bg-white border  border-gray-200">
         <thead>
           <tr>
             <th className="py-2 px-4 border-b"></th>
-            <th className="py-2 px-4 border-b">Single </th>
-            <th className="py-2 px-4 border-b">Double </th>
+            <th className="py-2 px-4 border-b">Single</th>
+            <th className="py-2 px-4 border-b">Double</th>
           </tr>
         </thead>
         <tbody>
           {Array.isArray(data) && data.map((item) => (
             <tr key={item?._id}>
-
               <td className="py-2 px-4 border-b">
                 {item?.name}
               </td>
               <td className="py-2 px-4 border-b text-center">
                 <input
-                  className="mx-2"
-                  type="checkbox"
-                  // checked={
-                  //   selections[
-                  //     item?.SauceName || item?.CheeseName || item?.toppingName
-                  //   ] === "single"
-                  // }
-                  onChange={() =>
-                    handleSelectionChange(
-                      setSelections,
-                      item?.SauceName || item?.CheeseName || item?.toppingName,
-                      "single"
-                    )
-                  }
+                  className="mx-3"
+
+                  type="radio"
+                  name={`selection-${item?._id}`}
+                  // checked={selections[item?._id] === "single"}
+                  onChange={() => handleSelectionChange(setSelections, item?._id, "single")}
                 />
-                <>{item?.doublePrice} £</>
-
-
+                <>{item?.price[0]?.singlePrice} £</>
               </td>
               <td className="py-2 px-4 border-b text-center">
-
-                <div>
-                  <input
-                    className="mx-2"
-                    type="checkbox"
-                    checked={
-                      selections[
-                      item?.name
-                      ] === "double"
-                    }
-                    onChange={() =>
-                      handleSelectionChange(
-                        setSelections,
-                        item.SauceName || item.CheeseName || item.toppingName,
-                        "double"
-                      )
-                    }
-                  />
-                  {item?.doublePrice} £
-                </div>
-
-
-
-
+                <input
+                  className="mx-3"
+                  type="radio"
+                  name={`selection-${item?._id}`}
+                  checked={selections[item?._id] === "double"}
+                  onChange={() => handleSelectionChange(setSelections, item?._id, "double")}
+                />
+                <>{item?.price[0]?.doublePrice} £</>
               </td>
             </tr>
           ))}
@@ -222,13 +155,12 @@ const fetchPricesForSelectedSize = async (sizeId) => {
 
 
 
-
   return (
     <>
-      <div className="max-w-4xl mx-auto p-4 bg-white shadow-md rounded-lg mt-8">
-        <div className="flex flex-col md:flex-row items-center">
+      <div className="max-w-xl md:max-w-6xl mx-auto p-4 bg-white shadow-md rounded-lg mt-8">
+        <div className="flex flex-col md:flex-row ">
           <div className="flex-1">
-            <h1 className="text-3xl font-bold text-gray-800">{customizationData?.name}</h1>
+            <h1 className="text-4xl  text-gray-800">{customizationData?.name}</h1>
             <p className="mt-2 text-gray-600">
             {customizationData?.meatToppingsName}{customizationData?.meatToppingsName && ", "}{customizationData?.vegetarianToppingsName}{customizationData?.vegetarianToppingsName && ", "}{customizationData?.cheeseName}{customizationData?.cheeseName && ", "}{customizationData?.sauceName}
             </p>
@@ -268,8 +200,7 @@ const fetchPricesForSelectedSize = async (sizeId) => {
                       type="radio"
                       className="form-radio"
                       name="base"
-                      // defaultValue={customizationData?.baseName}
-                    // value={base.toLowerCase().replace(/\"| /g, "")}
+                
                     />
                     <span className="mr-4">{base?.name} <>+ £ {base?.price[0]?.price}</></span>
 
@@ -277,8 +208,43 @@ const fetchPricesForSelectedSize = async (sizeId) => {
                 ))}
               </div>
             </div>
+
+                {/* SAUCE: */}
+      <div className="mt-4 ">
+        <h2 className="text-lg font-semibold text-gray-800">SAUCE</h2>
+        {saucePrices && renderTable(saucePrices, sauceSelections, setSauceSelections, 'sauceName')}
+      </div>
+
+      {/* CHEESE: */}
+      <div className="mt-4">
+        <h2 className="text-lg font-semibold text-gray-800">CHEESE</h2>
+        {cheesePrices && renderTable(cheesePrices, cheeseSelections, setCheeseSelections, 'cheeseName')}
+      </div>
+
+      {/* VEGETARIAN TOPPINGS: */}
+      <div className="mt-4">
+        <h2 className="text-lg font-semibold text-gray-800">
+          VEGETARIAN TOPPINGS
+        </h2>
+        {vegetarianToppingsPrices && renderTable(vegetarianToppingsPrices, vegetarianSelections, setVegetarianSelections,'vegetarianToppingsName')}
+      </div>
+
+      {/* MEAT TOPPINGS: */}
+      <div className="mt-4">
+        <h2 className="text-lg font-semibold text-gray-800">MEAT TOPPINGS</h2>
+        {meatToppingsPrices && renderTable(meatToppingsPrices, meatSelections, setMeatSelections,'meatToppingsName')}
+      </div>
+
+
+
+      <div className="mt-4">
+        <button className="bg-[#39A144] text-white w-full px-10 p-2 rounded">
+          Save
+        </button>
+      </div>
           </div>
-          <div className="mt-4 md:mt-0 md:ml-8">
+          
+          <div className="hidden md:block md:ml-8">
             <img
               src={customizationData?.img}
               alt="Hawaiian Pizza"
@@ -288,42 +254,11 @@ const fetchPricesForSelectedSize = async (sizeId) => {
             {customizationData?.meatToppingsName}{customizationData?.meatToppingsName && ", "}{customizationData?.vegetarianToppingsName}{customizationData?.vegetarianToppingsName && ", "}{customizationData?.cheeseName}{customizationData?.cheeseName && ", "}{customizationData?.sauceName}
             </p>
           </div>
+          
         </div>
       </div>
 
-      {/* SAUCE: */}
-      <div className="max-w-4xl mx-auto p-4 bg-white rounded-lg">
-        <h2 className="text-lg font-semibold text-gray-800">SAUCE</h2>
-        {sauceData && renderTable(sauceData?.data, sauceSelections, setSauceSelections)}
-      </div>
-
-      {/* CHEESE: */}
-      <div className="max-w-4xl mx-auto p-4 bg-white rounded-lg">
-        <h2 className="text-lg font-semibold text-gray-800">CHEESE</h2>
-        {cheeseData && renderTable(cheeseData?.data, cheeseSelections, setCheeseSelections)}
-      </div>
-
-      {/* VEGETARIAN TOPPINGS: */}
-      <div className="max-w-4xl mx-auto p-4 bg-white rounded-lg">
-        <h2 className="text-lg font-semibold text-gray-800">
-          VEGETARIAN TOPPINGS
-        </h2>
-        {vegData && renderTable(vegData?.data, vegetarianSelections, setVegetarianSelections)}
-      </div>
-
-      {/* MEAT TOPPINGS: */}
-      <div className="max-w-4xl mx-auto p-4 bg-white rounded-lg">
-        <h2 className="text-lg font-semibold text-gray-800">MEAT TOPPINGS</h2>
-        {meatData && renderTable(meatData?.data, meatSelections, setMeatSelections)}
-      </div>
-
-
-
-      <div className="max-w-4xl mx-auto p-4">
-        <button className="bg-[#39A144] text-white w-full px-10 p-2 rounded">
-          Save
-        </button>
-      </div>
+  
     </>
   );
 };
