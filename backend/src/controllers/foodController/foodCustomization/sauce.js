@@ -40,6 +40,31 @@ export const createSauceCustomization = asyncErrorHandler( async(req,res,next)=>
   }
 )
 
+export const getSauceCustomizationPrice = asyncErrorHandler(async (req, res, next) => {
+  const { sizeId } = req.query;
+
+  const data = await sauceCustomizationModel.find();
+
+  if (!data || data.length === 0) {
+    return next(new CustomError("No data found!!", 400));
+  }
+
+  // Filter prices in each document based on the given sizeId
+  const filteredData = data.map((doc) => {
+    const sizeData = doc.price.filter((item) => item.size.toString() === sizeId);
+    return {
+      ...doc.toObject(),
+      price: sizeData,
+    };
+  });
+
+  res.status(200).json({
+    status: true,
+    message: "Sauce Customization data found successfully",
+    data: filteredData,
+  });
+});
+
 export const getAllSauceCustomization = asyncErrorHandler( async(req,res,next)=>{
 
   
