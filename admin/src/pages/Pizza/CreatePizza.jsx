@@ -21,7 +21,7 @@ const CreatePizza = () => {
 
     const [selectedSizes, setSelectedSizes] = useState([]);
     const sizeOptions = (size) =>
-      size.filter(item => !selectedSizes.includes(item?._id)).map(item => ({
+      size?.filter(item => !selectedSizes.includes(item?._id)).map(item => ({
         value: item?._id,
         label: item?.name,
       }));
