@@ -7,20 +7,29 @@ import AddedToCartModel from "@/app/_components/Modals/AddedToCartModel";
 import { getCustomizationDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
 
 const PizzaCards = ({ data, idx }) => {
-  console.log("dataa", data);
+
   // =-----------------------hooks--------------------------------
 
   const dispatch = useDispatch();
   const selectedSizeId= Array.isArray(data?.priceSection) && data?.priceSection[0]?.size?._id;
   const [selectedData, setSelectedData] = useState(selectedSizeId);
-  // console.log(selectedSizeId,'dsbds')
+
+  const selectedLabelName= Array.isArray(data?.priceSection) && `${data?.priceSection[0]?.size?.name}-${data?.priceSection[0]?.price}`;
+  const [selectedLabel, setSelectedLabel] = useState(selectedLabelName);
+ 
+  const handleChange = (event) => {
+    const selectedOption = event.target.options[event.target.selectedIndex];
+    const value = event.target.value;
+    const label = selectedOption.getAttribute("data-label");
+
+    console.log("Selected value:", value);
+    console.log("Selected label:", label);
+
+    setSelectedData(value);
+    setSelectedLabel(label);
+  };
 
   const [isAddClicked, setIsAddClicked] = useState(false);
-  console.log(data?.priceSection[0]?.size?.name)
-
-  const [sizeState,setSizeState] = useState()
-
-
 
 
   return (
@@ -42,18 +51,16 @@ const PizzaCards = ({ data, idx }) => {
         </p>
         <div>
           <select
-            onChange={(Event) => {
-              console.log(Event.target.value);
-              setSelectedData(Event.target.value);
-            }}
+            onChange={handleChange}
             value={selectedData}
             name="pizzas"
             id="pizzas"
             className="border-2 mx-auto p-2 w-full m-1"
+           
           >
             {data?.priceSection.map((data, idx) => {
               return (
-                <option value={data?.size?._id}>
+                <option value={data?.size?._id}  data-label={`${data?.size?.name}-${data?.price}`}>
                   {`${data?.size?.name} £ ${data?.price}`}
                 </option>
               );
@@ -88,7 +95,7 @@ const PizzaCards = ({ data, idx }) => {
                     addToCart({
                       name: data?.pizzaName,
                       img: data?.banner,
-                      size: selectedData,
+                      size: selectedLabel,
                       id: data?._id,
                     })
                   );
