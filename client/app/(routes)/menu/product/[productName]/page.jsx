@@ -9,18 +9,46 @@ const Product = () => {
   // const pizzaName= params?.productName
 
 const {customizationData}= useSelector((state)=>state.orderDetails)
-  const [cheeseSelections, setCheeseSelections] = useState({});
-  const [sauceSelections, setSauceSelections] = useState({});
-  const [vegetarianSelections, setVegetarianSelections] = useState({});
-  const [meatSelections, setMeatSelections] = useState({});
 
-  const [selectedSizeId, setSelectedSizeId] = useState(customizationData?.selectedData || '');
+const combineNames = () => {
 
-  const [basePrices, setBasePrices] = useState([]);
-  const [cheesePrices, setCheesePrices] = useState([]);
-  const [saucePrices, setSaucePrices] = useState([]);
-  const [vegetarianToppingsPrices, setVegetarianToppingsPrices] = useState([]);
-  const [meatToppingsPrices, setMeatToppingsPrices] = useState([]);
+  const items = [
+    customizationData?.meatToppingsName,
+    customizationData?.vegetarianToppingsName,
+    customizationData?.cheeseName,
+    customizationData?.sauceName
+  ].filter(item => item && item.length > 0);
+
+  // Join the items with a comma
+  return items.join(', ');
+};
+
+const [basePrices, setBasePrices] = useState([]);
+const [cheesePrices, setCheesePrices] = useState([]);
+const [saucePrices, setSaucePrices] = useState([]);
+const [vegetarianToppingsPrices, setVegetarianToppingsPrices] = useState([]);
+const [meatToppingsPrices, setMeatToppingsPrices] = useState([]);
+
+console.log(saucePrices)
+console.log(customizationData?.sauceName)
+const [selectedSizeId, setSelectedSizeId] = useState(customizationData?.selectedData || '');
+const [selectedBase, setSelectedBase] = useState(customizationData?.baseName || '');
+const [selectedCheese, setSelectedCheese] = useState(customizationData?.cheeseName || '');
+const [selectedSauce, setSelectedSauce] = useState();
+const [selectedMeatToppings, setSelectedMeatToppings] = useState(customizationData?.meatToppingsName || '');
+const [selectedVegetarianToppings, setSelectedVegetarianToppings] = useState(customizationData?.vegetarianToppingsName || '');
+
+
+useEffect(()=>{
+ const newData= saucePrices?.filter(item =>  {
+    console.log(customizationData?.sauceName?.includes(item.name))
+    return customizationData?.sauceName?.includes(item.name)}) 
+
+    setSelectedSauce(newData)
+},[saucePrices])
+useEffect(()=>{
+  console.log(selectedSauce)
+},[selectedSauce])
 
   const handleRadioChange = async (e) => {
     const newSizeId = e.target.value;
@@ -100,15 +128,20 @@ const fetchPricesForSelectedSize = async (sizeId) => {
   }
 };
 
-  const handleSelectionChange = (setSelections, name, type) => {
-    setSelections((prevSelections) => ({
-      ...prevSelections,
-      [name]: prevSelections[name] === type ? undefined : type,
-    }));
-  };
+  // const handleSelectionChange = (setSelections, name, type) => {
+  //   setSelections((prevSelections) => ({
+  //     ...prevSelections,
+  //     [name]: prevSelections[name] === type ? undefined : type,
+  //   }));
+  // };
 
-
-  const renderTable = (data, selections, setSelections,itemType) => (
+  // console.log(selectedBase)
+  // console.log(selectedSauce)
+  const renderTable = (data, selection, setSelection,itemType) =>
+  {
+      // console.log(data)
+     return (
+    
     <div className="mt-4">
       <table className="min-w-full bg-white border  border-gray-200">
         <thead>
@@ -127,30 +160,43 @@ const fetchPricesForSelectedSize = async (sizeId) => {
               <td className="py-2 px-4 border-b text-center">
                 <input
                   className="mx-3"
-
+                  value={`${item?.price[0]?.singlePrice}`}
                   type="radio"
                   name={`selection-${item?._id}`}
-                  // checked={selections[item?._id] === "single"}
-                  onChange={() => handleSelectionChange(setSelections, item?._id, "single")}
+                  data-label={`${item?.name} (Single)-${item?.price[0]?.singlePrice}`}
+                  // checked={selectedSizeId === data?.size?._id}
+                  checked={Array.isArray(item?.price) && selection === item?.price[0]?.singlePrice}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setSelection(value);
+                  console.log(selection)
+
+                  }}
                 />
-                <>{item?.price[0]?.singlePrice} £</>
+                <span className="bg-red-500 text-white rounded-lg px-2">£ {item?.price[0]?.singlePrice} </span>
               </td>
               <td className="py-2 px-4 border-b text-center">
                 <input
                   className="mx-3"
                   type="radio"
                   name={`selection-${item?._id}`}
-                  checked={selections[item?._id] === "double"}
-                  onChange={() => handleSelectionChange(setSelections, item?._id, "double")}
+                  value={item?.price[0]?.doublePrice}
+                  // checked={selections[item?._id] === "double"}
+                  // checked={Array.isArray(item?.price) && selection === item?.price[0]?.doublePrice}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setSelection(value);
+                    console.log(setSelectedCheese)
+                  }}
                 />
-                <>{item?.price[0]?.doublePrice} £</>
+                <span className="bg-yellow-600  text-white rounded-lg px-2">£ {item?.price[0]?.doublePrice}</span>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
-  );
+  );}
 
 
 
@@ -162,7 +208,7 @@ const fetchPricesForSelectedSize = async (sizeId) => {
           <div className="flex-1">
             <h1 className="text-4xl  text-gray-800">{customizationData?.name}</h1>
             <p className="mt-2 text-gray-600">
-            {customizationData?.meatToppingsName}{customizationData?.meatToppingsName && ", "}{customizationData?.vegetarianToppingsName}{customizationData?.vegetarianToppingsName && ", "}{customizationData?.cheeseName}{customizationData?.cheeseName && ", "}{customizationData?.sauceName}
+            {combineNames()}
             </p>
             <div className="mt-4">
               <button className="w-full px-4 py-2 bg-green-600 text-white rounded-lg">
@@ -199,10 +245,19 @@ const fetchPricesForSelectedSize = async (sizeId) => {
                     <input
                       type="radio"
                       className="form-radio"
+                      onChange={(e) => {
+                        const base = e.target.value;
+                        setSelectedBase(base);
+                      }}
                       name="base"
-                
+                      value={base?.name}
+                      checked={selectedBase === base?.name}
                     />
-                    <span className="mr-4">{base?.name} <>+ £ {base?.price[0]?.price}</></span>
+                    <span className="mr-4">{base?.name}  
+                      <> {base?.price[0]?.price>0 && 
+                      <span className="bg-red-500 text-white rounded-lg px-1">+ £ {base?.price[0]?.price}</span>}
+                      </>
+                      </span>
 
                   </label>
                 ))}
@@ -212,13 +267,13 @@ const fetchPricesForSelectedSize = async (sizeId) => {
                 {/* SAUCE: */}
       <div className="mt-4 ">
         <h2 className="text-lg font-semibold text-gray-800">SAUCE</h2>
-        {saucePrices && renderTable(saucePrices, sauceSelections, setSauceSelections, 'sauceName')}
+        {saucePrices && renderTable(saucePrices, selectedSauce, setSelectedSauce, 'sauceName')}
       </div>
 
       {/* CHEESE: */}
       <div className="mt-4">
         <h2 className="text-lg font-semibold text-gray-800">CHEESE</h2>
-        {cheesePrices && renderTable(cheesePrices, cheeseSelections, setCheeseSelections, 'cheeseName')}
+        {cheesePrices && renderTable(cheesePrices, selectedCheese, setSelectedCheese, 'cheeseName')}
       </div>
 
       {/* VEGETARIAN TOPPINGS: */}
@@ -226,13 +281,13 @@ const fetchPricesForSelectedSize = async (sizeId) => {
         <h2 className="text-lg font-semibold text-gray-800">
           VEGETARIAN TOPPINGS
         </h2>
-        {vegetarianToppingsPrices && renderTable(vegetarianToppingsPrices, vegetarianSelections, setVegetarianSelections,'vegetarianToppingsName')}
+        {vegetarianToppingsPrices && renderTable(vegetarianToppingsPrices, selectedVegetarianToppings, setSelectedVegetarianToppings,'vegetarianToppingsName')}
       </div>
 
       {/* MEAT TOPPINGS: */}
       <div className="mt-4">
         <h2 className="text-lg font-semibold text-gray-800">MEAT TOPPINGS</h2>
-        {meatToppingsPrices && renderTable(meatToppingsPrices, meatSelections, setMeatSelections,'meatToppingsName')}
+        {meatToppingsPrices && renderTable(meatToppingsPrices, selectedMeatToppings, setSelectedMeatToppings,'meatToppingsName')}
       </div>
 
 
@@ -251,7 +306,7 @@ const fetchPricesForSelectedSize = async (sizeId) => {
               className="w-[360px] h-[360px] rounded-lg"
             />
             <p className="mt-2 text-gray-600 text-center">
-            {customizationData?.meatToppingsName}{customizationData?.meatToppingsName && ", "}{customizationData?.vegetarianToppingsName}{customizationData?.vegetarianToppingsName && ", "}{customizationData?.cheeseName}{customizationData?.cheeseName && ", "}{customizationData?.sauceName}
+            {combineNames()}
             </p>
           </div>
           
