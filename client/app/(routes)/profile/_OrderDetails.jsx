@@ -42,8 +42,8 @@ const OrderDetails = () => {
                   <p>{data?.orderAt}</p>
                   <p className="text-xl">
                     TOTAL - £
-                    {data?.totalAmount?.total +
-                      data?.totalAmount?.deliveryCharge}
+                    {Number(data?.totalAmount?.total) +
+                      Number(data?.totalAmount?.deliveryCharge)}
                   </p>
                 </div>
                 <div className="flex items-center gap-2 ">
