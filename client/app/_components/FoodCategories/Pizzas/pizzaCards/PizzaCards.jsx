@@ -26,8 +26,14 @@ const PizzaCards = ({ data, idx }) => {
   const [isAddClicked, setIsAddClicked] = useState(false);
 
   const combineNames = () => {
-    const { meatToppingsName, vegetarianToppingsName, cheeseName, sauceName } = data;
-    const items = [meatToppingsName, vegetarianToppingsName, cheeseName, sauceName].filter(item => item && item.length > 0);
+
+    const items = [
+      data?.meatToppingsName,
+      data?.vegetarianToppingsName,
+      data?.cheeseName,
+      data?.sauceName
+    ].filter(item => item && item.length > 0);
+    console.log(items)
     return items.join(', ');
   };
 

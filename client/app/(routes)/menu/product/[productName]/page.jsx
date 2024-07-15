@@ -305,7 +305,7 @@ const fetchPricesForSelectedSize = async (sizeId) => {
               alt="Hawaiian Pizza"
               className="w-[360px] h-[360px] rounded-lg"
             />
-            <p className="mt-2 text-gray-600 text-center">
+            <p className="w-[360px] text-gray-600 ">
             {combineNames()}
             </p>
           </div>
