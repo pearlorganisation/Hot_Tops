@@ -67,6 +67,7 @@ const page = () => {
   }, []);
 
   useEffect(() => {}, [order?.address, order?.time]);
+ 
   const totalPrice = cart?.reduce((ele, acc) => {
     // console.log(typeOf(acc?.size);
     const price = String(acc?.size).includes("-")
@@ -76,6 +77,8 @@ const page = () => {
     console.log(price);
     return ele + Number(price[1] || price);
   }, 0);
+
+  console.log(totalPrice)
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
