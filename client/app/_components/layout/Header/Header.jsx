@@ -69,7 +69,7 @@ const Header = () => {
             </Link>
           ) : (
             <div className="flex">
-              <li className="py-2 px-1 md:border-r-2 md:border-red-600   h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
+              <li className=" px-1 md:border-r-2 md:border-red-600   h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
                 <Link href="/signUp">Sign in / Register</Link>
               </li>
             </div>
@@ -96,6 +96,7 @@ const Header = () => {
             className=" bg-white hidden xl:block xl:absolute xl:bottom-0 left-8"
             alt="logo"
             width={150}
+         
           />
         </Link>
         <ul
@@ -133,7 +134,7 @@ const Header = () => {
               );
             })}
 
-          <div className="animate-bounce focus:animate-none hover:animate-none ">
+          <div className="mb-2 ">
             <a
               href=""
               class=" inline-flex text-md font-medium bg-red-800 mt-3 px-4 py-2 border-r border-r-white  items-center  tracking-wide text-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800 "
