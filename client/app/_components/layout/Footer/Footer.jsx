@@ -11,23 +11,23 @@ const Footer = () => {
             <h1 className="font-bold text-lg ">MENU</h1>
             <p className="hover:text-yellow-500 text-sm">
               {" "}
-              <a href="#">Pizza</a>
+              <a href="/menu/pizzas">Pizza</a>
             </p>
             <p className="hover:text-yellow-500 text-sm">
               {" "}
-              <a href="#">Sides</a>
+              <a href="/menu/sides">Sides</a>
             </p>
             <p className="hover:text-yellow-500 text-sm">
               {" "}
-              <a href="#">Drinks</a>
+              <a href="/menu/drinks">Drinks</a>
             </p>
             <p className="hover:text-yellow-500 text-sm">
               {" "}
-              <a href="#">Desserts</a>
+              <a href="/menu/desserts">Desserts</a>
             </p>
             <p className="hover:text-yellow-500 text-sm">
               {" "}
-              <a href="#">Dips</a>
+              <a href="/menu/dips">Dips</a>
             </p>
           </div>
           <div className="flex justify-center  m-4">
@@ -97,19 +97,19 @@ const Footer = () => {
         <div className="flex   flex-col gap-2 items-center ">
           <h1 className="font-bold text-lg">POLICIES</h1>
 
-          <p className="hover:text-yellow-500 text-sm">
+          <p className="hover:text-yellow-500 text-sm cursor-pointer">
             {" "}
             <a href="#"></a>TERMS & CONDITIONS
           </p>
-          <p className="hover:text-yellow-500 text-sm">
+          {/* <p className="hover:text-yellow-500 text-sm">
             {" "}
             <a href="#"></a>ALLERGEN INFORMATION
           </p>
           <p className="hover:text-yellow-500 text-sm">
             {" "}
             <a href="#"></a>BETTER CHICKEN
-          </p>
-          <p className="hover:text-yellow-500 text-sm">
+          </p> */}
+          <p className="hover:text-yellow-500 text-sm cursor-pointer">
             {" "}
             <a href="#"></a>Privacy Policy
           </p>

@@ -8,19 +8,15 @@ import "swiper/css/pagination";
 import React, { useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
+import pizza1 from "../../_assets/images/pizza1.jpg"
+import pizza2 from "../../_assets/images/pizza2.jpg"
+import Image from "next/image";
 
 const HomePage = () => {
 
   const img = [
-    {
-      path: "https://www.pizzahut.co.in/order/images/backgrounds/in/en-IN/home-bg-lg.4f1162d6605078aa9cdf4f8cb8c9c6a3.jpg",
-    },
-    {
-      path: "https://topspizza.co.uk/storage/5b88bc077435f2b4f75ae72f75644726.jpg",
-    },
-    {
-      path: "https://topspizza.co.uk/storage/myop3cgax48C0sq2nWBMwuQr703sA2JsaCjfl6Bb.jpg",
-    },
+     pizza2,
+     pizza1
   ];
 
   
@@ -67,7 +63,7 @@ const data = [
         </Swiper>
       </div> */}
 
-      <div className="mx-auto container max-w-7xl px-10">
+      <div className="mx-auto container max-w-7xl px-10 ">
       <Swiper
       className="z-55 p-2"
         slidesPerView={1}
@@ -80,7 +76,7 @@ const data = [
         {img.map((el, i) => {
             return (
               <SwiperSlide className="pb-8" key={i} >
-                <img src={el.path} className="h-[55vh] w-full  object-cover" />
+                <Image src={el} className="h-[60vh] w-full  object-cover" />
               </SwiperSlide>
             );
           })}
