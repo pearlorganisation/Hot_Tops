@@ -83,8 +83,8 @@ const PizzaCards = ({ data, idx }) => {
           }} href={`/menu/product/${data?.pizzaName}`}>
             <TbEdit size={30} className="hover:text-red-600" />
           </Link>
-          <div className="bg-green-700 flex items-center justify-center w-full">
-            <button
+          <button className="bg-green-700 text-center p-2 text-white flex items-center justify-center w-full"
+          
               onClick={() => {
                 setIsAddClicked(true);
                 selectedData && dispatch(addToCart({
@@ -94,12 +94,12 @@ const PizzaCards = ({ data, idx }) => {
                   id: data?._id,
                 }));
               }}
-              className="text-center p-2 text-white"
+              
               type="button"
             >
               Add
-            </button>
-          </div>
+       
+          </button>
         </div>
       </div>
       <AddedToCartModel isAddClicked={isAddClicked} setIsAddClicked={setIsAddClicked} />
