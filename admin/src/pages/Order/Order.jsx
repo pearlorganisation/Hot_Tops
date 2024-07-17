@@ -60,7 +60,7 @@ const Order = () => {
               <tbody className="text-gray-600 divide-y">
               {isLoading ? (
               <tr>
-              <td colSpan="7" className="text-center px-6 py-8">
+              <td colSpan="8" className="text-center px-6 py-8">
                 <Stack spacing={4}>
                   <Skeleton variant="rounded" height={30} />
                   <Skeleton variant="rounded" height={25}/>

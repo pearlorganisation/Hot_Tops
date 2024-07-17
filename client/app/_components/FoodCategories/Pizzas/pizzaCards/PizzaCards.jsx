@@ -23,7 +23,6 @@ const PizzaCards = ({ data, idx }) => {
     setSelectedLabel(label);
   };
 
-  const [isAddClicked, setIsAddClicked] = useState(false);
 
   const combineNames = () => {
 
@@ -39,7 +38,7 @@ const PizzaCards = ({ data, idx }) => {
 
   return (
     <div className="flex flex-col justify-between p-3 bg-white shadow-md rounded-lg max-w-[16rem]  2xl:max-w-xs w-full newshadow " key={idx}>
-      <div  className=" h-full">
+      <div className=" h-full">
         <img src={data?.banner} alt="Card Image" className="rounded-t-lg w-full object-cover" />
         <div className="mt-3">
           <h2 className="text-xl font-semibold mb-1 ">{data?.pizzaName}</h2>
@@ -86,12 +85,13 @@ const PizzaCards = ({ data, idx }) => {
           <button className="bg-green-700 text-center p-2 text-white flex items-center justify-center w-full"
           
               onClick={() => {
-                setIsAddClicked(true);
+
                 selectedData && dispatch(addToCart({
                   name: data?.pizzaName,
                   img: data?.banner,
                   size: selectedLabel,
                   id: data?._id,
+                  quantity: 1
                 }));
               }}
               
@@ -102,7 +102,7 @@ const PizzaCards = ({ data, idx }) => {
           </button>
         </div>
       </div>
-      <AddedToCartModel isAddClicked={isAddClicked} setIsAddClicked={setIsAddClicked} />
+
     </div>
   );
 };
