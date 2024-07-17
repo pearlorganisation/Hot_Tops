@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <StoreProvider>
           <Header />
-          {children}
+          <div className="pt-36">{children}</div>
           <ToastContainer />
           <Toaster position="top-center" richColors />
           <Footer />

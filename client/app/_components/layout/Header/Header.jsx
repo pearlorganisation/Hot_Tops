@@ -46,7 +46,7 @@ const Header = () => {
   console.log(totalPrice);
 
   return (
-    <div className=" bg-white z-10 shadow-lg">
+    <div className=" bg-white z-10 shadow-lg fixed top-0 w-full">
       <div className="flex justify-around items-center">
         <Link href="/" className="w-[30%] flex justify-center">
           <Image
@@ -57,7 +57,7 @@ const Header = () => {
           />
         </Link>
         <ul
-          className={`flex justify-end gap-6 items-center w-[70%] ${teko.className} font-teko font-[700] `}
+          className={`flex justify-end gap-4 items-center w-[70%] ${teko.className} font-teko font-[700] `}
         >
           {isUserLoggedIn ? (
             <Link href="/profile?tab=1">
@@ -96,7 +96,7 @@ const Header = () => {
             className=" bg-white hidden xl:block xl:absolute xl:bottom-0 left-8"
             alt="logo"
             width={150}
-         
+
           />
         </Link>
         <ul
@@ -104,9 +104,8 @@ const Header = () => {
         >
           <Link href={`/menu/deals`}>
             <li
-              className={`px-5 hover:bg-red-800 hover:text-white h-[36px] md:h-[56px] flex items-center text-black ${
-                selecteditem === -1 ? "bg-red-800 text-white" : "bg-white"
-              }`}
+              className={`px-5 hover:bg-red-800 hover:text-white h-[36px] md:h-[56px] flex items-center text-black ${selecteditem === -1 ? "bg-red-800 text-white" : "bg-white"
+                }`}
               onClick={() => setSelectedItem(-1)}
             >
               {" "}
@@ -120,11 +119,10 @@ const Header = () => {
                 <>
                   <Link href={`/menu/${data?.toLocaleLowerCase()}`}>
                     <li
-                      className={`hover:bg-red-800 hover:text-white h-[36px] md:h-[56px]  px-5 flex items-center text-black ${
-                        selecteditem === idx
-                          ? "bg-red-800 text-white"
-                          : "bg-white"
-                      }`}
+                      className={`hover:bg-red-800 hover:text-white h-[36px] md:h-[56px]  px-5 flex items-center text-black ${selecteditem === idx
+                        ? "bg-red-800 text-white"
+                        : "bg-white"
+                        }`}
                       onClick={() => setSelectedItem(idx)}
                     >
                       {data}
