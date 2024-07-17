@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import useSWR from "swr";
 
-import { useDispatch, useSelector } from "react-redux";
 
 import PizzaCards from "./pizzaCards/PizzaCards";
 
