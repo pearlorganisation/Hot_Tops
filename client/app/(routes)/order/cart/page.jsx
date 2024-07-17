@@ -6,7 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
 
 import {
+  decreaseQuantity,
   deletefromCart,
+  increaseQuantity,
   orderCheckedout,
 } from "@/app/lib/features/cartSlice/cartSlice";
 import { getPreviousPath } from "@/app/lib/features/path/pathslice";
@@ -31,7 +33,7 @@ const Cart = () => {
           <h2 className="text-2xl font-bold">YOUR BASKET</h2>
         </div>
         {Array.isArray(cart) &&
-          cart?.length > 0 &&
+          cart?.length > 0 ?
           cart?.map((data, idx) => {
             const price = String(data?.size).includes("-")
               ? data?.size?.split("-")
@@ -49,16 +51,26 @@ const Cart = () => {
                   </p>
                 </div>
                 <div className="flex justify-end space-x-2">
-                  <button className="bg-gray-300 text-gray-800 px-2 py-1 rounded">
+                  <button
+                    onClick={() => {
+
+                      dispatch(decreaseQuantity({ id: data?.id, quantity: 1 }))
+
+
+                    }}
+                    className="bg-gray-300 text-gray-800 px-2 py-1 rounded">
                     -
                   </button>
-                  <span className="px-2 py-1">1</span>
-                  <button className="bg-gray-300 text-gray-800 px-2 py-1 rounded">
+                  <span className="px-2 py-1">{data?.quantity}</span>
+                  <button type="button" onClick={() => {
+
+                    dispatch(increaseQuantity({ id: data?.id, quantity: 1 }))
+
+
+                  }} className="bg-gray-300 text-gray-800 px-2 py-1 rounded">
                     +
                   </button>
-                  <button className="bg-blue-500 text-white px-2 py-1 rounded">
-                    ✎
-                  </button>
+
                   <button
                     className="bg-red-800 text-white px-2 py-1 rounded"
                     onClick={() => dispatch(deletefromCart({ id: data?.id }))}
@@ -67,21 +79,27 @@ const Cart = () => {
                   </button>
                 </div>
                 <div className="col-span-1 text-right text-xl font-semibold md:col-span-3 md:text-left">
-                  £{Array.isArray(price) ? price[1] : price}
+                  £{data?.totalSum }
                 </div>
               </div>
             );
-          })}
-        <div
-          onClick={() => {
-            dispatch(orderCheckedout(true));
-            dispatch(getPreviousPath(pathname));
-            router.push("/order/orders");
-          }}
-          className="bg-green-500 text-white text-center py-3 cursor-pointer"
-        >
-          <span>Select time & place</span>
-        </div>
+          }) : <div className="h-[70vh] grid place-items-center">
+            <div className="text-3xl font-semibold">Your cart is Empty</div>
+          </div>}
+        {
+          Array.isArray(cart) &&
+          cart?.length > 0 && <div
+            onClick={() => {
+              dispatch(orderCheckedout(true));
+              dispatch(getPreviousPath(pathname));
+              router.push("/order/orders");
+            }}
+            className="bg-green-500 text-white text-center py-3 cursor-pointer"
+          >
+            <span>Select time & place</span>
+          </div>
+        }
+
       </div>
     </>
   );

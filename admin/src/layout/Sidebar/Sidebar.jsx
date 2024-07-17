@@ -1,6 +1,6 @@
 // ----------------------------------------------Imports-----------------------------------------
 import { MdSpaceDashboard } from "react-icons/md";
-import { GiChickenLeg } from "react-icons/gi";
+import { BiDish } from "react-icons/bi";
 import { FaPizzaSlice } from "react-icons/fa6";
 import SearchIcon from "@mui/icons-material/Search";
 import DarkModeSwitcher from "../Header/DarkModeSwitcher/DarkModeSwitcher";
@@ -10,6 +10,7 @@ import { GiPizzaCutter } from "react-icons/gi";
 import { RiDrinksFill } from "react-icons/ri";
 import { TbBowlFilled } from "react-icons/tb";
 import { LuCakeSlice } from "react-icons/lu";
+import { MdOutlinePayment } from "react-icons/md";
 import { Link } from "react-router-dom";
 // -----------------------------------------------------------------------------------------------
 
@@ -19,6 +20,12 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
       label: "Dashboard",
       path: "/",
       icon: <MdSpaceDashboard size={28} />,
+      isDropDown: false,
+    },
+    {
+      label: "Orders",
+      path: "/order",
+      icon: <MdOutlinePayment size={28} />,
       isDropDown: false,
     },
     {
@@ -41,7 +48,7 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
   
     {
       label: "Sides",
-      icon: <GiChickenLeg size={28} />,
+      icon: <BiDish size={28} />,
       isDropDown: true,
       subItems: [
         { title: "Sides", path: "/sides" },

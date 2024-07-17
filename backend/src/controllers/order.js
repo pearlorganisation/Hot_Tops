@@ -35,10 +35,9 @@ export const newOrder = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const getAllOrders = asyncErrorHandler(async (req, res, next) => {
-  const data = await order.find();
-  res
-    .status(200)
-    .json({ status: true, message: "All Orders Found successfully" }, data);
+  const data = await order.find().populate("orderBy");
+  
+  res.status(200).json({ status: true, message: "All Orders Found successfully", data });
 });
 
 export const getParticularUserOrders = asyncErrorHandler(

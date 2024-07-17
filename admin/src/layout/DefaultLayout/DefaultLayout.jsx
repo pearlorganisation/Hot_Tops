@@ -52,10 +52,10 @@ const DefaultLayout = () => {
           />
         </div>
         <div className="flex-1 lg:h-[80px]  ">
-          <Header
+          {/* <Header
             isSideNavOpen={isSideNavOpen}
             setIsSideNavOpen={setIsSideNavOpen}
-          />
+          /> */}
           <Main />
         </div>
       </div>

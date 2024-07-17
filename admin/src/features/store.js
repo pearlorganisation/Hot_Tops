@@ -17,6 +17,7 @@ import pizza from "./slice/pizza/pizza";
 import pizzaSlice from "./slice/pizza/pizzaSlice";
 import drink from "./slice/drink/drink";
 import dip from "./slice/dip/dip";
+import order from "./slice/order/order";
 
 const rootReducer = combineReducers({
   // pizza: pizzaReducer,
@@ -31,7 +32,8 @@ const rootReducer = combineReducers({
   pizzaCategory,
   pizzaFilter,
   pizzaSlice,
-  pizza
+  pizza,
+  order
   
   });
 

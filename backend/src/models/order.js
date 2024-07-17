@@ -23,6 +23,11 @@ const orderSchema = new mongoose.Schema(
       ref: "auth",
       required: [true, "orderBy is required!"],
     },
+    orderStatus: {
+      type: String,
+      enum:["Pending","Completed","Cancelled"],
+      default:"Pending"
+    },
     items: {
       type: [],
       required: [true, "items are required"],

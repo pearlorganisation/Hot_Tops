@@ -35,6 +35,7 @@ import UpdatePizzaCategory from "../pages/Pizza/Category/EditCategory"
 import UpdatePizzaFilter from "../pages/Pizza/Filter/EditFilter"
 import UpdateSidesCategory from "../pages/Sides/Category/EditCategory"
 import UpdateSidesFilter from "../pages/Sides/Filter/EditFilter"
+import Order from "../pages/Order/Order";
 
 // ---------------------------------------------------------------------------------------------------
 
@@ -178,6 +179,10 @@ export const appRouter = createBrowserRouter([
       {
         path: "/updatePizza/:id",
         element: <UpdatePizza />,
+      },
+      {
+        path: "/order",
+        element: <Order />,
       },
     ],
   },
