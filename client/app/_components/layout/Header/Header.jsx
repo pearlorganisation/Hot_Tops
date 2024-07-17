@@ -95,7 +95,7 @@ const Header = () => {
             src={logo}
             className=" bg-white hidden xl:block xl:absolute xl:bottom-0 left-8"
             alt="logo"
-            width={150}
+            width={140}
 
           />
         </Link>
