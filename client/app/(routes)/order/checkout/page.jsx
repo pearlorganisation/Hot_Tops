@@ -68,14 +68,9 @@ const page = () => {
 
   useEffect(() => {}, [order?.address, order?.time]);
  
-  const totalPrice = cart?.reduce((ele, acc) => {
-    // console.log(typeOf(acc?.size);
-    const price = String(acc?.size).includes("-")
-      ? acc?.size?.split("-")
-      : acc?.size;
+  const totalPrice = cart?.reduce((acc, item) => {
 
-    console.log(price);
-    return ele + Number(price[1] || price);
+    return acc + Number(item?.totalSum);
   }, 0);
 
   console.log(totalPrice)
@@ -183,7 +178,7 @@ const page = () => {
                         </div>
 
                         <div className="col-span-1 text-right  font-semibold md:col-span-3 md:text-left">
-                          £{Array.isArray(price) ? price[1] : price}
+                          £{ data?.price} x {data?.quantity}
                         </div>
                       </div>
                     );

@@ -96,7 +96,7 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
                         </div>
 
                         <div className="col-span-1 text-right  font-semibold md:col-span-3 md:text-left">
-                          £{Array.isArray(price) ? price[1] : price}
+                          £ {data?.price} x {data?.quantity}
                         </div>
                       </div>
                     );

@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 const { createSlice } = require("@reduxjs/toolkit");
 
 const cartSlice = createSlice({
@@ -9,7 +11,53 @@ const cartSlice = createSlice({
 
   reducers: {
     addToCart: (state, action) => {
-      state.cartData = [...state.cartData, action.payload];
+      const isExist = state.cartData?.some((item) => {
+        return item?.id === action?.payload?.id;
+      });
+      console.log(isExist, "isExist");
+      console.log(action.payload, "payload");
+      if (isExist) {
+        toast.error("Item Already Exist");
+      } else {
+        state.cartData = [...state.cartData, action.payload];
+        toast.success("Item Added Successfully...");
+      }
+    },
+    increaseQuantity: (state, action) => {
+      const temp = state.cartData.map((item) => {
+        if (item.id === action.payload.id) {
+          const updatedData = {...item,quantity: item.quantity + action.payload.quantity}
+          console.log(updatedData,"updatedData")
+          return {
+            ...updatedData,
+            totalSum: updatedData?.quantity * item?.price,
+          };
+        }
+        return item;
+      });
+      console.log(temp, "temp");
+      state.cartData = temp;
+    },
+    decreaseQuantity: (state, action) => {
+      const temp = state.cartData.map((item) => {
+        if (item.id === action.payload.id) {
+          const updatedData = {
+            ...item,
+            quantity:
+              item.quantity === 1
+                ? item.quantity
+                : item.quantity - action.payload.quantity,
+          }
+          return {
+           ...updatedData,
+           totalSum: updatedData?.quantity * item?.price,
+          };
+        }
+        return item;
+      });
+      console.log(temp, "temp");
+
+      state.cartData = temp;
     },
     deletefromCart: (state, action) => {
       state.cartData = state.cartData.filter(

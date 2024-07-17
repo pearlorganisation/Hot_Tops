@@ -82,8 +82,8 @@ const PizzaCards = ({ data, idx }) => {
           }} href={`/menu/product/${data?.pizzaName}`}>
             <TbEdit size={30} className="hover:text-red-600" />
           </Link>
-          <button className="bg-green-700 text-center p-2 text-white flex items-center justify-center w-full"
-          
+          <div className="bg-green-700 flex items-center justify-center w-full">
+            <button
               onClick={() => {
 
                 selectedData && dispatch(addToCart({
@@ -91,15 +91,17 @@ const PizzaCards = ({ data, idx }) => {
                   img: data?.banner,
                   size: selectedLabel,
                   id: data?._id,
-                  quantity: 1
+                  quantity: 1,
+                  price:Number(selectedLabel.split('-')[1]),
+                  totalSum:Number(selectedLabel.split('-')[1])
                 }));
               }}
-              
+              className="text-center w-full p-2 text-white"
               type="button"
             >
               Add
-       
-          </button>
+            </button>
+          </div>
         </div>
       </div>
 

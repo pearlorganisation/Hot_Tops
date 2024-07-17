@@ -79,7 +79,7 @@ const Cart = () => {
                   </button>
                 </div>
                 <div className="col-span-1 text-right text-xl font-semibold md:col-span-3 md:text-left">
-                  £{Array.isArray(price) ? price[1] : price}
+                  £{data?.totalSum }
                 </div>
               </div>
             );
