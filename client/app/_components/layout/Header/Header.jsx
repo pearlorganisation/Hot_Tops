@@ -46,7 +46,7 @@ const Header = () => {
   console.log(totalPrice);
 
   return (
-    <div className=" bg-white z-10 shadow-lg fixed top-0 w-full">
+    <div className=" bg-white z-10 shadow-lg fixed top-0 w-full py-2">
       <div className="flex justify-around items-center">
         <Link href="/" className="w-[30%] flex justify-center">
           <Image
