@@ -109,7 +109,7 @@ const Header = () => {
               onClick={() => setSelectedItem(-1)}
             >
               {" "}
-              DEALS
+              Deals
             </li>
           </Link>
 
@@ -119,13 +119,13 @@ const Header = () => {
                 <>
                   <Link href={`/menu/${data?.toLocaleLowerCase()}`}>
                     <li
-                      className={`hover:bg-red-800 hover:text-white h-[36px] md:h-[56px]  px-5 flex items-center text-black ${selecteditem === idx
+                      className={`hover:bg-red-800 hover:text-white  h-[36px] md:h-[56px]  px-5 flex items-center text-black ${selecteditem === idx
                         ? "bg-red-800 text-white"
                         : "bg-white"
                         }`}
                       onClick={() => setSelectedItem(idx)}
                     >
-                      {data}
+                      {data.slice(0,1)}{data.slice(1,data.length).toLowerCase()}
                     </li>
                   </Link>
                 </>

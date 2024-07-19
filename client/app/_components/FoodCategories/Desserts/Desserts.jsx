@@ -52,7 +52,7 @@ const Desserts = () => {
     <div className="my-4">
       <div>
         <div className="flex gap-2 mx-4 md:mx-8 my-4 flex-wrap ">
-          <span className="font-bold">filter:</span>
+          <span className="font-bold">Filter :</span>
           {filterData?.data?.map((data) => (
             <div className="flex gap-2" key={data}>
               <input
