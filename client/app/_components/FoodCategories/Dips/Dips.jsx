@@ -6,7 +6,6 @@ import AddedToCartModel from "../../Modals/AddedToCartModel";
 import DipsCard from "./DipsCard/DipsCard.jsx";
 
 const Dips = () => {
-  const [isAddClicked, setIsAddClicked] = useState(false);
 
   // Data fetching function
   const dipsfetcher = async (...args) =>
@@ -31,10 +30,7 @@ const Dips = () => {
           <DipsCard data={item} idx={idx} />
         ))}
       </div>
-      <AddedToCartModel
-        isAddClicked={isAddClicked}
-        setIsAddClicked={setIsAddClicked}
-      />
+
     </>
   );
 };

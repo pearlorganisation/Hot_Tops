@@ -8,6 +8,7 @@ import { redirect, usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import Collections from "./_steps/Collections";
 
 const page = () => {
   const [step, setStep] = useState(1);
@@ -113,9 +114,8 @@ const page = () => {
                 setStep(item?.no);
               }}
               type="button"
-              className={`px-6 py-2 border-2 ${
-                step === item?.no ? "text-white bg-[#DC2626]" : "text-[#DC2626]"
-              }  border-[#DC2626]  rounded font-medium`}
+              className={`px-6 py-2 border-2 ${step === item?.no ? "text-white bg-[#DC2626]" : "text-[#DC2626]"
+                }  border-[#DC2626]  rounded font-medium`}
             >
               {item?.name}
             </button>
@@ -124,57 +124,7 @@ const page = () => {
       </div>
       <div>
         {step === 1 && (
-          <div className="border-t-2 p-2 space-y-6">
-            <div className="space-y-1">
-              <h1>Please Select Time</h1>
-              <select
-                id="day"
-                name="day"
-                className="px-4 py-2 border-2 w-full border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent"
-              >
-                {dayTimeIntervals.map((interval, index) => (
-                  <option
-                    key={index}
-                    value={`${interval.day}-${interval.time}`}
-                  >
-                    {interval.day} - {interval.time}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="bg-red-800 p-6 rounded-md text-white">
-              <h2 className="font-bold text-lg mb-4">ORDERING INFORMATION:</h2>
-              <p className="mb-4">
-                <strong>Please note:</strong>{" "}
-                <a href="#" className="underline">
-                  Orders take a minimum of 45 minutes
-                </a>{" "}
-                to deliver. Whilst we endeavour to get your order to you on
-                time, there may be delays during busier periods.
-              </p>
-              <p className="mb-4">
-                If you have any issues with your Tops Pizza order or experience,
-                in the first instance please contact the Tops Store you ordered
-                from directly.
-              </p>
-              <p className="mb-2">Your order is being placed with:</p>
-              <p className="font-bold">Watford</p>
-              <p className="flex items-center mt-2">
-                <PhoneIcon className="mr-2" />
-                0192 324 6666
-              </p>
-            </div>
-            <button
-              onClick={() => {
-                router.push("/order/checkout");
-              }}
-              className="bg-green-500 py-2 w-full text-white rounded"
-              type="button"
-            >
-              Proceed To Checkout
-            </button>
-          </div>
+          <Collections step={step} />
         )}
         {step === 2 && (
           <form onSubmit={handleSubmit(onSubmit)}>

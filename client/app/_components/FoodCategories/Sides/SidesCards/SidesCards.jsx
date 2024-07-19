@@ -47,20 +47,22 @@ const SidesCards = ({ data, dummyData, idx }) => {
           <div className="bg-green-600 flex gap-2 items-center justify-center w-full">
             <button
               onClick={() => {
-                setIsAddClicked(true);
                 dispatch(
                   addToCart({
                     name: data?.sideName,
                     img: data?.banner,
                     size: selectedData || data?.price,
                     id: data?._id,
+                    quantity: 1,
+                    price: Number(selectedData || data?.price),
+                    totalSum: Number(selectedData || data?.price)
                   })
                 );
               }}
               data-modal-target="popup-modal"
               data-modal-toggle="popup-modal"
               data-modal-hide="popup-modal"
-              className="text-center p-2 text-white text-center"
+              className="text-center p-2 text-white w-full "
               type="button"
             >
               Add
@@ -68,10 +70,7 @@ const SidesCards = ({ data, dummyData, idx }) => {
           </div>
         </div>
       </div>
-      <AddedToCartModel
-        isAddClicked={isAddClicked}
-        setIsAddClicked={setIsAddClicked}
-      />
+
     </div>
   );
 };

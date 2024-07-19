@@ -10,7 +10,6 @@ const DrinksCard = ({ data }) => {
   const [selectedDrink, setSelectedDrink] = useState(
     `${data.price[0].drinkType}-${data.price[0].price}`
   );
-  const [isAddClicked, setIsAddClicked] = useState(false);
 
   // Function to handle adding to cart
   const handleAddToCart = () => {
@@ -21,6 +20,9 @@ const DrinksCard = ({ data }) => {
         img: data.banner,
         size: selectedDrink,
         id: data?._id,
+        quantity: 1,
+        price: Number(selectedDrink.split('-')[1]),
+        totalSum: Number(selectedDrink.split('-')[1])
       })
     );
     setIsAddClicked(true);
@@ -64,10 +66,7 @@ const DrinksCard = ({ data }) => {
           </div>
         </div>
       </div>
-      <AddedToCartModel
-        isAddClicked={isAddClicked}
-        setIsAddClicked={setIsAddClicked}
-      />
+
     </div>
   );
 };
