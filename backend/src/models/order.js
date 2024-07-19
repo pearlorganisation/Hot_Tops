@@ -8,8 +8,7 @@ const orderSchema = new mongoose.Schema(
       required: [true, "orderType is required!"],
     },
     address: {
-      type: {},
-      required: [true, "address is required!"],
+      type: {}
     },
     time: {
       type: String,
