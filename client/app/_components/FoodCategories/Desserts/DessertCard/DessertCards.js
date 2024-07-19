@@ -10,7 +10,6 @@ const DessertCards = ({ data, dummyData, idx }) => {
   // =-----------------------hooks--------------------------------
   const dispatch = useDispatch();
   const [selectedData, setSelectedData] = useState(null);
-  const [isAddClicked, setIsAddClicked] = useState(false);
   return (
     <div
       className=" bg-white shadow-md rounded-lg max-w-[15rem] 2xl:max-w-xs w-full newshadow"
@@ -47,32 +46,30 @@ const DessertCards = ({ data, dummyData, idx }) => {
           <div className="bg-green-600 hover:bg-green-700 flex gap-2 items-center justify-center w-full">
             <button
               onClick={() => {
-                setIsAddClicked(true);
                 dispatch(
                   addToCart({
                     name: data?.dessertName,
                     img: data?.banner,
                     size: selectedData || data?.price,
                     id: data?._id,
+                    quantity: 1,
+                    price: Number(selectedData || data?.price),
+                    totalSum: Number(selectedData || data?.price),
                   })
                 );
               }}
               data-modal-target="popup-modal"
               data-modal-toggle="popup-modal"
               data-modal-hide="popup-modal"
-              className="text-center p-2 text-white"
+              className="p-2 text-white text-center"
               type="button"
             >
               Add
             </button>
           </div>
         </div>
- 
-      <AddedToCartModel
-        isAddClicked={isAddClicked}
-        setIsAddClicked={setIsAddClicked}
-      />
-    </div>
+      </div>
+
   );
 };
 

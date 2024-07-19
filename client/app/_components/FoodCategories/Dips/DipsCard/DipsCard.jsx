@@ -10,7 +10,6 @@ const dipssCard = ({ data }) => {
   const [selecteddips, setSelecteddips] = useState(
     `${data.price[0].dipsType}-${data.price[0].price}`
   );
-  const [isAddClicked, setIsAddClicked] = useState(false);
 
   // Function to handle adding to cart
   const handleAddToCart = () => {
@@ -21,9 +20,11 @@ const dipssCard = ({ data }) => {
         img: data.banner,
         size: selecteddips,
         id: data?._id,
+        quantity: 1,
+        price: Number(selecteddips.split('-')[1]),
+        totalSum: Number(selecteddips.split('-')[1])
       })
     );
-    setIsAddClicked(true);
   };
 
   return (
@@ -57,12 +58,8 @@ const dipssCard = ({ data }) => {
             <p className="text-center p-2 text-white">Add</p>
           </div>
         </div>
-  
-      <AddedToCartModel
-        isAddClicked={isAddClicked}
-        setIsAddClicked={setIsAddClicked}
-      />
-    </div>
+      </div>
+
   );
 };
 
