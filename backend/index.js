@@ -91,8 +91,11 @@ import authRoutes from "./src/routes/authRoutes/authRoutes.js";
 import adminAuth from "./src/routes/admin/auth.js";
 import addressRoutes from "./src/routes/address.js";
 import orderRoutes from "./src/routes/order.js";
+import dealsRoutes from "./src/routes/deals/deals.js";
+import morgan from "morgan";
 // Route Middlewarespull origin gaurav-code
 
+app.use(morgan('dev'));
 app.all(["/", "/api", "/api/v1"], (req, res, next) => {
   return res.status(200).json({
     success: true,
@@ -119,6 +122,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/auth/adminSignUp", adminAuth);
 app.use("/api/v1/address", addressRoutes);
 app.use("/api/v1/order", orderRoutes);
+app.use("/api/v1/deals", dealsRoutes);
 
 // -------------------------------------------------------------------------------------------------------------
 
