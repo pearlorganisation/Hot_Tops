@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { emptyCart } from "@/app/lib/features/cartSlice/cartSlice";
 
-const page = () => {
+const page = ({ searchParams }) => {
   const { previousPath } = useSelector((state) => state.path);
   const dispatch = useDispatch();
   console.log(previousPath);
@@ -17,6 +17,7 @@ const page = () => {
   const userData = useSelector((state) => state.auth.userData);
   const deliveryCharge = 0.5;
   console.log(userData);
+  console.log("searchParams", searchParams)
   const {
     register,
     handleSubmit,
@@ -29,11 +30,11 @@ const page = () => {
       orderType: order?.orderType,
       orderBy: userData?._id,
       time: order?.time,
-      address: order?.address,
+      address: order.orderType === 'collection' ? null : order.type.order?.address,
       comment: data?.comment,
       totalAmount: {
         total: totalPrice?.toFixed(2),
-        deliveryCharge,
+        deliveryCharge: order.orderType === 'collection' ? 0 : deliveryCharge,
       },
       paymentMethode: data?.paymentMethode,
       items: cart,
@@ -62,12 +63,12 @@ const page = () => {
   };
 
   // -----------------------------------useeffects-------------------------------------------
-  useEffect(() => {
-    previousPath !== "/order/orders" ? redirect("/order/cart") : "";
-  }, []);
+  // useEffect(() => {
+  //   previousPath !== "/order/orders" ? redirect("/order/cart") : "";
+  // }, []);
 
-  useEffect(() => {}, [order?.address, order?.time]);
- 
+  useEffect(() => { }, [order?.address, order?.time]);
+
   const totalPrice = cart?.reduce((acc, item) => {
 
     return acc + Number(item?.totalSum);
@@ -91,14 +92,17 @@ const page = () => {
                 placeholder="Leave comments for your order here"
               />
             </div>
-            <div>
-              <h3 className="text-lg font-bold">YOUR ADDRESS:</h3>
-              <p>
-                {order?.address}
-                {/* 1 Crossroads House, 165 The Parade, High Street, Watford,
+            {
+              order?.type === 'collection' && <div>
+                <h3 className="text-lg font-bold">YOUR ADDRESS:</h3>
+                <p>
+                  {order?.address}
+                  {/* 1 Crossroads House, 165 The Parade, High Street, Watford,
               Hertfordshire, WD171NJ */}
-              </p>
-            </div>
+                </p>
+              </div>
+            }
+
             <div>
               <h3 className="text-lg font-bold">ORDER TIME</h3>
               <p>
@@ -178,7 +182,7 @@ const page = () => {
                         </div>
 
                         <div className="col-span-1 text-right  font-semibold md:col-span-3 md:text-left">
-                          £{ data?.price} x {data?.quantity}
+                          £{data?.price} x {data?.quantity}
                         </div>
                       </div>
                     );
@@ -200,7 +204,7 @@ const page = () => {
             </div>
             <div className="space-y-1">
               <p>Total: £{totalPrice?.toFixed(2)}</p>
-              <p>Delivery charge: £{deliveryCharge}</p>
+              {order?.type === 'collection' ? <p>Delivery charge: £0</p> : <p>Delivery charge: £{deliveryCharge}</p>}
               <p className="font-bold">
                 You pay: {+totalPrice?.toFixed(2) + 0.5}
               </p>

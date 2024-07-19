@@ -34,10 +34,8 @@ const Drinks = () => {
           <DrinksCard data={item} idx={idx} />
         ))}
       </div>
-      <AddedToCartModel
-        isAddClicked={isAddClicked}
-        setIsAddClicked={setIsAddClicked}
-      />
+
+
     </>
   );
 };

@@ -57,7 +57,7 @@ const Header = () => {
           />
         </Link>
         <ul
-          className={`flex justify-end gap-4 items-center w-[70%] ${teko.className} font-teko font-[700] `}
+          className={`flex justify-end gap-4 items-center w-[70%]  `}
         >
           {isUserLoggedIn ? (
             <Link href="/profile?tab=1">
@@ -100,16 +100,16 @@ const Header = () => {
           />
         </Link>
         <ul
-          className={`flex items-center justify-around xl:pl-24 ${teko.className} text-xl    text-white font-semibold w-full lg:w-[90vw]    lg:mx-5 lg:ml-20 flex-wrap`}
+          className={`flex items-center justify-around xl:pl-24  text-xl  text-white font-semibold w-full lg:w-[90vw]    lg:mx-5 lg:ml-20 flex-wrap`}
         >
           <Link href={`/menu/deals`}>
             <li
-              className={`px-5 hover:bg-red-800 hover:text-white h-[36px] md:h-[56px] flex items-center text-black ${selecteditem === -1 ? "bg-red-800 text-white" : "bg-white"
-                }`}
+              className={`px-5 trac h-[36px] md:h-[56px] flex items-center text-black transition duration-300 ${selecteditem === -1 ? "bg-red-800 text-white hover:text-white" : "bg-white hover:shadow-[0_4px#991b1b] hover:text-[#991b1b]"
+              }`}
               onClick={() => setSelectedItem(-1)}
             >
               {" "}
-              DEALS
+              Deals
             </li>
           </Link>
 
@@ -119,13 +119,11 @@ const Header = () => {
                 <>
                   <Link href={`/menu/${data?.toLocaleLowerCase()}`}>
                     <li
-                      className={`hover:bg-red-800 hover:text-white h-[36px] md:h-[56px]  px-5 flex items-center text-black ${selecteditem === idx
-                        ? "bg-red-800 text-white"
-                        : "bg-white"
-                        }`}
+                      className={`px-5 trac h-[36px] md:h-[56px] flex items-center text-black transition duration-300 ${selecteditem === idx ? "bg-red-800 text-white hover:text-white" : "bg-white hover:shadow-[0_4px#991b1b] hover:text-[#991b1b]"
+                      }`}
                       onClick={() => setSelectedItem(idx)}
                     >
-                      {data}
+                      {data.slice(0,1)}{data.slice(1,data.length).toLowerCase()}
                     </li>
                   </Link>
                 </>

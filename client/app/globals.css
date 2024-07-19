@@ -11,6 +11,17 @@
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
+@font-face {
+  font-family: "Questrial-Regular";
+  src: local("Questrial-Regular"),
+    url("/Questrial-Regular.ttf") format("opentype");
+  /* font-weight: normal; */
+}
+
+* {
+  font-family: "Questrial-Regular", sans-serif;
+}
+
 .info {
   position: absolute;
   bottom: 0;
