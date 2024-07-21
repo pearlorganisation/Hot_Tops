@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useParams, useSearchParams } from "next/navigation";
+import {useSearchParams } from "next/navigation";
 
 import React, { useEffect, useState } from "react";
 
@@ -16,70 +16,24 @@ async function getData(id) {
     return null;
   }
 }
-async function getProducts(product) {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/${product}`
-    );
-    const data = await res.json();
-    return data.data; // Assuming `data` has a `data` property containing the actual deals
-  } catch (err) {
-    console.log("Error Occurred", err);
-    return null;
-  }
-}
+
 const page = () => {
   const searchParams = useSearchParams();
   const [dealViewData, setDealView] = useState(null);
-  const [customItemsData, setCustomItemsData] = useState(null);
 
   const cardId = searchParams.get("card_id");
   const sizeId = searchParams.get("size_id");
 
   useEffect(() => {
-    // console.log(dealViewData);
 
-    console.log(customItemsData, "custom");
-  }, [customItemsData]);
+    console.log(dealViewData, "custom");
+  }, [dealViewData]);
 
-  async function productClosure(name) {
-    let cache = [];
-    let ab = [];
-    console.log(cache, "before");
-    async function inner() {
-      if (!cache.includes(name)) {
-        cache.push(name);
-        console.log("unique...");
-        const data = await getProducts(name);
-        console.log(data, "dta");
-        ab = {
-          [name]: data,
-        };
-        return ab;
-      } else {
-        return ab;
-      }
-    }
-    console.log(cache, "after");
-
-    return inner();
-  }
+ 
 
   useEffect(() => {
     async function fetchData() {
       const data = await getData(cardId);
-
-      setCustomItemsData(data?.chooseItems);
-
-      const allData = data?.chooseItems.map(async (el) => {
-        let item = el.toLowerCase().trim();
-        console.log(item, "shfgshgfjsdgsaj");
-        return await productClosure(item);
-      });
-      Promise.all(allData).then((values) => {
-        console.log(values, "hdgfjhsgdfhf");
-      });
-      console.log(allData, "allData");
       setDealView(data);
     }
     fetchData();

@@ -62,6 +62,10 @@ const Page = () => {
     fetchData();
   }, []);
 
+  useEffect(() => { 
+    console.log(dealData);
+  }, [dealData]);
+
   return (
     <>
       <div className="mx-auto container max-w-7xl p-10">
