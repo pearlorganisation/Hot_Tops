@@ -96,7 +96,7 @@ const data = [
         {img.map((el, i) => {
             return (
               <SwiperSlide className="pb-8" key={i} >
-                <Image src={el} className="h-[60vh] w-full  object-cover" />
+                <Image src={el} className="h-[20vh] md:h-[60vh] w-full  object-cover" />
               </SwiperSlide>
             );
           })}
@@ -124,13 +124,13 @@ const data = [
       <div className="container mb-10 mx-auto max-w-7xl gap-10 grid md:grid-cols-4 place-content-center ">
         {Array.isArray(popularDealData) && popularDealData.map((el) => (
           <div
-            class="bg-white shadow-md rounded-lg max-w-xs w-full newshadow p-4"
+            class="bg-white shadow-md rounded-md max-w-xs w-full newshadow"
             key={el._id}
           >
             <img
               src={el.banner}
               alt="Card Image"
-              className="rounded-t-lg w-full  object-cover"
+              className="rounded-t-md w-full  object-cover"
             />
 
             <div class="p-4">
