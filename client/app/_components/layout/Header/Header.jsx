@@ -50,8 +50,8 @@ const Header = () => {
           {isUserLoggedIn ? (
             <Link href="/profile?tab=1">
               <div className="flex items-center gap-2 text-black">
-                <FaRegUser size={25} aria-label="User Profile" />
-                {userData?.firstName} {userData?.lastName}
+                <FaRegUser size={22} aria-label="User Profile" />
+              <span className="text-red-800 font-semibold">  {userData?.firstName} {userData?.lastName}</span>
               </div>
             </Link>
           ) : (
@@ -64,16 +64,16 @@ const Header = () => {
             className="flex items-center text-xs sm:text-sm md:pr-8 md:text-lg"
           >
             <IoBagHandleOutline size={25} aria-label="Cart" />
-            <span className="bg-gray-500 rounded-full px-2 mx-2">
+            <span className="bg-red-800 text-white rounded-full px-2 py-1  mx-2">
               {cart?.length}
             </span>
-            <span>£{totalPrice?.toFixed(2)}</span>
+            <span className="text-red-800 font-semibold text-lg">£ {totalPrice?.toFixed(2)}</span>
           </Link>
         </ul>
       </div>
       <div className="bg-white flex flex-col md:flex-row justify-between md:items-center px-4 md:px-10">
         <Link href="/" className="hidden xl:flex xl:items-center">
-          <Image src={logo} className="bg-white" alt="logo" width={80} />
+          <Image src={logo} className=" bg-white hidden xl:block xl:absolute xl:bottom-0 left-20  top-1/2 -translate-y-1/2" alt="logo" width={80} />
         </Link>
         <ul className="flex flex-wrap items-center justify-around xl:pl-24 text-lg sm:text-xl text-white font-semibold w-full lg:w-[90vw] lg:mx-5 lg:ml-20">
           <Link href={`/menu/deals`}>
@@ -109,7 +109,7 @@ const Header = () => {
           {isUserLoggedIn ? (
             <Link
               href="/profile?tab=1"
-              className="hidden md:flex items-center gap-2 text-black"
+              className="hidden ml-10 md:flex items-center gap-2 text-black"
             >
               <FaRegUser size={20} aria-label="User Profile" />
               <span className="text-base text-red-800">
@@ -117,7 +117,7 @@ const Header = () => {
               </span>
             </Link>
           ) : (
-            <li className="hidden md:flex p-2 font-normal hover:bg-white hover:shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-md hover:text-red-800 text-white bg-red-800 items-center text-lg">
+            <li className="hidden md:flex px-2 font-normal hover:bg-white hover:shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-md hover:text-red-800 text-white bg-red-800 items-center text-lg">
               <Link href="/signUp">Login / Signup</Link>
             </li>
           )}
