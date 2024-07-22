@@ -85,7 +85,7 @@ const data = [
       <>
       <div className="mx-auto container max-w-7xl px-10">
         <header class="text-center pb-10  bg-white">
-          <div class="flex items-center justify-center mb-2">
+          <div class="flex items-center justify-center my-2">
             <div class="flex-grow border-t border-red-800"></div>
 
             <div class="flex-grow border-t border-red-800"></div>
@@ -94,7 +94,7 @@ const data = [
           <div class="flex items-center justify-center">
             <div class="flex-grow border-t border-red-800"></div>
             <h1 class="px-4 text-red-800 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
-              TOPTASTIC DEALS
+              POPULAR PIZZA DEALS
             </h1>
             <div class="flex-grow border-t border-red-800"></div>
           </div>

@@ -39,9 +39,9 @@ const data = [
 
 const page = () => {
   return (
-    <>
-      <div className="mx-auto container max-w-7xl p-10">
-        <header class="text-center py-4 bg-white">
+    <div className="pb-10">
+      <div className="mx-auto container max-w-7xl px-10 pt-5 pb-10">
+        <header class="text-center  bg-white">
           <div class="flex items-center justify-center mb-2">
             <div class="flex-grow border-t border-red-800"></div>
 
@@ -83,7 +83,7 @@ const page = () => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
