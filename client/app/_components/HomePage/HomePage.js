@@ -5,13 +5,22 @@ import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import pizza1 from "../../_assets/images/pizza1.jpg"
 import pizza2 from "../../_assets/images/pizza2.jpg"
 import Image from "next/image";
-
+  async function getData() {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/deals?isPopular=true`);
+    const data = await res.json();
+    return data.data; // Assuming `data` has a `data` property containing the actual deals
+  } catch (err) {
+    console.log("Error Occurred", err);
+    return null;
+  }
+}
 const HomePage = () => {
 
   const img = [
@@ -38,7 +47,18 @@ const data = [
     title: "Party Pack Deall",
   },
 
-];
+  ];
+  
+    const [popularDealData, setPopularDealData] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getData();
+      setPopularDealData(data);
+    }
+    fetchData();
+  }, []);
+
 
   return (
     <>
@@ -85,7 +105,7 @@ const data = [
       <>
       <div className="mx-auto container max-w-7xl px-10">
         <header class="text-center pb-10  bg-white">
-          <div class="flex items-center justify-center mb-2">
+          <div class="flex items-center justify-center my-2">
             <div class="flex-grow border-t border-red-800"></div>
 
             <div class="flex-grow border-t border-red-800"></div>
@@ -94,7 +114,7 @@ const data = [
           <div class="flex items-center justify-center">
             <div class="flex-grow border-t border-red-800"></div>
             <h1 class="px-4 text-red-800 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
-              TOPTASTIC DEALS
+              TOP HOT DEALS
             </h1>
             <div class="flex-grow border-t border-red-800"></div>
           </div>
@@ -102,26 +122,49 @@ const data = [
       </div>
 
       <div className="container mb-10 mx-auto max-w-7xl gap-10 grid md:grid-cols-4 place-content-center ">
-        {data.map((el, id) => (
+        {Array.isArray(popularDealData) && popularDealData.map((el) => (
           <div
             class="bg-white shadow-md rounded-lg max-w-xs w-full newshadow p-4"
-            key={id}
+            key={el._id}
           >
             <img
-              src={el.img}
+              src={el.banner}
               alt="Card Image"
               className="rounded-t-lg w-full  object-cover"
             />
 
             <div class="p-4">
               <h2 class="text-xl font-semibold mb-4">{el.title}</h2>
-              <div class="relative">
-                <div className="bg-green-600">
-                  <p className="text-center text-white p-2 ">
-                    Select store to order
-                  </p>
+                            <div className="relative">
+                  <form class="max-w-sm mx-auto flex gap-1 ">
+ 
+                    <select
+                      id="countries"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 placeholder:rounded-lg"
+                      value={el?.sizes?.length === 1 ? el.sizes[0]._id : ""}
+                      disabled={el?.sizes?.length === 1}
+                    >
+                      {el?.sizes?.length >= 2 &&
+                        el.sizes.map((itemSizePrice) => (
+                          <option
+                            key={itemSizePrice._id}
+                            value={itemSizePrice._id}
+                            className="rounded-md border-2 border-yellow-400"
+                          >
+                            {itemSizePrice.size} {itemSizePrice.price}£
+                          </option>
+                        ))}
+                      {el?.sizes?.length === 1 && (
+                        <option disabled value={el.sizes[0]._id}>
+                          {el.sizes[0].price}£
+                        </option>
+                      )}
+                    </select>
+                    <button className="hover:bg-green-400 bg-green-600 text-white p-2 rounded-lg">
+                      Go
+                    </button>
+                  </form>
                 </div>
-              </div>
             </div>
           </div>
         ))}

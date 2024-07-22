@@ -49,7 +49,7 @@ const Desserts = () => {
   if (isLoading || filterLoading) return <div>....loading</div>;
   console.log(data);
   return (
-    <div className="my-4">
+    <div className="mb-10">
       <div>
         <div className="flex gap-2 mx-4 md:mx-8 my-4 flex-wrap ">
           <span className="font-bold">Filter :</span>

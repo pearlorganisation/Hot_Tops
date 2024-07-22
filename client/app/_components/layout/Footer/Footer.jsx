@@ -36,25 +36,25 @@ const Footer = () => {
           <div>
             <div className="flex  gap-2 justify-center ">
               <p className="hover:hover:text-yellow-500">
-                <a href="#">
+                <a href="/menu/deals">
                   Deals <sup>*</sup>
                 </a>
               </p>
-              <p className="hover:hover:text-yellow-500">
+              {/* <p className="hover:hover:text-yellow-500">
                 <a href="#">Reorder now</a>
-              </p>
+              </p> */}
             </div>
 
-            <div className=" flex flex-col items-center gap-4 m-2 justify-center">
+            {/* <div className=" flex flex-col items-center gap-4 m-2 justify-center">
               <h1 className="font-bold">MY ACCOUNT</h1>
               <p>
                 <a href="#">Sign In</a>/ <a href="#">Register</a>
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
 
-        <div>
+        {/* <div>
           <div className="flex flex-col gap-2 items-center">
             <h1 className="font-bold text-lg">About</h1>
             <p className="hover:text-yellow-500 text-sm">
@@ -92,14 +92,14 @@ const Footer = () => {
               <SlSocialInstagram size={24} />
             </p>
           </div>
-        </div>
+        </div> */}
 
         <div className="flex   flex-col gap-2 items-center ">
           <h1 className="font-bold text-lg">POLICIES</h1>
 
           <p className="hover:text-yellow-500 text-sm cursor-pointer">
             {" "}
-            <a href="#"></a>TERMS & CONDITIONS
+            <a href="/termsAndConditions">TERMS & CONDITIONS</a>
           </p>
           {/* <p className="hover:text-yellow-500 text-sm">
             {" "}
@@ -111,7 +111,7 @@ const Footer = () => {
           </p> */}
           <p className="hover:text-yellow-500 text-sm cursor-pointer">
             {" "}
-            <a href="#"></a>Privacy Policy
+            <a href="/refundPolicy">Refund Policy</a>
           </p>
         </div>
       </div>
