@@ -36,9 +36,9 @@ const Header = () => {
   }, 0);
 
   return (
-    <div className="bg-white z-10 shadow-lg fixed top-0 w-full py-4">
+    <div className="bg-white z-10 shadow-lg fixed top-0 w-full pt-4 md:py-4">
       <div className="flex justify-between items-center px-4 md:px-10">
-        <Link href="/" className="w-[30%] flex justify-center">
+        <Link href="/" className="flex justify-center">
           <Image
             src={logo}
             className="bg-white xl:hidden"
@@ -75,10 +75,10 @@ const Header = () => {
         <Link href="/" className="hidden xl:flex xl:items-center">
           <Image src={logo} className=" bg-white hidden xl:block xl:absolute xl:bottom-0 left-20  top-1/2 -translate-y-1/2" alt="logo" width={80} />
         </Link>
-        <ul className="flex flex-wrap items-center justify-around xl:pl-24 text-lg sm:text-xl text-white font-semibold w-full lg:w-[90vw] lg:mx-5 lg:ml-20">
+        <ul className="flex pt-2 xl:pt-0 flex-wrap items-center justify-around xl:pl-24 text-lg sm:text-xl text-white font-semibold w-full lg:w-[90vw] lg:mx-5 lg:ml-20">
           <Link href={`/menu/deals`}>
             <li
-              className={`px-5 trac h-[36px] md:h-[56px] flex items-center text-black transition duration-300 ${
+              className={`px-1 md:px-5 trac h-[36px] md:h-[56px] flex items-center text-black transition duration-300 ${
                 selecteditem === -1
                   ? "bg-red-800 text-white hover:text-white"
                   : "bg-white hover:shadow-[0_4px#991b1b] hover:text-[#991b1b]"
@@ -93,7 +93,7 @@ const Header = () => {
             categoryEnum.map((data, idx) => (
               <Link href={`/menu/${data?.toLocaleLowerCase()}`} key={idx}>
                 <li
-                  className={`px-5 trac h-[36px] md:h-[56px] flex items-center text-black transition duration-300 ${
+                  className={`px-1 md:px-5 trac h-[36px] md:h-[56px] flex items-center text-black transition duration-300 ${
                     selecteditem === idx
                       ? "bg-red-800 text-white hover:text-white"
                       : "bg-white hover:shadow-[0_4px#991b1b] hover:text-[#991b1b]"
@@ -150,20 +150,20 @@ const Header = () => {
           <span className="ml-2">Collection</span>
         </a>
       </div>
-      <div className="lg:hidden mb-2 flex gap-2 justify-center mt-3">
+      <div className="lg:hidden flex  justify-center ">
         <a
           href="#"
-          className="inline-flex items-center bg-red-800 text-white py-2 px-4 rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
+          className="w-1/2  border-r border-r-white justify-center inline-flex items-center bg-red-800 text-white py-2 px-4  shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
         >
           <MdDeliveryDining />
-          <span className="ml-2">Delivery</span>
+          <span className="pl-2">Delivery</span>
         </a>
         <a
           href="#"
-          className="inline-flex items-center bg-red-800 text-white py-2 px-4 rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
+          className="w-1/2 inline-flex  justify-center items-center bg-red-800 text-white py-2 px-4  shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
         >
           <FaShop />
-          <span className="ml-2">Collection</span>
+          <span className="pl-2">Collection</span>
         </a>
       </div>
     </div>
