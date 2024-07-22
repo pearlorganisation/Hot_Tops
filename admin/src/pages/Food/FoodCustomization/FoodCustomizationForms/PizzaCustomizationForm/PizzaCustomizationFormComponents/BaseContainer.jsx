@@ -1,13 +1,17 @@
-import React, { useRef, useState } from "react";
-import { IoMdAddCircleOutline } from "react-icons/io";
-import SizeAndBasesModal from "../../../../../../components/FoodCustomizationDialog/SizeAndBasesModal";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RiDeleteBin5Line } from "react-icons/ri";
-import { deleteBasePizza } from "../../../../../../features/actions/pizza/deleteCustomization/deleteBasePizza";
+import { IoAddCircleSharp } from "react-icons/io5";
+import { MdDelete } from "react-icons/md";
+import { RiEditCircleFill } from "react-icons/ri";
+import { Stack,Skeleton } from '@mui/material';
 import EditItem from "../../../../../../components/FoodCustomizationDialog/EditItemModel/EditItem";
+import { deleteBasePizza } from "../../../../../../features/actions/pizza/deleteCustomization";
+import Delete from "../../../../../../components/delete";
+import BaseModal from "../../../../../../components/FoodCustomizationDialog/BaseModal";
+
 
 const BaseContainer = () => {
-  const { base } = useSelector((state) => state.pizza);
+  const { base,isBaseLoading} = useSelector((state) => state.pizza);
   const [editItemData,setEditData] = useState({});
   const modalRef = useRef();
   const editRef = useRef();
@@ -22,55 +26,83 @@ const BaseContainer = () => {
     setEditData(data);
   }
 
-  function handleDeleteItem(id) {
-    dispatch(deleteBasePizza(id));
-  }
+    
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [id, setId] = useState();
+  
+  const handleDeleteModal = (ID) => {
+    setShowDeleteModal(true);
+    setId(ID);
+    }; 
+      
+    const handleDelete = () => {
+        dispatch(deleteBasePizza(id));
+    
+        setShowDeleteModal(false);
+        setId('');
+      };
 
   return (
     <>
-      <SizeAndBasesModal ref={modalRef} itemName="Base" />
+      <BaseModal ref={modalRef} itemName="Base" />
       <EditItem ref={editRef} data = {editItemData} itemName="Base"/>
-      <div className="baseContainer flex flex-col">
+      {showDeleteModal && (
+        <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
+      )}
+      <div className="flex flex-col">
         <div className="flex p-2 justify-between">
-          <h3 className="text-red-500 font-bold tracking-widest text-lg">
-            Base :
+          <h3 className=" font-semibold  tracking-wide border rounded-md px-2 bg-red-500 text-white text-lg">
+            PIZZA BASE
           </h3>
           <div onClick={handleModalOpen}>
-            <IoMdAddCircleOutline size={30} className="cursor-pointer" />
+            <IoAddCircleSharp size={32} className=" cursor-pointer  hover:bg-slate-600 bg-slate-700 rounded-lg text-white " />
           </div>
         </div>
         <div className="p-2">
-          <div className="baseList p-3 bg-white border shadow-md border-gray-400 rounded-lg h-[400px]">
-            <table className="min-w-full  border-separate border-spacing-x-2 border-spacing-y-2">
+          <div className="p-3 bg-white border shadow-md border-gray-400 rounded-lg h-[400px]">
+            <table className="min-w-full text-slate-700  border-separate border-spacing-x-2 border-spacing-y-2">
               <thead className="hidden border-b lg:table-header-group" >
                 <tr>
-                  <th className="border-b-2 p-2 text-left">Name</th>
-                  <th className="border-b-2 p-2 text-left">Price</th>
+                  <th className="border-b-2 p-2 text-left">Pizza Base</th>
+                  <th className="border-b-2 p-2 ">Actions</th>
                 </tr>
               </thead>
-              <tbody>
-                {Array.isArray(base) &&
+              <tbody className="font-medium"> 
+               { isBaseLoading ?
+               (<td colSpan="3" className="text-center px-6 py-8">
+                <Stack spacing={4}>
+                  <Skeleton variant="rounded" height={30} />
+                  <Skeleton variant="rounded" height={25}/>
+                  <Skeleton variant="rounded" height={20}/>
+                  <Skeleton variant="rounded" height={20}/>
+                  <Skeleton variant="rounded" height={20}/>
+                </Stack>
+              </td> ) :  (Array.isArray(base) &&
                   base?.map((item) => (
                     <tr key={item?._id}>
-                      <td className="p-2">{item?.name}</td>
-                      <td className="p-2">${item?.price}</td>
+                      <td className="p-2 max-w-[100px] truncate">{item?.name}</td>
+
+                      {/* <td className="p-2">£ {item?.price}</td> */}
 
                       <td className="flex justify-center items-center gap-4">
-                        <p
-                          className="inline-flex items-center rounded-full bg-green-600 px-3 py-2 text-xs text-white"
+                        <button
+                          className="inline-flex items-center rounded-lg font-medium text-white bg-green-800 hover:bg-green-700
+                           px-2 py-1 text-sm "
                           onClick={()=>handleEditItem(item)}
                         >
-                          Edit
-                        </p>
-                        <p className="hover:bg-red-500 object-cover">
-                          <RiDeleteBin5Line
-                            size={34}
-                            onClick={() => handleDeleteItem(item?._id)}
+                         <RiEditCircleFill size={28}/>
+                        </button>
+                        <button className="bg-red-700 hover:bg-red-600 rounded-lg text-white px-2 py-1  object-cover">
+                          <MdDelete
+                            size={28}
+                            onClick={() => handleDeleteModal(item?._id)}
                           />
-                        </p>
+                        </button>
                       </td>
                     </tr>
-                  ))}
+                  ))
+                )
+                  } 
               </tbody>
             </table>
           </div>

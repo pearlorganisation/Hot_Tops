@@ -1,11 +1,18 @@
 "use client";
+import { getcredentials } from "@/app/lib/features/auth/authSlice";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useDispatch } from "react-redux";
 
 const Page = () => {
+  // -------------------------------------hooks---------------------------------
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [response, setResponse] = useState(null);
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const {
     register,
@@ -16,38 +23,104 @@ const Page = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await fetch("http://localhost:9898/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password,
-        }),
-      });
-
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/signup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: data?.email,
+            password: data?.password,
+            firstName: data?.firstName,
+            lastName: data?.lastName,
+          }),
+        }
+      );
+      const newData = await response.json();
+      dispatch(
+        getcredentials({
+          email: data?.email,
+          password: data?.password,
+          firstName: data?.firstName,
+          lastName: data?.lastName,
+        })
+      );
+      setResponse(newData);
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
       }
+      if (newData.success === true) {
+        router.push("/otp");
+      }
 
       const result = await response.json();
-      console.log("Signup successful", result);
+
       // Add your logic for a successful signup
     } catch (error) {
-      console.error("Error during signup:", error);
+      console.error("Error during signup:", error.message);
       // Handle error (e.g., show an error message to the user)
     }
   };
 
   return (
     <>
-      <div className="bg-gray-100 flex items-center justify-center h-screen">
+      <div className="bg-gray-100 flex items-center justify-center ">
         <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
           <h2 className="text-2xl font-bold mb-6 text-center">
             NEW MEMBER? REGISTER
           </h2>
+          {response && response?.status == false ? (
+            <div className="p-2 text-center text-red-600 font-semibold">
+              {response?.message}!
+            </div>
+          ) : (
+            ""
+          )}
           <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="mb-4">
+              <label className="block text-gray-700" htmlFor="register-email">
+                First Name
+              </label>
+              <input
+                type="text"
+                id="register-email"
+                className={`w-full px-3 py-2 border ${
+                  errors.firstName ? "border-red-800" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                placeholder="Enter your First Name"
+                {...register("firstName", {
+                  required: true,
+                })}
+              />
+              {errors.firstName && (
+                <p className="text-red-800 text-sm mt-1">
+                  {errors.firstName && "First Name is required"}
+                </p>
+              )}
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700" htmlFor="register-email">
+                Last Name
+              </label>
+              <input
+                type="text"
+                id="register-email"
+                className={`w-full px-3 py-2 border ${
+                  errors.firstName ? "border-red-800" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                placeholder="Enter your Last Name"
+                {...register("lastName", {
+                  required: true,
+                })}
+              />
+              {errors.lastName && (
+                <p className="text-red-800 text-sm mt-1">
+                  {errors.lastName && "Last Name is required"}
+                </p>
+              )}
+            </div>
             <div className="mb-4">
               <label className="block text-gray-700" htmlFor="register-email">
                 Email Address
@@ -56,7 +129,7 @@ const Page = () => {
                 type="email"
                 id="register-email"
                 className={`w-full px-3 py-2 border ${
-                  errors.email ? "border-red-500" : "border-gray-300"
+                  errors.email ? "border-red-800" : "border-gray-300"
                 } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
                 placeholder="Enter your email"
                 {...register("email", {
@@ -68,7 +141,7 @@ const Page = () => {
                 })}
               />
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-red-800 text-sm mt-1">
                   {errors.email.message}
                 </p>
               )}
@@ -84,7 +157,7 @@ const Page = () => {
                 type="password"
                 id="register-password"
                 className={`w-full px-3 py-2 border ${
-                  errors.password ? "border-red-500" : "border-gray-300"
+                  errors.password ? "border-red-800" : "border-gray-300"
                 } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
                 placeholder="Enter your password"
                 {...register("password", {
@@ -96,7 +169,7 @@ const Page = () => {
                 })}
               />
               {errors.password && (
-                <p className="text-red-500 text-sm mt-5 ">
+                <p className="text-red-800 text-sm mt-5 ">
                   {errors.password.message}
                 </p>
               )}
@@ -109,7 +182,7 @@ const Page = () => {
                 type={showConfirmPassword ? "text" : "password"}
                 id="confirm-password"
                 className={`w-full px-3 py-2 border ${
-                  errors.confirmPassword ? "border-red-500" : "border-gray-300"
+                  errors.confirmPassword ? "border-red-800" : "border-gray-300"
                 } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
                 placeholder="Re-enter your password"
                 {...register("confirmPassword", {
@@ -125,7 +198,7 @@ const Page = () => {
                 {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
               </span>
               {errors.confirmPassword && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-red-800 text-sm mt-1">
                   {errors.confirmPassword.message}
                 </p>
               )}
@@ -151,7 +224,7 @@ const Page = () => {
               </label>
             </div>
             {errors.terms && (
-              <p className="text-red-500 text-sm mt-1">
+              <p className="text-red-800 text-sm mt-1">
                 {errors.terms.message}
               </p>
             )}

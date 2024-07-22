@@ -1,9 +1,22 @@
 "use client";
+import { getcredentials } from "@/app/lib/features/auth/authSlice";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 
 const OTPReceiver = () => {
+  // ----------------------------------------hooks----------------------------------------
+  const { email, password, firstName, lastName } = useSelector(
+    (state) => state.auth
+  );
+  const router = useRouter()
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
+  const [response, setResponse] = useState("");
+  const dispatch = useDispatch();
+
+
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -16,13 +29,42 @@ const OTPReceiver = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (otp.length !== 6) {
       setError("OTP must be 6 digits long.");
     } else {
       // Handle OTP submission logic here
-      console.log("OTP Submitted:", otp);
+      try {
+        const data = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/verifyOtp`,
+          {
+            method: "post",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email,
+              password,
+              firstName,
+              lastName,
+              otp,
+            }),
+          }
+        );
+        const newData = await data.json();
+        console.log(newData, "newData")
+
+        if (newData.status === true) {
+          dispatch(getcredentials({ email: "", password: "" }));
+          router.push("/login");
+        }
+        setResponse(newData);
+        console.log(newData);
+      } catch (error) {
+        console.log(error);
+      }
+
       setError(""); // Clear error when submitting
     }
   };
@@ -30,6 +72,13 @@ const OTPReceiver = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="max-w-md w-full bg-white shadow-md rounded-lg p-8">
+        {response && response?.status == false ? (
+          <div className="p-2 text-center text-red-600 font-semibold">
+            {response?.message}!
+          </div>
+        ) : (
+          ""
+        )}
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
           Enter OTP
         </h2>

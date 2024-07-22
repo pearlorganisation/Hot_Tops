@@ -43,17 +43,17 @@ const page = () => {
       <div className="mx-auto container max-w-7xl p-10">
         <header class="text-center py-4 bg-white">
           <div class="flex items-center justify-center mb-2">
-            <div class="flex-grow border-t border-red-500"></div>
+            <div class="flex-grow border-t border-red-800"></div>
 
-            <div class="flex-grow border-t border-red-500"></div>
+            <div class="flex-grow border-t border-red-800"></div>
           </div>
 
           <div class="flex items-center justify-center mb-2">
-            <div class="flex-grow border-t border-red-500"></div>
-            <h1 class="px-4 text-red-500 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
+            <div class="flex-grow border-t border-red-800"></div>
+            <h1 class="px-4 text-red-800 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
               TOPTASTIC DEALS
             </h1>
-            <div class="flex-grow border-t border-red-500"></div>
+            <div class="flex-grow border-t border-red-800"></div>
           </div>
         </header>
       </div>

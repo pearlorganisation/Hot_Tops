@@ -5,7 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 const Header = ({ isSideNavOpen, setIsSideNavOpen }) => {
   return (
-    <header className=" border sticky top-0 z-50 h-[10vh] hidden lg:flex w-full bg-[#ffffff] drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
+    <header className=" border sticky top-0 z-10 h-[10vh] hidden lg:flex w-full bg-[#ffffff] drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
       
       <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
         <div className="hidden lg:block">

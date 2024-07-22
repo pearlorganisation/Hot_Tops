@@ -21,36 +21,61 @@ export const updateBaseCustomization = asyncErrorHandler(async (req, res, next) 
       if (!data)
         return next(new CustomError("No data found with given id!!", 400));
 
-      const updatedData = await baseCustomizationModel.find();
 
       return res.status(200).json({
       success: true,
-      message: `Base Customization Updated Successfully`,
-      updatedData
-    });
+      message: `Base Customization Updated Successfully`});
   }
 );
 
 export const createBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
-  
+  // const {price,name} = req?.body
+  // const priceWithName = price.map(item => ({
+  //   ...item,
+  //   name: name // Add the main name to the nested name field
+  // }));
+
     const data = new baseCustomizationModel({
-...req?.body 
+...req?.body
   })
 
   await data.save()
   
-  const updatedData = await baseCustomizationModel.find();
 
- res.status(201).json({status:true,message:"Base Customization created successfully",updatedData})
+ res.status(201).json({status:true,message:"Base Customization created successfully"})
   }
 )
 
+export const getBaseCustomizationPrice = asyncErrorHandler(async (req, res, next) => {
+  const { sizeId } = req.query;
+
+  const data = await baseCustomizationModel.find();
+
+  if (!data || data.length === 0) {
+    return next(new CustomError("No data found!!", 400));
+  }
+
+  // Filter prices in each document based on the given sizeId
+  const filteredData = data.map((doc) => {
+    const sizeData = doc.price.filter((item) => item.size.toString() === sizeId);
+    return {
+      ...doc.toObject(),
+      price: sizeData,
+    };
+  });
+
+  res.status(200).json({
+    status: true,
+    message: "Base Customization data found successfully",
+    data: filteredData,
+  });
+});
+
 export const getAllBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
 
-  
-  const data = await baseCustomizationModel.find()
 
- 
+const data = await baseCustomizationModel.find()
+
  res.status(200).json({status:true,message:"Base Customization data found successfully",data})
   }
 
@@ -59,14 +84,12 @@ export const getAllBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
 export const deleteBaseCustomization = asyncErrorHandler( async(req,res,next)=>{
        const {id}= req?.params
 
-       console.log(id)
        
        const isValidId =await baseCustomizationModel.findByIdAndDelete(id)
        if(!isValidId){
          return next(new CustomError("No data found with given id!!", 400))
          }
-        const data = await baseCustomizationModel.find();
- res.status(200).json( {status:true,message:"Base Customization data deleted successfully", data})
+ res.status(200).json( {status:true,message:"Base Customization data deleted successfully"})
 
   
 

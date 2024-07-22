@@ -1,12 +1,17 @@
 "use client";
+import { addUserData } from "@/app/lib/features/auth/authSlice";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 const Page = () => {
   // ----------------------------Hooks-------------------------------------
   const [response, setResponse] = useState(null);
+  const router = useRouter();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -33,7 +38,11 @@ const Page = () => {
       const newData = await res.json();
       console.log(newData);
       if (newData?.status === true) {
-        console.log("fksajflkasfkld");
+        const userData = { isUserLoggedIn: true, data: newData.data };
+
+        dispatch(addUserData(userData));
+
+        router.push("/");
         toast.success("login successfully");
       }
 
@@ -47,6 +56,9 @@ const Page = () => {
     <>
       <div className="bg-gray-100 flex items-center justify-center h-screen">
         <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
+          <h2 className="text-2xl font-bold mb-6 text-center">
+            IF YOU'RE ALREADY A MEMBER.
+          </h2>
           {response && response?.status == false ? (
             <div className="p-2 text-center text-red-600 font-semibold">
               {response?.message}!
@@ -54,9 +66,6 @@ const Page = () => {
           ) : (
             ""
           )}
-          <h2 className="text-2xl font-bold mb-6 text-center">
-            IF YOU'RE ALREADY A MEMBER.
-          </h2>
           <form onSubmit={handleSubmit(onSubmit)} method="POST">
             <div className="mb-4">
               <label className="block text-gray-700" htmlFor="login-email">
@@ -66,13 +75,13 @@ const Page = () => {
                 type="email"
                 id="login-email"
                 className={`w-full px-3 py-2 border ${
-                  errors.email ? "border-red-500" : "border-gray-300"
+                  errors.email ? "border-red-800" : "border-gray-300"
                 } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
                 placeholder="Enter your email"
                 {...register("email", { required: "Email is required" })}
               />
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-red-800 text-sm mt-1">
                   {errors.email.message}
                 </p>
               )}
@@ -85,21 +94,21 @@ const Page = () => {
                 type="password"
                 id="login-password"
                 className={`w-full px-3 py-2 border ${
-                  errors.password ? "border-red-500" : "border-gray-300"
+                  errors.password ? "border-red-800" : "border-gray-300"
                 } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
                 placeholder="Enter your password"
                 {...register("password", { required: "Password is required" })}
               />
               {errors.password && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-red-800 text-sm mt-1">
                   {errors.password.message}
                 </p>
               )}
             </div>
             <div className="flex items-center justify-between mb-4">
-              <a href="#" className="text-red-500">
+              <Link href="forget_password" className="text-red-800">
                 Forgot password?
-              </a>
+              </Link>
               <button
                 type="submit"
                 className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
@@ -117,7 +126,7 @@ const Page = () => {
             <p className="mt-4">
               New ? {"=>"}
               <span>
-                <Link href="/login" className="text-blue-700">
+                <Link href="/signUp" className="text-blue-700">
                   Sign Up here
                 </Link>
               </span>

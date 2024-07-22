@@ -1,129 +1,214 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import useSWR from "swr";
+// import { useParams } from 'next/navigation';
 
 const Product = () => {
-  const [cheeseSelections, setCheeseSelections] = useState({});
-  const [sauceSelections, setSauceSelections] = useState({});
-  const [vegetarianSelections, setVegetarianSelections] = useState({});
-  const [meatSelections, setMeatSelections] = useState({});
-  const [seafoodSelections, setSeafoodSelections] = useState({});
+  // const params = useParams();
+  // const pizzaName= params?.productName
 
-  const cheeseData = [
-    { CheeseName: "3 blend cheese" },
-    { CheeseName: "Mozzarella" },
-  ];
+const {customizationData}= useSelector((state)=>state.orderDetails)
 
-  const SAUCE = [
-    { SauceName: "BBQ Sauce" },
-    { SauceName: "Garlic Sauce" },
-    { SauceName: "Hot BBQ Sauce" },
-    { SauceName: "Smoky Sausage" },
-    { SauceName: "Tomato Sauce" },
-    { SauceName: "No Sauce" },
-  ];
+const combineNames = () => {
 
-  const VEGETARIAN = [
-    { toppingName: "Black Olives" },
-    { toppingName: "Feta cheese" },
-    { toppingName: "Fresh tomato" },
-    { toppingName: "Green chilli" },
-    { toppingName: "Green pepper" },
-    { toppingName: "Jalapeno" },
-    { toppingName: "Mushrooms" },
-    { toppingName: "Mustard mayo" },
-    { toppingName: "Pineapple" },
-  ];
+  const items = [
+    customizationData?.meatToppingsName,
+    customizationData?.vegetarianToppingsName,
+    customizationData?.cheeseName,
+    customizationData?.sauceName
+  ].filter(item => item && item.length > 0);
 
-  const MEATTOPPINGS = [
-    { toppingName: "Bacon" },
-    { toppingName: "Beef" },
-    { toppingName: "Chicken Tikka" },
-    { toppingName: "Chorizo Sausage" },
-    { toppingName: "German hot dog" },
-    { toppingName: "Ham" },
-    { toppingName: "Meatballs" },
-    { toppingName: "Mexican Chicken" },
-    { toppingName: "Pepperoni" },
-  ];
+  // Join the items with a comma
+  return items.join(', ');
+};
 
-  const SEAFOODTOPPINGS = [
-    { toppingName: "Anchovy" },
-    { toppingName: "Prawns" },
-    { toppingName: "Tuna" },
-  ];
+const [basePrices, setBasePrices] = useState([]);
+const [cheesePrices, setCheesePrices] = useState([]);
+const [saucePrices, setSaucePrices] = useState([]);
+const [vegetarianToppingsPrices, setVegetarianToppingsPrices] = useState([]);
+const [meatToppingsPrices, setMeatToppingsPrices] = useState([]);
 
-  const handleSelectionChange = (setSelections, name, type) => {
-    setSelections((prevSelections) => ({
-      ...prevSelections,
-      [name]: prevSelections[name] === type ? undefined : type,
-    }));
+console.log(saucePrices)
+console.log(customizationData?.sauceName)
+const [selectedSizeId, setSelectedSizeId] = useState(customizationData?.selectedData || '');
+const [selectedBase, setSelectedBase] = useState(customizationData?.baseName || '');
+const [selectedCheese, setSelectedCheese] = useState(customizationData?.cheeseName || '');
+const [selectedSauce, setSelectedSauce] = useState();
+const [selectedMeatToppings, setSelectedMeatToppings] = useState(customizationData?.meatToppingsName || '');
+const [selectedVegetarianToppings, setSelectedVegetarianToppings] = useState(customizationData?.vegetarianToppingsName || '');
+
+
+useEffect(()=>{
+ const newData= saucePrices?.filter(item =>  {
+    console.log(customizationData?.sauceName?.includes(item.name))
+    return customizationData?.sauceName?.includes(item.name)}) 
+
+    setSelectedSauce(newData)
+},[saucePrices])
+useEffect(()=>{
+  console.log(selectedSauce)
+},[selectedSauce])
+
+  const handleRadioChange = async (e) => {
+    const newSizeId = e.target.value;
+    setSelectedSizeId(newSizeId);
+
+    // Fetch new prices based on the selected size
+  await fetchPricesForSelectedSize(newSizeId);
   };
 
-  const renderTable = (data, selections, setSelections) => (
+// const splitSelectedSize= (String(customizationData?.selectedSize).includes("-")
+// ? customizationData?.selectedSize?.split("-")
+// : customizationData?.selectedSize) || []  
+// console.log(splitSelectedSize)
+// const [sizeState,setSizeState] = useState(customizationData?.selectedData)
+// useEffect(() => {
+//   setSizeState(splitSelectedSize[0])
+// }, [splitSelectedSize])
+
+
+  // const sauceFetcher = async (...args) => fetch(...args).then((res) => {
+  //   return res.json()
+  // });
+
+  // const { data: sauceData, error: sauceError, isLoading: sauceLoading } = useSWR(
+  //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/sauce`,
+  //   sauceFetcher
+  // );
+
+    // if (sauceLoading) return <div>Loading...</div>;
+  // if (sauceError) return <div>Error loading data</div>;
+
+
+  useEffect(() => {
+    fetchPricesForSelectedSize(selectedSizeId);
+  console.log(selectedSizeId)
+  }, [selectedSizeId])
+
+  useEffect(()=>{
+    setSelectedSizeId(customizationData?.selectedData)
+  },[customizationData])
+
+  useEffect(()=>{
+    console.log(selectedSizeId) 
+  },[selectedSizeId])
+
+  // -------------------data fetching for price-----------------------
+
+const fetchPricesForSelectedSize = async (sizeId) => {
+  console.log(sizeId)
+  try {
+ if(sizeId) {  const baseResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/base/price?sizeId=${sizeId}`);
+    const basePriceData = await baseResponse.json();
+
+    const sauceResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/sauce/price?sizeId=${sizeId}`);
+    const saucePriceData = await sauceResponse.json();
+
+    const cheeseResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/cheese/price?sizeId=${sizeId}`);
+    const cheesePriceData = await cheeseResponse.json();
+
+    const meatToppingsResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/meatToppings/price?sizeId=${sizeId}`);
+    const meatToppingsPriceData = await meatToppingsResponse.json();
+
+    const vegetarianToppingsResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/vegetarianToppings/price?sizeId=${sizeId}`);
+    const vegetarianToppingsPriceData = await vegetarianToppingsResponse.json();
+    
+
+    
+    setBasePrices(basePriceData.data);
+    setMeatToppingsPrices(meatToppingsPriceData.data);
+    setVegetarianToppingsPrices(vegetarianToppingsPriceData.data);
+    setSaucePrices(saucePriceData.data);
+    setCheesePrices(cheesePriceData.data);
+}
+
+  } catch (error) {
+    console.error("Error fetching prices:", error);
+  }
+};
+
+  // const handleSelectionChange = (setSelections, name, type) => {
+  //   setSelections((prevSelections) => ({
+  //     ...prevSelections,
+  //     [name]: prevSelections[name] === type ? undefined : type,
+  //   }));
+  // };
+
+  // console.log(selectedBase)
+  // console.log(selectedSauce)
+  const renderTable = (data, selection, setSelection,itemType) =>
+  {
+      // console.log(data)
+     return (
+    
     <div className="mt-4">
-      <table className="min-w-full bg-white border border-gray-300">
+      <table className="min-w-full bg-white border  border-gray-200">
         <thead>
           <tr>
             <th className="py-2 px-4 border-b"></th>
-            <th className="py-2 px-4 border-b">Single +£1.5</th>
-            <th className="py-2 px-4 border-b">Double +£3</th>
+            <th className="py-2 px-4 border-b">Single</th>
+            <th className="py-2 px-4 border-b">Double</th>
           </tr>
         </thead>
         <tbody>
-          {data.map((item, id) => (
-            <tr key={id}>
+          {Array.isArray(data) && data.map((item) => (
+            <tr key={item?._id}>
               <td className="py-2 px-4 border-b">
-                {item.SauceName || item.CheeseName || item.toppingName}
+                {item?.name}
               </td>
               <td className="py-2 px-4 border-b text-center">
                 <input
-                  type="checkbox"
-                  checked={
-                    selections[
-                      item.SauceName || item.CheeseName || item.toppingName
-                    ] === "single"
-                  }
-                  onChange={() =>
-                    handleSelectionChange(
-                      setSelections,
-                      item.SauceName || item.CheeseName || item.toppingName,
-                      "single"
-                    )
-                  }
+                  className="mx-3"
+                  value={`${item?.price[0]?.singlePrice}`}
+                  type="radio"
+                  name={`selection-${item?._id}`}
+                  data-label={`${item?.name} (Single)-${item?.price[0]?.singlePrice}`}
+                  // checked={selectedSizeId === data?.size?._id}
+                  checked={Array.isArray(item?.price) && selection === item?.price[0]?.singlePrice}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setSelection(value);
+                  console.log(selection)
+
+                  }}
                 />
+                <span className="bg-red-500 text-white rounded-lg px-2">£ {item?.price[0]?.singlePrice} </span>
               </td>
               <td className="py-2 px-4 border-b text-center">
                 <input
-                  type="checkbox"
-                  checked={
-                    selections[
-                      item.SauceName || item.CheeseName || item.toppingName
-                    ] === "double"
-                  }
-                  onChange={() =>
-                    handleSelectionChange(
-                      setSelections,
-                      item.SauceName || item.CheeseName || item.toppingName,
-                      "double"
-                    )
-                  }
+                  className="mx-3"
+                  type="radio"
+                  name={`selection-${item?._id}`}
+                  value={item?.price[0]?.doublePrice}
+                  // checked={selections[item?._id] === "double"}
+                  // checked={Array.isArray(item?.price) && selection === item?.price[0]?.doublePrice}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setSelection(value);
+                    console.log(setSelectedCheese)
+                  }}
                 />
+                <span className="bg-yellow-600  text-white rounded-lg px-2">£ {item?.price[0]?.doublePrice}</span>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
-  );
+  );}
+
+
+
 
   return (
     <>
-      <div className="max-w-4xl mx-auto p-4 bg-white shadow-md rounded-lg mt-8">
-        <div className="flex flex-col md:flex-row items-center">
+      <div className="max-w-xl md:max-w-6xl mx-auto p-4 bg-white shadow-md rounded-lg mt-8">
+        <div className="flex flex-col md:flex-row ">
           <div className="flex-1">
-            <h1 className="text-3xl font-bold text-gray-800">HAWAIIAN</h1>
+            <h1 className="text-4xl  text-gray-800">{customizationData?.name}</h1>
             <p className="mt-2 text-gray-600">
-              Tops mozzarella cheese, Special tomato sauce, Pineapple & Ham
+            {combineNames()}
             </p>
             <div className="mt-4">
               <button className="w-full px-4 py-2 bg-green-600 text-white rounded-lg">
@@ -132,102 +217,103 @@ const Product = () => {
             </div>
 
             <div className="mt-4">
-              <h2 className="text-lg font-semibold text-gray-800">SIZES:</h2>
+              <h2 className="text-lg font-semibold text-gray-800">SIZES</h2>
               <div className="mt-2 space-y-2">
-                {[
-                  'Supersize 15.5"',
-                  'Large 13.5"',
-                  'Medium 10.5"',
-                  'Small 7"',
-                ].map((size, index) => (
-                  <label key={index} className="inline-flex items-center">
+                {Array.isArray(customizationData?.priceSection) && customizationData?.priceSection.map((data,idx) => (
+                  <label key={idx} className="inline-flex gap-2 items-center">
                     <input
                       type="radio"
                       className="form-radio"
                       name="size"
-                      value={size.toLowerCase().replace(/\"| /g, "")}
+                    value={data?.size?._id}
+                    checked={selectedSizeId === data?.size?._id}
+                    onChange={handleRadioChange}
                     />
-                    <span className="ml-2">{size}</span>
+                    <span className="mr-4 ">{data?.size?.name}</span>
+
                   </label>
                 ))}
               </div>
             </div>
 
             <div className="mt-4">
-              <h2 className="text-lg font-semibold text-gray-800">BASE:</h2>
+              <h2 className="text-lg font-semibold text-gray-800">BASE</h2>
               <div className="mt-2 space-y-2">
-                {[
-                  "Cheezy Crust +£3.00",
-                  "Deep Pan",
-                  "Hot Dog Crust +£3.00",
-                  "Pepperoni Crust +£3.00",
-                  "Thin Crust",
-                ].map((base, index) => (
-                  <label key={index} className="inline-flex items-center">
+                {Array.isArray(basePrices) && basePrices?.map((base) => (
+           
+                  <label key={base?._id} className="inline-flex gap-2 items-center">
                     <input
                       type="radio"
                       className="form-radio"
+                      onChange={(e) => {
+                        const base = e.target.value;
+                        setSelectedBase(base);
+                      }}
                       name="base"
-                      value={base.toLowerCase().replace(/\"| /g, "")}
+                      value={base?.name}
+                      checked={selectedBase === base?.name}
                     />
-                    <span className="ml-2">{base}</span>
+                    <span className="mr-4">{base?.name}  
+                      <> {base?.price[0]?.price>0 && 
+                      <span className="bg-red-500 text-white rounded-lg px-1">+ £ {base?.price[0]?.price}</span>}
+                      </>
+                      </span>
+
                   </label>
                 ))}
               </div>
             </div>
-          </div>
-          <div className="mt-4 md:mt-0 md:ml-8">
-            <img
-              src="https://topspizza.co.uk/storage/2.jpg"
-              alt="Hawaiian Pizza"
-              className="w-[360px] h-[360px] rounded-lg"
-            />
-            <p className="mt-2 text-gray-600 text-center">
-              Pineapple, Ham, Mozzarella, No Sauce
-            </p>
-          </div>
-        </div>
-      </div>
 
-      {/* SAUCE: */}
-      <div className="max-w-4xl mx-auto p-4 bg-white rounded-lg">
-        <h2 className="text-lg font-semibold text-gray-800">SAUCE:</h2>
-        {renderTable(SAUCE, sauceSelections, setSauceSelections)}
+                {/* SAUCE: */}
+      <div className="mt-4 ">
+        <h2 className="text-lg font-semibold text-gray-800">SAUCE</h2>
+        {saucePrices && renderTable(saucePrices, selectedSauce, setSelectedSauce, 'sauceName')}
       </div>
 
       {/* CHEESE: */}
-      <div className="max-w-4xl mx-auto p-4 bg-white rounded-lg">
-        <h2 className="text-lg font-semibold text-gray-800">CHEESE:</h2>
-        {renderTable(cheeseData, cheeseSelections, setCheeseSelections)}
+      <div className="mt-4">
+        <h2 className="text-lg font-semibold text-gray-800">CHEESE</h2>
+        {cheesePrices && renderTable(cheesePrices, selectedCheese, setSelectedCheese, 'cheeseName')}
       </div>
 
       {/* VEGETARIAN TOPPINGS: */}
-      <div className="max-w-4xl mx-auto p-4 bg-white rounded-lg">
+      <div className="mt-4">
         <h2 className="text-lg font-semibold text-gray-800">
-          VEGETARIAN TOPPINGS:
+          VEGETARIAN TOPPINGS
         </h2>
-        {renderTable(VEGETARIAN, vegetarianSelections, setVegetarianSelections)}
+        {vegetarianToppingsPrices && renderTable(vegetarianToppingsPrices, selectedVegetarianToppings, setSelectedVegetarianToppings,'vegetarianToppingsName')}
       </div>
 
       {/* MEAT TOPPINGS: */}
-      <div className="max-w-4xl mx-auto p-4 bg-white rounded-lg">
-        <h2 className="text-lg font-semibold text-gray-800">MEAT TOPPINGS:</h2>
-        {renderTable(MEATTOPPINGS, meatSelections, setMeatSelections)}
+      <div className="mt-4">
+        <h2 className="text-lg font-semibold text-gray-800">MEAT TOPPINGS</h2>
+        {meatToppingsPrices && renderTable(meatToppingsPrices, selectedMeatToppings, setSelectedMeatToppings,'meatToppingsName')}
       </div>
 
-      {/* SEAFOOD TOPPINGS: */}
-      <div className="max-w-4xl mx-auto p-4 bg-white rounded-lg">
-        <h2 className="text-lg font-semibold text-gray-800">
-          SEAFOOD TOPPINGS:
-        </h2>
-        {renderTable(SEAFOODTOPPINGS, seafoodSelections, setSeafoodSelections)}
-      </div>
 
-      <div className="max-w-4xl mx-auto p-4">
+
+      <div className="mt-4">
         <button className="bg-[#39A144] text-white w-full px-10 p-2 rounded">
           Save
         </button>
       </div>
+          </div>
+          
+          <div className="hidden md:block md:ml-8">
+            <img
+              src={customizationData?.img}
+              alt="Hawaiian Pizza"
+              className="w-[360px] h-[360px] rounded-lg"
+            />
+            <p className="w-[360px] text-gray-600 ">
+            {combineNames()}
+            </p>
+          </div>
+          
+        </div>
+      </div>
+
+  
     </>
   );
 };

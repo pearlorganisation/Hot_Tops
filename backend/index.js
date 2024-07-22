@@ -19,25 +19,33 @@ app.use(
     process.env.NODE_ENV === "production"
       ? {
           origin: [
+            "https://hot-house.vercel.app",
+            "https://hot-house-9gco.vercel.app",
             "http://localhost:4112",
             "http://localhost:3000",
+            "http://localhost:3001",
             "http://localhost:5010",
             "http://localhost:4113",
             "http://localhost:5173",
             "http://localhost:5174",
             "http://localhost:4114",
+            "https://hot-house-git-shashank-code-pearlorganisations-projects.vercel.app/",
           ],
           credentials: true,
         }
       : {
           origin: [
+            "https://hot-house.vercel.app",
+            "https://hot-house-9gco.vercel.app",
             "http://localhost:4112",
             "http://localhost:3000",
+            "http://localhost:3001",
             "http://localhost:5174",
             "http://localhost:5173",
             "http://localhost:5010",
             "http://localhost:4113",
             "http://localhost:4114",
+            "https://hot-house-git-shashank-code-pearlorganisations-projects.vercel.app",
           ],
           methods: ["GET", "PUT", "POST", "PATCH", "DELETE"],
           allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
@@ -60,14 +68,30 @@ app.use(cookieParser());
 const versionOne = (url) => {
   return `/api/v1/${url}`;
 };
+const foodCustomization = (url) => {
+  return `/api/v1/food/customization/${url}`;
+};
 
 // Router Imports
-// import { foodCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/foodCustomizationRoutes.js";
-// import { foodItemRouter } from "./src/routes/foodRoutes/foodItemRoutes.js";
+import { foodItemRouter } from "./src/routes/foodRoutes/foodItemRoutes.js";
+
+import { baseCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/base.js";
+import { sizeCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/size.js";
+import { cheeseCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/cheese.js";
+import { sauceCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/sauce.js";
+import { meatToppingsCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/meatToppings.js";
+import { vegetarianToppingsCustomizationRouter } from "./src/routes/foodRoutes/foodCustomization/vegetarianToppings.js";
 import pizzaRoutes from "./src/routes/pizza/pizza.js";
-import pizza from "./src/models/pizza/pizza.js";
-import authRoutes from "./src/routes/authRoutes/authRoutes.js";
+import sidesRoutes from "./src/routes/sides.js";
+import dessertRoutes from "./src/routes/dessert.js";
 // Route Middlewares
+import drinksRoutes from "./src/routes/drink.js";
+import dipsRoutes from "./src/routes/dips.js";
+import authRoutes from "./src/routes/authRoutes/authRoutes.js";
+import adminAuth from "./src/routes/admin/auth.js";
+import addressRoutes from "./src/routes/address.js";
+import orderRoutes from "./src/routes/order.js";
+// Route Middlewarespull origin gaurav-code
 
 app.all(["/", "/api", "/api/v1"], (req, res, next) => {
   return res.status(200).json({
@@ -76,10 +100,25 @@ app.all(["/", "/api", "/api/v1"], (req, res, next) => {
   });
 });
 
-// app.use(versionOne("food"), foodItemRouter); // Food Item Router
-// app.use(versionOne("food/customization"), foodCustomizationRouter); // Food Customization Router
+app.use(versionOne("food"), foodItemRouter); // Food Item Router
+
+// Food Customization Router
+app.use(foodCustomization("base"), baseCustomizationRouter);
+app.use(foodCustomization("size"), sizeCustomizationRouter);
+app.use(foodCustomization("cheese"), cheeseCustomizationRouter);
+app.use(foodCustomization("sauce"), sauceCustomizationRouter);
+app.use(foodCustomization("meatToppings"), meatToppingsCustomizationRouter);
+app.use(foodCustomization("vegetarianToppings"),vegetarianToppingsCustomizationRouter);
+
 app.use("/api/v1/pizza", pizzaRoutes);
-app.use("/api/v1/auth/", authRoutes);
+app.use("/api/v1/sides", sidesRoutes);
+app.use("/api/v1/dessert", dessertRoutes);
+app.use("/api/v1/drinks", drinksRoutes);
+app.use("/api/v1/dips", dipsRoutes);
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/auth/adminSignUp", adminAuth);
+app.use("/api/v1/address", addressRoutes);
+app.use("/api/v1/order", orderRoutes);
 
 // -------------------------------------------------------------------------------------------------------------
 
