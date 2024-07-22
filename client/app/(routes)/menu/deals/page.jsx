@@ -35,7 +35,7 @@ const Page = () => {
 
   return (
     <div className="pb-10">
-      <div className="mx-auto container max-w-7xl px-10 pt-5 pb-10">
+      <div className="mx-auto container max-w-7xl px-10 pt-5 ">
         <header class="text-center  bg-white">
       
 
