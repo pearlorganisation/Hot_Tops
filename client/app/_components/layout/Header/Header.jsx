@@ -55,8 +55,8 @@ const Header = () => {
               </div>
             </Link>
           ) : (
-            <li className="px-1 md:border-r-2 md:border-red-600 h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
-              <Link href="/signUp">Sign in / Register</Link>
+            <li className="px-2 py-1 text-white font-semibold bg-red-800 rounded-md flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
+              <Link href="/signUp" >Sign in / Register</Link>
             </li>
           )}
           <Link
