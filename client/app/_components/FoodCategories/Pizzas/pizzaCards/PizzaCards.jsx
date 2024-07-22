@@ -46,7 +46,7 @@ const PizzaCards = ({ data, idx }) => {
         </div>
       </div>
 
-      <div className="mt-3 mb-1 flex- flex-col items-end ">
+      <div className="mt-3 mb-1 ">
         <div className="">
           <select
             onChange={handleChange}
