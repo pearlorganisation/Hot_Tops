@@ -47,6 +47,11 @@ const dealSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    defaultDrinkType: {
+      type: String,
+      required: [true, "Default Drink Type is required"],
+      default: "can",
+    },
     isPopular: {
       type: Boolean,
       default: false,

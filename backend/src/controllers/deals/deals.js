@@ -57,36 +57,65 @@ export const updateDeal = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const getDeal = asyncErrorHandler(async (req, res, next) => {
-  const pizzaData = await pizza.find({});
-  const dessertData = await dessert.find({});
-  const dipsData = await dips.find({});
-  const drinkData = await drinks.find({});
+  try {
+    // Fetch related data and ensure .lean() is used
+    const pizzaData = await pizza.find({}).lean();
+    const dessertData = await dessert.find({}).lean();
+    const dipsData = await dips.find({}).lean();
+    const drinkData = await drinks.find({}).lean();
 
-  const resultantData = await deals.findById(req.params.id);
+    // Fetch the deal and ensure .lean() is used
+    const resultantData = await deals.findById(req.params.id).lean();
 
-  const data = {
-    ...resultantData?._doc,
-    pizza: createRepeatedArray(
-      resultantData?._doc.chooseItems?.pizza || 0,
-      pizzaData
-    ),
-    dessert: createRepeatedArray(
-      resultantData?._doc.chooseItems?.dessert || 0,
-      dessertData
-    ),
-    dips: createRepeatedArray(
-      resultantData?._doc.chooseItems?.dips || 0,
-      dipsData
-    ),
-    drinks: createRepeatedArray(
-      resultantData?._doc.chooseItems?.drinks || 0,
-      drinkData
-    ),
-  };
+    if (!resultantData) {
+      return next(new CustomError("Deal not found", 404));
+    }
 
-  console.log("shashank here ");
+    let drinksToInclude = [];
 
-  res.status(200).json({ status: true, data });
+    if (resultantData?.defaultDrinkType.toLowerCase() === "both") {
+      drinksToInclude = drinkData;
+    } else {
+      const defaultDrinkType = resultantData?.defaultDrinkType.toLowerCase();
+      drinksToInclude = drinkData
+        .map((drink) => {
+          const filteredPrices = drink.price.filter(
+            (drinkPrice) =>
+              drinkPrice.drinkType.toLowerCase() === defaultDrinkType
+          );
+          if (filteredPrices.length > 0) {
+            return {
+              ...drink,
+              price: filteredPrices,
+            };
+          }
+          return null;
+        })
+        .filter(Boolean);
+    }
+
+    // Construct the data object without Mongoose metadata
+    const data = {
+      ...resultantData,
+      pizza: createRepeatedArray(
+        resultantData.chooseItems.pizza || 0,
+        pizzaData
+      ),
+      dessert: createRepeatedArray(
+        resultantData.chooseItems.dessert || 0,
+        dessertData
+      ),
+      dips: createRepeatedArray(resultantData.chooseItems.dips || 0, dipsData),
+      drinks: createRepeatedArray(
+        resultantData.chooseItems.drinks || 0,
+        drinksToInclude
+      ),
+    };
+
+    res.status(200).json({ status: true, data });
+  } catch (error) {
+    next(error);
+  }
 });
 
 export const getAllDeals = asyncErrorHandler(async (req, res, next) => {

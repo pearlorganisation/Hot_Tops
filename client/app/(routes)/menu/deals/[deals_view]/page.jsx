@@ -3,6 +3,7 @@ import Image from "next/image";
 import {useSearchParams } from "next/navigation";
 
 import React, { useEffect, useState } from "react";
+import Select from "react-select";
 
 async function getData(id) {
   try {
@@ -40,10 +41,10 @@ const page = () => {
   }, []);
 
   return (
-    <div className="h-screen ">
+    <div className=" ">
       {dealViewData && (
-        <div className=" border-red-500 border flex flex-col gap-8 py-10 px-15 ">
-          <div className="flex text-6xl text-slate-800 font-bold  justify-between px-20">
+        <div className=" border-red-500  border flex flex-col gap-8 py-10 px-15 ">
+          <div className="flex text-6xl p-10 text-slate-800 font-bold  justify-between px-20">
             <p className=""> {dealViewData.title}</p>
             <p>
               £{dealViewData?.sizes?.find((el) => el._id === sizeId)?.price}
@@ -56,7 +57,7 @@ const page = () => {
               alt=""
             />
           </div>
-          <div className="border border-black grid grid-cols-3 container mx-auto justify-between px-8">
+          {/* <div className="border border-black grid grid-cols-3 container mx-auto justify-between px-8">
             {dealViewData?.sizes.map((el) => (
               <p
                 key={el._id}
@@ -67,9 +68,30 @@ const page = () => {
                 {el.size}
               </p>
             ))}
-          </div>
+          </div> */}
 
-          <div className="flex px-6">
+          <div>
+               <h1>Choose Your Pizza </h1>
+               <div>
+                {
+                  // for(let i = 0 ; i < dealViewData.chooseItems?.pizza; i++)
+                  {
+                                    // <Select
+                // className="w-full"
+                // placeholder={`${data.sizes[0].size} £${data.sizes[0].price}`}
+                // options={data.sizes.map((size) => ({
+                //   label: `${size.size} £${size.price}`,
+                //   value: size._id,
+                // }))}
+                // onChange={(option) => setSelectedOption(option)}
+                // options={dealViewData.pizza}
+              // />
+                  }
+                }
+                </div>
+          </div>  
+
+          <div className="grid grid-cols-3 gap-2 px-6">
             {dealViewData.defaultItems.map((el, index) => {
               return (
                 <div
