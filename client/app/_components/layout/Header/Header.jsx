@@ -2,17 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Raleway, Teko } from "next/font/google";
-import { FaCartShopping } from "react-icons/fa6";
+import { IoBagHandleOutline } from "react-icons/io5";
+import { FaRegUser, FaShop } from "react-icons/fa6";
+import { MdDeliveryDining } from "react-icons/md";
 import logo from "../../../_assets/images/HOTPIZZALOGO.png";
 import { categoryEnum } from "@/app/utils/utils";
 import { useAppSelector } from "@/app/lib/hooks";
-import { FaRegUserCircle } from "react-icons/fa";
-import { useDispatch } from "react-redux";
-import { addUserData } from "@/app/lib/features/auth/authSlice";
-import { MdDeliveryDining } from "react-icons/md";
-import { FaShop } from "react-icons/fa6";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -27,136 +24,145 @@ const teko = Teko({
 });
 
 const Header = () => {
-  // -------------------------------------HOOKS-------------------------------------------------
   const [selecteditem, setSelectedItem] = useState(null);
   const cart = useAppSelector((state) => state.cart.cartData);
-  const dispatch = useDispatch();
   const { userData, isUserLoggedIn } = useAppSelector((state) => state.auth);
 
   const totalPrice = cart?.reduce((ele, acc) => {
-    // console.log(typeOf(acc?.size);
-    const price = String(acc?.size).includes("-")
-      ? acc?.size?.split("-")
-      : acc?.size;
-
-    console.log(price);
-    return ele + Number(price[1] || price);
+   
+    return ele + Number(acc?.price);
   }, 0);
 
-  console.log(totalPrice);
-
   return (
-    <div className=" bg-white z-10 shadow-lg fixed top-0 w-full py-2">
-      <div className="flex justify-around items-center">
-        <Link href="/" className="w-[30%] flex justify-center">
+    <div className="bg-white z-10 shadow-lg fixed top-0 w-full pt-4 md:py-4">
+      <div className="flex justify-between items-center px-4 md:px-10">
+        <Link href="/" className="flex justify-center">
           <Image
             src={logo}
-            className=" bg-white  xl:hidden "
+            className="bg-white xl:hidden"
             alt="logo"
-            width={120}
+            width={40}
           />
         </Link>
-        <ul
-          className={`flex justify-end gap-4 items-center w-[70%] ${teko.className} font-teko font-[700] `}
-        >
+        <ul className="md:hidden flex justify-end gap-4 items-center w-[70%]">
           {isUserLoggedIn ? (
             <Link href="/profile?tab=1">
-              <div className="flex justify-start items-center gap-2 text-black">
-                {" "}
-                <FaRegUserCircle size={25} />
-                {userData?.firstName} {userData?.lastName}
+              <div className="flex items-center gap-2 text-black">
+                <FaRegUser size={22} aria-label="User Profile" />
+              <span className="text-red-800 font-semibold">  {userData?.firstName} {userData?.lastName}</span>
               </div>
             </Link>
           ) : (
-            <div className="flex">
-              <li className=" px-1 md:border-r-2 md:border-red-600   h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
-                <Link href="/signUp">Sign in / Register</Link>
-              </li>
-            </div>
+            <li className="px-2 py-1 text-white font-semibold bg-red-800 rounded-md flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
+              <Link href="/signUp" >Sign in / Register</Link>
+            </li>
           )}
-          {/* <li className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
-            <Link href="">Select store</Link>
-          </li> */}
           <Link
             href={"/order/cart"}
-            className="py-2 px-1 md:border-r-2 md:border-red-600  h-[70px] flex items-center text-xs sm:text-sm md:pr-8 md:text-lg"
+            className="flex items-center text-xs sm:text-sm md:pr-8 md:text-lg"
           >
-            <FaCartShopping />
-            <span className="bg-gray-500 rounded-full  px-2 mx-2">
+            <IoBagHandleOutline size={25} aria-label="Cart" />
+            <span className="bg-red-800 text-white rounded-full px-2 py-1  mx-2">
               {cart?.length}
             </span>
-            <span>£{totalPrice?.toFixed(2)}</span>
+            <span className="text-red-800 font-semibold text-lg">£ {totalPrice?.toFixed(2)}</span>
           </Link>
         </ul>
       </div>
-      <div className="bg-white relative">
-        <Link href="/">
-          <Image
-            src={logo}
-            className=" bg-white hidden xl:block xl:absolute xl:bottom-0 left-8"
-            alt="logo"
-            width={140}
-
-          />
+      <div className="bg-white flex flex-col md:flex-row justify-between md:items-center px-4 md:px-10">
+        <Link href="/" className="hidden xl:flex xl:items-center">
+          <Image src={logo} className=" bg-white hidden xl:block xl:absolute xl:bottom-0 left-20  top-1/2 -translate-y-1/2" alt="logo" width={80} />
         </Link>
-        <ul
-          className={`flex items-center justify-around xl:pl-24 ${teko.className} text-xl    text-white font-semibold w-full lg:w-[90vw]    lg:mx-5 lg:ml-20 flex-wrap`}
-        >
+        <ul className="flex pt-2 xl:pt-0 flex-wrap items-center justify-around xl:pl-24 text-lg sm:text-xl text-white font-semibold w-full lg:w-[90vw] lg:mx-5 lg:ml-20">
           <Link href={`/menu/deals`}>
             <li
-              className={`px-5 hover:bg-red-800 hover:text-white h-[36px] md:h-[56px] flex items-center text-black ${selecteditem === -1 ? "bg-red-800 text-white" : "bg-white"
-                }`}
+              className={`px-1 md:px-5 trac h-[36px] md:h-[56px] flex items-center text-black transition duration-300 ${
+                selecteditem === -1
+                  ? "bg-red-800 text-white hover:text-white"
+                  : "bg-white hover:shadow-[0_4px#991b1b] hover:text-[#991b1b]"
+              }`}
               onClick={() => setSelectedItem(-1)}
             >
-              {" "}
-              DEALS
+              Deals
             </li>
           </Link>
 
           {Array.isArray(categoryEnum) &&
-            categoryEnum.map((data, idx) => {
-              return (
-                <>
-                  <Link href={`/menu/${data?.toLocaleLowerCase()}`}>
-                    <li
-                      className={`hover:bg-red-800 hover:text-white h-[36px] md:h-[56px]  px-5 flex items-center text-black ${selecteditem === idx
-                        ? "bg-red-800 text-white"
-                        : "bg-white"
-                        }`}
-                      onClick={() => setSelectedItem(idx)}
-                    >
-                      {data}
-                    </li>
-                  </Link>
-                </>
-              );
-            })}
+            categoryEnum.map((data, idx) => (
+              <Link href={`/menu/${data?.toLocaleLowerCase()}`} key={idx}>
+                <li
+                  className={`px-1 md:px-5 trac h-[36px] md:h-[56px] flex items-center text-black transition duration-300 ${
+                    selecteditem === idx
+                      ? "bg-red-800 text-white hover:text-white"
+                      : "bg-white hover:shadow-[0_4px#991b1b] hover:text-[#991b1b]"
+                  }`}
+                  onClick={() => setSelectedItem(idx)}
+                >
+                  {data.slice(0, 1)}
+                  {data.slice(1, data.length).toLowerCase()}
+                </li>
+              </Link>
+            ))}
 
-          <div className="mb-2 ">
-            <a
-              href=""
-              class=" inline-flex text-md font-medium bg-red-800 mt-3 px-4 py-2 border-r border-r-white  items-center  tracking-wide text-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800 "
+          {isUserLoggedIn ? (
+            <Link
+              href="/profile?tab=1"
+              className="hidden ml-10 md:flex items-center gap-2 text-black"
             >
-              <span>
-                <MdDeliveryDining />
+              <FaRegUser size={20} aria-label="User Profile" />
+              <span className="text-base text-red-800">
+                {userData?.firstName} {userData?.lastName}
               </span>
-              <span class="ml-2">Delivery </span>
-            </a>
-            <a
-              href=""
-              class=" inline-flex text-md font-medium bg-red-800 mt-3  items-center px-4 py-2 shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800 tracking-wide text-white"
-            >
-              <span>
-                <FaShop />
-              </span>
-              <span class="ml-2">Collection </span>
-            </a>
-          </div>
-          {/* <li>SIDES</li>
-          <li>DRINKS</li>
-          <li>DESSERTS</li>
-          <li>DIPS</li> */}
+            </Link>
+          ) : (
+            <li className="hidden md:flex px-2 font-normal hover:bg-white hover:shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-md hover:text-red-800 text-white bg-red-800 items-center text-lg">
+              <Link href="/signUp">Login / Signup</Link>
+            </li>
+          )}
+          <Link
+            href={"/order/cart"}
+            className="hidden text-black md:flex items-center text-lg"
+          >
+            <IoBagHandleOutline size={25} aria-label="Cart" />
+            <span className="bg-red-800 text-white rounded-full px-2 mx-2">
+              {cart?.length}
+            </span>
+            <span className="text-red-800">£ {totalPrice?.toFixed(2)}</span>
+          </Link>
         </ul>
+      </div>
+
+      <div className="hidden lg:flex absolute top-full left-[90%] transform -translate-x-1/2 gap-[2px]">
+        <a
+          href="#"
+          className="inline-flex items-center bg-red-800 border-white text-white py-2 px-4 text-lg rounded-b-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
+        >
+          <MdDeliveryDining />
+          <span className="ml-2">Delivery</span>
+        </a>
+        <a
+          href="#"
+          className="inline-flex items-center bg-red-800 text-white py-2 px-4 text-lg rounded-b-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
+        >
+          <FaShop />
+          <span className="ml-2">Collection</span>
+        </a>
+      </div>
+      <div className="lg:hidden flex  justify-center ">
+        <a
+          href="#"
+          className="w-1/2  border-r border-r-white justify-center inline-flex items-center bg-red-800 text-white py-2 px-4  shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
+        >
+          <MdDeliveryDining />
+          <span className="pl-2">Delivery</span>
+        </a>
+        <a
+          href="#"
+          className="w-1/2 inline-flex  justify-center items-center bg-red-800 text-white py-2 px-4  shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
+        >
+          <FaShop />
+          <span className="pl-2">Collection</span>
+        </a>
       </div>
     </div>
   );

@@ -29,37 +29,34 @@ const DrinksCard = ({ data }) => {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg max-w-xs w-full newshadow p-3">
+    <div className="bg-white shadow-md rounded-md max-w-[15rem] w-full newshadow">
       <img
         src={data.banner}
         alt="Card Image"
-        className="rounded-t-lg object-cover w-full h-56"
+        className="rounded-t-md object-cover w-full h-44"
       />
-      <div className="p-4">
-        <h2 className="text-xl font-semibold mb-4">{data.drink}</h2>
-        <div className="relative flex flex-col gap-4">
-          <p>
+   
+        <h2 className="text-xl font-semibold mb-2 p-4">{data.drink}</h2>
+        <div>
+    
             <select
               value={selectedDrink}
               onChange={(event) => setSelectedDrink(event.target.value)}
-              className="w-full border-2 rounded-l-lg p-3"
-              style={{
-                boxShadow:
-                  "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-              }}
+              className="w-full border-2  p-2 my-2"
+             
             >
               {data.price.map((drink) => (
                 <option
                   key={drink._id}
                   value={`${drink.drinkType}-${drink.price}`}
                 >
-                  {`${drink.drinkType} £${drink.price}`}
+                  {`${drink.drinkType} £ ${drink.price}`}
                 </option>
               ))}
             </select>
-          </p>
+          
           <div
-            className="bg-green-600 hover:bg-green-500 cursor-pointer"
+            className="bg-green-600 hover:bg-green-700 cursor-pointer"
             onClick={handleAddToCart}
           >
             <p className="text-center p-2 text-white">Add</p>
@@ -67,7 +64,7 @@ const DrinksCard = ({ data }) => {
         </div>
       </div>
 
-    </div>
+
   );
 };
 

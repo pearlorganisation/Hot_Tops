@@ -43,56 +43,7 @@ const Sides = () => {
   const categories = [];
   categoryData &&
     categoryData?.data?.map((data) => categories.push(data?.category));
-  // ---------------------------------dummyData------------------------------------------------------
-  const dummyData = {
-    // =-------------------------data fetching---------------------------
-    filter: ["All", "Hot", "BBQ", "Garlic", "Tomato"],
-    categories,
-    price: [
-      {
-        name: "supersize",
-        price: "1050",
-      },
-      {
-        name: "large",
-        price: "750",
-      },
-      {
-        name: "medium",
-        price: "450",
-      },
-      {
-        name: "small",
-        price: "350",
-      },
-    ],
-    categoryData: [
-      {
-        category: "Meat",
-        type: "Hot",
-        Name: "Hawaiian",
-        img: "https://topspizza.co.uk/storage/6.jpg",
-      },
-      {
-        category: "Meat",
-        type: "BBQ",
-        Name: "BBQ chicken",
-        img: "https://topspizza.co.uk/storage/8.jpg",
-      },
-      {
-        category: "vegetarian",
-        type: "Garlic",
-        Name: "Aloo gobhi",
-        img: "https://topspizza.co.uk/storage/4.jpg",
-      },
-      {
-        category: "vegetarian",
-        type: "Hot",
-        Name: "vegi hot",
-        img: "https://topspizza.co.uk/storage/9.jpg",
-      },
-    ],
-  };
+
   console.log(categories);
 
   if (error || filterError) return <div>failed to load</div>;
@@ -102,7 +53,7 @@ const Sides = () => {
     <div className="my-4">
       <div>
         <div className="flex gap-2 mx-4 md:mx-8 my-4 flex-wrap ">
-          <span className="font-bold">filter:</span>
+          <span className="font-bold">Filter :</span>
           {filterData?.data?.map((data) => (
             <div className="flex gap-2" key={data}>
               <input
@@ -139,7 +90,7 @@ const Sides = () => {
                   </div>
                 )}
 
-                <div className="flex gap-4 flex-wrap justify-center">
+                <div className="flex gap-12 flex-wrap justify-center">
                   {data?.data &&
                     data?.data.map((data, idx) => {
                       if (
@@ -150,7 +101,7 @@ const Sides = () => {
                         return (
                           <SidesCards
                             data={data}
-                            dummyData={dummyData}
+                            
                             idx={idx}
                           />
                         );

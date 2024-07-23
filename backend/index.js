@@ -29,7 +29,6 @@ app.use(
             "http://localhost:5173",
             "http://localhost:5174",
             "http://localhost:4114",
-            "https://hot-house-git-shashank-code-pearlorganisations-projects.vercel.app/",
           ],
           credentials: true,
         }
@@ -45,7 +44,6 @@ app.use(
             "http://localhost:5010",
             "http://localhost:4113",
             "http://localhost:4114",
-            "https://hot-house-git-shashank-code-pearlorganisations-projects.vercel.app",
           ],
           methods: ["GET", "PUT", "POST", "PATCH", "DELETE"],
           allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
@@ -91,8 +89,11 @@ import authRoutes from "./src/routes/authRoutes/authRoutes.js";
 import adminAuth from "./src/routes/admin/auth.js";
 import addressRoutes from "./src/routes/address.js";
 import orderRoutes from "./src/routes/order.js";
+import dealsRoutes from "./src/routes/deals/deals.js";
+import morgan from "morgan";
 // Route Middlewarespull origin gaurav-code
 
+app.use(morgan("dev"));
 app.all(["/", "/api", "/api/v1"], (req, res, next) => {
   return res.status(200).json({
     success: true,
@@ -108,7 +109,10 @@ app.use(foodCustomization("size"), sizeCustomizationRouter);
 app.use(foodCustomization("cheese"), cheeseCustomizationRouter);
 app.use(foodCustomization("sauce"), sauceCustomizationRouter);
 app.use(foodCustomization("meatToppings"), meatToppingsCustomizationRouter);
-app.use(foodCustomization("vegetarianToppings"),vegetarianToppingsCustomizationRouter);
+app.use(
+  foodCustomization("vegetarianToppings"),
+  vegetarianToppingsCustomizationRouter
+);
 
 app.use("/api/v1/pizza", pizzaRoutes);
 app.use("/api/v1/sides", sidesRoutes);
@@ -119,6 +123,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/auth/adminSignUp", adminAuth);
 app.use("/api/v1/address", addressRoutes);
 app.use("/api/v1/order", orderRoutes);
+app.use("/api/v1/deals", dealsRoutes);
 
 // -------------------------------------------------------------------------------------------------------------
 

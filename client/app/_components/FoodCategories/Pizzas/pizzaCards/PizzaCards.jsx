@@ -37,16 +37,16 @@ const PizzaCards = ({ data, idx }) => {
   };
 
   return (
-    <div className="flex flex-col justify-between p-3 bg-white shadow-md rounded-lg max-w-[16rem]  2xl:max-w-xs w-full newshadow " key={idx}>
-      <div className=" h-full">
-        <img src={data?.banner} alt="Card Image" className="rounded-t-lg w-full object-cover" />
+    <div className="flex flex-col justify-between bg-white rounded-md max-w-[17rem]  2xl:max-w-xs w-full newshadow mb-10 " key={idx}>
+        <img src={data?.banner} alt="Card Image" className="h-52 w-full rounded-t-md object-cover" />
+      <div className=" h-full px-2">
         <div className="mt-3">
           <h2 className="text-xl font-semibold mb-1 ">{data?.pizzaName}</h2>
-          <p className="text-sm font-semibold text-slate-800 mb-4">{combineNames()}</p>
+          <p className="text-sm font-semibold text-gray-500 mb-4">{combineNames()}</p>
         </div>
       </div>
 
-      <div className="mt-3 mb-1 flex- flex-col items-end ">
+      <div className="mt-3 mb-1 ">
         <div className="">
           <select
             onChange={handleChange}
@@ -65,7 +65,7 @@ const PizzaCards = ({ data, idx }) => {
           </select>
         </div>
 
-        <div className="flex gap-3 items-center mt-2">
+        <div className="flex gap-3 items-center mt-2 px-2">
           <Link onClick={() => {
             selectedData && dispatch(getCustomizationDetails({
               name: data?.pizzaName,
@@ -80,9 +80,9 @@ const PizzaCards = ({ data, idx }) => {
               selectedData: selectedData
             }))
           }} href={`/menu/product/${data?.pizzaName}`}>
-            <TbEdit size={30} className="hover:text-red-600" />
+            <TbEdit size={30}  className="text-slate-800 hover:text-red-800" />
           </Link>
-          <div className="bg-green-700 flex items-center justify-center w-full">
+          <div className="bg-green-600 hover:bg-green-700 rounded-lg flex items-center justify-center w-full">
             <button
               onClick={() => {
 
@@ -96,7 +96,7 @@ const PizzaCards = ({ data, idx }) => {
                   totalSum:Number(selectedLabel.split('-')[1])
                 }));
               }}
-              className="text-center w-full p-2 text-white"
+              className="text-center rounded-lg w-full p-2 text-white"
               type="button"
             >
               Add
