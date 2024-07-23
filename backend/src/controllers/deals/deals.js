@@ -21,10 +21,10 @@ export const createDeal = asyncErrorHandler(async (req, res, next) => {
     sizes: JSON.parse(req.body.sizes),
     banner: req?.file?.path,
     chooseItems: {
-      pizza: JSON.parse(req.body.chooseItems)?.pizza || 0,
+      pizza: JSON.parse(req.body.chooseItems)?.pizzas || 0,
       dips: JSON.parse(req.body.chooseItems)?.dips || 0,
       drinks: JSON.parse(req.body.chooseItems)?.drinks || 0,
-      dessert: JSON.parse(req.body.chooseItems)?.dessert || 0,
+      dessert: JSON.parse(req.body.chooseItems)?.desserts || 0,
     },
   });
   await data.save();
@@ -47,11 +47,6 @@ export const deleteDeal = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const updateDeal = asyncErrorHandler(async (req, res, next) => {
-  // const { id } = req?.params;
-
-  // const data = await deals.findByIdAndUpdate({
-  //     ...req
-  // })
 
   res.status(200).json({ status: true, message: "Under Development" });
 });
@@ -59,12 +54,12 @@ export const updateDeal = asyncErrorHandler(async (req, res, next) => {
 export const getDeal = asyncErrorHandler(async (req, res, next) => {
   try {
     // Fetch related data and ensure .lean() is used
-    const pizzaData = await pizza.find({}).lean();
+    const pizzaData = await pizza.find({}, "pizzaName").lean();
+
     const dessertData = await dessert.find({}).lean();
     const dipsData = await dips.find({}).lean();
     const drinkData = await drinks.find({}).lean();
 
-    // Fetch the deal and ensure .lean() is used
     const resultantData = await deals.findById(req.params.id).lean();
 
     if (!resultantData) {
@@ -93,24 +88,16 @@ export const getDeal = asyncErrorHandler(async (req, res, next) => {
         })
         .filter(Boolean);
     }
+    console.log(resultantData, "shashank");
 
-    // Construct the data object without Mongoose metadata
+   
     const data = {
       ...resultantData,
-      pizza: createRepeatedArray(
-        resultantData.chooseItems.pizza || 0,
-        pizzaData
-      ),
-      dessert: createRepeatedArray(
-        resultantData.chooseItems.dessert || 0,
-        dessertData
-      ),
-      dips: createRepeatedArray(resultantData.chooseItems.dips || 0, dipsData),
-      drinks: createRepeatedArray(
-        resultantData.chooseItems.drinks || 0,
-        drinksToInclude
-      ),
-    };
+      pizza: resultantData.chooseItems?.pizzas >= 1 ?pizzaData:[],
+      dessert: resultantData.chooseItems?.desserts >= 1 ?dessertData:[],
+      dips: resultantData.chooseItems?.dips >= 1 ? dipsData:  [],
+      drinks :resultantData.chooseItems?.drinks >=1  ? drinksToInclude :[]
+    }
 
     res.status(200).json({ status: true, data });
   } catch (error) {
@@ -128,7 +115,6 @@ export const getAllDeals = asyncErrorHandler(async (req, res, next) => {
   }
 
   let data = await deals.find(query);
-  console.log(data?.chooseItems, "SHASHANK");
 
   res.status(200).json({ status: true, data, result: data.length });
 });

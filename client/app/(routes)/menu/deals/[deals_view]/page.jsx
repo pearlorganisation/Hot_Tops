@@ -1,9 +1,11 @@
 "use client";
+import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import Image from "next/image";
-import {useSearchParams } from "next/navigation";
-
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import Select from "react-select";
+import { toast } from "sonner";
 
 async function getData(id) {
   try {
@@ -18,19 +20,68 @@ async function getData(id) {
   }
 }
 
-const page = () => {
+const Page = () => {
   const searchParams = useSearchParams();
   const [dealViewData, setDealView] = useState(null);
-
+  const dispatch = useDispatch();
   const cardId = searchParams.get("card_id");
   const sizeId = searchParams.get("size_id");
+  const [dealDataPizza, setDealDataPizza] = useState([]);
+  const [dealDataDrinks, setDealDataDrinks] = useState([]);
 
   useEffect(() => {
-
-    console.log(dealViewData, "custom");
+    if (dealViewData) {
+      setDealDataPizza(new Array(dealViewData?.chooseItems?.pizza));
+      setDealDataDrinks(new Array(dealViewData?.chooseItems?.drinks));
+    }
   }, [dealViewData]);
 
- 
+  function handleDataSubmission() {
+    console.log("aaghsgdhs", [...dealDataPizza, ...dealDataDrinks]);
+    const submitData = [
+      ...dealDataPizza,
+      ...dealDataDrinks,
+      ...dealViewData?.defaultItems.map((el) => {
+        return {
+          label: el,
+        };
+      }),
+    ];
+
+    console.log(
+      {
+        name: dealViewData?.title,
+        img: dealViewData?.banner,
+        size: dealViewData?.dealsPizzaSize,
+        id: dealViewData?._id,
+        quantity: 1,
+        price: Number(dealViewData.sizes[0].price),
+        totalSum: Number(dealViewData.sizes[0].price),
+        dealsData: submitData,
+      },
+      "gsjdfgtsagfdhasgsdhgjk"
+    );
+    if (
+      dealViewData &&
+      submitData.every((item) => item !== null && item !== undefined)
+    ) {
+      console.log(submitData);
+      dispatch(
+        addToCart({
+          name: dealViewData?.title,
+          img: dealViewData?.banner,
+          size: "large",
+          id: dealViewData?._id,
+          quantity: 1,
+          price: Number(dealViewData.sizes[0].price),
+          totalSum: Number(dealViewData.sizes[0].price),
+          dealsData: [...submitData],
+        })
+      );
+    } else {
+      toast.error("Fill All Fields !!");
+    }
+  }
 
   useEffect(() => {
     async function fetchData() {
@@ -40,73 +91,112 @@ const page = () => {
     fetchData();
   }, []);
 
+  const pizzaCount = dealViewData?.chooseItems?.pizzas || 0;
+  const pizzas = new Array(pizzaCount).fill(null);
+
+  const drinkCount = dealViewData?.chooseItems?.drinks || 0;
+  const drinks = new Array(drinkCount).fill(null);
+
   return (
-    <div className=" ">
-      {dealViewData && (
-        <div className=" border-red-500  border flex flex-col gap-8 py-10 px-15 ">
-          <div className="flex text-6xl p-10 text-slate-800 font-bold  justify-between px-20">
-            <p className=""> {dealViewData.title}</p>
+    <div className="p-5">
+      {dealViewData ? (
+        <div
+          className="p-5 md:p-10 border flex flex-col gap-8 py-10 px-5 md:px-15 rounded-md"
+          style={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}
+        >
+          <div className="flex flex-col md:flex-row text-3xl md:text-6xl p-5 md:p-10 text-slate-800 font-bold justify-between items-center md:px-20">
+            <p>{dealViewData.title}</p>
             <p>
               £{dealViewData?.sizes?.find((el) => el._id === sizeId)?.price}
             </p>
           </div>
-          <div className="px-20 flex justify-center items-center">
+          <div className="flex justify-center items-center">
             <img
               src={dealViewData.banner}
-              className="h-[400px] w-[400px]"
-              alt=""
+              className="h-[200px] md:h-[400px] w-[200px] md:w-[400px]"
+              alt="Deal Banner"
             />
           </div>
-          {/* <div className="border border-black grid grid-cols-3 container mx-auto justify-between px-8">
-            {dealViewData?.sizes.map((el) => (
-              <p
-                key={el._id}
-                className={`uppercase ${
-                  el._id === sizeId ? "text-red-400" : ""
-                }`}
-              >
-                {el.size}
-              </p>
-            ))}
-          </div> */}
-
+          {pizzaCount > 0 && (
+            <div>
+              <h1 className="text-xl md:text-2xl font-semibold mb-4">
+                Choose Your Pizza
+              </h1>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {pizzas.map((_, index) => (
+                  <Select
+                    key={index}
+                    onChange={(e) => {
+                      setDealDataPizza((prev) => {
+                        let temp = [...prev];
+                        temp[index] = e;
+                        return temp;
+                      });
+                      console.log(e, "e");
+                    }}
+                    options={dealViewData.pizza.map((el) => ({
+                      label: el.pizzaName,
+                      value: el._id,
+                    }))}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+          {drinkCount > 0 && (
+            <div>
+              <h1 className="text-xl md:text-2xl font-semibold mb-4">
+                Choose Your Drinks ({dealViewData.defaultDrinkType})
+              </h1>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {drinks.map((_, index) => (
+                  <Select
+                    key={index}
+                    onChange={(e) => {
+                      setDealDataDrinks((prev) => {
+                        let temp = [...prev];
+                        temp[index] = e;
+                        return temp;
+                      });
+                    }}
+                    options={dealViewData.drinks.map((el) => ({
+                      label: el.drink,
+                      value: el._id,
+                    }))}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
           <div>
-               <h1>Choose Your Pizza </h1>
-               <div>
-                {
-                  // for(let i = 0 ; i < dealViewData.chooseItems?.pizza; i++)
-                  {
-                                    // <Select
-                // className="w-full"
-                // placeholder={`${data.sizes[0].size} £${data.sizes[0].price}`}
-                // options={data.sizes.map((size) => ({
-                //   label: `${size.size} £${size.price}`,
-                //   value: size._id,
-                // }))}
-                // onChange={(option) => setSelectedOption(option)}
-                // options={dealViewData.pizza}
-              // />
-                  }
-                }
-                </div>
-          </div>  
-
-          <div className="grid grid-cols-3 gap-2 px-6">
-            {dealViewData.defaultItems.map((el, index) => {
-              return (
+            <h1 className="text-xl md:text-2xl font-semibold mb-4">
+              Extra Loadings
+            </h1>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              {dealViewData.defaultItems.map((el, index) => (
                 <div
                   key={index}
                   className="w-full p-2 border border-gray-300 rounded-lg bg-gray-200 text-gray-700"
                 >
                   {el}
                 </div>
-              );
-            })}
+              ))}
+            </div>
+          </div>
+          <div className="p-5 md:p-10 flex justify-center items-center">
+            <button
+              onClick={handleDataSubmission}
+              className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full shadow-md transform hover:scale-105 transition-transform duration-200 ease-in-out"
+            >
+              ADD TO CART
+            </button>
           </div>
         </div>
+      ) : (
+        <h1>Loading ....</h1>
       )}
     </div>
   );
 };
 
-export default page;
+export default Page;
