@@ -36,8 +36,9 @@ const Header = () => {
   }, 0);
 
   return (
-    <div className="bg-white z-10 shadow-lg fixed top-0 w-full pt-4 md:py-4">
-      <div className="flex justify-between items-center px-4 md:px-10">
+    <div className="bg-white z-10 shadow-lg fixed top-0 w-full pt-2 md:pt-4 md:py-4">
+     {/* // mobile  */}
+      <div className="flex justify-between items-center mx-4">
         <Link href="/" className="flex justify-center">
           <Image
             src={logo}
@@ -46,39 +47,41 @@ const Header = () => {
             width={40}
           />
         </Link>
-        <ul className="md:hidden flex justify-end gap-4 items-center w-[70%]">
+        <ul className="md:hidden flex  gap-4 items-center ">
           {isUserLoggedIn ? (
             <Link href="/profile?tab=1">
               <div className="flex items-center gap-2 text-black">
-                <FaRegUser size={22} aria-label="User Profile" />
-              <span className="text-red-800 font-semibold">  {userData?.firstName} {userData?.lastName}</span>
+                <FaRegUser size={20} aria-label="User Profile" />
+              <span className="text-red-800 text-sm font-semibold">  {userData?.firstName} {userData?.lastName}</span>
               </div>
             </Link>
           ) : (
-            <li className="px-2 py-1 text-white font-semibold bg-red-800 rounded-md flex items-center text-xs sm:text-sm md:pr-8 md:text-lg">
+            <li className="px-2 py-1 text-white font-semibold bg-red-800 rounded-md flex  items-center text-xs  ">
               <Link href="/signUp" >Sign in / Register</Link>
             </li>
           )}
           <Link
             href={"/order/cart"}
-            className="flex items-center text-xs sm:text-sm md:pr-8 md:text-lg"
+            className="flex items-center text-base"
           >
-            <IoBagHandleOutline size={25} aria-label="Cart" />
-            <span className="bg-red-800 text-white rounded-full px-2 py-1  mx-2">
+            <IoBagHandleOutline size={23} aria-label="Cart" />
+            <span className="bg-red-800 text-white rounded-full px-2 py-[2px]  mx-2">
               {cart?.length}
             </span>
-            <span className="text-red-800 font-semibold text-lg">£ {totalPrice?.toFixed(2)}</span>
+            <span className="text-red-800 font-semibold ">£ {totalPrice?.toFixed(2)}</span>
           </Link>
         </ul>
       </div>
-      <div className="bg-white flex flex-col md:flex-row justify-between md:items-center px-4 md:px-10">
+
+      {/* // desktop */}
+      <div className="bg-white flex flex-col md:flex-row justify-between md:items-center  md:px-10">
         <Link href="/" className="hidden xl:flex xl:items-center">
           <Image src={logo} className=" bg-white hidden xl:block xl:absolute xl:bottom-0 left-20  top-1/2 -translate-y-1/2" alt="logo" width={80} />
         </Link>
-        <ul className="flex pt-2 xl:pt-0 flex-wrap items-center justify-around xl:pl-24 text-lg sm:text-xl text-white font-semibold w-full lg:w-[90vw] lg:mx-5 lg:ml-20">
+        <ul className="flex xl:pt-0 flex-wrap items-center justify-around xl:pl-24 text-base sm:text-xl text-white font-semibold w-full lg:w-[90vw] lg:mx-5 lg:ml-20">
           <Link href={`/menu/deals`}>
             <li
-              className={`px-1 md:px-5 trac h-[36px] md:h-[56px] flex items-center text-black transition duration-300 ${
+              className={`py-2 px-1 mt-2 md:mt-0 md:px-5  md:h-[56px] flex items-center text-black transition duration-300 ${
                 selecteditem === -1
                   ? "bg-red-800 text-white hover:text-white"
                   : "bg-white hover:shadow-[0_4px#991b1b] hover:text-[#991b1b]"
@@ -93,7 +96,7 @@ const Header = () => {
             categoryEnum.map((data, idx) => (
               <Link href={`/menu/${data?.toLocaleLowerCase()}`} key={idx}>
                 <li
-                  className={`px-1 md:px-5 trac h-[36px] md:h-[56px] flex items-center text-black transition duration-300 ${
+                  className={`px-1 mt-2 md:mt-0 md:px-5 py-2 md:h-[56px] flex items-center text-black transition duration-300 ${
                     selecteditem === idx
                       ? "bg-red-800 text-white hover:text-white"
                       : "bg-white hover:shadow-[0_4px#991b1b] hover:text-[#991b1b]"
