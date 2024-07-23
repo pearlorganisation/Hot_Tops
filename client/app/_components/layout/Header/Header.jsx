@@ -38,7 +38,7 @@ const Header = () => {
   return (
     <div className="bg-white z-10 shadow-lg fixed top-0 w-full pt-2 md:pt-4 md:py-4">
      {/* // mobile  */}
-      <div className="flex justify-between items-center mx-4">
+      <div className="flex justify-between items-center mx-1 md:mx-4">
         <Link href="/" className="flex justify-center">
           <Image
             src={logo}
@@ -51,7 +51,7 @@ const Header = () => {
           {isUserLoggedIn ? (
             <Link href="/profile?tab=1">
               <div className="flex items-center gap-2 text-black">
-                <FaRegUser size={20} aria-label="User Profile" />
+                <FaRegUser size={19} aria-label="User Profile" />
               <span className="text-red-800 text-sm font-semibold">  {userData?.firstName} {userData?.lastName}</span>
               </div>
             </Link>
@@ -64,11 +64,11 @@ const Header = () => {
             href={"/order/cart"}
             className="flex items-center text-base"
           >
-            <IoBagHandleOutline size={23} aria-label="Cart" />
-            <span className="bg-red-800 text-white rounded-full px-2 py-[2px]  mx-2">
+            <IoBagHandleOutline size={22} aria-label="Cart" />
+            <span className="bg-red-800 text-sm text-white rounded-full px-[6px] py-[1px]  mx-2">
               {cart?.length}
             </span>
-            <span className="text-red-800 font-semibold ">£ {totalPrice?.toFixed(2)}</span>
+            <span className="text-red-800 font-semibold "><span className="text-sm">£ </span>{totalPrice?.toFixed(2)}</span>
           </Link>
         </ul>
       </div>
