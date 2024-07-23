@@ -9,12 +9,13 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import Collections from "./_steps/Collections";
+import { toast } from "sonner";
 
 const page = () => {
   const [step, setStep] = useState(1);
   const router = useRouter();
   const [addressData, setAddressData] = useState(null);
-  const { userData } = useSelector((state) => state.auth);
+  const { userData, isUserLoggedIn } = useSelector((state) => state.auth);
   const [dayTimeIntervals, setDayTimeIntervals] = useState([]);
   const dispatch = useDispatch();
   const { previousPath } = useSelector((state) => state.path);
@@ -72,6 +73,14 @@ const page = () => {
   useEffect(() => {
     generateDayTimeIntervals();
   }, []);
+
+  useEffect(() => {
+    if (!isUserLoggedIn) {
+      toast.error("Please Login...")
+      router.push("/login");
+    }
+  }, [isUserLoggedIn]);
+
 
   const generateDayTimeIntervals = () => {
     const intervals = [];
