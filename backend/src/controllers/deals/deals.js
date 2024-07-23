@@ -21,10 +21,10 @@ export const createDeal = asyncErrorHandler(async (req, res, next) => {
     sizes: JSON.parse(req.body.sizes),
     banner: req?.file?.path,
     chooseItems: {
-      pizza: JSON.parse(req.body.chooseItems)?.pizza || 0,
+      pizza: JSON.parse(req.body.chooseItems)?.pizzas || 0,
       dips: JSON.parse(req.body.chooseItems)?.dips || 0,
       drinks: JSON.parse(req.body.chooseItems)?.drinks || 0,
-      dessert: JSON.parse(req.body.chooseItems)?.dessert || 0,
+      dessert: JSON.parse(req.body.chooseItems)?.desserts || 0,
     },
   });
   await data.save();
@@ -47,46 +47,62 @@ export const deleteDeal = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const updateDeal = asyncErrorHandler(async (req, res, next) => {
-  // const { id } = req?.params;
-
-  // const data = await deals.findByIdAndUpdate({
-  //     ...req
-  // })
 
   res.status(200).json({ status: true, message: "Under Development" });
 });
 
 export const getDeal = asyncErrorHandler(async (req, res, next) => {
-  const pizzaData = await pizza.find({});
-  const dessertData = await dessert.find({});
-  const dipsData = await dips.find({});
-  const drinkData = await drinks.find({});
+  try {
+    // Fetch related data and ensure .lean() is used
+    const pizzaData = await pizza.find({}, "pizzaName").lean();
 
-  const resultantData = await deals.findById(req.params.id);
+    const dessertData = await dessert.find({}).lean();
+    const dipsData = await dips.find({}).lean();
+    const drinkData = await drinks.find({}).lean();
 
-  const data = {
-    ...resultantData?._doc,
-    pizza: createRepeatedArray(
-      resultantData?._doc.chooseItems?.pizza || 0,
-      pizzaData
-    ),
-    dessert: createRepeatedArray(
-      resultantData?._doc.chooseItems?.dessert || 0,
-      dessertData
-    ),
-    dips: createRepeatedArray(
-      resultantData?._doc.chooseItems?.dips || 0,
-      dipsData
-    ),
-    drinks: createRepeatedArray(
-      resultantData?._doc.chooseItems?.drinks || 0,
-      drinkData
-    ),
-  };
+    const resultantData = await deals.findById(req.params.id).lean();
 
-  console.log("shashank here ");
+    if (!resultantData) {
+      return next(new CustomError("Deal not found", 404));
+    }
 
-  res.status(200).json({ status: true, data });
+    let drinksToInclude = [];
+
+    if (resultantData?.defaultDrinkType.toLowerCase() === "both") {
+      drinksToInclude = drinkData;
+    } else {
+      const defaultDrinkType = resultantData?.defaultDrinkType.toLowerCase();
+      drinksToInclude = drinkData
+        .map((drink) => {
+          const filteredPrices = drink.price.filter(
+            (drinkPrice) =>
+              drinkPrice.drinkType.toLowerCase() === defaultDrinkType
+          );
+          if (filteredPrices.length > 0) {
+            return {
+              ...drink,
+              price: filteredPrices,
+            };
+          }
+          return null;
+        })
+        .filter(Boolean);
+    }
+    console.log(resultantData, "shashank");
+
+   
+    const data = {
+      ...resultantData,
+      pizza: resultantData.chooseItems?.pizzas >= 1 ?pizzaData:[],
+      dessert: resultantData.chooseItems?.desserts >= 1 ?dessertData:[],
+      dips: resultantData.chooseItems?.dips >= 1 ? dipsData:  [],
+      drinks :resultantData.chooseItems?.drinks >=1  ? drinksToInclude :[]
+    }
+
+    res.status(200).json({ status: true, data });
+  } catch (error) {
+    next(error);
+  }
 });
 
 export const getAllDeals = asyncErrorHandler(async (req, res, next) => {
@@ -99,7 +115,6 @@ export const getAllDeals = asyncErrorHandler(async (req, res, next) => {
   }
 
   let data = await deals.find(query);
-  console.log(data?.chooseItems, "SHASHANK");
 
   res.status(200).json({ status: true, data, result: data.length });
 });

@@ -3,25 +3,25 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 
-const DealsCards = ({ data }) => {
+const DealsCards = ({ data, path }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   useEffect(() => {
     setSelectedOption(data.sizes[0]);
   }, []);
 
-
+  const dataHomePagePath = path;
   const combineItems = () => {
     const { chooseItems } = data;
     const items = Object.keys(chooseItems)
-      .filter(key => chooseItems[key] > 0)
-      .map(key => {
+      .filter((key) => chooseItems[key] > 0)
+      .map((key) => {
         const quantity = chooseItems[key];
         const itemName = quantity > 1 ? key : key.slice(0, -1); // remove 's' for singular items
         return `${quantity} ${itemName}`;
       });
-  
+
     console.log(items); // For debugging: ["2 pizzas", "1 dip", "2 desserts"]
-    return items.join(', ');
+    return items.join(", ");
   };
 
   return (
@@ -34,8 +34,10 @@ const DealsCards = ({ data }) => {
 
       <div className="p-4">
         <h2 className="text-xl font-semibold mb-4">{data.title}</h2>
-        <p className="text-sm font-semibold text-gray-500 mb-4">{combineItems()} , {data?.defaultItems}</p>
-        
+        <p className="text-sm font-semibold text-gray-500 mb-4">
+          {combineItems()} , {data?.defaultItems}
+        </p>
+
         <div className="mt-3 ">
           <div className="max-w-sm mx-auto flex gap-1">
             {data.sizes?.length === 1 ? (
@@ -56,7 +58,9 @@ const DealsCards = ({ data }) => {
 
             <Link
               href={{
-                pathname: `deals/deals_view`,
+                pathname: path
+                  ? `${path}/deals/deals_view`
+                  : `deals/deals_view`,
                 query: { card_id: data?._id, size_id: selectedOption?._id },
               }}
               className="hover:bg-green-700 bg-green-600 text-white p-2 rounded-lg"

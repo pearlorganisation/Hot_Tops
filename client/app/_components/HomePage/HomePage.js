@@ -11,6 +11,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import pizza1 from "../../_assets/images/pizza1.jpg"
 import pizza2 from "../../_assets/images/pizza2.jpg"
 import Image from "next/image";
+import DealsCards from "../Pages/DealsCards";
   async function getData() {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/deals?isPopular=true`);
@@ -63,25 +64,7 @@ const data = [
   return (
     <>
       {" "}
-      {/* <div className="mx-auto container max-w-7xl p-10 ">
-        <Swiper
-         slidesPerView={1}
-         spaceBetween={10}
-         pagination={{
-           clickable: true,
-         }}
 
-         modules={[Pagination]}
-        className="mySwiper">
-          {img.map((el, i) => {
-            return (
-              <SwiperSlide key={i} >
-                <img src={el.path} className="h-[55vh] w-full object-cover" />
-              </SwiperSlide>
-            );
-          })}
-        </Swiper>
-      </div> */}
 
       <div className="mx-auto container max-w-7xl px-10 ">
       <Swiper
@@ -123,50 +106,7 @@ const data = [
 
       <div className="container mb-10 mx-auto max-w-7xl gap-10 grid md:grid-cols-4 place-content-center ">
         {Array.isArray(popularDealData) && popularDealData.map((el) => (
-          <div
-            class="bg-white shadow-md rounded-md max-w-xs w-full newshadow"
-            key={el._id}
-          >
-            <img
-              src={el.banner}
-              alt="Card Image"
-              className="rounded-t-md w-full  object-cover"
-            />
-
-            <div class="p-4">
-              <h2 class="text-xl font-semibold mb-4">{el.title}</h2>
-                            <div className="relative">
-                  <form class="max-w-sm mx-auto flex gap-1 ">
- 
-                    <select
-                      id="countries"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 placeholder:rounded-lg"
-                      value={el?.sizes?.length === 1 ? el.sizes[0]._id : ""}
-                      disabled={el?.sizes?.length === 1}
-                    >
-                      {el?.sizes?.length >= 2 &&
-                        el.sizes.map((itemSizePrice) => (
-                          <option
-                            key={itemSizePrice._id}
-                            value={itemSizePrice._id}
-                            className="rounded-md border-2 border-yellow-400"
-                          >
-                            {itemSizePrice.size} {itemSizePrice.price}£
-                          </option>
-                        ))}
-                      {el?.sizes?.length === 1 && (
-                        <option disabled value={el.sizes[0]._id}>
-                          {el.sizes[0].price}£
-                        </option>
-                      )}
-                    </select>
-                    <button className="hover:bg-green-400 bg-green-600 text-white p-2 rounded-lg">
-                      Go
-                    </button>
-                  </form>
-                </div>
-            </div>
-          </div>
+          <DealsCards path={"menu"} data={el}/>
         ))}
       </div>
     </>

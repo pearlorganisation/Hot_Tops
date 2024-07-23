@@ -29,10 +29,8 @@ const Header = () => {
   const { userData, isUserLoggedIn } = useAppSelector((state) => state.auth);
 
   const totalPrice = cart?.reduce((ele, acc) => {
-    const price = String(acc?.size).includes("-")
-      ? acc?.size?.split("-")
-      : acc?.size;
-    return ele + Number(price[1] || price);
+   
+    return ele + Number(acc?.price);
   }, 0);
 
   return (
