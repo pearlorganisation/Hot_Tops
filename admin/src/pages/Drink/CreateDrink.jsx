@@ -142,6 +142,8 @@ onClick={() => appendPrice({ price: ""})}
      
             
           <div className="font-medium  space-y-6"> Drink Image 
+
+
              
              <img class="mt-2 w-full h-50  sm:w-44 sm:h-36 rounded" src={photo || defaultPhoto} alt="No Image"/>
              <label htmlFor="file_input" className="flex gap-1
@@ -151,7 +153,7 @@ onClick={() => appendPrice({ price: ""})}
              <input
               {...register('banner', { required: true,onChange:(e)=>{handlePhotoChange(e)} })}
             
-              className="hidden " id="file_input" type="file"/>
+              className="hidden" id="file_input" type="file"/>
                {errors.banner && (
                      <span className="text-sm font-medium text-red-500">
                        Image is required
