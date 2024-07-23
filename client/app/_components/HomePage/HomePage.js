@@ -96,7 +96,7 @@ const data = [
         {img.map((el, i) => {
             return (
               <SwiperSlide className="pb-8" key={i} >
-                <Image src={el} className="h-[20vh] md:h-[60vh] w-full  object-cover" />
+                <Image src={el} className="h-[20vh] w-full md:h-[60vh]  object-cover" />
               </SwiperSlide>
             );
           })}
