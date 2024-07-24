@@ -8,8 +8,8 @@ import "swiper/css/pagination";
 import React, { useEffect, useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-import pizza1 from "../../_assets/images/pizza1.jpg"
-import pizza2 from "../../_assets/images/pizza2.jpg"
+import pizza1 from "../../_assets/images/pizza3.jpg"
+import pizza2 from "../../_assets/images/pizza4.jpg"
 import Image from "next/image";
 import DealsCards from "../Pages/DealsCards";
   async function getData() {
@@ -63,10 +63,7 @@ const data = [
 
   return (
     <>
-      {" "}
-
-
-      <div className="mx-auto container max-w-7xl px-10 ">
+      <div className="mx-auto w-full lg:max-w-7xl lg:px-10 ">
       <Swiper
       className="z-55 p-2"
         slidesPerView={1}
@@ -79,14 +76,14 @@ const data = [
         {img.map((el, i) => {
             return (
               <SwiperSlide className="pb-8" key={i} >
-                <Image src={el} className="h-[20vh] w-full md:h-[60vh]  object-cover" />
+                <Image src={el} className="h-[30vh] w-full md:h-[60vh]  object-cover" />
               </SwiperSlide>
             );
           })}
       </Swiper>
       </div>
       <>
-      <div className="mx-auto container max-w-7xl px-10">
+      <div className="mx-auto container max-w-7xl px-5 lg:px-10">
         <header class="text-center pb-10  bg-white">
           <div class="flex items-center justify-center my-2">
             <div class="flex-grow border-t border-red-800"></div>
