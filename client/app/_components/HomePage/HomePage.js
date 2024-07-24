@@ -8,8 +8,8 @@ import "swiper/css/pagination";
 import React, { useEffect, useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-import pizza1 from "../../_assets/images/pizza1.jpg"
-import pizza2 from "../../_assets/images/pizza2.jpg"
+import pizza1 from "../../_assets/images/pizza3.jpg"
+import pizza2 from "../../_assets/images/pizza4.jpg"
 import Image from "next/image";
 import DealsCards from "../Pages/DealsCards";
   async function getData() {
