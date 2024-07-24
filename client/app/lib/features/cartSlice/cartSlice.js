@@ -26,11 +26,14 @@ const cartSlice = createSlice({
     increaseQuantity: (state, action) => {
       const temp = state.cartData.map((item) => {
         if (item.id === action.payload.id) {
-          const updatedData = {...item,quantity: item.quantity + action.payload.quantity}
-          console.log(updatedData,"updatedData")
+          const updatedData = {
+            ...item,
+            quantity: item.quantity + action.payload.quantity,
+          };
+          console.log(updatedData, "updatedData");
           return {
             ...updatedData,
-            totalSum: updatedData?.quantity * item?.price,
+            totalSum: (updatedData?.quantity * item?.price).toFixed(2),
           };
         }
         return item;
@@ -47,10 +50,10 @@ const cartSlice = createSlice({
               item.quantity === 1
                 ? item.quantity
                 : item.quantity - action.payload.quantity,
-          }
+          };
           return {
-           ...updatedData,
-           totalSum: updatedData?.quantity * item?.price,
+            ...updatedData,
+            totalSum: (updatedData?.quantity * item?.price).toFixed(2),
           };
         }
         return item;
