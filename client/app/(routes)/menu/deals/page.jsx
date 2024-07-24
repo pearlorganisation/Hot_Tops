@@ -34,8 +34,8 @@ const Page = () => {
   }, [dealData]);
 
   return (
-    <div className="pb-10">
-      <div className="mx-auto container max-w-7xl px-10 pt-5 ">
+    <div className=" mx-auto container pb-10">
+      <div className=" px-10 pt-5 ">
         <header class="text-center  bg-white">
       
 
@@ -49,7 +49,7 @@ const Page = () => {
         </header>
       </div>
 
-      <div className="container mx-auto max-w-8xl p-8 gap-10 grid md:grid-cols-2 lg:grid-cols-4 place-content-center">
+      <div className="max-w-7xl border-2 border-red-400 p-8 gap-10 grid md:grid-cols-2 lg:grid-cols-4 place-content-center">
         {Array.isArray(dealData) &&
           dealData.map((el, index) => <DealsCards data={el} key={index} />)}
         {!dealData && <h1>Loading </h1>}
