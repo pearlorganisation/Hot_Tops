@@ -18,6 +18,7 @@ const PizzaCards = ({ data, idx }) => {
     const selectedOption = event.target.options[event.target.selectedIndex];
     const value = event.target.value;
     const label = selectedOption.getAttribute("data-label");
+    console.log(event.target.value)
 
     setSelectedData(value);
     setSelectedLabel(label);
@@ -38,7 +39,7 @@ const PizzaCards = ({ data, idx }) => {
 
   return (
     <div className="flex flex-col justify-between bg-white rounded-md max-w-[17rem]  2xl:max-w-xs w-full newshadow mb-10 " key={idx}>
-        <img src={data?.banner} alt="Card Image" className="h-52 w-full rounded-t-md object-cover" />
+      <img src={data?.banner} alt="Card Image" className="h-52 w-full rounded-t-md object-cover" />
       <div className=" h-full px-2">
         <div className="mt-3">
           <h2 className="text-xl font-semibold mb-1 ">{data?.pizzaName}</h2>
@@ -53,7 +54,7 @@ const PizzaCards = ({ data, idx }) => {
             value={selectedData}
             name="pizzas"
             id="pizzas"
-            className="border-2 mx-auto p-2 w-full "
+            className="border-2 mx-auto p-2 w-full"
           >
             {data?.priceSection.map((data, idx) => {
               return (
@@ -80,7 +81,7 @@ const PizzaCards = ({ data, idx }) => {
               selectedData: selectedData
             }))
           }} href={`/menu/product/${data?.pizzaName}`}>
-            <TbEdit size={30}  className="text-slate-800 hover:text-red-800" />
+            <TbEdit size={30} className="text-slate-800 hover:text-red-800" />
           </Link>
           <div className="bg-green-600 hover:bg-green-700 rounded-lg flex items-center justify-center w-full">
             <button
@@ -90,10 +91,10 @@ const PizzaCards = ({ data, idx }) => {
                   name: data?.pizzaName,
                   img: data?.banner,
                   size: selectedLabel,
-                  id: data?._id,
+                  id: selectedData,
                   quantity: 1,
-                  price:Number(selectedLabel.split('-')[1]),
-                  totalSum:Number(selectedLabel.split('-')[1])
+                  price: Number(selectedLabel.split('-')[1]),
+                  totalSum: Number(selectedLabel.split('-')[1])
                 }));
               }}
               className="text-center rounded-lg w-full p-2 text-white"

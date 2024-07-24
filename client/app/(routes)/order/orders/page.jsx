@@ -185,10 +185,12 @@ const page = () => {
                   Store you ordered from directly.
                 </p>
                 <p className="mb-2">Your order is being placed with:</p>
-                <p className="font-bold">Watford</p>
+                <p className="font-bold">91 Joel St, Pinner, Northwood HA6 1LW, UK
+<br/>
+info@hothousenorthwood.co.uk</p>
                 <p className="flex items-center mt-2">
                   <PhoneIcon className="mr-2" />
-                  0192 324 6666
+                  + 441923510520
                 </p>
               </div>
               <button

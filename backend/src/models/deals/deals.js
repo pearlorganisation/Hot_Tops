@@ -26,7 +26,7 @@ const dealSchema = new mongoose.Schema(
       required: true,
     },
     chooseItems: {
-      pizza: {
+      pizzas: {
         type: Number,
         default: 0,
       },
@@ -38,7 +38,7 @@ const dealSchema = new mongoose.Schema(
         type: Number,
         default: 0,
       },
-      dessert: {
+      desserts: {
         type: Number,
         default: 0,
       },
@@ -47,10 +47,19 @@ const dealSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    defaultDrinkType: {
+      type: String,
+      required: [true, "Default Drink Type is required"],
+      default: "can",
+    },
     isPopular: {
       type: Boolean,
       default: false,
     },
+    dealsPizzaSize: {
+      type: String,
+      default:"large"
+    }
   },
   { timestamps: true }
 );

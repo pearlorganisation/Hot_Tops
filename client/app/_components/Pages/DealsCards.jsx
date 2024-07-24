@@ -3,43 +3,51 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 
-const DealsCards = ({ data }) => {
+const DealsCards = ({ data, path }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   useEffect(() => {
     setSelectedOption(data.sizes[0]);
   }, []);
 
-
+  const dataHomePagePath = path;
   const combineItems = () => {
     const { chooseItems } = data;
     const items = Object.keys(chooseItems)
-      .filter(key => chooseItems[key] > 0)
-      .map(key => {
+      .filter((key) => chooseItems[key] > 0)
+      .map((key) => {
         const quantity = chooseItems[key];
         const itemName = quantity > 1 ? key : key.slice(0, -1); // remove 's' for singular items
         return `${quantity} ${itemName}`;
       });
-  
+
     console.log(items); // For debugging: ["2 pizzas", "1 dip", "2 desserts"]
-    return items.join(', ');
+    return items.join(", ");
   };
 
   return (
-    <div className="bg-white shadow-md rounded-md max-w-xs w-full newshadow ">
-      <img
+    <div className="flex flex-col justify-between bg-white shadow-sm rounded-md max-w-xs w-full newshadow ">
+     <div> <img
         src={data.banner}
         alt="Card Image"
         className="rounded-t-md w-full h-52 object-cover"
       />
+<div className="px-3">
+     <div className="mt-3"> <h2 className="text-xl font-semibold mb-1">{data.title}</h2>
+        <p className="text-sm font-semibold text-gray-500 mb-1">
+          {combineItems()}, {data.defaultItems.map((item, index) => (
+        <React.Fragment key={index}>
+          {index === data.defaultItems.length - 1 ? item : `${item}, `}
+        </React.Fragment>
+      ))}
+        </p>
+        </div>  
+     </div>
+     </div>
 
-      <div className="p-4">
-        <h2 className="text-xl font-semibold mb-4">{data.title}</h2>
-        <p className="text-sm font-semibold text-gray-500 mb-4">{combineItems()} , {data?.defaultItems}</p>
-        
-        <div className="mt-3 ">
-          <div className="max-w-sm mx-auto flex gap-1">
+        <div className="mt-3 mb-1 ">
+          <div className="max-w-sm mx-2 flex gap-1">
             {data.sizes?.length === 1 ? (
-              <div className="w-full p-2 border border-gray-300 rounded-lg bg-gray-200 text-gray-700">
+              <div className="w-full p-2 border border-gray-300 rounded-lg bg-gray-200 text-gray-500">
                 {`£ ${data.sizes[0].price}`}
               </div>
             ) : (
@@ -56,7 +64,9 @@ const DealsCards = ({ data }) => {
 
             <Link
               href={{
-                pathname: `deals/deals_view`,
+                pathname: path
+                  ? `${path}/deals/deals_view`
+                  : `deals/deals_view`,
                 query: { card_id: data?._id, size_id: selectedOption?._id },
               }}
               className="hover:bg-green-700 bg-green-600 text-white p-2 rounded-lg"
@@ -65,7 +75,7 @@ const DealsCards = ({ data }) => {
             </Link>
           </div>
         </div>
-      </div>
+       
     </div>
   );
 };
