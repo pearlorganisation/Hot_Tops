@@ -34,7 +34,11 @@ const DealsCards = ({ data, path }) => {
 <div className="px-3">
      <div className="mt-3"> <h2 className="text-xl font-semibold mb-1">{data.title}</h2>
         <p className="text-sm font-semibold text-gray-500 mb-1">
-          {combineItems()} , {data?.defaultItems}
+          {combineItems()}, {data.defaultItems.map((item, index) => (
+        <React.Fragment key={index}>
+          {index === data.defaultItems.length - 1 ? item : `${item}, `}
+        </React.Fragment>
+      ))}
         </p>
         </div>  
      </div>
