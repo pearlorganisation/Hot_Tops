@@ -25,23 +25,25 @@ const DealsCards = ({ data, path }) => {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-md max-w-xs w-full newshadow ">
-      <img
+    <div className="flex flex-col justify-between bg-white shadow-sm rounded-md max-w-xs w-full newshadow ">
+     <div> <img
         src={data.banner}
         alt="Card Image"
         className="rounded-t-md w-full h-52 object-cover"
       />
-
-      <div className="p-4">
-        <h2 className="text-xl font-semibold mb-4">{data.title}</h2>
-        <p className="text-sm font-semibold text-gray-500 mb-4">
+<div className="px-3">
+     <div className="mt-3"> <h2 className="text-xl font-semibold mb-1">{data.title}</h2>
+        <p className="text-sm font-semibold text-gray-500 mb-1">
           {combineItems()} , {data?.defaultItems}
         </p>
+        </div>  
+     </div>
+     </div>
 
-        <div className="mt-3 ">
-          <div className="max-w-sm mx-auto flex gap-1">
+        <div className="mt-3 mb-1 ">
+          <div className="max-w-sm mx-2 flex gap-1">
             {data.sizes?.length === 1 ? (
-              <div className="w-full p-2 border border-gray-300 rounded-lg bg-gray-200 text-gray-700">
+              <div className="w-full p-2 border border-gray-300 rounded-lg bg-gray-200 text-gray-500">
                 {`£ ${data.sizes[0].price}`}
               </div>
             ) : (
@@ -69,7 +71,7 @@ const DealsCards = ({ data, path }) => {
             </Link>
           </div>
         </div>
-      </div>
+       
     </div>
   );
 };

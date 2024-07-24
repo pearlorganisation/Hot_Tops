@@ -2,6 +2,7 @@ import React from "react";
 import { RiTwitterXLine } from "react-icons/ri";
 import { SlSocialInstagram } from "react-icons/sl";
 import { FiFacebook } from "react-icons/fi";
+import Link from "next/link";
 const Footer = () => {
   return (
     <div className="h-full bg-red-800 py-4">
@@ -95,24 +96,39 @@ const Footer = () => {
         </div> */}
 
         <div className="flex   flex-col gap-2 items-center ">
+          <h1 className="font-bold text-lg">SOCIAL LINKS</h1>
+
+          <div className="flex justify-center  items-center gap-3 m-2">
+            {/* <p className="hover:text-yellow-500">
+              <RiTwitterXLine size={24} />
+            </p> */}
+            <a href="https://www.facebook.com/HotHousePizzaNorthwood" target="_blank" rel="noopener noreferrer"  className="hover:text-yellow-500">
+              <FiFacebook size={24} />
+            </a>
+            <a href="https://www.instagram.com/hothousepizzanorthwood" target="_blank" rel="noopener noreferrer"  className="hover:text-yellow-500">
+              <SlSocialInstagram size={24} />
+            </a>
+           
+          </div>
+          
+        </div>
+        <div className="flex   flex-col gap-2 items-center ">
           <h1 className="font-bold text-lg">POLICIES</h1>
 
           <p className="hover:text-yellow-500 text-sm cursor-pointer">
             {" "}
             <a href="/termsAndConditions">TERMS & CONDITIONS</a>
           </p>
-          {/* <p className="hover:text-yellow-500 text-sm">
-            {" "}
-            <a href="#"></a>ALLERGEN INFORMATION
-          </p>
-          <p className="hover:text-yellow-500 text-sm">
-            {" "}
-            <a href="#"></a>BETTER CHICKEN
-          </p> */}
+        
           <p className="hover:text-yellow-500 text-sm cursor-pointer">
             {" "}
             <a href="/refundPolicy">Refund Policy</a>
           </p>
+               <div>
+
+        
+     
+        </div>
         </div>
       </div>
     </div>

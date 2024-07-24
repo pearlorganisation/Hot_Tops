@@ -135,7 +135,7 @@ const Header = () => {
         </ul>
       </div>
 
-      <div className="hidden lg:flex absolute top-full left-[90%] transform -translate-x-1/2 gap-[2px]">
+      {/* <div className="hidden lg:flex absolute top-full left-[90%] transform -translate-x-1/2 gap-[2px]">
         <a
           href="#"
           className="inline-flex items-center bg-red-800 border-white text-white py-2 px-4 text-lg rounded-b-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
@@ -150,8 +150,8 @@ const Header = () => {
           <FaShop />
           <span className="ml-2">Collection</span>
         </a>
-      </div>
-      <div className="lg:hidden flex  justify-center ">
+      </div> */}
+      {/* <div className="lg:hidden flex  justify-center ">
         <a
           href="#"
           className="w-1/2  border-r border-r-white justify-center inline-flex items-center bg-red-800 text-white py-2 px-4  shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
@@ -166,7 +166,7 @@ const Header = () => {
           <FaShop />
           <span className="pl-2">Collection</span>
         </a>
-      </div>
+      </div> */}
     </div>
   );
 };
