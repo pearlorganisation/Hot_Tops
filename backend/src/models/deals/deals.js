@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { MongooseError } from 'mongoose';
 
 const sizeSchema = new mongoose.Schema({
   size: {
@@ -9,7 +9,17 @@ const sizeSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    default: function() { return new mongoose.Types.ObjectId(); }
+  }
 });
+
+const dealsPizzaSchema = new mongoose.Schema({
+  pizzaId: {
+    type:mongoose.Schema.Types.ObjectId,
+  }
+})
 
 const dealSchema = new mongoose.Schema(
   {
@@ -54,12 +64,11 @@ const dealSchema = new mongoose.Schema(
     },
     isPopular: {
       type: Boolean,
-      default: false,
+      default: true,
     },
-    dealsPizzaSize: {
-      type: String,
-      default:"large"
-    }
+    pizzaData: {
+      type: [{type:mongoose.Types.ObjectId,ref:"pizzas"}],  
+    },
   },
   { timestamps: true }
 );
