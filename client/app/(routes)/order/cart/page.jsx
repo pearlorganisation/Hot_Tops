@@ -47,7 +47,14 @@ const Cart = () => {
                   </div>
                   <p className="text-xl font-semibold">
                     {data?.name}
-                    {Array.isArray(price) ? `(${price[0]})` : ""}
+                    {" "}
+                    {Array.isArray(price) ? `(${price[0]})` : `(${data?.size})`}
+                    <br/>
+                    {data?.dealsData && 
+                      
+                   ( <div className="text-sm text-gray-600"> {data?.dealsData?.map((item,idx) =>
+                    item?.label)} </div>)
+                    }
                   </p>
                 </div>
                 <div className="flex justify-end space-x-2">

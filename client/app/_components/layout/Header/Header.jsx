@@ -73,9 +73,10 @@ const Header = () => {
 
       {/* // desktop */}
       <div className="bg-white flex flex-col lg:flex-row justify-between lg:items-center  lg:px-10">
-        <Link href="/" className="hidden lg:flex lg:items-center">
-          <Image src={logo} className=" bg-white hidden lg:block lg:absolute lg:bottom-0  top-1/2 -translate-y-1/2" alt="logo" width={80} />
+        <Link href="/" className="hidden lg:flex lg:flex-col justify-center h-full">
+          <Image src={logo} className=" bg-white hidden lg:block" alt="logo" width={80} height={80} />
         </Link>
+      
         <ul className="flex lg:pt-0 flex-wrap items-center justify-around text-base sm:text-lg text-white font-semibold  xl:gap-10 ">
           <Link href={`/menu/deals`}>
             <li
