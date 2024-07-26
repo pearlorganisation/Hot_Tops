@@ -6,14 +6,7 @@ import dessert from "../../models/dessert/dessert.js";
 import drinks from "../../models/drinks.js";
 
 // Helper function to create an array with repeated data
-function createRepeatedArray(quantity, data) {
-  const resultArray = [];
-  while (quantity > 0) {
-    resultArray.push(...data);
-    quantity--;
-  }
-  return resultArray;
-}
+
 
 export const createDeal = asyncErrorHandler(async (req, res, next) => {
   const data = new deals({
@@ -54,18 +47,32 @@ export const updateDeal = asyncErrorHandler(async (req, res, next) => {
 export const getDeal = asyncErrorHandler(async (req, res, next) => {
   try {
     // Fetch related data and ensure .lean() is used
-    const pizzaData = await pizza.find({}, "pizzaName").lean();
 
     const dessertData = await dessert.find({}).lean();
     const dipsData = await dips.find({}).lean();
     const drinkData = await drinks.find({}).lean();
 
+    // could use populate but that would cause problem as we are storing it in pizza array already implemented logic in frontend so needed to change from scratch
+    // const resultantData = await deals.findById(req.params.id).populate("pizzaData",["pizzaName","_id"]).lean()
+    //lean() will convert query object to normal js object 
+
     const resultantData = await deals.findById(req.params.id).lean();
+    // console.log(resultantData, "This is an reuslatant Data ");
 
     if (!resultantData) {
       return next(new CustomError("Deal not found", 404));
     }
+    let pizzaData;
+    if (!resultantData?.pizzaData)
+    {
+      console.log("we came here ");
+    pizzaData = await pizza.find({},"pizzaName").lean();
 
+    }
+    else {
+    pizzaData = await pizza.find({ _id: { $in: resultantData?.pizzaData } }, "pizzaName").lean();
+    }
+    console.log(pizzaData, "pizza Data ");
     let drinksToInclude = [];
 
     if (resultantData?.defaultDrinkType.toLowerCase() === "both") {
@@ -88,7 +95,6 @@ export const getDeal = asyncErrorHandler(async (req, res, next) => {
         })
         .filter(Boolean);
     }
-    console.log(resultantData, "shashank");
 
    
     const data = {

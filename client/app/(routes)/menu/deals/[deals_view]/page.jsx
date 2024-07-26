@@ -2,7 +2,7 @@
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import Select from "react-select";
 import { toast } from "sonner";
@@ -26,6 +26,8 @@ const Page = () => {
   const dispatch = useDispatch();
   const cardId = searchParams.get("card_id");
   const sizeId = searchParams.get("size_id");
+  const sizeDetailRef = useRef(null);
+
   const [dealDataPizza, setDealDataPizza] = useState([]);
   const [dealDataDrinks, setDealDataDrinks] = useState([]);
 
@@ -33,11 +35,14 @@ const Page = () => {
     if (dealViewData) {
       setDealDataPizza(new Array(dealViewData?.chooseItems?.pizza));
       setDealDataDrinks(new Array(dealViewData?.chooseItems?.drinks));
+      sizeDetailRef.current = dealViewData?.sizes.find(
+        (el) => el._id === sizeId
+      );
+      console.log(sizeDetailRef.current, "Size Details");
     }
   }, [dealViewData]);
 
   function handleDataSubmission() {
-    console.log("aaghsgdhs", [...dealDataPizza, ...dealDataDrinks]);
     const submitData = [
       ...dealDataPizza,
       ...dealDataDrinks,
@@ -48,19 +53,6 @@ const Page = () => {
       }),
     ];
 
-    console.log(
-      {
-        name: dealViewData?.title,
-        img: dealViewData?.banner,
-        size: dealViewData?.dealsPizzaSize,
-        id: dealViewData?._id,
-        quantity: 1,
-        price: Number(dealViewData.sizes[0].price),
-        totalSum: Number(dealViewData.sizes[0].price),
-        dealsData: submitData,
-      },
-      "gsjdfgtsagfdhasgsdhgjk"
-    );
     if (
       dealViewData &&
       submitData.every((item) => item !== null && item !== undefined)
@@ -70,11 +62,11 @@ const Page = () => {
         addToCart({
           name: dealViewData?.title,
           img: dealViewData?.banner,
-          size: "large",
+          size: sizeDetailRef.current.size,
           id: dealViewData?._id,
           quantity: 1,
-          price: Number(dealViewData.sizes[0].price),
-          totalSum: Number(dealViewData.sizes[0].price),
+          price: Number(sizeDetailRef.current.price),
+          totalSum: Number(sizeDetailRef.current.price),
           dealsData: [...submitData],
         })
       );
@@ -168,21 +160,25 @@ const Page = () => {
               </div>
             </div>
           )}
-          <div>
-            <h1 className="text-xl md:text-2xl font-semibold mb-4">
-              Extra Loadings
-            </h1>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-              {dealViewData.defaultItems.map((el, index) => (
-                <div
-                  key={index}
-                  className="w-full p-2 border border-gray-300 rounded-lg bg-gray-200 text-gray-700"
-                >
-                  {el}
-                </div>
-              ))}
+
+          {dealViewData?.defaultItems?.length >= 1 && (
+            <div>
+              <h1 className="text-xl md:text-2xl font-semibold mb-4">
+                Extra Loadings
+              </h1>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                {dealViewData.defaultItems.map((el, index) => (
+                  <div
+                    key={index}
+                    className="w-full p-2 border border-gray-300 rounded-lg bg-gray-200 text-gray-700"
+                  >
+                    {el}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+
           <div className="p-5 md:p-10 flex justify-center items-center">
             <button
               onClick={handleDataSubmission}
