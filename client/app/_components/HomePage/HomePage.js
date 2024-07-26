@@ -28,27 +28,6 @@ const HomePage = () => {
      pizza2,
      pizza1
   ];
-
-  
-const data = [
-  {
-    img: "https://topspizza.co.uk/storage/4e717e09cbf56647d691d2e395e715ed.jpg",
-    title: "Early Week Special",
-  },
-  {
-    img: "https://topspizza.co.uk/storage/SEPMMLZptaCkuMv8xtHyyrJaN2NOaMCoBo4c7t53.jpg",
-    title: "Hungry Man",
-  },
-  {
-    img: "https://topspizza.co.uk/storage/9e7bd02cc1bc3fc807510696da8fa4ca.jpg",
-    title: "Two Of Us",
-  },
-  {
-    img: "https://topspizza.co.uk/storage/8effc81ed0f2e9cf7884e3322f9dbd69.jpg",
-    title: "Party Pack Deall",
-  },
-
-  ];
   
     const [popularDealData, setPopularDealData] = useState(null);
 
@@ -76,7 +55,7 @@ const data = [
         {img.map((el, i) => {
             return (
               <SwiperSlide className="pb-8" key={i} >
-                <Image src={el} className="h-[30vh] w-full md:h-[60vh]  object-cover" />
+                <Image src={el} className="h-[20vh] w-full md:h-[60vh]  object-cover" />
               </SwiperSlide>
             );
           })}
