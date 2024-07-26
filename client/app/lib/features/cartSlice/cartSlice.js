@@ -14,8 +14,8 @@ const cartSlice = createSlice({
       const isExist = state.cartData?.some((item) => {
         return item?.id === action?.payload?.id;
       });
-      console.log(isExist, "isExist");
-      console.log(action.payload, "payload");
+      // console.log(isExist, "isExist");
+      console.log(action.payload, "payload by avnish");
       if (isExist) {
         toast.error("Item Already Exist");
       } else {

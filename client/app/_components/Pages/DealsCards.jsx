@@ -6,10 +6,15 @@ import Select from "react-select";
 const DealsCards = ({ data, path }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   useEffect(() => {
-    setSelectedOption(data.sizes[0]);
+    setSelectedOption({
+      value: data.sizes[0]._id,
+    });
   }, []);
 
-  const dataHomePagePath = path;
+  useEffect(() => {
+    console.log("selected options ", selectedOption);
+  }, [selectedOption]);
+
   const combineItems = () => {
     const { chooseItems } = data;
     const items = Object.keys(chooseItems)
@@ -26,56 +31,58 @@ const DealsCards = ({ data, path }) => {
 
   return (
     <div className="flex flex-col justify-between bg-white shadow-sm rounded-md max-w-xs w-full newshadow ">
-     <div> <img
-        src={data.banner}
-        alt="Card Image"
-        className="rounded-t-md w-full h-52 object-cover"
-      />
-<div className="px-3">
-     <div className="mt-3"> <h2 className="text-xl font-semibold mb-1">{data.title}</h2>
-        <p className="text-sm font-semibold text-gray-500 mb-1">
-          {combineItems()}, {data.defaultItems.map((item, index) => (
-        <React.Fragment key={index}>
-          {index === data.defaultItems.length - 1 ? item : `${item}, `}
-        </React.Fragment>
-      ))}
-        </p>
-        </div>  
-     </div>
-     </div>
-
-        <div className="mt-3 mb-1 ">
-          <div className="max-w-sm mx-2 flex gap-1">
-            {data.sizes?.length === 1 ? (
-              <div className="w-full p-2 border border-gray-300 rounded-lg bg-gray-200 text-gray-500">
-                {`£ ${data.sizes[0].price}`}
-              </div>
-            ) : (
-              <Select
-                className="w-full"
-                placeholder={`${data.sizes[0].size} £${data.sizes[0].price}`}
-                options={data.sizes.map((size) => ({
-                  label: `${size.size} £${size.price}`,
-                  value: size._id,
-                }))}
-                onChange={(option) => setSelectedOption(option)}
-              />
-            )}
-
-            <Link
-              href={{
-                pathname: path
-                  ? `${path}/deals/deals_view`
-                  : `deals/deals_view`,
-                query: { card_id: data?._id, size_id: selectedOption?._id },
-              }}
-              className="hover:bg-green-700 bg-green-600 text-white p-2 rounded-lg"
-            >
-              Go
-            </Link>
+      <div>
+        {" "}
+        <img
+          src={data.banner}
+          alt="Card Image"
+          className="rounded-t-md w-full h-52 object-cover"
+        />
+        <div className="px-3">
+          <div className="mt-3">
+            {" "}
+            <h2 className="text-xl font-semibold mb-1">{data.title}</h2>
+            <p className="text-sm font-semibold text-gray-500 mb-1">
+              {combineItems()},{" "}
+              {data?.defaultItems.map((item, index) => (
+                <React.Fragment key={index}>
+                  {index === data.defaultItems.length - 1 ? item : `${item}, `}
+                </React.Fragment>
+              ))}
+            </p>
           </div>
         </div>
-       
+      </div>
+
+      <div className="mt-3 mb-1 ">
+        <div className="max-w-sm mx-2 flex gap-1">
+          {data.sizes?.length === 1 ? (
+            <div className="w-full p-2 border border-gray-300 rounded-lg bg-gray-200 text-gray-500">
+              {`£ ${data.sizes[0].price}`}
+            </div>
+          ) : (
+            <Select
+              className="w-full"
+              placeholder={`${data.sizes[0].size} £${data.sizes[0].price}`}
+              options={data.sizes.map((size) => ({
+                label: `${size.size} £${size.price}`,
+                value: size._id,
+              }))}
+              onChange={(option) => setSelectedOption(option)}
+            />
+          )}
+
+          <Link
+            href={{
+              pathname: path ? `${path}/deals/deals_view` : `deals/deals_view`,
+              query: { card_id: data?._id, size_id: selectedOption?.value },
+            }}
+            className="hover:bg-green-700 bg-green-600 text-white p-2 rounded-lg"
+          >
+            Go
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };
