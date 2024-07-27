@@ -81,6 +81,63 @@ const page = ({ searchParams }) => {
         <div className="max-w-7xl mx-auto p-4 grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-4">
             <h2 className="text-2xl font-bold text-center text-red-600 border-b-2 border-red-600 pb-2">
+              ORDER SUMMARY
+            </h2>
+            <div className="border p-4 rounded-md">
+              <div className="">
+                {Array.isArray(cart) &&
+                  cart?.length > 0 &&
+                  cart?.map((data, idx) => {
+                    const price = String(data?.size).includes("-")
+                      ? data?.size?.split("-")
+                      : data?.size;
+                    console.log(price);
+                    return (
+                      <div className="p-4 border-b grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                        <div className="flex items-center space-x-4 md:col-span-2">
+                         
+                            <img src={data?.img} className="h-16 w-14 rounded-md" />
+                     
+                          <p className="font-semibold">
+                    {data?.name}
+                    {" "}
+                    {Array.isArray(price) ? `(${price[0]})` : (data?.dealsData ? `(${data?.size})` : "") }
+                    <br/>
+                    {data?.dealsData && ( <div className="text-sm text-gray-600"> {data?.dealsData?.map((item,idx) =>
+                    item?.label).join(", ")} </div>)
+                    }
+                  </p>
+                        </div>
+
+                        <div className="col-span-1 text-right  font-semibold md:col-span-3 md:text-left">
+                          £ {data?.price} <span className="text-sm">x {data?.quantity}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold">GOT A VOUCHER?</h3>
+              <div className="flex items-center space-x-2">
+                <input
+                  type="text"
+                  placeholder="Just enter it here"
+                  className="border p-2 rounded-md flex-1"
+                />
+          
+              </div>
+            </div>
+            <div className="space-y-1">
+              <p>Total: £{totalPrice?.toFixed(2)}</p>
+              {order?.type === 'collection' ? <p>Delivery charge: £0</p> : <p>Delivery charge: £{deliveryCharge}</p>}
+              <p className="font-bold">
+                You pay: {+totalPrice?.toFixed(2) + 0.5}
+              </p>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold text-center text-red-600 border-b-2 border-red-600 pb-2">
               ORDER DETAILS
             </h2>
             <div>
@@ -138,7 +195,7 @@ const page = ({ searchParams }) => {
             <div className="flex items-center space-x-2">
               <input type="checkbox" id="terms" />
               <label htmlFor="terms" className="text-sm">
-                I accept the Tops Pizza Terms & Conditions and Privacy Policy
+                I accept the Terms & Conditions and Privacy Policy
               </label>
             </div>
             <div className="flex space-x-4">
@@ -150,64 +207,10 @@ const page = ({ searchParams }) => {
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 bg-green-500 text-white rounded-md"
+                className="px-4 py-2 bg-green-700 hover:bg-green-600  text-white rounded-md"
               >
                 Order
               </button>
-            </div>
-          </div>
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-center text-red-600 border-b-2 border-red-600 pb-2">
-              ORDER SUMMARY
-            </h2>
-            <div className="border p-4 rounded-md">
-              <div className="">
-                {Array.isArray(cart) &&
-                  cart?.length > 0 &&
-                  cart?.map((data, idx) => {
-                    const price = String(data?.size).includes("-")
-                      ? data?.size?.split("-")
-                      : data?.size;
-                    console.log(price);
-                    return (
-                      <div className="p-4 border-b grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-                        <div className="flex items-center space-x-4 md:col-span-2">
-                          <div className="w-10 h-10 bg-gray-200">
-                            <img src={data?.img} className="h-10" />
-                          </div>
-                          <p className=" font-semibold">
-                            {data?.name}
-                            {Array.isArray(price) ? `(${price[0]})` : ""}
-                          </p>
-                        </div>
-
-                        <div className="col-span-1 text-right  font-semibold md:col-span-3 md:text-left">
-                          £{data?.price} x {data?.quantity}
-                        </div>
-                      </div>
-                    );
-                  })}
-              </div>
-            </div>
-            <div>
-              <h3 className="text-lg font-bold">GOT A VOUCHER?</h3>
-              <div className="flex items-center space-x-2">
-                <input
-                  type="text"
-                  placeholder="Just enter it here"
-                  className="border p-2 rounded-md flex-1"
-                />
-                <button className="px-4 py-3 bg-red-500 text-white rounded-md">
-                  <PlusIcon className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-            <div className="space-y-1">
-              <p>Total: £{totalPrice?.toFixed(2)}</p>
-              {order?.type === 'collection' ? <p>Delivery charge: £0</p> : <p>Delivery charge: £{deliveryCharge}</p>}
-              <p className="font-bold">
-                You pay: {+totalPrice?.toFixed(2) + 0.5}
-              </p>
             </div>
           </div>
         </div>

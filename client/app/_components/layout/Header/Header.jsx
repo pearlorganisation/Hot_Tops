@@ -55,7 +55,7 @@ const Header = () => {
             </Link>
           ) : (
             <li className="px-2 py-1 text-white font-semibold bg-red-800 rounded-md flex  items-center text-xs  ">
-              <Link href="/signUp" >Sign in / Register</Link>
+              <Link href="/login" >Login / Signup</Link>
             </li>
           )}
           <Link
@@ -123,7 +123,7 @@ const Header = () => {
             </Link>
           ) : (
             <li className="hidden lg:flex px-2 font-normal hover:bg-white hover:shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-md hover:text-red-800 text-white bg-red-800 items-center text-lg">
-              <Link href="/signUp">Login / Signup</Link>
+              <Link href="/login">Login / Signup</Link>
             </li>
           )}
           <Link

@@ -54,10 +54,10 @@ const Page = () => {
 
   return (
     <>
-      <div className="bg-gray-100 flex items-center justify-center h-screen">
+      <div className=" flex items-center justify-center pb-14">
         <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
-          <h2 className="text-2xl font-bold mb-6 text-center">
-            IF YOU'RE ALREADY A MEMBER.
+          <h2 className="text-xl font-bold mb-6 text-center">
+            If you're already a member. LOGIN
           </h2>
           {response && response?.status == false ? (
             <div className="p-2 text-center text-red-600 font-semibold">
@@ -106,17 +106,17 @@ const Page = () => {
               )}
             </div>
             <div className="flex items-center justify-between mb-4">
-              <Link href="forget_password" className="text-red-800">
+              <Link href="forget_password" className="text-red-800 font-semibold hover:text-red-700">
                 Forgot password?
               </Link>
               <button
                 type="submit"
-                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+                className="bg-green-700  text-white px-4 py-2 rounded-md hover:bg-green-600"
               >
                 Login
               </button>
             </div>
-            <div className="text-center mb-4">OR</div>
+            {/* <div className="text-center mb-4">OR</div>
             <button
               type="button"
               className="w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
@@ -130,7 +130,7 @@ const Page = () => {
                   Sign Up here
                 </Link>
               </span>
-            </p>
+            </p> */}
           </form>
         </div>
       </div>

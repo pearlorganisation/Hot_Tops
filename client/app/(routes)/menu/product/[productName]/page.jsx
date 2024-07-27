@@ -58,29 +58,6 @@ useEffect(()=>{
   await fetchPricesForSelectedSize(newSizeId);
   };
 
-// const splitSelectedSize= (String(customizationData?.selectedSize).includes("-")
-// ? customizationData?.selectedSize?.split("-")
-// : customizationData?.selectedSize) || []  
-// console.log(splitSelectedSize)
-// const [sizeState,setSizeState] = useState(customizationData?.selectedData)
-// useEffect(() => {
-//   setSizeState(splitSelectedSize[0])
-// }, [splitSelectedSize])
-
-
-  // const sauceFetcher = async (...args) => fetch(...args).then((res) => {
-  //   return res.json()
-  // });
-
-  // const { data: sauceData, error: sauceError, isLoading: sauceLoading } = useSWR(
-  //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/sauce`,
-  //   sauceFetcher
-  // );
-
-    // if (sauceLoading) return <div>Loading...</div>;
-  // if (sauceError) return <div>Error loading data</div>;
-
-
   useEffect(() => {
     fetchPricesForSelectedSize(selectedSizeId);
   console.log(selectedSizeId)
@@ -154,11 +131,12 @@ const fetchPricesForSelectedSize = async (sizeId) => {
         <tbody>
           {Array.isArray(data) && data.map((item) => (
             <tr key={item?._id}>
-              <td className="py-2 px-4 border-b">
+              <td className="py-2 px-2 lg:px-4 border-b">
                 {item?.name}
               </td>
-              <td className="py-2 px-4 border-b text-center">
-                <input
+              <td className="py-2 px-2 lg:px-4 border-b  text-center">
+                <div className="flex flex-col gap-2 lg:block">
+                  <input
                   className="mx-3"
                   value={`${item?.price[0]?.singlePrice}`}
                   type="radio"
@@ -173,9 +151,11 @@ const fetchPricesForSelectedSize = async (sizeId) => {
 
                   }}
                 />
-                <span className="bg-red-500 text-white rounded-lg px-2">£ {item?.price[0]?.singlePrice} </span>
+                <span className="bg-red-500 w-fit mx-auto text-white rounded-lg px-1 lg:px-2">£ {item?.price[0]?.singlePrice}</span>
+                </div>
               </td>
-              <td className="py-2 px-4 border-b text-center">
+              <td className="py-2 px-2 lg:px-4 border-b text-center">
+              <div className="flex flex-col gap-2 lg:block">
                 <input
                   className="mx-3"
                   type="radio"
@@ -189,7 +169,8 @@ const fetchPricesForSelectedSize = async (sizeId) => {
                     console.log(setSelectedCheese)
                   }}
                 />
-                <span className="bg-yellow-600  text-white rounded-lg px-2">£ {item?.price[0]?.doublePrice}</span>
+                <span className="bg-yellow-600 w-fit mx-auto text-white rounded-lg px-1 lg:px-2">£ {item?.price[0]?.doublePrice}</span>
+                </div>
               </td>
             </tr>
           ))}
@@ -266,7 +247,7 @@ const fetchPricesForSelectedSize = async (sizeId) => {
 
                 {/* SAUCE: */}
       <div className="mt-4 ">
-        <h2 className="text-lg font-semibold text-gray-800">SAUCE</h2>
+        <h2 className="text-lg font-semibold text-gray-800 ">SAUCE</h2>
         {saucePrices && renderTable(saucePrices, selectedSauce, setSelectedSauce, 'sauceName')}
       </div>
 

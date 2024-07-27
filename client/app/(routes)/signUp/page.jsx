@@ -66,10 +66,10 @@ const Page = () => {
 
   return (
     <>
-      <div className="bg-gray-100 flex items-center justify-center ">
+      <div className=" flex items-center justify-center pb-14 ">
         <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
-          <h2 className="text-2xl font-bold mb-6 text-center">
-            NEW MEMBER? REGISTER
+          <h2 className="text-xl font-bold mb-6 text-center">
+            New member ? REGISTER
           </h2>
           {response && response?.status == false ? (
             <div className="p-2 text-center text-red-600 font-semibold">
@@ -213,7 +213,7 @@ const Page = () => {
                 })}
               />
               <label htmlFor="terms" className="text-gray-700">
-                I accept the Tops Pizza{" "}
+                I accept the Hot House Pizza{" "}
                 <a href="#" className="text-blue-500 underline">
                   Terms & Conditions
                 </a>{" "}
@@ -230,7 +230,7 @@ const Page = () => {
             )}
             <button
               type="submit"
-              className="w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+              className="w-full bg-green-700  text-white px-4 py-2 rounded-md hover:bg-green-600"
             >
               Register
             </button>

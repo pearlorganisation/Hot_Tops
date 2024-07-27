@@ -45,7 +45,7 @@ const page = ({ searchParams }) => {
                       : "text-red-800"
                   }  `}
                 >
-                  Update name / telephone number
+                  Update name / Mobile number
                 </Link>
               </li>
               <li>
