@@ -119,7 +119,7 @@ const fetchPricesForSelectedSize = async (sizeId) => {
       // console.log(data)
      return (
     
-    <div className="mt-4">
+    <div className="mt-4 ">
       <table className="min-w-full bg-white border  border-gray-200">
         <thead>
           <tr>
@@ -184,7 +184,7 @@ const fetchPricesForSelectedSize = async (sizeId) => {
 
   return (
     <>
-      <div className="max-w-xl md:max-w-6xl mx-auto p-4 bg-white shadow-md rounded-lg mt-8">
+      <div className="max-w-xl md:max-w-6xl mx-auto p-4 bg-white shadow-md rounded-lg my-8">
         <div className="flex flex-col md:flex-row ">
           <div className="flex-1">
             <h1 className="text-4xl  text-gray-800">{customizationData?.name}</h1>
