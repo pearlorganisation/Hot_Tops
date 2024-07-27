@@ -65,12 +65,12 @@ export const getDeal = asyncErrorHandler(async (req, res, next) => {
     let pizzaData;
     if (!resultantData?.pizzaData)
     {
-      console.log("we came here ");
+
     pizzaData = await pizza.find({},"pizzaName").lean();
 
     }
     else {
-    pizzaData = await pizza.find({ _id: { $in: resultantData?.pizzaData } }, "pizzaName").lean();
+    pizzaData = await pizza.find({ _id: { $nin: resultantData?.pizzaData } }, "pizzaName").lean();
     }
     console.log(pizzaData, "pizza Data ");
     let drinksToInclude = [];

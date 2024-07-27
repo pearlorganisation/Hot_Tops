@@ -194,7 +194,7 @@ info@hothousenorthwood.co.uk</p>
                 </p>
               </div>
               <button
-                className="bg-green-500 py-2 w-full text-white rounded"
+                className="bg-green-700 hover:bg-green-600  py-2 w-full text-white rounded"
                 type="submit"
               >
                 Proceed To Checkout

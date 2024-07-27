@@ -107,14 +107,14 @@ const UpdateProfile = () => {
           </div>
         </div>
 
-        <div className="flex items-start space-x-2">
+        {/* <div className="flex items-start space-x-2">
           <input type="checkbox" id="offers" className=" accent-red-800" />
           <label htmlFor="offers" className="text-sm font-medium leading-none">
             Please send me exclusive deals and amazing pizza offers via email
           </label>
-        </div>
+        </div> */}
         <p className="text-sm text-gray-600">
-          Tops Pizza's does not sell, trade or rent your personal information to
+          Hot House Pizza's does not sell, trade or rent your personal information to
           others. Any data collected will be used solely for the purpose of
           providing the services you request, communicating information about
           our brands, products and services and internal analysis.
