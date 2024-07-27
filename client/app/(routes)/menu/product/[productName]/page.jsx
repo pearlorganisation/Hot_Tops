@@ -34,7 +34,7 @@ console.log(customizationData?.sauceName)
 const [selectedSizeId, setSelectedSizeId] = useState(customizationData?.selectedData || '');
 const [selectedBase, setSelectedBase] = useState(customizationData?.baseName || '');
 const [selectedCheese, setSelectedCheese] = useState(customizationData?.cheeseName || '');
-const [selectedSauce, setSelectedSauce] = useState();
+const [selectedSauce, setSelectedSauce] = useState(customizationData?.sauceName || '');
 const [selectedMeatToppings, setSelectedMeatToppings] = useState(customizationData?.meatToppingsName || '');
 const [selectedVegetarianToppings, setSelectedVegetarianToppings] = useState(customizationData?.vegetarianToppingsName || '');
 
@@ -46,9 +46,10 @@ useEffect(()=>{
 
     setSelectedSauce(newData)
 },[saucePrices])
+
 useEffect(()=>{
-  console.log(selectedSauce)
 },[selectedSauce])
+console.log(selectedSauce)
 
   const handleRadioChange = async (e) => {
     const newSizeId = e.target.value;
@@ -105,6 +106,7 @@ const fetchPricesForSelectedSize = async (sizeId) => {
   }
 };
 
+console.log(saucePrices)
   // const handleSelectionChange = (setSelections, name, type) => {
   //   setSelections((prevSelections) => ({
   //     ...prevSelections,
@@ -131,6 +133,7 @@ const fetchPricesForSelectedSize = async (sizeId) => {
         <tbody>
           {Array.isArray(data) && data.map((item) => (
             <tr key={item?._id}>
+              {console.log(selection)}
               <td className="py-2 px-2 lg:px-4 border-b">
                 {item?.name}
               </td>
@@ -143,7 +146,7 @@ const fetchPricesForSelectedSize = async (sizeId) => {
                   name={`selection-${item?._id}`}
                   data-label={`${item?.name} (Single)-${item?.price[0]?.singlePrice}`}
                   // checked={selectedSizeId === data?.size?._id}
-                  checked={Array.isArray(item?.price) && selection === item?.price[0]?.singlePrice}
+                  checked={ "Manchurian Sauce" === item?.name}
                   onChange={(e) => {
                     const value = e.target.value;
                     setSelection(value);
