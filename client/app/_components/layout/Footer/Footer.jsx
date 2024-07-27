@@ -51,8 +51,8 @@ const Footer = () => {
 
 
         <div className="flex   flex-col gap-2 items-center ">
-        <div className="flex justify-center  m-4">
-            <hr className="border border-white w-[300px] h-[4px]  " />
+        <div className="lg:hidden flex justify-center  m-4">
+            <hr className=" border border-white w-[300px] h-[4px]  " />
           </div>
           <h1 className="font-bold text-lg">SOCIAL LINKS</h1>
 
@@ -69,7 +69,7 @@ const Footer = () => {
           
         </div>
         <div className="flex   flex-col gap-2 items-center ">
-        <div className="flex justify-center  m-4">
+        <div className="lg:hidden flex justify-center  m-4">
             <hr className="border border-white w-[300px] h-[4px]  " />
           </div>
           <h1 className="font-bold text-lg">POLICIES</h1>

@@ -90,33 +90,35 @@ const Page = () => {
   const drinks = new Array(drinkCount).fill(null);
 
   return (
-    <div className="p-5">
+    <div className="">
       {dealViewData ? (
-        <div
-          className="p-5 md:p-10 border flex flex-col gap-8 py-10 px-5 md:px-15 rounded-md"
-          style={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}
-        >
-          <div className="flex flex-col md:flex-row text-3xl md:text-6xl p-5 md:p-10 text-slate-800 font-bold justify-between items-center md:px-20">
-            <p>{dealViewData.title}</p>
-            <p>
-              £{dealViewData?.sizes?.find((el) => el._id === sizeId)?.price}
-            </p>
-          </div>
-          <div className="flex justify-center items-center">
-            <img
+        <div>
+          <div className="text-2xl md:text-5xl md:p-10 text-slate-800  md:px-20">
+          <img
               src={dealViewData.banner}
-              className="h-[200px] md:h-[400px] w-[200px] md:w-[400px]"
+              className="md:hidden mx-auto h-[200px] md:h-[400px] w-[320px] md:w-[400px]"
               alt="Deal Banner"
             />
+            <div className="mt-5 md:mt-0 flex gap-4 mx-3 justify-between items-center">
+            {/* <p className="">{dealViewData.title}</p> */}
+            <p className="text-red-800 font-bold">{dealViewData.title}</p>
+            
+            <p className="text-green-700 font-bold">
+              £{dealViewData?.sizes?.find((el) => el._id === sizeId)?.price}
+            </p>
+            </div>
           </div>
+          <div className="flex justify-center md:justify-between md:px-32 items-center pt-6 md:pt-0 ">
+          <div>
           {pizzaCount > 0 && (
             <div>
-              <h1 className="text-xl md:text-2xl font-semibold mb-4">
+              <h1 className="text-lg md:text-2xl font-medium mb-4">
                 Choose Your Pizza
               </h1>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-4">
                 {pizzas.map((_, index) => (
                   <Select
+                  placeholder={`Choose pizza ${index+1}`}
                     key={index}
                     onChange={(e) => {
                       setDealDataPizza((prev) => {
@@ -125,6 +127,7 @@ const Page = () => {
                         return temp;
                       });
                       console.log(e, "e");
+                   
                     }}
                     options={dealViewData.pizza.map((el) => ({
                       label: el.pizzaName,
@@ -137,12 +140,13 @@ const Page = () => {
           )}
           {drinkCount > 0 && (
             <div>
-              <h1 className="text-xl md:text-2xl font-semibold mb-4">
-                Choose Your Drinks ({dealViewData.defaultDrinkType})
+              <h1 className="text-lg md:text-2xl font-medium mb-4 ">
+                Choose Your Drink ({dealViewData.defaultDrinkType})
               </h1>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {drinks.map((_, index) => (
                   <Select
+                  placeholder={`Choose drink ${index+1}`}
                     key={index}
                     onChange={(e) => {
                       setDealDataDrinks((prev) => {
@@ -163,7 +167,7 @@ const Page = () => {
 
           {dealViewData?.defaultItems?.length >= 1 && (
             <div>
-              <h1 className="text-xl md:text-2xl font-semibold mb-4">
+              <h1 className="text-lg md:text-2xl font-medium my-4">
                 Extra Loadings
               </h1>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
@@ -178,11 +182,21 @@ const Page = () => {
               </div>
             </div>
           )}
+          </div>
+          <div className="hidden md:block">
+          <img
+              src={dealViewData.banner}
+              className="h-[200px] md:h-[400px] w-[200px] md:w-[400px]"
+              alt="Deal Banner"
+            />
+          </div>
+          </div>
+      
 
           <div className="p-5 md:p-10 flex justify-center items-center">
             <button
               onClick={handleDataSubmission}
-              className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full shadow-md transform hover:scale-105 transition-transform duration-200 ease-in-out"
+              className="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md shadow-md transform hover:scale-105 transition-transform duration-200 ease-in-out"
             >
               ADD TO CART
             </button>

@@ -30,7 +30,7 @@ const page = ({ searchParams }) => {
       orderType: order?.orderType,
       orderBy: userData?._id,
       time: order?.time,
-      address: order.orderType === 'collection' ? null : order.type.order?.address,
+      address: order.orderType === 'collection' ? null : order?.type?.order?.address,
       comment: data?.comment,
       totalAmount: {
         total: totalPrice?.toFixed(2),
@@ -132,7 +132,7 @@ const page = ({ searchParams }) => {
               <p>Total: £{totalPrice?.toFixed(2)}</p>
               {order?.type === 'collection' ? <p>Delivery charge: £0</p> : <p>Delivery charge: £{deliveryCharge}</p>}
               <p className="font-bold">
-                You pay: {+totalPrice?.toFixed(2) + 0.5}
+                You pay: {(Number(totalPrice) + 0.5).toFixed(2)}
               </p>
             </div>
           </div>
