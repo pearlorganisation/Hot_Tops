@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const saucesData = [
   {
@@ -63,11 +63,23 @@ const SauceSelector = () => {
   });
 
   const handleSelectionChange = (sauceId, size) => {
-    setSelectedSauces((prevSelected) => ({
-      ...prevSelected,
-      [sauceId]: size,
-    }));
+    setSelectedSauces((prevSelected) => {
+      // Toggle the selection
+      if (prevSelected[sauceId] === size) {
+        const { [sauceId]: _, ...rest } = prevSelected;
+        return rest;
+      } else {
+        return {
+          ...prevSelected,
+          [sauceId]: size,
+        };
+      }
+    });
   };
+
+  useEffect(() => {
+    console.log(selectedSauces, "selectedSauces");
+  }, [selectedSauces]);
 
   return (
     <div className="p-4">
@@ -93,46 +105,28 @@ const SauceSelector = () => {
                 {sauce.name}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    name={`sauce-${sauce._id}`}
-                    value="single"
-                    checked={selectedSauces[sauce._id] === "single"}
-                    onChange={() => handleSelectionChange(sauce._id, "single")}
-                    className="hidden"
-                  />
-                  <div
-                    className={`cursor-pointer px-4 py-2 rounded ${
-                      selectedSauces[sauce._id] === "single"
-                        ? "bg-red-600 text-white"
-                        : "bg-gray-200 text-gray-900"
-                    }`}
-                  >
-                    £{sauce.price[0].singlePrice}
-                  </div>
-                </label>
+                <div
+                  className={`cursor-pointer px-4 py-2 rounded ${
+                    selectedSauces[sauce._id] === "single"
+                      ? "bg-red-600 text-white"
+                      : "bg-gray-200 text-gray-900"
+                  }`}
+                  onClick={() => handleSelectionChange(sauce._id, "single")}
+                >
+                  £{sauce.price[0].singlePrice}
+                </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    name={`sauce-${sauce._id}`}
-                    value="double"
-                    checked={selectedSauces[sauce._id] === "double"}
-                    onChange={() => handleSelectionChange(sauce._id, "double")}
-                    className="hidden"
-                  />
-                  <div
-                    className={`cursor-pointer px-4 py-2 rounded ${
-                      selectedSauces[sauce._id] === "double"
-                        ? "bg-yellow-600 text-white"
-                        : "bg-gray-200 text-gray-900"
-                    }`}
-                  >
-                    £{sauce.price[0].doublePrice}
-                  </div>
-                </label>
+                <div
+                  className={`cursor-pointer px-4 py-2 rounded ${
+                    selectedSauces[sauce._id] === "double"
+                      ? "bg-yellow-600 text-white"
+                      : "bg-gray-200 text-gray-900"
+                  }`}
+                  onClick={() => handleSelectionChange(sauce._id, "double")}
+                >
+                  £{sauce.price[0].doublePrice}
+                </div>
               </td>
             </tr>
           ))}
