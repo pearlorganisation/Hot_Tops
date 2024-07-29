@@ -10,6 +10,9 @@ import { MdDeliveryDining } from "react-icons/md";
 import logo from "../../../_assets/images/HOTPIZZALOGO.png";
 import { categoryEnum } from "@/app/utils/utils";
 import { useAppSelector } from "@/app/lib/hooks";
+import { FaSyncAlt } from 'react-icons/fa';
+import { MdAutorenew } from 'react-icons/md';
+import { RiRefreshFill } from "react-icons/ri";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -55,7 +58,7 @@ const Header = () => {
             </Link>
           ) : (
             <li className="px-2 py-1 text-white font-semibold bg-red-800 rounded-md flex  items-center text-xs  ">
-              <Link href="/signUp" >Sign in / Register</Link>
+              <Link href="/login" >Login / Signup</Link>
             </li>
           )}
           <Link
@@ -123,7 +126,7 @@ const Header = () => {
             </Link>
           ) : (
             <li className="hidden lg:flex px-2 font-normal hover:bg-white hover:shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-md hover:text-red-800 text-white bg-red-800 items-center text-lg">
-              <Link href="/signUp">Login / Signup</Link>
+              <Link href="/login">Login / Signup</Link>
             </li>
           )}
           <Link
@@ -139,8 +142,15 @@ const Header = () => {
         </div>
       </div>
 
-      {/* <div className="hidden lg:flex absolute top-full left-[90%] transform -translate-x-1/2 gap-[2px]">
+      <div className="hidden lg:flex absolute top-full left-[87%] transform -translate-x-1/2 gap-[2px]">
         <a
+          href="/profile?tab=3"
+          className="inline-flex items-center bg-red-800 border-white text-white py-2 px-4 text-lg rounded-b-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
+        >
+          <RiRefreshFill size={30} />
+          <span className="ml-2">Reorder Now</span>
+        </a>
+        {/* <a
           href="#"
           className="inline-flex items-center bg-red-800 border-white text-white py-2 px-4 text-lg rounded-b-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
         >
@@ -153,10 +163,17 @@ const Header = () => {
         >
           <FaShop />
           <span className="ml-2">Collection</span>
-        </a>
-      </div> */}
-      {/* <div className="lg:hidden flex  justify-center ">
+        </a> */}
+      </div>
+      <div className="lg:hidden flex  justify-center ">
         <a
+          href="/profile?tab=3"
+          className="w-full  border-r border-r-white justify-center inline-flex items-center bg-red-800 text-white py-2 px-4  shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
+        >
+          <RiRefreshFill size={25} />
+          <span className="pl-2">Reorder Now</span>
+        </a>
+        {/* <a
           href="#"
           className="w-1/2  border-r border-r-white justify-center inline-flex items-center bg-red-800 text-white py-2 px-4  shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
         >
@@ -169,8 +186,8 @@ const Header = () => {
         >
           <FaShop />
           <span className="pl-2">Collection</span>
-        </a>
-      </div> */}
+        </a> */}
+      </div>
     </div>
   );
 };

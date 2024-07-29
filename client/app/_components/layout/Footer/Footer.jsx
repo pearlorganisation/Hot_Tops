@@ -31,77 +31,33 @@ const Footer = () => {
               <a href="/menu/dips">Dips</a>
             </p>
           </div>
-          <div className="flex justify-center  m-4">
+          <div className="hidden lg:flex justify-center m-3">
             <hr className="border border-white w-[300px] h-[4px]  " />
           </div>
           <div>
-            <div className="flex  gap-2 justify-center ">
+            <div className="flex gap-2 justify-center text-sm pt-1 lg:text-base ">
               <p className="hover:hover:text-yellow-500">
                 <a href="/menu/deals">
-                  Deals <sup>*</sup>
+                  Deals <sup className="">*</sup>
                 </a>
               </p>
-              {/* <p className="hover:hover:text-yellow-500">
-                <a href="#">Reorder now</a>
-              </p> */}
+            
             </div>
 
-            {/* <div className=" flex flex-col items-center gap-4 m-2 justify-center">
-              <h1 className="font-bold">MY ACCOUNT</h1>
-              <p>
-                <a href="#">Sign In</a>/ <a href="#">Register</a>
-              </p>
-            </div> */}
+          
           </div>
         </div>
 
-        {/* <div>
-          <div className="flex flex-col gap-2 items-center">
-            <h1 className="font-bold text-lg">About</h1>
-            <p className="hover:text-yellow-500 text-sm">
-              {" "}
-              <a href="#">OUR STORY</a>
-            </p>
-            <p className="hover:text-yellow-500 text-sm">
-              {" "}
-              <a href="#">BECOME A FRANCHISE</a>
-            </p>
-            <p className="hover:text-yellow-500 text-sm">
-              {" "}
-              <a href="#">HEAD OFFICE</a>
-            </p>
-            <p className="hover:text-yellow-500 text-sm">
-              {" "}
-              <a href="#">List Of Stores</a>
-            </p>
-            <p className="hover:text-yellow-500 text-sm">
-              {" "}
-              <a href="#">Mobile Apps</a>
-            </p>
-          </div>
-          <div className="flex justify-center m-4">
-            <hr className="border border-white w-[300px] h-[4px] " />
-          </div>
-          <div className="flex justify-center  items-center gap-3 m-2">
-            <p className="hover:text-yellow-500">
-              <RiTwitterXLine size={24} />
-            </p>
-            <p className="hover:text-yellow-500">
-              <FiFacebook size={24} />
-            </p>
-            <p className="hover:text-yellow-500">
-              <SlSocialInstagram size={24} />
-            </p>
-          </div>
-        </div> */}
+
 
         <div className="flex   flex-col gap-2 items-center ">
+        <div className="lg:hidden flex justify-center  m-4">
+            <hr className=" border border-white w-[300px] h-[4px]  " />
+          </div>
           <h1 className="font-bold text-lg">SOCIAL LINKS</h1>
 
           <div className="flex justify-center  items-center gap-3 m-2">
-            {/* <p className="hover:text-yellow-500">
-              <RiTwitterXLine size={24} />
-            </p> */}
+           
             <a href="https://www.facebook.com/HotHousePizzaNorthwood" target="_blank" rel="noopener noreferrer"  className="hover:text-yellow-500">
               <FiFacebook size={24} />
             </a>
@@ -113,6 +69,9 @@ const Footer = () => {
           
         </div>
         <div className="flex   flex-col gap-2 items-center ">
+        <div className="lg:hidden flex justify-center  m-4">
+            <hr className="border border-white w-[300px] h-[4px]  " />
+          </div>
           <h1 className="font-bold text-lg">POLICIES</h1>
 
           <p className="hover:text-yellow-500 text-sm cursor-pointer">

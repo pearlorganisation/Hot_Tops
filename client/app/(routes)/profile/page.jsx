@@ -30,7 +30,7 @@ const page = ({ searchParams }) => {
 
   return (
     <div>
-      <div className="flex flex-col md:flex-row p-8 space-y-8 md:space-y-0 md:space-x-8 bg-gray-100 min-h-screen">
+      <div className="flex flex-col md:flex-row p-8 space-y-8 md:space-y-0 md:space-x-8  min-h-screen">
         <DeleteAccountModal ref={modalRef} />
         <aside className="w-full md:w-1/4 space-y-8">
           <div>
@@ -45,7 +45,7 @@ const page = ({ searchParams }) => {
                       : "text-red-800"
                   }  `}
                 >
-                  Update name / telephone number
+                  Update name / Mobile number
                 </Link>
               </li>
               <li>

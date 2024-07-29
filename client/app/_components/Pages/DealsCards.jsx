@@ -24,8 +24,6 @@ const DealsCards = ({ data, path }) => {
         const itemName = quantity > 1 ? key : key.slice(0, -1); // remove 's' for singular items
         return `${quantity} ${itemName}`;
       });
-
-    console.log(items); // For debugging: ["2 pizzas", "1 dip", "2 desserts"]
     return items.join(", ");
   };
 
@@ -43,7 +41,7 @@ const DealsCards = ({ data, path }) => {
             {" "}
             <h2 className="text-xl font-semibold mb-1">{data.title}</h2>
             <p className="text-sm font-semibold text-gray-500 mb-1">
-              {combineItems()},{" "}
+              {combineItems()}{data?.defaultItems.length > 0 && (", ")}
               {data?.defaultItems.map((item, index) => (
                 <React.Fragment key={index}>
                   {index === data.defaultItems.length - 1 ? item : `${item}, `}

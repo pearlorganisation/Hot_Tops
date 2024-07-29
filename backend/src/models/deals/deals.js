@@ -66,7 +66,7 @@ const dealSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    pizzaData: {
+    pizzaData: {               //this field holds notIncludedPizza list
       type: [{type:mongoose.Types.ObjectId,ref:"pizzas"}],  
     },
   },

@@ -34,7 +34,7 @@ console.log(customizationData?.sauceName)
 const [selectedSizeId, setSelectedSizeId] = useState(customizationData?.selectedData || '');
 const [selectedBase, setSelectedBase] = useState(customizationData?.baseName || '');
 const [selectedCheese, setSelectedCheese] = useState(customizationData?.cheeseName || '');
-const [selectedSauce, setSelectedSauce] = useState();
+const [selectedSauce, setSelectedSauce] = useState(customizationData?.sauceName || '');
 const [selectedMeatToppings, setSelectedMeatToppings] = useState(customizationData?.meatToppingsName || '');
 const [selectedVegetarianToppings, setSelectedVegetarianToppings] = useState(customizationData?.vegetarianToppingsName || '');
 
@@ -46,9 +46,10 @@ useEffect(()=>{
 
     setSelectedSauce(newData)
 },[saucePrices])
+
 useEffect(()=>{
-  console.log(selectedSauce)
 },[selectedSauce])
+console.log(selectedSauce)
 
   const handleRadioChange = async (e) => {
     const newSizeId = e.target.value;
@@ -57,29 +58,6 @@ useEffect(()=>{
     // Fetch new prices based on the selected size
   await fetchPricesForSelectedSize(newSizeId);
   };
-
-// const splitSelectedSize= (String(customizationData?.selectedSize).includes("-")
-// ? customizationData?.selectedSize?.split("-")
-// : customizationData?.selectedSize) || []  
-// console.log(splitSelectedSize)
-// const [sizeState,setSizeState] = useState(customizationData?.selectedData)
-// useEffect(() => {
-//   setSizeState(splitSelectedSize[0])
-// }, [splitSelectedSize])
-
-
-  // const sauceFetcher = async (...args) => fetch(...args).then((res) => {
-  //   return res.json()
-  // });
-
-  // const { data: sauceData, error: sauceError, isLoading: sauceLoading } = useSWR(
-  //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/sauce`,
-  //   sauceFetcher
-  // );
-
-    // if (sauceLoading) return <div>Loading...</div>;
-  // if (sauceError) return <div>Error loading data</div>;
-
 
   useEffect(() => {
     fetchPricesForSelectedSize(selectedSizeId);
@@ -128,6 +106,7 @@ const fetchPricesForSelectedSize = async (sizeId) => {
   }
 };
 
+console.log(saucePrices)
   // const handleSelectionChange = (setSelections, name, type) => {
   //   setSelections((prevSelections) => ({
   //     ...prevSelections,
@@ -142,7 +121,7 @@ const fetchPricesForSelectedSize = async (sizeId) => {
       // console.log(data)
      return (
     
-    <div className="mt-4">
+    <div className="mt-4 ">
       <table className="min-w-full bg-white border  border-gray-200">
         <thead>
           <tr>
@@ -154,18 +133,20 @@ const fetchPricesForSelectedSize = async (sizeId) => {
         <tbody>
           {Array.isArray(data) && data.map((item) => (
             <tr key={item?._id}>
-              <td className="py-2 px-4 border-b">
+              {console.log(selection)}
+              <td className="py-2 px-2 lg:px-4 border-b">
                 {item?.name}
               </td>
-              <td className="py-2 px-4 border-b text-center">
-                <input
+              <td className="py-2 px-2 lg:px-4 border-b  text-center">
+                <div className="flex flex-col gap-2 lg:block">
+                  <input
                   className="mx-3"
                   value={`${item?.price[0]?.singlePrice}`}
                   type="radio"
                   name={`selection-${item?._id}`}
                   data-label={`${item?.name} (Single)-${item?.price[0]?.singlePrice}`}
                   // checked={selectedSizeId === data?.size?._id}
-                  checked={Array.isArray(item?.price) && selection === item?.price[0]?.singlePrice}
+                  checked={ "Manchurian Sauce" === item?.name}
                   onChange={(e) => {
                     const value = e.target.value;
                     setSelection(value);
@@ -173,9 +154,11 @@ const fetchPricesForSelectedSize = async (sizeId) => {
 
                   }}
                 />
-                <span className="bg-red-500 text-white rounded-lg px-2">£ {item?.price[0]?.singlePrice} </span>
+                <span className="bg-red-500 w-fit mx-auto text-white rounded-lg px-1 lg:px-2">£ {item?.price[0]?.singlePrice}</span>
+                </div>
               </td>
-              <td className="py-2 px-4 border-b text-center">
+              <td className="py-2 px-2 lg:px-4 border-b text-center">
+              <div className="flex flex-col gap-2 lg:block">
                 <input
                   className="mx-3"
                   type="radio"
@@ -189,7 +172,8 @@ const fetchPricesForSelectedSize = async (sizeId) => {
                     console.log(setSelectedCheese)
                   }}
                 />
-                <span className="bg-yellow-600  text-white rounded-lg px-2">£ {item?.price[0]?.doublePrice}</span>
+                <span className="bg-yellow-600 w-fit mx-auto text-white rounded-lg px-1 lg:px-2">£ {item?.price[0]?.doublePrice}</span>
+                </div>
               </td>
             </tr>
           ))}
@@ -203,7 +187,7 @@ const fetchPricesForSelectedSize = async (sizeId) => {
 
   return (
     <>
-      <div className="max-w-xl md:max-w-6xl mx-auto p-4 bg-white shadow-md rounded-lg mt-8">
+      <div className="max-w-xl md:max-w-6xl mx-auto p-4 bg-white shadow-md rounded-lg my-8">
         <div className="flex flex-col md:flex-row ">
           <div className="flex-1">
             <h1 className="text-4xl  text-gray-800">{customizationData?.name}</h1>
@@ -266,7 +250,7 @@ const fetchPricesForSelectedSize = async (sizeId) => {
 
                 {/* SAUCE: */}
       <div className="mt-4 ">
-        <h2 className="text-lg font-semibold text-gray-800">SAUCE</h2>
+        <h2 className="text-lg font-semibold text-gray-800 ">SAUCE</h2>
         {saucePrices && renderTable(saucePrices, selectedSauce, setSelectedSauce, 'sauceName')}
       </div>
 
