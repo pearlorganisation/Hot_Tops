@@ -15,9 +15,24 @@ const cartSlice = createSlice({
         return item?.id === action?.payload?.id;
       });
       // console.log(isExist, "isExist");
-      console.log(action.payload, "payload by avnish");
+
       if (isExist) {
-        toast.error("Item Already Exist");
+        const temp = state.cartData.map((item) => {
+          if (item.id === action.payload.id) {
+            const updatedData = {
+              ...item,
+              quantity: item.quantity + action.payload.quantity,
+            };
+            console.log(updatedData, "updatedData");
+            return {
+              ...updatedData,
+              totalSum: (updatedData?.quantity * item?.price).toFixed(2),
+            };
+          }
+          return item;
+        });
+        state.cartData = temp;
+        toast.success("Added...");
       } else {
         state.cartData = [...state.cartData, action.payload];
         toast.success("Item Added Successfully...");

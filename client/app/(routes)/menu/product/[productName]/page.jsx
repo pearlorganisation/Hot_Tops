@@ -38,6 +38,7 @@ const [selectedSauce, setSelectedSauce] = useState(customizationData?.sauceName 
 const [selectedMeatToppings, setSelectedMeatToppings] = useState(customizationData?.meatToppingsName || '');
 const [selectedVegetarianToppings, setSelectedVegetarianToppings] = useState(customizationData?.vegetarianToppingsName || '');
 
+console.log(selectedSauce,"//selected sauce//")
 
 useEffect(()=>{
  const newData= saucePrices?.filter(item =>  {
@@ -49,7 +50,7 @@ useEffect(()=>{
 
 useEffect(()=>{
 },[selectedSauce])
-console.log(selectedSauce)
+console.log(selectedSauce,"//selected sauce//")
 
   const handleRadioChange = async (e) => {
     const newSizeId = e.target.value;
@@ -71,6 +72,16 @@ console.log(selectedSauce)
   useEffect(()=>{
     console.log(selectedSizeId) 
   },[selectedSizeId])
+
+  const handleCheckboxChange = (sauceName, isChecked) => {
+    setSelectedSauce(prevSelected => {
+      if (isChecked) {
+        return [...prevSelected, sauceName];
+      } else {
+        return prevSelected.filter(name => name !== sauceName);
+      }
+    });
+  };
 
   // -------------------data fetching for price-----------------------
 
@@ -107,16 +118,8 @@ const fetchPricesForSelectedSize = async (sizeId) => {
 };
 
 console.log(saucePrices)
-  // const handleSelectionChange = (setSelections, name, type) => {
-  //   setSelections((prevSelections) => ({
-  //     ...prevSelections,
-  //     [name]: prevSelections[name] === type ? undefined : type,
-  //   }));
-  // };
 
-  // console.log(selectedBase)
-  // console.log(selectedSauce)
-  const renderTable = (data, selection, setSelection,itemType) =>
+  const cheeseTable = (data, selection, setSelection,itemType) =>
   {
       // console.log(data)
      return (
@@ -142,7 +145,7 @@ console.log(saucePrices)
                   <input
                   className="mx-3"
                   value={`${item?.price[0]?.singlePrice}`}
-                  type="radio"
+                  type="checkbox"
                   name={`selection-${item?._id}`}
                   data-label={`${item?.name} (Single)-${item?.price[0]?.singlePrice}`}
                   // checked={selectedSizeId === data?.size?._id}
@@ -161,11 +164,135 @@ console.log(saucePrices)
               <div className="flex flex-col gap-2 lg:block">
                 <input
                   className="mx-3"
-                  type="radio"
+                  type="checkbox"
                   name={`selection-${item?._id}`}
                   value={item?.price[0]?.doublePrice}
-                  // checked={selections[item?._id] === "double"}
-                  // checked={Array.isArray(item?.price) && selection === item?.price[0]?.doublePrice}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setSelection(value);
+                    console.log(setSelectedCheese)
+                  }}
+                />
+                <span className="bg-yellow-600 w-fit mx-auto text-white rounded-lg px-1 lg:px-2">£ {item?.price[0]?.doublePrice}</span>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );}
+  const meatToppingsTable = (data, selection, setSelection,itemType) =>
+  {
+      // console.log(data)
+     return (
+    
+    <div className="mt-4 ">
+      <table className="min-w-full bg-white border  border-gray-200">
+        <thead>
+          <tr>
+            <th className="py-2 px-4 border-b"></th>
+            <th className="py-2 px-4 border-b">Single</th>
+            <th className="py-2 px-4 border-b">Double</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Array.isArray(data) && data.map((item) => (
+            <tr key={item?._id}>
+              {console.log(selection)}
+              <td className="py-2 px-2 lg:px-4 border-b">
+                {item?.name}
+              </td>
+              <td className="py-2 px-2 lg:px-4 border-b  text-center">
+                <div className="flex flex-col gap-2 lg:block">
+                  <input
+                  className="mx-3"
+                  value={`${item?.price[0]?.singlePrice}`}
+                  type="checkbox"
+                  name={`selection-${item?._id}`}
+                  data-label={`${item?.name} (Single)-${item?.price[0]?.singlePrice}`}
+                  // checked={selectedSizeId === data?.size?._id}
+                  checked={ "Manchurian Sauce" === item?.name}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setSelection(value);
+                  console.log(selection)
+
+                  }}
+                />
+                <span className="bg-red-500 w-fit mx-auto text-white rounded-lg px-1 lg:px-2">£ {item?.price[0]?.singlePrice}</span>
+                </div>
+              </td>
+              <td className="py-2 px-2 lg:px-4 border-b text-center">
+              <div className="flex flex-col gap-2 lg:block">
+                <input
+                  className="mx-3"
+                  type="checkbox"
+                  name={`selection-${item?._id}`}
+                  value={item?.price[0]?.doublePrice}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setSelection(value);
+                    console.log(setSelectedCheese)
+                  }}
+                />
+                <span className="bg-yellow-600 w-fit mx-auto text-white rounded-lg px-1 lg:px-2">£ {item?.price[0]?.doublePrice}</span>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );}
+  const vegetarianToppingsTable = (data, selection, setSelection,itemType) =>
+  {
+      // console.log(data)
+     return (
+    
+    <div className="mt-4 ">
+      <table className="min-w-full bg-white border  border-gray-200">
+        <thead>
+          <tr>
+            <th className="py-2 px-4 border-b"></th>
+            <th className="py-2 px-4 border-b">Single</th>
+            <th className="py-2 px-4 border-b">Double</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Array.isArray(data) && data.map((item) => (
+            <tr key={item?._id}>
+              {console.log(selection)}
+              <td className="py-2 px-2 lg:px-4 border-b">
+                {item?.name}
+              </td>
+              <td className="py-2 px-2 lg:px-4 border-b  text-center">
+                <div className="flex flex-col gap-2 lg:block">
+                  <input
+                  className="mx-3"
+                  value={`${item?.price[0]?.singlePrice}`}
+                  type="checkbox"
+                  name={`selection-${item?._id}`}
+                  data-label={`${item?.name} (Single)-${item?.price[0]?.singlePrice}`}
+                  // checked={selectedSizeId === data?.size?._id}
+                  checked={ "Manchurian Sauce" === item?.name}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setSelection(value);
+                  console.log(selection)
+
+                  }}
+                />
+                <span className="bg-red-500 w-fit mx-auto text-white rounded-lg px-1 lg:px-2">£ {item?.price[0]?.singlePrice}</span>
+                </div>
+              </td>
+              <td className="py-2 px-2 lg:px-4 border-b text-center">
+              <div className="flex flex-col gap-2 lg:block">
+                <input
+                  className="mx-3"
+                  type="checkbox"
+                  name={`selection-${item?._id}`}
+                  value={item?.price[0]?.doublePrice}
                   onChange={(e) => {
                     const value = e.target.value;
                     setSelection(value);
@@ -250,29 +377,88 @@ console.log(saucePrices)
 
                 {/* SAUCE: */}
       <div className="mt-4 ">
-        <h2 className="text-lg font-semibold text-gray-800 ">SAUCE</h2>
-        {saucePrices && renderTable(saucePrices, selectedSauce, setSelectedSauce, 'sauceName')}
+        <h2 className="text-lg font-semibold text-gray-800 ">SAUCE</h2> 
+    <div className="mt-4 ">
+      <table className="min-w-full bg-white border  border-gray-200">
+        <thead>
+          <tr>
+            <th className="py-2 px-4 border-b"></th>
+            <th className="py-2 px-4 border-b">Single</th>
+            <th className="py-2 px-4 border-b">Double</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Array.isArray(saucePrices) && saucePrices.map((item) => (
+            <tr key={item?._id}>
+              {console.log(selectedSauce)}
+              <td className="py-2 px-2 lg:px-4 border-b">
+                {item?.name}
+              </td>
+              <td className="py-2 px-2 lg:px-4 border-b  text-center">
+                <div className="flex flex-col gap-2 lg:block">
+                  <input
+                  className="mx-3"
+                  value={`${item?.price[0]?.singlePrice}`}
+                  type="checkbox"
+                  name={`selection-${item?._id}`}
+                  data-label={`${item?.name} (Single)-${item?.price[0]?.singlePrice}`}
+                  // checked={selectedSizeId === data?.size?._id}
+                  checked={selectedSauce.includes(item?.name)}
+                  // onChange={(e) => {
+                  //   const value = e.target.value;
+                  //   setSelectedSauce(value);
+                  // console.log(selectedSauce)
+
+                  // }}
+                  onChange={(e) => {
+                    handleCheckboxChange(item?.name, e.target.checked);
+                  }}
+                />
+                <span className="bg-red-500 w-fit mx-auto text-white rounded-lg px-1 lg:px-2">£ {item?.price[0]?.singlePrice}</span>
+                </div>
+              </td>
+              <td className="py-2 px-2 lg:px-4 border-b text-center">
+              <div className="flex flex-col gap-2 lg:block">
+                <input
+                  className="mx-3"
+                  type="checkbox"
+                  name={`selection-${item?._id}`}
+                  value={item?.price[0]?.doublePrice}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setSelectedSauce(value);
+                    console.log(selectedSauce)
+                  }}
+                />
+                <span className="bg-yellow-600 w-fit mx-auto text-white rounded-lg px-1 lg:px-2">£ {item?.price[0]?.doublePrice}</span>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
       </div>
 
       {/* CHEESE: */}
-      <div className="mt-4">
+      {/* <div className="mt-4">
         <h2 className="text-lg font-semibold text-gray-800">CHEESE</h2>
-        {cheesePrices && renderTable(cheesePrices, selectedCheese, setSelectedCheese, 'cheeseName')}
-      </div>
+        {cheesePrices && cheeseTable(cheesePrices, selectedCheese, setSelectedCheese, 'cheeseName')}
+      </div> */}
 
       {/* VEGETARIAN TOPPINGS: */}
-      <div className="mt-4">
+      {/* <div className="mt-4">
         <h2 className="text-lg font-semibold text-gray-800">
           VEGETARIAN TOPPINGS
         </h2>
-        {vegetarianToppingsPrices && renderTable(vegetarianToppingsPrices, selectedVegetarianToppings, setSelectedVegetarianToppings,'vegetarianToppingsName')}
-      </div>
+        {vegetarianToppingsPrices && vegetarianToppingsTable(vegetarianToppingsPrices, selectedVegetarianToppings, setSelectedVegetarianToppings,'vegetarianToppingsName')}
+      </div> */}
 
       {/* MEAT TOPPINGS: */}
-      <div className="mt-4">
+      {/* <div className="mt-4">
         <h2 className="text-lg font-semibold text-gray-800">MEAT TOPPINGS</h2>
-        {meatToppingsPrices && renderTable(meatToppingsPrices, selectedMeatToppings, setSelectedMeatToppings,'meatToppingsName')}
-      </div>
+        {meatToppingsPrices && meatToppingsTable(meatToppingsPrices, selectedMeatToppings, setSelectedMeatToppings,'meatToppingsName')}
+      </div> */}
 
 
 

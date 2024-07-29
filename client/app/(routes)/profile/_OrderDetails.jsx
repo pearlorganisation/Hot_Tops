@@ -29,9 +29,6 @@ const OrderDetails = () => {
     getOrderDetails();
   }, []);
 
-  useEffect(() => {
-    console.log("data...", orderData);
-  }, [orderData]);
 
   function handleReorderData(data) {
     data.forEach((element) => {
@@ -42,7 +39,7 @@ const OrderDetails = () => {
       );
     });
 
-    console.log(data);
+
   }
 
   return (
