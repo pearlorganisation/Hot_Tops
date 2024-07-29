@@ -34,8 +34,6 @@ const Drinks = () => {
           <DrinksCard data={item} idx={idx} />
         ))}
       </div>
-
-
     </>
   );
 };
