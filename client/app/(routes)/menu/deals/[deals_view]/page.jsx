@@ -115,7 +115,7 @@ const Page = () => {
               <h1 className="text-lg md:text-2xl font-medium mb-4">
                 Choose Your Pizza
               </h1>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
                 {pizzas.map((_, index) => (
                   <Select
                   placeholder={`Choose pizza ${index+1}`}
