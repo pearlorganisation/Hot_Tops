@@ -72,8 +72,8 @@ const SauceSelector = () => {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Select Your Sauces</h1>
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead>
+      <table className="min-w-full divide-y divide-gray-200 shadow-lg">
+        <thead className="bg-gray-50">
           <tr>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Sauce
@@ -88,7 +88,7 @@ const SauceSelector = () => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {saucesData.map((sauce) => (
-            <tr key={sauce._id}>
+            <tr key={sauce._id} className="hover:bg-gray-100">
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                 {sauce.name}
               </td>
@@ -100,11 +100,17 @@ const SauceSelector = () => {
                     value="single"
                     checked={selectedSauces[sauce._id] === "single"}
                     onChange={() => handleSelectionChange(sauce._id, "single")}
-                    className="form-radio"
+                    className="hidden"
                   />
-                  <span className="ml-2 text-red-600">
+                  <div
+                    className={`cursor-pointer px-4 py-2 rounded ${
+                      selectedSauces[sauce._id] === "single"
+                        ? "bg-red-600 text-white"
+                        : "bg-gray-200 text-gray-900"
+                    }`}
+                  >
                     £{sauce.price[0].singlePrice}
-                  </span>
+                  </div>
                 </label>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -115,11 +121,17 @@ const SauceSelector = () => {
                     value="double"
                     checked={selectedSauces[sauce._id] === "double"}
                     onChange={() => handleSelectionChange(sauce._id, "double")}
-                    className="form-radio"
+                    className="hidden"
                   />
-                  <span className="ml-2 text-yellow-600">
+                  <div
+                    className={`cursor-pointer px-4 py-2 rounded ${
+                      selectedSauces[sauce._id] === "double"
+                        ? "bg-yellow-600 text-white"
+                        : "bg-gray-200 text-gray-900"
+                    }`}
+                  >
                     £{sauce.price[0].doublePrice}
-                  </span>
+                  </div>
                 </label>
               </td>
             </tr>
