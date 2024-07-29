@@ -12,7 +12,7 @@ const page = () => {
           className="border-2 w-[80vw] lg:w-[60vw] h-full p-6 rounded-2xl "
           style={{ boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
         >
-          <div>
+          {/* <div>
             <p>
               {" "}
               <span className="text-red-600 font-bold">
@@ -35,7 +35,7 @@ const page = () => {
               </span>{" "}
               13:30:00,Jul 2nd 2024
             </p>
-          </div>
+          </div> */}
 
           <h1 className="mx-1 my-5 text-center">
             {" "}
