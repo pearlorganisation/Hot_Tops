@@ -10,6 +10,7 @@ const PizzaCards = ({ data, idx }) => {
   const dispatch = useDispatch();
   const selectedSizeId = Array.isArray(data?.priceSection) && data?.priceSection[0]?.size?._id;
   const [selectedData, setSelectedData] = useState(selectedSizeId);
+  const [uniquePizzaId, setUniquePizzaId] = useState(selectedSizeId + data?._id)
 
   const selectedLabelName = Array.isArray(data?.priceSection) && `${data?.priceSection[0]?.size?.name}-${data?.priceSection[0]?.price}`;
   const [selectedLabel, setSelectedLabel] = useState(selectedLabelName);
@@ -19,6 +20,7 @@ const PizzaCards = ({ data, idx }) => {
     const value = event.target.value;
     const label = selectedOption.getAttribute("data-label");
     console.log(event.target.value)
+    setUniquePizzaId(event.target.value + data?._id)
 
     setSelectedData(value);
     setSelectedLabel(label);
@@ -36,6 +38,12 @@ const PizzaCards = ({ data, idx }) => {
     console.log(items)
     return items.join(', ');
   };
+  console.log(data, "data")
+
+  useEffect(() => {
+    console.log(uniquePizzaId)
+  }, [uniquePizzaId])
+
 
   return (
     <div className="flex flex-col justify-between bg-white rounded-md max-w-[17rem]  2xl:max-w-xs w-full newshadow mb-10 " key={idx}>
@@ -73,6 +81,7 @@ const PizzaCards = ({ data, idx }) => {
               img: data?.banner,
               priceSection: data?.priceSection,
               id: data?._id,
+              // id: uniquePizzaId,
               sauceName: data?.sauceName,
               cheeseName: data?.cheeseName,
               vegetarianToppingsName: data?.vegetarianToppingsName,
@@ -91,7 +100,7 @@ const PizzaCards = ({ data, idx }) => {
                   name: data?.pizzaName,
                   img: data?.banner,
                   size: selectedLabel,
-                  id: selectedData,
+                  id: uniquePizzaId,
                   quantity: 1,
                   price: Number(selectedLabel.split('-')[1]),
                   totalSum: Number(selectedLabel.split('-')[1])
