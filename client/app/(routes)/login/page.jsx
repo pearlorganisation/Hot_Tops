@@ -116,6 +116,14 @@ const Page = () => {
                 Login
               </button>
             </div>
+            <p className="mt-4">
+              Don't have an account ?{" "}
+              <span>
+                <Link href="/signUp" className="text-red-900 hover:text-red-700">
+                  Create here
+                </Link>
+              </span>
+            </p>
             {/* <div className="text-center mb-4">OR</div>
             <button
               type="button"

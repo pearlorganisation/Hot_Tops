@@ -30,14 +30,16 @@ const page = ({ searchParams }) => {
       orderType: order?.orderType,
       orderBy: userData?._id,
       time: order?.time,
-      address: order.orderType === 'collection' ? null : order?.type?.order?.address,
+      address: order?.orderType === 'collection' ? null : order?.address,
       comment: data?.comment,
       totalAmount: {
         total: totalPrice?.toFixed(2),
         deliveryCharge: order.orderType === 'collection' ? 0 : deliveryCharge,
       },
+      mobileNumber:userData?.mobileNumber,
       paymentMethode: data?.paymentMethode,
       items: cart,
+      terms: data?.terms
     };
 
     try {
@@ -149,13 +151,12 @@ const page = ({ searchParams }) => {
                 placeholder="Leave comments for your order here"
               />
             </div>
-            {
-              order?.type === 'collection' && <div>
-                <h3 className="text-lg font-bold">YOUR ADDRESS:</h3>
+
+            {order?.orderType === 'delivery' && <div>
+                <h3 className="text-lg font-bold">YOUR ADDRESS & MOBILE NUMBER:</h3>
                 <p>
-                  {order?.address}
-                  {/* 1 Crossroads House, 165 The Parade, High Street, Watford,
-              Hertfordshire, WD171NJ */}
+                  {order?.address} , <span className="text-red-500">{userData?.mobileNumber ? userData?.mobileNumber: "No Mobile Number is added"}</span>
+
                 </p>
               </div>
             }
@@ -163,12 +164,9 @@ const page = ({ searchParams }) => {
             <div>
               <h3 className="text-lg font-bold">ORDER TIME</h3>
               <p>
-                Your order is to be placed for {order?.time}(Please note
-                delivery time is around 45 minutes)
+                Your order is to be placed for {order?.time} ( Please note
+                delivery time is around 45 minutes )
               </p>
-              <a href="#" className="text-blue-500 underline">
-                Change Delivery Details
-              </a>
             </div>
             <div>
               <h3 className="text-lg font-bold">CHOOSE PAYMENT</h3>
@@ -176,28 +174,30 @@ const page = ({ searchParams }) => {
                 <input
                   type="radio"
                   id="cash"
-                  value="cash"
+                  value="Cash on delivery"
                   name="paymentMethode"
                   {...register("paymentMethode")}
+                  defaultChecked
                 />
-                <label htmlFor="cash">Cash</label>
-                <input
+                <label htmlFor="cash">Cash on delivery</label>
+                {/* <input
                   {...register("paymentMethode")}
                   name="paymentMethode"
                   type="radio"
                   id="card"
-                  value="card"
-                  defaultChecked
+                  value="Online Payment"
+                 
                 />
-                <label htmlFor="card">Card</label>
+                <label htmlFor="card">Card</label> */}
               </div>
             </div>
             <div className="flex items-center space-x-2">
-              <input type="checkbox" id="terms" />
-              <label htmlFor="terms" className="text-sm">
+              <input   {...register("terms",{required:true})} type="checkbox" id="terms" />
+              <label htmlFor="terms" className="text-[15px]">
                 I accept the Terms & Conditions and Privacy Policy
               </label>
             </div>
+            { errors.terms &&  <p className="text-red-500">Please accept the terms & conditions.</p>}
             <div className="flex space-x-4">
               <button
                 className="px-4 py-2 border rounded-md"

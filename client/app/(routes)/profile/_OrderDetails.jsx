@@ -43,12 +43,12 @@ const OrderDetails = () => {
   }
 
   return (
-    <div className="px-10 py-10 ">
+    <div className="px-10 py-10 w-full lg:w-3/4 rounded-md shadow-lg">
       {Array.isArray(orderData) &&
-        orderData.length > 0 &&
+        orderData.length > 0 ?
         orderData?.map((data) => {
           return (
-            <div className="lg:w-[600px] bg-white shadow-md p-4">
+            <div className="  p-4">
               <div className="flex gap-3 justify-between">
                 <h1 className="text-xl">
                   {`${data?.orderType}`} ORDER NO. {data?.count}
@@ -89,7 +89,9 @@ const OrderDetails = () => {
               </div>
             </div>
           );
-        })}
+        })
+      : "No Order History"
+      }
     </div>
   );
 };

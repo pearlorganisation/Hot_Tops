@@ -40,13 +40,13 @@ const [selectedVegetarianToppings, setSelectedVegetarianToppings] = useState(cus
 
 console.log(selectedSauce,"//selected sauce//")
 
-useEffect(()=>{
- const newData= saucePrices?.filter(item =>  {
-    console.log(customizationData?.sauceName?.includes(item.name))
-    return customizationData?.sauceName?.includes(item.name)}) 
+// useEffect(()=>{
+//  const newData= saucePrices?.filter(item =>  {
+//     console.log(customizationData?.sauceName?.includes(item.name))
+//     return customizationData?.sauceName?.includes(item.name)}) 
 
-    setSelectedSauce(newData)
-},[saucePrices])
+//     setSelectedSauce(newData)
+// },[saucePrices])
 
 useEffect(()=>{
 },[selectedSauce])
@@ -398,21 +398,21 @@ console.log(saucePrices)
                 <div className="flex flex-col gap-2 lg:block">
                   <input
                   className="mx-3"
-                  value={`${item?.price[0]?.singlePrice}`}
+                  value={`${item?.name}`}
                   type="checkbox"
                   name={`selection-${item?._id}`}
                   data-label={`${item?.name} (Single)-${item?.price[0]?.singlePrice}`}
                   // checked={selectedSizeId === data?.size?._id}
-                  checked={selectedSauce.includes(item?.name)}
-                  // onChange={(e) => {
-                  //   const value = e.target.value;
-                  //   setSelectedSauce(value);
+                  checked={selectedSauce?.some((sauce)=>sauce === item?.name) }
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    // setSelectedSauce(value);
                   // console.log(selectedSauce)
 
-                  // }}
-                  onChange={(e) => {
-                    handleCheckboxChange(item?.name, e.target.checked);
                   }}
+                  // onChange={(e) => {
+                  //   handleCheckboxChange(item?.name, e.target.checked);
+                  // }}
                 />
                 <span className="bg-red-500 w-fit mx-auto text-white rounded-lg px-1 lg:px-2">£ {item?.price[0]?.singlePrice}</span>
                 </div>
@@ -426,8 +426,8 @@ console.log(saucePrices)
                   value={item?.price[0]?.doublePrice}
                   onChange={(e) => {
                     const value = e.target.value;
-                    setSelectedSauce(value);
-                    console.log(selectedSauce)
+                    // setSelectedSauce(value);
+                    // console.log(selectedSauce)
                   }}
                 />
                 <span className="bg-yellow-600 w-fit mx-auto text-white rounded-lg px-1 lg:px-2">£ {item?.price[0]?.doublePrice}</span>
