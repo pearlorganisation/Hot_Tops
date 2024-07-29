@@ -142,7 +142,7 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="hidden lg:flex absolute top-full left-[87%] transform -translate-x-1/2 gap-[2px]">
+      <div className="hidden lg:flex absolute top-full left-[82%] xl:left-[87%] transform -translate-x-1/2 gap-[2px]">
         <a
           href="/profile?tab=3"
           className="inline-flex items-center bg-red-800 border-white text-white py-2 px-4 text-lg rounded-b-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
