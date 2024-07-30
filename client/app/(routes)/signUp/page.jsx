@@ -46,6 +46,7 @@ const Page = () => {
           password: data?.password,
           firstName: data?.firstName,
           lastName: data?.lastName,
+          mobileNumber: data?.mobileNumber
         })
       );
       setResponse(newData);

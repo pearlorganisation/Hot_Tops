@@ -21,7 +21,7 @@ router.route("/verifyOtp").post(verifyOtp);
 router.route("/updateProfile").post(updateProfile);
 router.route("/resetPassword").post(resetPassword);
 router.route("/verifyResetPasswordOtp").post(verifyResetPasswordOtp);
-router.route("/deleteAccount").post(deleteAccount);
+router.route("/deleteAccount").delete(deleteAccount);
 router.route("/verifyOtpForDeleteAccount").post(verifyOtpForDeleteAccount);
 router.route("/forgetPassword").post(forgetPassword);
 router.route("/verifyOtpForForgotPassword").post(verifyOtpForForgotPassword);
