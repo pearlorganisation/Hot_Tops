@@ -24,7 +24,7 @@ const DeleteAccountModal = forwardRef((props, ref) => {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/deleteAccount`,
           {
-            method: "POST",
+            method: "DELETE",
             headers: {
               "Content-Type": "application/json",
             },

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const OTPReceiver = () => {
   // ----------------------------------------hooks----------------------------------------
-  const { email, password, firstName, lastName,mobileNumber } = useSelector(
+  const { email, password, firstName, lastName } = useSelector(
     (state) => state.auth
   );
   const router = useRouter()
@@ -49,7 +49,6 @@ const OTPReceiver = () => {
               firstName,
               lastName,
               otp,
-              mobileNumber,
             }),
           }
         );

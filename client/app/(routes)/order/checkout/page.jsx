@@ -82,7 +82,7 @@ const page = ({ searchParams }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="max-w-7xl mx-auto p-4 grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-center text-red-600 border-b-2 border-red-600 pb-2">
+            <h2 className="text-2xl font-bold text-center text-red-800 border-b-2 border-red-800 pb-2">
               ORDER SUMMARY
             </h2>
             <div className="border p-4 rounded-md">
@@ -139,7 +139,7 @@ const page = ({ searchParams }) => {
             </div>
           </div>
           <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-center text-red-600 border-b-2 border-red-600 pb-2">
+            <h2 className="text-2xl font-bold text-center text-red-800 border-b-2 border-red-800 pb-2">
               ORDER DETAILS
             </h2>
             <div>
@@ -155,7 +155,7 @@ const page = ({ searchParams }) => {
             {order?.orderType === 'delivery' && <div>
                 <h3 className="text-lg font-bold">YOUR ADDRESS & MOBILE NUMBER:</h3>
                 <p>
-                  {order?.address} , <span className="text-red-500">{userData?.mobileNumber ? userData?.mobileNumber: "No Mobile Number is added"}</span>
+                  {order?.address} , <span className="text-red-800">{userData?.mobileNumber ? userData?.mobileNumber: "No Mobile Number is added"}</span>
 
                 </p>
               </div>

@@ -128,10 +128,18 @@ export default function OrderViewModal ({viewData,setModal}) {
       </tr>
      
       <tr>
-        <td className="py-2 px-4 border border-b-1 border-gray-300">Delivery Address</td>
+        <td className="py-2 px-4 border  border-gray-300">Delivery Address</td>
         <td className="py-2 px-4 border border-gray-300 font-semibold">
         
         {viewData ?  <span className='bg-slate-100 mb-2 rounded-md px-2 capitalize'>{viewData?.address} </span> : 'No data'}
+          
+        </td>
+      </tr>
+      <tr>
+        <td className="py-2 px-4 border border-b-1 border-gray-300">Mobile Number</td>
+        <td className="py-2 px-4 border border-gray-300 font-semibold">
+        
+        {viewData ?  <span className='bg-slate-100 mb-2 rounded-md px-2 capitalize'>{viewData?.orderBy?.mobileNumber} </span> : 'No data'}
           
         </td>
       </tr>

@@ -10,7 +10,6 @@ const authSchema = new mongoose.Schema(
       type: String,
       required: [true, "lastName is required"],
     },
-
     email: {
       type: String,
       required: [true, "email is required"],
@@ -21,7 +20,7 @@ const authSchema = new mongoose.Schema(
     },
     mobileNumber: {
       type: String,
-      default:null
+      required:[ true,"Mobile Number is required"]
     },
   },
   { timestamps: true }

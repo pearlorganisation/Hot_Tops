@@ -87,7 +87,8 @@ export const signUp = asyncErrorHandler(async (req, res) => {
 
 // --------------verifyOtp for signup-----------------------
 export const verifyOtp = asyncErrorHandler(async (req, res) => {
-  const { email, password, otp, firstName, lastName } = req?.body;
+  const { email, password, otp, firstName, lastName,mobileNumber } = req?.body;
+  console.log(mobileNumber)
 
   // --finding otp in otp model
   const isOtpValid = await optModel.findOne({ email, otp });
@@ -104,6 +105,7 @@ export const verifyOtp = asyncErrorHandler(async (req, res) => {
     lastName,
     email,
     password: hashedPassword,
+    mobileNumber
   });
   await newData.save();
 
@@ -295,6 +297,7 @@ export const verifyResetPasswordOtp = asyncErrorHandler(async (req, res) => {
 // delete account  controller
 
 export const deleteAccount = asyncErrorHandler(async (req, res) => {
+  console.log("hi")
   const { id, email } = req?.body;
   const isuserExist = await auth.findOne({ _id: id, email });
   if (!isuserExist) {
