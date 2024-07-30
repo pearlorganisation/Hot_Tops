@@ -26,7 +26,7 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
       tabindex="-1"
       class={`${
         isReceiptVisible ? "flex" : "hidden"
-      } overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-[#2b303963]`}
+      } overflow-y-auto overflow-x-hidden fixed  top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-[#2b303963]`}
     >
       <div class="relative p-4 w-full max-w-2xl h-[90vh]">
         <div class="relative   shadow h-full bg-red-800 p-10 ">

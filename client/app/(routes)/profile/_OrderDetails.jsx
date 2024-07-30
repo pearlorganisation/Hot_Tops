@@ -7,6 +7,7 @@ import { getSelectedReceipt } from "@/app/lib/features/orderDetails/selectedReci
 import { Router } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { MdReceiptLong } from "react-icons/md";
+import { BiReceipt } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 
 const OrderDetails = () => {
@@ -43,43 +44,43 @@ const OrderDetails = () => {
   }
 
   return (
-    <div className="px-10 py-10 w-full lg:w-3/4 rounded-md shadow-lg">
+    <div className=" md:px-10 md:py-10 w-full lg:w-3/4 rounded-md shadow-lg">
       {Array.isArray(orderData) &&
         orderData.length > 0 ?
         orderData?.map((data) => {
           return (
-            <div className="  p-4">
-              <div className="flex gap-3 justify-between">
-                <h1 className="text-xl">
-                  {`${data?.orderType}`} ORDER NO. {data?.count}
+            <div className="md:p-4">
+              <div className="md:flex gap-3 font-semibold justify-between">
+                <h1 className="">
+                  <span className="text-xl capitalize bg-red-800 rounded-md px-1 py-1 text-white">{`${data?.orderType}`}</span> Order Id - {data?.count}
                 </h1>
-                <h2 className="text-red-800">PENDING</h2>
+                <h2 className="text-red-800">{data?.orderStatus}</h2>
               </div>
               <div className="flex justify-between items-center">
-                <div>
+                <div className="font-semibold">
                   <p>{data?.orderAt}</p>
-                  <p className="text-xl">
-                    TOTAL - £
+                  <p className="font-semibold">
+                    Order Amount - £{" "} 
                     {Number(data?.totalAmount?.total) +
                       Number(data?.totalAmount?.deliveryCharge)}
                   </p>
                 </div>
-                <div className="flex items-center gap-2 ">
+                <div className="md:flex items-center gap-2 ">
                   <a
                     href="/order/cart"
                     onClick={() => handleReorderData(data?.items)}
-                    className="p-3 h-12 bg-red-800 text-white flex items-center"
+                    className="p-3 h-12 bg-red-800 hover:bg-red-700 rounded-md text-white flex items-center"
                   >
                     Reorder Now
                   </a>
                   <button
-                    className="p-3 h-12 bg-red-800 text-white flex items-center"
+                    className="p-3 h-12 bg-red-800 hover:bg-red-700 rounded-md text-white flex items-center"
                     onClick={() => {
                       dispatch(getSelectedReceipt(data));
                       setIsReceiptVisible(true);
                     }}
                   >
-                    <MdReceiptLong />
+                    <BiReceipt size={20} />
                   </button>
                 </div>
                 <ReceiptModal
