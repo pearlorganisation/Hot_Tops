@@ -71,7 +71,8 @@ const page = () => {
   };
 
   useEffect(() => {
-    generateDayTimeIntervals();
+    const intervals = generateDayTimeIntervals();
+    setDayTimeIntervals(intervals);
   }, []);
 
   useEffect(() => {
@@ -84,7 +85,7 @@ const page = () => {
 
   const generateDayTimeIntervals = () => {
     const intervals = [];
-    const start = new Date();
+    const currentTime = new Date();
     const daysOfWeek = [
       "Sunday",
       "Monday",
@@ -94,21 +95,32 @@ const page = () => {
       "Friday",
       "Saturday",
     ];
-    const day = daysOfWeek[start.getDay()];
-
-    start.setHours(0, 0, 0, 0);
-    const end = new Date(start);
-    end.setHours(23, 59, 0, 0);
-
-    while (start <= end) {
-      intervals.push({
-        day: day,
-        time: start.toTimeString().slice(0, 5),
-      });
-      start.setMinutes(start.getMinutes() + 15);
+  
+    const addIntervalsForDay = (date) => {
+      const day = daysOfWeek[date.getDay()];
+      const start = new Date(date);
+      start.setHours(11, 0, 0, 0); // Set start time to 11 AM
+      const end = new Date(date);
+      end.setHours(23, 0, 0, 0); // Set end time to 11 PM
+  
+      while (start <= end) {
+        if (start > currentTime) {
+          intervals.push({
+            day: day,
+            time: start.toTimeString().slice(0, 5),
+          });
+        }
+        start.setMinutes(start.getMinutes() + 15); // Increment by 15 minutes
+      }
+    };
+  
+    for (let i = 0; i < 3; i++) { // Loop for today and the next two days
+      const date = new Date();
+      date.setDate(currentTime.getDate() + i);
+      addIntervalsForDay(date);
     }
-
-    setDayTimeIntervals(intervals);
+  
+    return intervals;
   };
   return (
     <div className="min-h-screen space-y-5 container mx-auto p-4">
@@ -145,27 +157,30 @@ const page = () => {
                   type="text"
                   name="address"
                   id=""
-                  placeholder="Enter Your Address..."
-                  {...register("address")}
+                  placeholder="Enter Your Address"
+                  {...register("address",{required:true})}
                 />
+                 { errors.address && <p className="text-red-500">Please fill the address</p>}
               </div>
-              <div className="space-y-1">
-                <h1>Please Select Time</h1>
-                <select
-                  {...register("daytime")}
-                  id="day"
-                  className="px-4 py-2 border-2 w-full border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent"
-                >
-                  {dayTimeIntervals.map((interval, index) => (
-                    <option
-                      key={index}
-                      value={`${interval.day}-${interval.time}`}
-                    >
-                      {interval.day} - {interval.time}
-                    </option>
-                  ))}
-                </select>
-              </div>
+             
+              <div className="space-y-2">
+  <h1>Please Select Time & Day</h1>
+  <select
+    {...register("daytime", { required: true })}
+    id="day"
+    defaultValue=""
+    className="px-4 py-2 border-2 w-full border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent"
+  >
+    <option value="" disabled>Select Time & Day</option>
+    {dayTimeIntervals.map((interval, index) => (
+      <option key={index} value={`${interval.day}-${interval.time}`}>
+        {interval.day} - {interval.time}
+      </option>
+    ))}
+  </select>
+  {errors.daytime && <span className="text-red-500">Please select the time & day</span>}
+</div>
+
 
               <div className="bg-red-800 p-6 rounded-md text-white">
                 <h2 className="font-bold text-lg mb-4">

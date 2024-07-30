@@ -30,7 +30,7 @@ const page = ({ searchParams }) => {
 
   return (
     <div>
-      <div className="flex flex-col md:flex-row p-8 space-y-8 md:space-y-0 md:space-x-8  min-h-screen">
+      <div className="flex flex-col md:flex-row p-2 md:p-8 space-y-8 md:space-y-0 md:space-x-8  min-h-screen">
         <DeleteAccountModal ref={modalRef} />
         <aside className="w-full md:w-1/4 space-y-8">
           <div>

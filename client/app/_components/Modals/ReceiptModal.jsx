@@ -26,14 +26,14 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
       tabindex="-1"
       class={`${
         isReceiptVisible ? "flex" : "hidden"
-      } overflow-y-auto overflow-x-hidden fixed  top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-[#2b303963]`}
+      } overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-[#2b303963]`}
     >
-      <div class="relative p-4 w-full max-w-2xl h-[90vh]">
-        <div class="relative   shadow h-full bg-red-800 p-10 ">
+      <div class="relative p-4 rounded-md bg-white  w-full max-w-2xl ">
+        <div class="relative  h-full  ">
           <button
             type="button"
             onClick={() => setIsReceiptVisible(false)}
-            class="absolute top-3 end-2.5 text-white  bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            class="absolute top-3 end-2.5   bg-transparent hover:bg-red-800 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
             data-modal-hide="popup-modal"
           >
             <svg
@@ -55,23 +55,23 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
           </button>
           <div className=" h-[70vh] w-full overflow-auto bg-white border-spacing-5 border-red-800 border-solid">
             <div className="text-center">
-              <h1 className="text-3xl">HOTHOUSE</h1>
-              <p>Order No. {orderData?.count}</p>
+              <h1 className="text-3xl text-red-800 font-bold">HOT HOUSE PIZZA </h1>
+              <p>Order Id - {orderData?.count}</p>
               <p>{orderData?.orderAt}</p>
               <h2 className="text-xl font-semibold my-5">
-                *** Requested @{orderData?.time}***
+               Requested for {orderData?.time}
               </h2>
             </div>
             <div className="px-2">
               <h2 className="text-xl">
                 {userData?.firstName} {userData?.lastName}
               </h2>
-              <p>status:pending</p>
-              <p>tel:{userData?.mobileNumber}</p>
-              <p>order type: {orderData?.orderType}</p>
+              <p>Status : <span className="text-red-800">{orderData?.orderStatus}</span></p>
+              <p>Mobile : {userData?.mobileNumber}</p>
+              <p className="capitalize">Order type : {orderData?.orderType}</p>
             </div>
-            <div className="px-2 flex justify-between items-center">
-              <h1 className="text-3xl font-bold">Your Order</h1>
+            <div className="p-2 flex justify-between items-center">
+              <h1 className="text-2xl font-bold">Your Order</h1>
               <p className="font-bold">£{orderData?.totalAmount?.total}</p>
             </div>
             <div>
@@ -86,8 +86,8 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
                     return (
                       <div className="p-4 border-b grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
                         <div className="flex items-center space-x-4 md:col-span-2">
-                          <div className="w-10 h-10 bg-gray-200">
-                            <img src={data?.img} className="h-10" />
+                          <div className=" ">
+                            <img src={data?.img} className="h-10 w-10 rounded-md" />
                           </div>
                           <p className=" font-semibold">
                             {data?.name}
@@ -105,11 +105,11 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
             </div>
 
             <div className="px-2 flex justify-between items-center">
-              <h1>Delivery charge:</h1>
+              <h1>Delivery charge :</h1>
               <h1>£{orderData?.totalAmount?.deliveryCharge} </h1>
             </div>
             <div className="px-2 flex justify-between items-center">
-              <h1 className="font-semibold">total:</h1>
+              <h1 className="font-semibold">Total :</h1>
               <h1>
                 £
                 {Number(orderData?.totalAmount?.deliveryCharge) +
