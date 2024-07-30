@@ -20,7 +20,7 @@ export default function OrderViewModal ({viewData,setModal}) {
   >
     {/*    <!-- Modal --> */}
     <div
-      className="flex w-[80%] sm:w-[70%]  flex-col gap-6 overflow-hidden rounded bg-white p-6 pb-14 shadow-xl "
+      className="flex w-[80%] sm:w-[70%] h-full  flex-col gap-6  rounded bg-white p-6 pb-14 shadow-xl "
       id="modal"
       role="document"
     >
@@ -90,7 +90,7 @@ export default function OrderViewModal ({viewData,setModal}) {
       <tr>
         <td className="py-2 px-4 border border-gray-300">Total amount</td>
         <td className="py-2 px-4 border border-gray-300 font-semibold"> {viewData ? 
-         <span className='bg-slate-100 mb-2 rounded-md px-2 '> £ {Number(viewData?.totalAmount.total) + Number(viewData?.totalAmount.deliveryCharge)}</span>: 'No data'}
+         <span className='bg-slate-100 mb-2 rounded-md px-2 '> £ {Number(viewData?.totalAmount?.total) + Number(viewData?.totalAmount?.deliveryCharge)}</span>: 'No data'}
           
         </td>
       </tr>
