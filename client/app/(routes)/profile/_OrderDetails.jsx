@@ -45,14 +45,17 @@ const OrderDetails = () => {
 
   return (
     <div className=" md:px-10 md:py-10 w-full lg:w-3/4 rounded-md shadow-lg">
+
       {Array.isArray(orderData) &&
         orderData.length > 0 ?
         orderData?.map((data) => {
           return (
+
             <div className="md:p-4">
               <div className="md:flex gap-3 font-semibold justify-between">
                 <h1 className="">
                   <span className="text-xl capitalize bg-red-800 rounded-md px-1 py-1 text-white">{`${data?.orderType}`}</span> Order Id - {data?.count}
+
                 </h1>
                 <h2 className="text-red-800">{data?.orderStatus}</h2>
               </div>
