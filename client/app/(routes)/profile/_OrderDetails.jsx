@@ -40,7 +40,7 @@ const OrderDetails = () => {
       );
     });
 
-
+    console.log(data, "data in the orderDetails");
   }
 
   return (
