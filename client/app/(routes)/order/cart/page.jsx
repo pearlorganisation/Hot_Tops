@@ -16,7 +16,7 @@ import { getPreviousPath } from "@/app/lib/features/path/pathslice";
 
 const Cart = () => {
   // ----------------------hooks------------------------------------
-  const cart = useSelector((state) => state.cart.cartData);
+  const cart = useSelector((state) => state?.cart?.cartData);
   const pathname = usePathname();
   const dispatch = useDispatch();
 

@@ -1,38 +1,55 @@
-import React, { useState } from "react";
-import useSWR from "swr";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import AddedToCartModel from "../../Modals/AddedToCartModel";
 import DrinksCard from "./DrinksCards/DrinksCard";
 
+async function getDrinks() {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/drinks`
+    );
+    if (!res.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return res.json();
+  } catch (err) {
+    console.log("Something Went Wrong !!", err);
+    return;
+  }
+}
+
 const Drinks = () => {
-  const [isAddClicked, setIsAddClicked] = useState(false);
+  const [drinkData, setDrinkData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Data fetching function
-  const drinksFetcher = async (...args) =>
-    fetch(...args).then((res) => {
-      return res.json();
-    });
+  useEffect(() => {
+    const fetchDrinks = async () => {
+      setIsLoading(true);
+      try {
+        const data = await getDrinks();
+        setDrinkData(data.data);
+        setIsLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setIsLoading(false);
+      }
+    };
 
-  // Data fetching using useSWR
-  const {
-    data: drinksData,
-    error,
-    isLoading,
-  } = useSWR(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/drinks`,
-    drinksFetcher
-  );
+    fetchDrinks();
+  }, []);
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading data</div>;
+  if (error) return <div>Error loading data: {error}</div>;
 
   return (
     <>
       <div className="container mx-auto max-w-7xl gap-10 grid sm:grid-cols-2 md:grid-cols-4 place-content-center p-10">
-        {drinksData?.data.map((item, idx) => (
-          <DrinksCard data={item} idx={idx} />
-        ))}
+        {Array.isArray(drinkData) &&
+          drinkData?.map((item, idx) => (
+            <DrinksCard key={idx} data={item} idx={idx} />
+          ))}
       </div>
     </>
   );

@@ -151,11 +151,13 @@ export default function DrinksCard({ data }) {
       value: data.price[0]._id,
       price: data.price[0].price,
       img: data?.banner,
+      name: data?.drink,
+      size: data.price[0].drinkType,
     });
   }, []);
 
   useEffect(() => {
-    console.log("data in the card", data.banner);
+    console.log("data in the card", data);
   }, [selectedOption]);
 
   const dispatch = useDispatch();
@@ -165,14 +167,25 @@ export default function DrinksCard({ data }) {
       dispatch(
         addToCart({
           id: data?.id + selectedOption?.value,
-          name: selectedOption?.label,
+          name: selectedOption?.name,
           img: selectedOption?.img,
-          size: selectedOption?.label,
+          size: `${selectedOption?.size}-${selectedOption.price}`,
           quantity: 1,
           price: Number(selectedOption.price * 1).toFixed(2),
-          totalSum: Number(selectedOption.price).toFixed(2),
+          totalSum: Number(selectedOption.price * 1).toFixed(2),
         })
       );
+
+      console.log({
+        id: data?.id + selectedOption?.value,
+        name: selectedOption?.name,
+        img: selectedOption?.img,
+        size: `${selectedOption?.size}"-${selectedOption.price}`,
+        quantity: 1,
+        price: Number(selectedOption.price * 1).toFixed(2),
+        totalSum: Number(selectedOption.price * 1).toFixed(2),
+      });
+      console.log("selected ", selectedOption);
     }
   }
 
@@ -195,10 +208,12 @@ export default function DrinksCard({ data }) {
             <Select
               className="w-full"
               placeholder={`${data.price[0].drinkType} £${data.price[0].price}`}
-              options={data.price.map((drink) => ({
-                label: `${drink.drinkType} £${drink.price}`,
-                price: drink?.price,
-                value: drink?._id,
+              options={data.price.map((drinkItem) => ({
+                label: `${drinkItem.drinkType} £${drinkItem.price}`,
+                name: data.drink,
+                price: drinkItem?.price,
+                size: drinkItem.drinkType,
+                value: drinkItem?._id,
                 img: data?.banner,
               }))}
               onChange={(option) => setSelectedOption(option)}
