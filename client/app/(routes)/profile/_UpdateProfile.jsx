@@ -1,13 +1,17 @@
 "use client";
 import { addUserData } from "@/app/lib/features/auth/authSlice";
 import { useAppSelector } from "@/app/lib/hooks";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { toast } from "sonner";
+import { ClipLoader } from "react-spinners";
+
 
 const UpdateProfile = () => {
   const { userData, isUserLoggedIn } = useAppSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -23,6 +27,7 @@ const UpdateProfile = () => {
 
   const updateProfile = async (data) => {
     try {
+      setLoading(true);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/updateProfile`,
         {
@@ -43,6 +48,8 @@ const UpdateProfile = () => {
 
       dispatch(addUserData(updatedData));
       console.log(responseData, "response");
+      toast.success("User profile updated successfully!");
+      setLoading(false);
     } catch (error) {
       console.error("Error during signup:", error.message);
       // Handle error (e.g., show an error message to the user)
@@ -69,7 +76,7 @@ const UpdateProfile = () => {
                 className="w-full p-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-red-800"
                 placeholder="Enter Your First Name"
               />
-              {errors.firstName && <span>This field is required</span>}
+              {errors.firstName && <span className="text-red-500">This field is required</span>}
               {/* <CheckIcon className="absolute top-1/2 right-3 transform -translate-y-1/2 text-red-800" /> */}
             </div>
           </div>
@@ -85,7 +92,7 @@ const UpdateProfile = () => {
                 className="w-full p-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-red-800"
                 placeholder="Enter Your Last Name"
               />
-              {errors.lastName && <span>This field is required</span>}
+              {errors.lastName && <span className="text-red-500">This field is required</span>}
               {/* <CheckIcon className="absolute top-1/2 right-3 transform -translate-y-1/2 text-red-800" /> */}
             </div>
           </div>
@@ -102,28 +109,28 @@ const UpdateProfile = () => {
               className="w-full p-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-red-800"
               placeholder="Enter Mobile Number"
             />
-            {errors.mobileNumber && <span>This field is required</span>}
+            {errors.mobileNumber && <span className="text-red-500">This field is required</span>}
             {/* <CheckIcon className="absolute top-1/2 right-3 transform -translate-y-1/2 text-red-800" /> */}
           </div>
         </div>
 
-        <div className="flex items-start space-x-2">
+        {/* <div className="flex items-start space-x-2">
           <input type="checkbox" id="offers" className=" accent-red-800" />
           <label htmlFor="offers" className="text-sm font-medium leading-none">
             Please send me exclusive deals and amazing pizza offers via email
           </label>
-        </div>
+        </div> */}
         <p className="text-sm text-gray-600">
-          Tops Pizza's does not sell, trade or rent your personal information to
+          Hot House Pizza's does not sell, trade or rent your personal information to
           others. Any data collected will be used solely for the purpose of
           providing the services you request, communicating information about
           our brands, products and services and internal analysis.
         </p>
         <button
           type="submit"
-          className="w-full py-3 bg-red-800 text-white rounded-md hover:bg-red-600"
+          className="w-full py-3 bg-red-800 text-white rounded-md hover:bg-red-700"
         >
-          Save & continue
+            {loading ? <ClipLoader size={20} color="#ffffff" /> : "Save & continue"}
         </button>
       </form>
     </main>

@@ -35,6 +35,7 @@ const Page = () => {
             password: data?.password,
             firstName: data?.firstName,
             lastName: data?.lastName,
+            mobileNumber:data?.mobileNumber
           }),
         }
       );
@@ -66,10 +67,10 @@ const Page = () => {
 
   return (
     <>
-      <div className="bg-gray-100 flex items-center justify-center ">
+      <div className=" flex items-center justify-center pb-14 ">
         <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
-          <h2 className="text-2xl font-bold mb-6 text-center">
-            NEW MEMBER? REGISTER
+          <h2 className="text-xl font-bold mb-6 text-center">
+            New member ? REGISTER
           </h2>
           {response && response?.status == false ? (
             <div className="p-2 text-center text-red-600 font-semibold">
@@ -88,7 +89,7 @@ const Page = () => {
                 id="register-email"
                 className={`w-full px-3 py-2 border ${
                   errors.firstName ? "border-red-800" : "border-gray-300"
-                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                } rounded-md focus:outline-none focus:ring focus:ring-slate-300`}
                 placeholder="Enter your First Name"
                 {...register("firstName", {
                   required: true,
@@ -108,8 +109,8 @@ const Page = () => {
                 type="text"
                 id="register-email"
                 className={`w-full px-3 py-2 border ${
-                  errors.firstName ? "border-red-800" : "border-gray-300"
-                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                  errors.lastName ? "border-red-800" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring focus:ring-slate-300`}
                 placeholder="Enter your Last Name"
                 {...register("lastName", {
                   required: true,
@@ -123,6 +124,27 @@ const Page = () => {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700" htmlFor="register-email">
+                Mobile Number
+              </label>
+              <input
+                type="Number"
+                id="register-email"
+                className={`w-full px-3 py-2 border ${
+                  errors.mobileNumber ? "border-red-800" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring focus:ring-slate-300`}
+                placeholder="Enter your mobile number"
+                {...register("mobileNumber", {
+                  required: true,
+                })}
+              />
+              {errors.mobileNumber && (
+                <p className="text-red-800 text-sm mt-1">
+                  {errors.mobileNumber && "Mobile number is required"}
+                </p>
+              )}
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700" htmlFor="register-email">
                 Email Address
               </label>
               <input
@@ -130,7 +152,7 @@ const Page = () => {
                 id="register-email"
                 className={`w-full px-3 py-2 border ${
                   errors.email ? "border-red-800" : "border-gray-300"
-                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                } rounded-md focus:outline-none focus:ring focus:ring-slate-300`}
                 placeholder="Enter your email"
                 {...register("email", {
                   required: "Email is required",
@@ -158,7 +180,7 @@ const Page = () => {
                 id="register-password"
                 className={`w-full px-3 py-2 border ${
                   errors.password ? "border-red-800" : "border-gray-300"
-                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                } rounded-md focus:outline-none focus:ring focus:ring-slate-300`}
                 placeholder="Enter your password"
                 {...register("password", {
                   required: "Password is required",
@@ -183,7 +205,7 @@ const Page = () => {
                 id="confirm-password"
                 className={`w-full px-3 py-2 border ${
                   errors.confirmPassword ? "border-red-800" : "border-gray-300"
-                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                } rounded-md focus:outline-none focus:ring focus:ring-slate-300`}
                 placeholder="Re-enter your password"
                 {...register("confirmPassword", {
                   required: "Please confirm your password",
@@ -213,7 +235,7 @@ const Page = () => {
                 })}
               />
               <label htmlFor="terms" className="text-gray-700">
-                I accept the Tops Pizza{" "}
+                I accept the Hot House Pizza{" "}
                 <a href="#" className="text-blue-500 underline">
                   Terms & Conditions
                 </a>{" "}
@@ -224,20 +246,20 @@ const Page = () => {
               </label>
             </div>
             {errors.terms && (
-              <p className="text-red-800 text-sm mt-1">
+              <p className="text-red-800 text-sm mb-1">
                 {errors.terms.message}
               </p>
             )}
             <button
               type="submit"
-              className="w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+              className="w-full bg-green-700  text-white px-4 py-2 rounded-md hover:bg-green-600"
             >
               Register
             </button>
             <p className="mt-4">
               Already have an account?{" "}
               <span>
-                <Link href="/login" className="text-blue-700">
+                <Link href="/login" className="text-red-800 hover:text-red-700">
                   Login here
                 </Link>
               </span>

@@ -1,7 +1,10 @@
 "use client";
 
+import AddedToCartModel from "@/app/_components/Modals/AddedToCartModel";
 import ReceiptModal from "@/app/_components/Modals/ReceiptModal";
+import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import { getSelectedReceipt } from "@/app/lib/features/orderDetails/selectedRecipt";
+import { Router } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { MdReceiptLong } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +14,8 @@ const OrderDetails = () => {
   const [orderData, setOrderData] = useState("");
   const [isReceiptVisible, setIsReceiptVisible] = useState(false);
   const dispatch = useDispatch();
+
+  // const router = Router
 
   const getOrderDetails = async () => {
     const response = await fetch(
@@ -24,13 +29,26 @@ const OrderDetails = () => {
     getOrderDetails();
   }, []);
 
+
+  function handleReorderData(data) {
+    data.forEach((element) => {
+      return dispatch(
+        addToCart({
+          ...element,
+        })
+      );
+    });
+
+
+  }
+
   return (
-    <div className="px-10 py-10 ">
+    <div className="px-10 py-10 w-full lg:w-3/4 rounded-md shadow-lg">
       {Array.isArray(orderData) &&
-        orderData.length > 0 &&
+        orderData.length > 0 ?
         orderData?.map((data) => {
           return (
-            <div className="lg:w-[600px] bg-white shadow-md p-4">
+            <div className="  p-4">
               <div className="flex gap-3 justify-between">
                 <h1 className="text-xl">
                   {`${data?.orderType}`} ORDER NO. {data?.count}
@@ -47,9 +65,13 @@ const OrderDetails = () => {
                   </p>
                 </div>
                 <div className="flex items-center gap-2 ">
-                  <button className="p-3 h-12 bg-red-800 text-white flex items-center">
+                  <a
+                    href="/order/cart"
+                    onClick={() => handleReorderData(data?.items)}
+                    className="p-3 h-12 bg-red-800 text-white flex items-center"
+                  >
                     Reorder Now
-                  </button>
+                  </a>
                   <button
                     className="p-3 h-12 bg-red-800 text-white flex items-center"
                     onClick={() => {
@@ -67,7 +89,9 @@ const OrderDetails = () => {
               </div>
             </div>
           );
-        })}
+        })
+      : "No Order History"
+      }
     </div>
   );
 };

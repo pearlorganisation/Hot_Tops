@@ -180,9 +180,9 @@ const page = () => {
                   time, there may be delays during busier periods.
                 </p>
                 <p className="mb-4">
-                  If you have any issues with your Tops Pizza order or
-                  experience, in the first instance please contact the Tops
-                  Store you ordered from directly.
+                  If you have any issues with your order or
+                  experience, in the first instance please contact the 
+                  store you ordered from directly.
                 </p>
                 <p className="mb-2">Your order is being placed with:</p>
                 <p className="font-bold">91 Joel St, Pinner, Northwood HA6 1LW, UK
@@ -194,7 +194,7 @@ info@hothousenorthwood.co.uk</p>
                 </p>
               </div>
               <button
-                className="bg-green-500 py-2 w-full text-white rounded"
+                className="bg-green-700 hover:bg-green-600  py-2 w-full text-white rounded"
                 type="submit"
               >
                 Proceed To Checkout
