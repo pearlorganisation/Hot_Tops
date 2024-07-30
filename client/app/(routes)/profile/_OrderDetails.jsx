@@ -44,23 +44,36 @@ const OrderDetails = () => {
   }
 
   return (
-    <div className=" md:px-10 md:py-10 w-full lg:w-3/4 rounded-md shadow-lg">
+
+    <div className="px-2 md:px-10 md:py-10 w-full lg:w-3/4 rounded-md shadow-lg">
 
       {Array.isArray(orderData) &&
         orderData.length > 0 ?
         orderData?.map((data) => {
           return (
-
-            <div className="md:p-4">
+            <div className="pb-8 md:p-4">
               <div className="md:flex gap-3 font-semibold justify-between">
                 <h1 className="">
-                  <span className="text-xl capitalize bg-red-800 rounded-md px-1 py-1 text-white">{`${data?.orderType}`}</span> Order Id - {data?.count}
+                 <div className="flex justify-between">
+                   <span className="text-xl capitalize bg-red-800 rounded-md px-1 py-1 text-white">{`${data?.orderType}`}
+                    </span>   
+                    <a
+                    href="/order/cart"
+                    onClick={() => handleReorderData(data?.items)}
+                    className="md:hidden px-1 py-1  text-red-800 rounded-md shadow-lg flex items-center"
+                  >
+                    Reorder Now
+                  </a>
+                  </div>
+                    <h2 className=" md:hidden text-red-800">{data?.orderStatus}</h2>
+                    <h1 className="hidden md:block">Order Id - {data?.count}</h1> 
 
                 </h1>
-                <h2 className="text-red-800">{data?.orderStatus}</h2>
+                <h2 className="hidden md:block text-red-800">{data?.orderStatus}</h2>
               </div>
               <div className="flex justify-between items-center">
                 <div className="font-semibold">
+                <h1 className="md:hidden">Order Id - {data?.count}</h1> 
                   <p>{data?.orderAt}</p>
                   <p className="font-semibold">
                     Order Amount - £{" "} 
@@ -72,18 +85,18 @@ const OrderDetails = () => {
                   <a
                     href="/order/cart"
                     onClick={() => handleReorderData(data?.items)}
-                    className="p-3 h-12 bg-red-800 hover:bg-red-700 rounded-md text-white flex items-center"
+                    className="hidden p-3 bg-red-800 hover:bg-red-700 rounded-md text-white md:flex items-center"
                   >
                     Reorder Now
                   </a>
                   <button
-                    className="p-3 h-12 bg-red-800 hover:bg-red-700 rounded-md text-white flex items-center"
+                    className="p-2 md:p-3  text-red-800 hover:text-red-700  rounded-md shadow-lg flex items-center"
                     onClick={() => {
                       dispatch(getSelectedReceipt(data));
                       setIsReceiptVisible(true);
                     }}
                   >
-                    <BiReceipt size={20} />
+                    <BiReceipt size={20} className=""/>
                   </button>
                 </div>
                 <ReceiptModal
