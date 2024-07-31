@@ -1,5 +1,5 @@
 "use client";
-import { setPrice } from "@/app/lib/features/cartSlice/cartSlice";
+import { setPrice, setToppings } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -129,6 +129,29 @@ const Cheese = ({ cheeseData }) => {
   useEffect(() => {
     const total = calculateTotalPrice();
     dispatch(setPrice({ cheesePrice: Number(total) }));
+  }, [selectedCheese]);
+
+  const handleSave = () => {
+    const selectedCheeseData = Object.entries(selectedCheese).map(
+      ([cheeseId, size]) => {
+        const cheese = cheeseData.find((s) => s._id === cheeseId);
+        const price =
+          size === "single"
+            ? cheese.price[0].singlePrice
+            : cheese.price[0].doublePrice;
+        return {
+          cheeseName: cheese.name,
+          size,
+          price,
+        };
+      }
+    );
+    dispatch(setToppings({ cheese: selectedCheeseData }));
+    console.log(selectedCheeseData, "selectedCheeseData");
+  };
+
+  useEffect(() => {
+    handleSave();
   }, [selectedCheese]);
 
   return (

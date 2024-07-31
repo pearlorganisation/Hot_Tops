@@ -94,19 +94,23 @@ const Product = () => {
     // console.log(sizeId)
     try {
       if (sizeId) {
-        const baseResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/base/price?sizeId=${sizeId}`);
+
+        const [baseResponse, sauceResponse, cheeseResponse, meatToppingsResponse, vegetarianToppingsResponse] = await Promise.all([
+          fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/base/price?sizeId=${sizeId}`),
+          fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/sauce/price?sizeId=${sizeId}`),
+          fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/cheese/price?sizeId=${sizeId}`),
+          fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/meatToppings/price?sizeId=${sizeId}`),
+          fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/vegetarianToppings/price?sizeId=${sizeId}`),
+        ]);
+
         const basePriceData = await baseResponse.json();
 
-        const sauceResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/sauce/price?sizeId=${sizeId}`);
         const saucePriceData = await sauceResponse.json();
 
-        const cheeseResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/cheese/price?sizeId=${sizeId}`);
         const cheesePriceData = await cheeseResponse.json();
 
-        const meatToppingsResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/meatToppings/price?sizeId=${sizeId}`);
         const meatToppingsPriceData = await meatToppingsResponse.json();
 
-        const vegetarianToppingsResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/food/customization/vegetarianToppings/price?sizeId=${sizeId}`);
         const vegetarianToppingsPriceData = await vegetarianToppingsResponse.json();
 
 
@@ -123,197 +127,12 @@ const Product = () => {
     }
   };
 
-  // console.log(saucePrices)
 
-  const cheeseTable = (data, selection, setSelection, itemType) => {
-    // console.log(data)
-    return (
 
-      <div className="mt-4 ">
-        <table className="min-w-full bg-white border  border-gray-200">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b"></th>
-              <th className="py-2 px-4 border-b">Single</th>
-              <th className="py-2 px-4 border-b">Double</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array.isArray(data) && data.map((item) => (
-              <tr key={item?._id}>
-                {/* {console.log(selection)} */}
-                <td className="py-2 px-2 lg:px-4 border-b">
-                  {item?.name}
-                </td>
-                <td className="py-2 px-2 lg:px-4 border-b  text-center">
-                  <div className="flex flex-col gap-2 lg:block">
-                    <input
-                      className="mx-3"
-                      value={`${item?.price[0]?.singlePrice}`}
-                      type="checkbox"
-                      name={`selection-${item?._id}`}
-                      data-label={`${item?.name} (Single)-${item?.price[0]?.singlePrice}`}
-                      // checked={selectedSizeId === data?.size?._id}
-                      checked={"Manchurian Sauce" === item?.name}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        setSelection(value);
-                        // console.log(selection)
 
-                      }}
-                    />
-                    <span className="bg-red-500 w-fit mx-auto text-white rounded-lg px-1 lg:px-2">£ {item?.price[0]?.singlePrice}</span>
-                  </div>
-                </td>
-                <td className="py-2 px-2 lg:px-4 border-b text-center">
-                  <div className="flex flex-col gap-2 lg:block">
-                    <input
-                      className="mx-3"
-                      type="checkbox"
-                      name={`selection-${item?._id}`}
-                      value={item?.price[0]?.doublePrice}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        setSelection(value);
-                        // console.log(setSelectedCheese)
-                      }}
-                    />
-                    <span className="bg-yellow-600 w-fit mx-auto text-white rounded-lg px-1 lg:px-2">£ {item?.price[0]?.doublePrice}</span>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-  const meatToppingsTable = (data, selection, setSelection, itemType) => {
-    // console.log(data)
-    return (
 
-      <div className="mt-4 ">
-        <table className="min-w-full bg-white border  border-gray-200">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b"></th>
-              <th className="py-2 px-4 border-b">Single</th>
-              <th className="py-2 px-4 border-b">Double</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array.isArray(data) && data.map((item) => (
-              <tr key={item?._id}>
-                {/* {console.log(selection)} */}
-                <td className="py-2 px-2 lg:px-4 border-b">
-                  {item?.name}
-                </td>
-                <td className="py-2 px-2 lg:px-4 border-b  text-center">
-                  <div className="flex flex-col gap-2 lg:block">
-                    <input
-                      className="mx-3"
-                      value={`${item?.price[0]?.singlePrice}`}
-                      type="checkbox"
-                      name={`selection-${item?._id}`}
-                      data-label={`${item?.name} (Single)-${item?.price[0]?.singlePrice}`}
-                      // checked={selectedSizeId === data?.size?._id}
-                      checked={"Manchurian Sauce" === item?.name}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        setSelection(value);
-                        // console.log(selection)
 
-                      }}
-                    />
-                    <span className="bg-red-500 w-fit mx-auto text-white rounded-lg px-1 lg:px-2">£ {item?.price[0]?.singlePrice}</span>
-                  </div>
-                </td>
-                <td className="py-2 px-2 lg:px-4 border-b text-center">
-                  <div className="flex flex-col gap-2 lg:block">
-                    <input
-                      className="mx-3"
-                      type="checkbox"
-                      name={`selection-${item?._id}`}
-                      value={item?.price[0]?.doublePrice}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        setSelection(value);
-                        // console.log(setSelectedCheese)
-                      }}
-                    />
-                    <span className="bg-yellow-600 w-fit mx-auto text-white rounded-lg px-1 lg:px-2">£ {item?.price[0]?.doublePrice}</span>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-  const vegetarianToppingsTable = (data, selection, setSelection, itemType) => {
-    // console.log(data)
-    return (
 
-      <div className="mt-4 ">
-        <table className="min-w-full bg-white border  border-gray-200">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b"></th>
-              <th className="py-2 px-4 border-b">Single</th>
-              <th className="py-2 px-4 border-b">Double</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array.isArray(data) && data.map((item) => (
-              <tr key={item?._id}>
-                {/* {console.log(selection)} */}
-                <td className="py-2 px-2 lg:px-4 border-b">
-                  {item?.name}
-                </td>
-                <td className="py-2 px-2 lg:px-4 border-b  text-center">
-                  <div className="flex flex-col gap-2 lg:block">
-                    <input
-                      className="mx-3"
-                      value={`${item?.price[0]?.singlePrice}`}
-                      type="checkbox"
-                      name={`selection-${item?._id}`}
-                      data-label={`${item?.name} (Single)-${item?.price[0]?.singlePrice}`}
-                      // checked={selectedSizeId === data?.size?._id}
-                      checked={"Manchurian Sauce" === item?.name}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        setSelection(value);
-                        // console.log(selection)
-
-                      }}
-                    />
-                    <span className="bg-red-500 w-fit mx-auto text-white rounded-lg px-1 lg:px-2">£ {item?.price[0]?.singlePrice}</span>
-                  </div>
-                </td>
-                <td className="py-2 px-2 lg:px-4 border-b text-center">
-                  <div className="flex flex-col gap-2 lg:block">
-                    <input
-                      className="mx-3"
-                      type="checkbox"
-                      name={`selection-${item?._id}`}
-                      value={item?.price[0]?.doublePrice}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        setSelection(value);
-                        // console.log(setSelectedCheese)
-                      }}
-                    />
-                    <span className="bg-yellow-600 w-fit mx-auto text-white rounded-lg px-1 lg:px-2">£ {item?.price[0]?.doublePrice}</span>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
 
 
 
@@ -383,9 +202,9 @@ const Product = () => {
 
 
 
-            {/* SAUCE Starts 2 */}
+            {/* SAUCE STARTS */}
             <Sauce sauceData={saucePrices} />
-            {/* SAUCE Ends 2 */}
+            {/* SAUCE ENDS */}
 
             {/* CHEESE: STARTS */}
             <Cheese cheeseData={cheesePrices} />
@@ -402,11 +221,7 @@ const Product = () => {
             {/* MEAT TOPPINGS: ENDS */}
 
 
-            {/* MEAT TOPPINGS: */}
-            {/* <div className="mt-4">
-        <h2 className="text-lg font-semibold text-gray-800">MEAT TOPPINGS</h2>
-        {meatToppingsPrices && meatToppingsTable(meatToppingsPrices, selectedMeatToppings, setSelectedMeatToppings,'meatToppingsName')}
-      </div> */}
+
 
 
 

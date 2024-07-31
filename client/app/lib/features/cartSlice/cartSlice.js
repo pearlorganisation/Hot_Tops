@@ -6,6 +6,7 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: {
     cartData: [],
+    allToppings: [],
     price: {
       saucePrice: 0,
       cheesePrice: 0,
@@ -13,6 +14,7 @@ const cartSlice = createSlice({
       meatPrice: 0,
       totalPrice: 0,
     },
+
     isOrderCheckout: false,
   },
 
@@ -109,6 +111,13 @@ const cartSlice = createSlice({
         totalPrice: totalSum,
       };
     },
+    setToppings: (state, action) => {
+      console.log({ ...action.payload });
+
+      const temp = { ...current(state.allToppings), ...action.payload };
+      console.log(temp);
+      state.allToppings = temp;
+    },
 
     deletefromCart: (state, action) => {
       state.cartData = state.cartData.filter(
@@ -132,5 +141,6 @@ export const {
   decreaseQuantity,
   increaseQuantity,
   setPrice,
+  setToppings,
 } = cartSlice.actions;
 export default cartSlice.reducer;

@@ -1,5 +1,5 @@
 "use client";
-import { setPrice } from "@/app/lib/features/cartSlice/cartSlice";
+import { setPrice, setToppings } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -88,10 +88,6 @@ const Sauce = ({ sauceData }) => {
 
   const [selectedSauces, setSelectedSauces] = useState({});
 
-  //   useEffect(() => {
-  //     console.log(customizationData?.sauceName, "customizationData?.sauceName");
-  //   }, [customizationData]);
-
   const handleSelectionChange = (sauceId, size) => {
     setSelectedSauces((prevSelected) => {
       // Toggle the selection
@@ -129,6 +125,29 @@ const Sauce = ({ sauceData }) => {
   useEffect(() => {
     const total = calculateTotalPrice();
     dispatch(setPrice({ saucePrice: Number(total) }));
+  }, [selectedSauces]);
+
+  const handleSave = () => {
+    const selectedSaucesData = Object.entries(selectedSauces).map(
+      ([sauceId, size]) => {
+        const sauce = saucesData.find((s) => s._id === sauceId);
+        const price =
+          size === "single"
+            ? sauce.price[0].singlePrice
+            : sauce.price[0].doublePrice;
+        return {
+          sauceName: sauce.name,
+          size,
+          price,
+        };
+      }
+    );
+    dispatch(setToppings({ sauce: selectedSaucesData }));
+    console.log(selectedSaucesData, "selectedSaucesData");
+  };
+
+  useEffect(() => {
+    handleSave();
   }, [selectedSauces]);
 
   return (

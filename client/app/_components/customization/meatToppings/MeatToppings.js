@@ -1,5 +1,5 @@
 "use client";
-import { setPrice } from "@/app/lib/features/cartSlice/cartSlice";
+import { setPrice, setToppings } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -129,6 +129,28 @@ const MeatToppings = ({ meatTopData }) => {
   useEffect(() => {
     const total = calculateTotalPrice();
     dispatch(setPrice({ meatPrice: Number(total) }));
+  }, [selectedMeat]);
+
+  const handleSave = () => {
+    const selectedMeatData = Object.entries(selectedMeat).map(
+      ([meatId, size]) => {
+        const meat = meatTopData.find((s) => s._id === meatId);
+        const price =
+          size === "single"
+            ? meat.price[0].singlePrice
+            : meat.price[0].doublePrice;
+        return {
+          meatName: meat.name,
+          size,
+          price,
+        };
+      }
+    );
+    dispatch(setToppings({ meat: selectedMeatData }));
+    console.log(selectedMeatData, "selectedVegetarianData");
+  };
+  useEffect(() => {
+    handleSave();
   }, [selectedMeat]);
 
   return (
