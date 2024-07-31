@@ -85,7 +85,7 @@ const Cart = () => {
                   </button>
                 </div>
                 <div className="col-span-1 text-right text-xl font-semibold md:col-span-3 md:text-left">
-                  £{data?.totalSum}
+                  £ {data?.totalSum}
                 </div>
               </div>
             );

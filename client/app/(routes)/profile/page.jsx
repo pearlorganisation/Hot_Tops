@@ -63,7 +63,7 @@ const page = ({ searchParams }) => {
               <li>
                 <button
                   onClick={handleDeleteAccount}
-                  className="block p-2 text-red-800 hover:underline"
+                  className="block p-2 text-start text-red-800 hover:underline"
                 >
                   Delete my account
                 </button>
@@ -92,7 +92,7 @@ const page = ({ searchParams }) => {
                       : "text-red-800"
                   } hover:underline`}
                 >
-                  List all of your recent orders
+                  List all of your orders
                 </Link>
               </li>
             </ul>

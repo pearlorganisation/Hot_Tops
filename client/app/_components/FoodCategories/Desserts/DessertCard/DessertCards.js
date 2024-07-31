@@ -43,7 +43,6 @@ const DessertCards = ({ data, dummyData, idx }) => {
           please select size first
         </p> */}
         <div className="relative flex items-center ">
-          <div className="bg-green-600 hover:bg-green-700 flex gap-2 items-center justify-center w-full">
             <button
               onClick={() => {
                 dispatch(
@@ -61,13 +60,13 @@ const DessertCards = ({ data, dummyData, idx }) => {
               data-modal-target="popup-modal"
               data-modal-toggle="popup-modal"
               data-modal-hide="popup-modal"
-              className="p-2 text-white text-center"
+              className=" text-white text-center bg-green-600 hover:bg-green-700 flex p-2 items-center justify-center w-full"
               type="button"
             >
               Add
             </button>
           </div>
-        </div>
+ 
       </div>
 
   );
