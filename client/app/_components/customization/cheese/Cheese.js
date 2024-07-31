@@ -128,7 +128,7 @@ const Cheese = ({ cheeseData }) => {
 
   useEffect(() => {
     const total = calculateTotalPrice();
-    dispatch(setPrice({ cheesePrice: total }));
+    dispatch(setPrice({ cheesePrice: Number(total) }));
   }, [selectedCheese]);
 
   return (

@@ -1,6 +1,6 @@
 import { toast } from "sonner";
 
-const { createSlice } = require("@reduxjs/toolkit");
+const { createSlice, current } = require("@reduxjs/toolkit");
 
 const cartSlice = createSlice({
   name: "cart",
@@ -85,14 +85,27 @@ const cartSlice = createSlice({
       state.cartData = temp;
     },
     setPrice: (state, action) => {
-      const temp = { ...state.price, ...action.payload };
-      const totalSum =
-        temp.saucePrice +
-        temp.cheesePrice +
-        temp.vegetarianPrice +
-        temp.meatPrice;
+      console.log("price:", { ...action.payload });
+      console.log(current(state.price));
+      const { saucePrice, cheesePrice, vegetarianPrice, meatPrice } = {
+        ...current(state.price),
+        ...action.payload,
+      };
+
+      console.log(
+        saucePrice,
+        cheesePrice,
+        vegetarianPrice,
+        meatPrice,
+        "setPrice"
+      );
+
+      const totalSum = saucePrice + cheesePrice + vegetarianPrice + meatPrice;
       state.price = {
-        ...state.price,
+        saucePrice,
+        cheesePrice,
+        vegetarianPrice,
+        meatPrice,
         totalPrice: totalSum,
       };
     },

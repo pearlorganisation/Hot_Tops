@@ -128,7 +128,7 @@ const VegetarianToppings = ({ vegetarianTopData }) => {
 
   useEffect(() => {
     const total = calculateTotalPrice();
-    dispatch(setPrice({ vegetarianPrice: total }));
+    dispatch(setPrice({ vegetarianPrice: Number(total) }));
   }, [selectedVeg]);
 
   return (

@@ -128,7 +128,7 @@ const MeatToppings = ({ meatTopData }) => {
 
   useEffect(() => {
     const total = calculateTotalPrice();
-    dispatch(setPrice({ meatPrice: total }));
+    dispatch(setPrice({ meatPrice: Number(total) }));
   }, [selectedMeat]);
 
   return (

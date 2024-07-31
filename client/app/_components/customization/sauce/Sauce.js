@@ -128,7 +128,7 @@ const Sauce = ({ sauceData }) => {
 
   useEffect(() => {
     const total = calculateTotalPrice();
-    dispatch(setPrice({ saucePrice: total }));
+    dispatch(setPrice({ saucePrice: Number(total) }));
   }, [selectedSauces]);
 
   return (
