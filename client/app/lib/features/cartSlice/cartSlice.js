@@ -88,7 +88,7 @@ const cartSlice = createSlice({
     },
     setPrice: (state, action) => {
       console.log("price:", { ...action.payload });
-      console.log(current(state.price));
+      console.log(current(state?.price));
       const { saucePrice, cheesePrice, vegetarianPrice, meatPrice } = {
         ...current(state.price),
         ...action.payload,
