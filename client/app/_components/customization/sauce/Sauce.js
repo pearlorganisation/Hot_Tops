@@ -1,5 +1,7 @@
 "use client";
+import { setPrice, setToppings } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const saucesData = [
   {
@@ -56,11 +58,35 @@ const saucesData = [
   },
 ];
 
-const SauceSelector = () => {
-  const [selectedSauces, setSelectedSauces] = useState({
-    "6692599000cad24da6ad78b5": "single",
-    "66925a1400cad24da6ad78d5": "single",
-  });
+const Sauce = ({ sauceData }) => {
+  console.log(sauceData, "sauceData");
+  const { customizationData } = useSelector((state) => state.orderDetails);
+  const [defaultSauceDetails, setDefaultSauceDetails] = useState([]);
+  const dispatch = useDispatch();
+  const defaultSelectedSauces = customizationData?.sauceName;
+
+  useEffect(() => {
+    setDefaultSauceDetails(customizationData?.sauceName);
+  }, [customizationData]);
+
+  useEffect(() => {
+    setSelectedSauces(() => {
+      const defaultSelected = {};
+      console.log(defaultSelectedSauces, "defaultSelectedSauces");
+      defaultSauceDetails?.forEach((sauceName) => {
+        console.log(sauceName, "sauceName");
+        const sauce = sauceData.find((s) => s.name === sauceName);
+        console.log(sauceData, "sauceData");
+        if (sauce) {
+          defaultSelected[sauce._id] = "single";
+        }
+      });
+      console.log(defaultSelected, "defaultSelected");
+      return defaultSelected;
+    });
+  }, [defaultSauceDetails, customizationData, sauceData]);
+
+  const [selectedSauces, setSelectedSauces] = useState({});
 
   const handleSelectionChange = (sauceId, size) => {
     setSelectedSauces((prevSelected) => {
@@ -81,6 +107,49 @@ const SauceSelector = () => {
     console.log(selectedSauces, "selectedSauces");
   }, [selectedSauces]);
 
+  const calculateTotalPrice = () => {
+    let total = 0;
+    for (const [sauceId, size] of Object.entries(selectedSauces)) {
+      const sauce = saucesData.find((s) => s._id === sauceId);
+      if (sauce) {
+        const price =
+          size === "single"
+            ? sauce.price[0].singlePrice
+            : sauce.price[0].doublePrice;
+        total += price;
+      }
+    }
+    return Number(total.toFixed(2));
+  };
+
+  useEffect(() => {
+    const total = calculateTotalPrice();
+    dispatch(setPrice({ saucePrice: Number(total) }));
+  }, [selectedSauces]);
+
+  const handleSave = () => {
+    const selectedSaucesData = Object.entries(selectedSauces).map(
+      ([sauceId, size]) => {
+        const sauce = saucesData.find((s) => s._id === sauceId);
+        const price =
+          size === "single"
+            ? sauce.price[0].singlePrice
+            : sauce.price[0].doublePrice;
+        return {
+          sauceName: sauce.name,
+          size,
+          price,
+        };
+      }
+    );
+    dispatch(setToppings({ sauce: selectedSaucesData }));
+    console.log(selectedSaucesData, "selectedSaucesData");
+  };
+
+  useEffect(() => {
+    handleSave();
+  }, [selectedSauces]);
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Select Your Sauces</h1>
@@ -99,7 +168,7 @@ const SauceSelector = () => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {saucesData.map((sauce) => (
+          {sauceData.map((sauce) => (
             <tr key={sauce._id} className="hover:bg-gray-100">
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                 {sauce.name}
@@ -136,4 +205,4 @@ const SauceSelector = () => {
   );
 };
 
-export default SauceSelector;
+export default Sauce;

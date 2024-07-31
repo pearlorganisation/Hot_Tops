@@ -1,11 +1,20 @@
 import { toast } from "sonner";
 
-const { createSlice } = require("@reduxjs/toolkit");
+const { createSlice, current } = require("@reduxjs/toolkit");
 
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
     cartData: [],
+    allToppings: [],
+    price: {
+      saucePrice: 0,
+      cheesePrice: 0,
+      vegetarianPrice: 0,
+      meatPrice: 0,
+      totalPrice: 0,
+    },
+
     isOrderCheckout: false,
   },
 
@@ -77,6 +86,39 @@ const cartSlice = createSlice({
 
       state.cartData = temp;
     },
+    setPrice: (state, action) => {
+      console.log("price:", { ...action.payload });
+      console.log(current(state.price));
+      const { saucePrice, cheesePrice, vegetarianPrice, meatPrice } = {
+        ...current(state.price),
+        ...action.payload,
+      };
+
+      console.log(
+        saucePrice,
+        cheesePrice,
+        vegetarianPrice,
+        meatPrice,
+        "setPrice"
+      );
+
+      const totalSum = saucePrice + cheesePrice + vegetarianPrice + meatPrice;
+      state.price = {
+        saucePrice,
+        cheesePrice,
+        vegetarianPrice,
+        meatPrice,
+        totalPrice: totalSum,
+      };
+    },
+    setToppings: (state, action) => {
+      console.log({ ...action.payload });
+
+      const temp = { ...current(state.allToppings), ...action.payload };
+      console.log(temp);
+      state.allToppings = temp;
+    },
+
     deletefromCart: (state, action) => {
       state.cartData = state.cartData.filter(
         (item) => item.id !== action.payload.id
@@ -98,5 +140,7 @@ export const {
   emptyCart,
   decreaseQuantity,
   increaseQuantity,
+  setPrice,
+  setToppings,
 } = cartSlice.actions;
 export default cartSlice.reducer;
