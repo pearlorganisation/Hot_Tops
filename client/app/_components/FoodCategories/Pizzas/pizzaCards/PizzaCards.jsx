@@ -5,8 +5,10 @@ import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import Link from "next/link";
 import AddedToCartModel from "@/app/_components/Modals/AddedToCartModel";
 import { getCustomizationDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
+import { RiCheckboxBlankCircleFill } from "react-icons/ri";
 
 const PizzaCards = ({ data, idx }) => {
+
   const dispatch = useDispatch();
   const selectedSizeId = Array.isArray(data?.priceSection) && data?.priceSection[0]?.size?._id;
   const [selectedData, setSelectedData] = useState(selectedSizeId);
@@ -46,8 +48,12 @@ const PizzaCards = ({ data, idx }) => {
 
 
   return (
-    <div className="flex flex-col justify-between bg-white rounded-md max-w-[17rem]  2xl:max-w-xs w-full newshadow mb-10 " key={idx}>
-      <img src={data?.banner} alt="Card Image" className="h-52 w-full rounded-t-md object-cover" />
+    <div className="flex relative flex-col justify-between bg-white rounded-md max-w-[17rem]  2xl:max-w-xs w-full newshadow mb-10 " key={idx}>
+         <div className="">
+      <img src={data?.banner} alt="Card Image" className="h-52 w-full rounded-t-md object-cover" /></div>
+         <div className="flex  absolute justify-end  w-full"> <div className={` rounded-md  w-6 h-6 border-2 flex justify-center items-center bg-white ${data?.filter?._id === "666941b94af3128843e747bb"  ? "border-green-600 ": "border-red-800"}`}  >
+      <RiCheckboxBlankCircleFill size={20} className={`${data?.filter?.filter === "Vegetarian"  ? "text-green-600 ": "text-red-800"}`}/></div>
+    </div>
       <div className=" h-full px-2">
         <div className="mt-3">
           <h2 className="text-xl font-semibold mb-1 ">{data?.pizzaName}</h2>
