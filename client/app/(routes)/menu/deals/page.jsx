@@ -49,7 +49,7 @@ const Page = () => {
         </header>
       </div>
 
-      <div className="max-w-7xl  p-8 gap-10 grid md:grid-cols-2 lg:grid-cols-4 place-content-center">
+      <div className="p-8 gap-10 grid md:grid-cols-2 lg:grid-cols-4   place-content-center">
         {Array.isArray(dealData) &&
           dealData.map((el, index) => <DealsCards data={el} key={index} />)}
         {!dealData && <h1>Loading </h1>}

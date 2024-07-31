@@ -42,7 +42,7 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="mx-auto w-full lg:max-w-7xl lg:px-10 ">
+      <div className="mx-auto w-full lg:y lg:px-10 ">
       <Swiper
       className="z-55 p-2"
         slidesPerView={1}
@@ -55,7 +55,7 @@ const HomePage = () => {
         {img.map((el, i) => {
             return (
               <SwiperSlide className="pb-8" key={i} >
-                <Image src={el} className="h-[20vh] w-full md:h-[60vh]  object-cover" />
+                <Image src={el} className="h-[20vh] w-full sm:h-[30vh] md:h-[65vh] object-cover" />
               </SwiperSlide>
             );
           })}
