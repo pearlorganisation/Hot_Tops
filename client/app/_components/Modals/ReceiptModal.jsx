@@ -1,7 +1,4 @@
-import logo from "../../_assets/images/logo.png";
-import Image from "next/image";
-import Link from "next/link";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { useSelector } from "react-redux";
@@ -20,6 +17,20 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
 
     return params.toString();
   }, []);
+
+  useEffect(() => {
+    if (isReceiptVisible) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    // Cleanup function to remove the class when the component unmounts
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isReceiptVisible]);
+  
   return (
     <div
       id="popup-modal"
@@ -28,12 +39,12 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
         isReceiptVisible ? "flex" : "hidden"
       } overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-[#2b303963]`}
     >
-      <div class="relative p-4 rounded-md bg-white  w-full max-w-2xl ">
+      <div class="relative md:p-4 rounded-md bg-white  w-full max-w-2xl ">
         <div class="relative  h-full  ">
           <button
             type="button"
             onClick={() => setIsReceiptVisible(false)}
-            class="absolute top-3 end-2.5   bg-transparent hover:bg-red-800 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            class="absolute top-3 end-2.5  bg-red-800 text-white md:text-black md:bg-transparent hover:bg-red-800 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
             data-modal-hide="popup-modal"
           >
             <svg
@@ -53,9 +64,9 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
             </svg>
             <span class="sr-only">Close modal</span>
           </button>
-          <div className=" h-[70vh] w-full overflow-auto bg-white border-spacing-5 border-red-800 border-solid">
+          <div className="max-[100vh] h-full  md:h-[70vh] w-full overflow-auto bg-white ">
             <div className="text-center">
-              <h1 className="text-3xl text-red-800 font-bold">HOT HOUSE PIZZA </h1>
+              <h1 className="text-3xl pt-10 md:pt-0 text-red-800 font-bold">HOT HOUSE PIZZA </h1>
               <p>Order Id - {orderData?.count}</p>
               <p>{orderData?.orderAt}</p>
               <h2 className="text-xl font-semibold my-5">
@@ -90,7 +101,7 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
                             <img src={data?.img} className="h-10 w-10 rounded-md" />
                           </div>
                           <p className=" font-semibold">
-                            {data?.name}
+                            {data?.name}{" "}
                             {Array.isArray(price) ? `(${price[0]})` : ""}
                           </p>
                         </div>
