@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
-import { ClipLoader } from "react-spinners";
+// import { ClipLoader } from "react-spinners";
 
 
 const UpdateProfile = () => {
@@ -130,7 +130,7 @@ const UpdateProfile = () => {
           type="submit"
           className="w-full py-3 bg-red-800 text-white rounded-md hover:bg-red-700"
         >
-            {loading ? <ClipLoader size={20} color="#ffffff" /> : "Save & continue"}
+          {loading ? <div>Loading...</div> : "Save & continue"}
         </button>
       </form>
     </main>
