@@ -34,7 +34,7 @@ const DealsCards = ({ data, path }) => {
         <img
           src={data.banner}
           alt="Card Image"
-          className="rounded-t-md w-full h-52 object-cover"
+          className="rounded-t-md w-full object-cover"
         />
         <div className="px-3">
           <div className="mt-3">

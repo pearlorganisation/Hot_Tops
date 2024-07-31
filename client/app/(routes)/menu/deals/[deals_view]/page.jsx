@@ -96,7 +96,7 @@ const Page = () => {
           <div className="text-2xl md:text-5xl md:p-10 text-slate-800  md:px-20">
           <img
               src={dealViewData.banner}
-              className="md:hidden mx-auto h-[200px] md:h-[400px] w-[320px] md:w-[400px]"
+              className="md:hidden mx-auto w-full h-full  object-cover "
               alt="Deal Banner"
             />
             <div className="mt-5 md:mt-0 flex gap-4 mx-3 justify-between items-center">
@@ -186,7 +186,7 @@ const Page = () => {
           <div className="hidden md:block">
           <img
               src={dealViewData.banner}
-              className="h-[200px] md:h-[400px] w-[200px] md:w-[400px]"
+              className="md:h-[400px] md:w-full rounded-md"
               alt="Deal Banner"
             />
           </div>
