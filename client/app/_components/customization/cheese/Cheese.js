@@ -1,5 +1,7 @@
 "use client";
+import { setPrice } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const saucesData = [
   {
@@ -56,34 +58,82 @@ const saucesData = [
   },
 ];
 
-const SauceSelector = () => {
-  const [selectedSauces, setSelectedSauces] = useState({
-    "6692599000cad24da6ad78b5": "single",
-    "66925a1400cad24da6ad78d5": "single",
-  });
+const Cheese = ({ cheeseData }) => {
+  console.log(cheeseData, "cheeseData");
+  const { customizationData } = useSelector((state) => state.orderDetails);
+  const [defaultCheeseDetails, setDefaultCheeseDetails] = useState([]);
+  const dispatch = useDispatch();
+  const defaultSelectedCheeses = customizationData?.cheeseName;
 
-  const handleSelectionChange = (sauceId, size) => {
-    setSelectedSauces((prevSelected) => {
+  useEffect(() => {
+    setDefaultCheeseDetails(customizationData?.cheeseName);
+  }, [customizationData]);
+
+  useEffect(() => {
+    setSelectedChees(() => {
+      const defaultSelected = {};
+      console.log(defaultSelectedCheeses, "defaultSelectedSauces");
+      defaultCheeseDetails?.forEach((cheeseName) => {
+        console.log(cheeseName, "cheeseName");
+        const cheese = cheeseData.find((s) => s.name === cheeseName);
+        console.log(cheeseData, "cheeseData");
+        if (cheese) {
+          defaultSelected[cheese._id] = "single";
+        }
+      });
+      console.log(defaultSelected, "defaultSelected");
+      return defaultSelected;
+    });
+  }, [defaultCheeseDetails, customizationData, cheeseData]);
+
+  const [selectedCheese, setSelectedChees] = useState({});
+
+  //   useEffect(() => {
+  //     console.log(customizationData?.sauceName, "customizationData?.sauceName");
+  //   }, [customizationData]);
+
+  const handleSelectionChange = (cheeseId, size) => {
+    setSelectedChees((prevSelected) => {
       // Toggle the selection
-      if (prevSelected[sauceId] === size) {
-        const { [sauceId]: _, ...rest } = prevSelected;
+      if (prevSelected[cheeseId] === size) {
+        const { [cheeseId]: _, ...rest } = prevSelected;
         return rest;
       } else {
         return {
           ...prevSelected,
-          [sauceId]: size,
+          [cheeseId]: size,
         };
       }
     });
   };
 
   useEffect(() => {
-    console.log(selectedSauces, "selectedSauces");
-  }, [selectedSauces]);
+    console.log(selectedCheese, "selectedCheese");
+  }, [selectedCheese]);
+
+  const calculateTotalPrice = () => {
+    let total = 0;
+    for (const [cheeseId, size] of Object.entries(selectedCheese)) {
+      const cheese = cheeseData.find((s) => s._id === cheeseId);
+      if (cheese) {
+        const price =
+          size === "single"
+            ? cheese.price[0].singlePrice
+            : cheese.price[0].doublePrice;
+        total += price;
+      }
+    }
+    return Number(total.toFixed(2));
+  };
+
+  useEffect(() => {
+    const total = calculateTotalPrice();
+    dispatch(setPrice({ cheesePrice: Number(total) }));
+  }, [selectedCheese]);
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Select Your Sauces</h1>
+      <h1 className="text-2xl font-bold mb-4">Select Your Cheese</h1>
       <table className="min-w-full divide-y divide-gray-200 shadow-lg">
         <thead className="bg-gray-50">
           <tr>
@@ -99,33 +149,33 @@ const SauceSelector = () => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {saucesData.map((sauce) => (
-            <tr key={sauce._id} className="hover:bg-gray-100">
+          {cheeseData.map((cheese) => (
+            <tr key={cheese._id} className="hover:bg-gray-100">
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                {sauce.name}
+                {cheese.name}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 <div
                   className={`cursor-pointer px-4 py-2 rounded ${
-                    selectedSauces[sauce._id] === "single"
+                    selectedCheese[cheese._id] === "single"
                       ? "bg-red-600 text-white"
                       : "bg-gray-200 text-gray-900"
                   }`}
-                  onClick={() => handleSelectionChange(sauce._id, "single")}
+                  onClick={() => handleSelectionChange(cheese._id, "single")}
                 >
-                  £{sauce.price[0].singlePrice}
+                  £{cheese.price[0].singlePrice}
                 </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 <div
                   className={`cursor-pointer px-4 py-2 rounded ${
-                    selectedSauces[sauce._id] === "double"
+                    selectedCheese[cheese._id] === "double"
                       ? "bg-yellow-600 text-white"
                       : "bg-gray-200 text-gray-900"
                   }`}
-                  onClick={() => handleSelectionChange(sauce._id, "double")}
+                  onClick={() => handleSelectionChange(cheese._id, "double")}
                 >
-                  £{sauce.price[0].doublePrice}
+                  £{cheese.price[0].doublePrice}
                 </div>
               </td>
             </tr>
@@ -136,4 +186,4 @@ const SauceSelector = () => {
   );
 };
 
-export default SauceSelector;
+export default Cheese;

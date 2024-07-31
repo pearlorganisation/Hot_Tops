@@ -1,5 +1,7 @@
 "use client";
+import { setPrice } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const saucesData = [
   {
@@ -56,34 +58,84 @@ const saucesData = [
   },
 ];
 
-const SauceSelector = () => {
-  const [selectedSauces, setSelectedSauces] = useState({
-    "6692599000cad24da6ad78b5": "single",
-    "66925a1400cad24da6ad78d5": "single",
-  });
+const VegetarianToppings = ({ vegetarianTopData }) => {
+  console.log(vegetarianTopData, "vegetarianTopData");
+  const { customizationData } = useSelector((state) => state.orderDetails);
+  const [defaultVegDetails, setDefaultVegDetails] = useState([]);
+  const dispatch = useDispatch();
+  const defaultSelectedVeg = customizationData?.vegetarianToppingsName;
 
-  const handleSelectionChange = (sauceId, size) => {
-    setSelectedSauces((prevSelected) => {
+  useEffect(() => {
+    setDefaultVegDetails(customizationData?.vegetarianToppingsName);
+  }, [customizationData]);
+
+  useEffect(() => {
+    setSelectedVeg(() => {
+      const defaultSelected = {};
+      console.log(defaultSelectedVeg, "defaultSelectedVeg");
+      defaultVegDetails?.forEach((vegName) => {
+        console.log(vegName, "vegName");
+        const veg = vegetarianTopData.find((s) => s.name === vegName);
+        console.log(vegetarianTopData, "vegetarianTopData");
+        if (veg) {
+          defaultSelected[veg._id] = "single";
+        }
+      });
+      console.log(defaultSelected, "defaultSelected");
+      return defaultSelected;
+    });
+  }, [defaultVegDetails, customizationData, vegetarianTopData]);
+
+  const [selectedVeg, setSelectedVeg] = useState({});
+
+  //   useEffect(() => {
+  //     console.log(customizationData?.sauceName, "customizationData?.sauceName");
+  //   }, [customizationData]);
+
+  const handleSelectionChange = (vegId, size) => {
+    setSelectedVeg((prevSelected) => {
       // Toggle the selection
-      if (prevSelected[sauceId] === size) {
-        const { [sauceId]: _, ...rest } = prevSelected;
+      if (prevSelected[vegId] === size) {
+        const { [vegId]: _, ...rest } = prevSelected;
         return rest;
       } else {
         return {
           ...prevSelected,
-          [sauceId]: size,
+          [vegId]: size,
         };
       }
     });
   };
 
   useEffect(() => {
-    console.log(selectedSauces, "selectedSauces");
-  }, [selectedSauces]);
+    console.log(selectedVeg, "selectedVeg");
+  }, [selectedVeg]);
+
+  const calculateTotalPrice = () => {
+    let total = 0;
+    for (const [vegId, size] of Object.entries(selectedVeg)) {
+      const veg = vegetarianTopData.find((s) => s._id === vegId);
+      if (veg) {
+        const price =
+          size === "single"
+            ? veg.price[0].singlePrice
+            : veg.price[0].doublePrice;
+        total += price;
+      }
+    }
+    return Number(total.toFixed(2));
+  };
+
+  useEffect(() => {
+    const total = calculateTotalPrice();
+    dispatch(setPrice({ vegetarianPrice: Number(total) }));
+  }, [selectedVeg]);
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Select Your Sauces</h1>
+      <h1 className="text-2xl font-bold mb-4">
+        Select Your Vegetarian Toppings
+      </h1>
       <table className="min-w-full divide-y divide-gray-200 shadow-lg">
         <thead className="bg-gray-50">
           <tr>
@@ -99,33 +151,33 @@ const SauceSelector = () => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {saucesData.map((sauce) => (
-            <tr key={sauce._id} className="hover:bg-gray-100">
+          {vegetarianTopData.map((veg) => (
+            <tr key={veg._id} className="hover:bg-gray-100">
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                {sauce.name}
+                {veg.name}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 <div
                   className={`cursor-pointer px-4 py-2 rounded ${
-                    selectedSauces[sauce._id] === "single"
+                    selectedVeg[veg._id] === "single"
                       ? "bg-red-600 text-white"
                       : "bg-gray-200 text-gray-900"
                   }`}
-                  onClick={() => handleSelectionChange(sauce._id, "single")}
+                  onClick={() => handleSelectionChange(veg._id, "single")}
                 >
-                  £{sauce.price[0].singlePrice}
+                  £{veg.price[0].singlePrice}
                 </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 <div
                   className={`cursor-pointer px-4 py-2 rounded ${
-                    selectedSauces[sauce._id] === "double"
+                    selectedVeg[veg._id] === "double"
                       ? "bg-yellow-600 text-white"
                       : "bg-gray-200 text-gray-900"
                   }`}
-                  onClick={() => handleSelectionChange(sauce._id, "double")}
+                  onClick={() => handleSelectionChange(veg._id, "double")}
                 >
-                  £{sauce.price[0].doublePrice}
+                  £{veg.price[0].doublePrice}
                 </div>
               </td>
             </tr>
@@ -136,4 +188,4 @@ const SauceSelector = () => {
   );
 };
 
-export default SauceSelector;
+export default VegetarianToppings;

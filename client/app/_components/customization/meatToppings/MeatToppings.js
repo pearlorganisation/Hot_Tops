@@ -1,5 +1,7 @@
 "use client";
+import { setPrice } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const saucesData = [
   {
@@ -56,34 +58,82 @@ const saucesData = [
   },
 ];
 
-const SauceSelector = () => {
-  const [selectedSauces, setSelectedSauces] = useState({
-    "6692599000cad24da6ad78b5": "single",
-    "66925a1400cad24da6ad78d5": "single",
-  });
+const MeatToppings = ({ meatTopData }) => {
+  console.log(meatTopData, "meatTopData");
+  const { customizationData } = useSelector((state) => state.orderDetails);
+  const [defaultMeatDetails, setDefaultMeatDetails] = useState([]);
+  const dispatch = useDispatch();
+  const defaultSelectedMeat = customizationData?.meatToppingsName;
 
-  const handleSelectionChange = (sauceId, size) => {
-    setSelectedSauces((prevSelected) => {
+  useEffect(() => {
+    setDefaultMeatDetails(customizationData?.meatToppingsName);
+  }, [customizationData]);
+
+  useEffect(() => {
+    setSelectedMeat(() => {
+      const defaultSelected = {};
+      console.log(defaultSelectedMeat, "defaultSelectedMeat");
+      defaultMeatDetails?.forEach((meatName) => {
+        console.log(meatName, "meatName");
+        const meat = meatTopData.find((s) => s.name === meatName);
+        console.log(meatTopData, "meatTopData");
+        if (meat) {
+          defaultSelected[meat._id] = "single";
+        }
+      });
+      console.log(defaultSelected, "defaultSelected");
+      return defaultSelected;
+    });
+  }, [defaultMeatDetails, customizationData, meatTopData]);
+
+  const [selectedMeat, setSelectedMeat] = useState({});
+
+  //   useEffect(() => {
+  //     console.log(customizationData?.sauceName, "customizationData?.sauceName");
+  //   }, [customizationData]);
+
+  const handleSelectionChange = (meatId, size) => {
+    setSelectedMeat((prevSelected) => {
       // Toggle the selection
-      if (prevSelected[sauceId] === size) {
-        const { [sauceId]: _, ...rest } = prevSelected;
+      if (prevSelected[meatId] === size) {
+        const { [meatId]: _, ...rest } = prevSelected;
         return rest;
       } else {
         return {
           ...prevSelected,
-          [sauceId]: size,
+          [meatId]: size,
         };
       }
     });
   };
 
   useEffect(() => {
-    console.log(selectedSauces, "selectedSauces");
-  }, [selectedSauces]);
+    console.log(selectedMeat, "selectedVeg");
+  }, [selectedMeat]);
+
+  const calculateTotalPrice = () => {
+    let total = 0;
+    for (const [meatId, size] of Object.entries(selectedMeat)) {
+      const meat = meatTopData.find((s) => s._id === meatId);
+      if (meat) {
+        const price =
+          size === "single"
+            ? meat.price[0].singlePrice
+            : meat.price[0].doublePrice;
+        total += price;
+      }
+    }
+    return Number(total.toFixed(2));
+  };
+
+  useEffect(() => {
+    const total = calculateTotalPrice();
+    dispatch(setPrice({ meatPrice: Number(total) }));
+  }, [selectedMeat]);
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Select Your Sauces</h1>
+      <h1 className="text-2xl font-bold mb-4">Select Your Meat Toppings</h1>
       <table className="min-w-full divide-y divide-gray-200 shadow-lg">
         <thead className="bg-gray-50">
           <tr>
@@ -99,33 +149,33 @@ const SauceSelector = () => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {saucesData.map((sauce) => (
-            <tr key={sauce._id} className="hover:bg-gray-100">
+          {meatTopData.map((meat) => (
+            <tr key={meat._id} className="hover:bg-gray-100">
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                {sauce.name}
+                {meat.name}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 <div
                   className={`cursor-pointer px-4 py-2 rounded ${
-                    selectedSauces[sauce._id] === "single"
+                    selectedMeat[meat._id] === "single"
                       ? "bg-red-600 text-white"
                       : "bg-gray-200 text-gray-900"
                   }`}
-                  onClick={() => handleSelectionChange(sauce._id, "single")}
+                  onClick={() => handleSelectionChange(meat._id, "single")}
                 >
-                  £{sauce.price[0].singlePrice}
+                  £{meat.price[0].singlePrice}
                 </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 <div
                   className={`cursor-pointer px-4 py-2 rounded ${
-                    selectedSauces[sauce._id] === "double"
+                    selectedMeat[meat._id] === "double"
                       ? "bg-yellow-600 text-white"
                       : "bg-gray-200 text-gray-900"
                   }`}
-                  onClick={() => handleSelectionChange(sauce._id, "double")}
+                  onClick={() => handleSelectionChange(meat._id, "double")}
                 >
-                  £{sauce.price[0].doublePrice}
+                  £{meat.price[0].doublePrice}
                 </div>
               </td>
             </tr>
@@ -136,4 +186,4 @@ const SauceSelector = () => {
   );
 };
 
-export default SauceSelector;
+export default MeatToppings;

@@ -3,9 +3,12 @@ import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
+import { TbEdit } from "react-icons/tb";
 import { useDispatch } from "react-redux";
 import Select from "react-select";
 import { toast } from "sonner";
+import Link from "next/link";
+import { getCustomizationDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
 
 async function getData(id) {
   try {
@@ -30,6 +33,10 @@ const Page = () => {
 
   const [dealDataPizza, setDealDataPizza] = useState([]);
   const [dealDataDrinks, setDealDataDrinks] = useState([]);
+
+  useEffect(() => {
+    console.log(dealViewData, "deal data pizza");
+  }, [dealViewData]);
 
   useEffect(() => {
     if (dealViewData) {
@@ -94,95 +101,184 @@ const Page = () => {
       {dealViewData ? (
         <div>
           <div className="text-2xl md:text-5xl md:p-10 text-slate-800  md:px-20">
-          <img
+            <img
               src={dealViewData.banner}
               className="md:hidden mx-auto w-full h-full  object-cover "
               alt="Deal Banner"
             />
             <div className="mt-5 md:mt-0 flex gap-4 mx-3 justify-between items-center">
-            {/* <p className="">{dealViewData.title}</p> */}
-            <p className="text-red-800 font-bold">{dealViewData.title}</p>
-            
-            <p className="text-green-700 font-bold">
-              £{dealViewData?.sizes?.find((el) => el._id === sizeId)?.price}
-            </p>
+              {/* <p className="">{dealViewData.title}</p> */}
+              <p className="text-red-800 font-bold">{dealViewData.title}</p>
+
+              <p className="text-green-700 font-bold">
+                £{dealViewData?.sizes?.find((el) => el._id === sizeId)?.price}
+              </p>
             </div>
           </div>
           <div className="flex justify-center md:justify-between md:px-32 items-center pt-6 md:pt-0 ">
-          <div>
-          {pizzaCount > 0 && (
             <div>
-              <h1 className="text-lg md:text-2xl font-medium mb-4">
-                Choose Your Pizza
-              </h1>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
-                {pizzas.map((_, index) => (
-                  <Select
-                  placeholder={`Choose pizza ${index+1}`}
-                    key={index}
-                    onChange={(e) => {
-                      setDealDataPizza((prev) => {
-                        let temp = [...prev];
-                        temp[index] = e;
-                        return temp;
-                      });
-                      console.log(e, "e");
-                   
-                    }}
-                    options={dealViewData.pizza.map((el) => ({
-                      label: el.pizzaName,
-                      value: el._id,
-                    }))}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-          {drinkCount > 0 && (
-            <div>
-              <h1 className="text-lg md:text-2xl font-medium mb-4 ">
-                Choose Your Drink ({dealViewData.defaultDrinkType})
-              </h1>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {drinks.map((_, index) => (
-                  <Select
-                  placeholder={`Choose drink ${index+1}`}
-                    key={index}
-                    onChange={(e) => {
-                      setDealDataDrinks((prev) => {
-                        let temp = [...prev];
-                        temp[index] = e;
-                        return temp;
-                      });
-                    }}
-                    options={dealViewData.drinks.map((el) => ({
-                      label: el.drink,
-                      value: el._id,
-                    }))}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
+              {pizzaCount > 0 && (
+                <div>
+                  <h1 className="text-lg md:text-2xl font-medium mb-4">
+                    Choose Your Pizza
+                  </h1>
+                 
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+                    {pizzas.map((_, index) => (
+                      <div className="flex  gap-2">
+                        <Link
+                          onClick={() => {
+                            console.log(
+                              {
+                                name: dealDataPizza[index]?.label,
+                                img: dealDataPizza[index]?.banner,
+                                priceSection:
+                                  dealViewData.sizes.length === 1
+                                    ? dealDataPizza[index].priceSection.filter(
+                                        (el) =>
+                                          el.size.name ===
+                                          dealViewData?.sizes[0].size
+                                      )
+                                    : dealDataPizza[index].priceSection.filter(
+                                        (el) =>
+                                          el.size.name ===
+                                          dealDataPizza[
+                                            index
+                                          ].priceSection.filter(
+                                            (el) =>
+                                              el.size.name ===
+                                              sizeDetailRef.current.size
+                                          )
+                                      ),
 
-          {dealViewData?.defaultItems?.length >= 1 && (
-            <div>
-              <h1 className="text-lg md:text-2xl font-medium my-4">
-                Extra Loadings
-              </h1>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                {dealViewData.defaultItems.map((el, index) => (
-                  <div
-                    key={index}
-                    className="w-full p-2 border border-gray-300 rounded-lg bg-gray-200 text-gray-700"
-                  >
-                    {el}
+                                id: dealDataPizza[index]?.id,
+                                // id: uniquePizzaId,
+                                sauceName: dealDataPizza[index]?.sauceName,
+                                cheeseName: dealDataPizza[index]?.cheeseName,
+                                vegetarianToppingsName:
+                                  dealDataPizza[index]?.vegetarianToppingsName,
+                                baseName: dealDataPizza[index]?.baseName,
+                                meatToppingsName:
+                                  dealDataPizza?.[index]?.meatToppingsName,
+
+                                // selectedData: selectedData,
+                              },
+                              "submitting to customization page"
+                            );
+
+                            dispatch(
+                              getCustomizationDetails({
+                                name: dealDataPizza[index]?.label,
+                                img: dealDataPizza[index]?.banner,
+                                priceSection:
+                                  dealViewData.sizes.length === 1
+                                    ? dealDataPizza[index].priceSection.filter(
+                                        (el) =>
+                                          el.size.name ===
+                                          dealViewData?.sizes[0].size
+                                      )
+                                    : dealDataPizza[index].priceSection,
+                                id: dealDataPizza[index]?.id,
+                                sauceName: dealDataPizza[index]?.sauceName,
+                                cheeseName: dealDataPizza[index]?.cheeseName,
+                                vegetarianToppingsName:
+                                  dealDataPizza[index]?.vegetarianToppingsName,
+                                baseName: dealDataPizza[index]?.baseName,
+                                meatToppingsName:
+                                  dealDataPizza?.[index]?.meatToppingsName,
+                              })
+                            );
+                          }}
+                          href={`/menu/product/${dealDataPizza[index]?.label}`}
+                        >
+                          <TbEdit
+                            size={30}
+                            className="text-slate-800 hover:text-red-800"
+                          />
+                        </Link>
+                        <Select
+                          placeholder={`Choose pizza ${index + 1}`}
+                          key={index}
+                          onChange={(e) => {
+                            setDealDataPizza((prev) => {
+                              let temp = [...prev];
+                              temp[index] = e;
+                              return temp;
+                            });
+                            console.log(e, "e");
+                          }}
+                          options={dealViewData.pizza.map((el) => ({
+                            label: el.pizzaName,
+                            value: el._id,
+                            id: el._id,
+                            banner: el.banner,
+                            priceSection: el.priceSection,
+                            sauceName: el.sauceName,
+                            cheeseName: el.cheeseName,
+                            vegetarianToppingsName: el.vegetarianToppingsName,
+                            meatToppingsName: el.meatToppingsName,
+                            baseName: el.baseName,
+                          }))}
+                        />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
+              )}
+              {drinkCount > 0 && (
+                <div>
+                  <h1 className="text-lg md:text-2xl font-medium mb-4 ">
+                    Choose Your Drink ({dealViewData.defaultDrinkType})
+                  </h1>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {drinks.map((_, index) => (
+                      <Select
+                        placeholder={`Choose drink ${index + 1}`}
+                        key={index}
+                        onChange={(e) => {
+                          setDealDataDrinks((prev) => {
+                            let temp = [...prev];
+                            temp[index] = e;
+                            return temp;
+                          });
+                        }}
+                        options={dealViewData.drinks.map((el) => ({
+                          label: el.drink,
+                          value: el._id,
+                        }))}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {dealViewData?.defaultItems?.length >= 1 && (
+                <div>
+                  <h1 className="text-lg md:text-2xl font-medium my-4">
+                    Extra Loadings
+                  </h1>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                    {dealViewData.defaultItems.map((el, index) => (
+                      <div
+                        key={index}
+                        className="w-full p-2 border border-gray-300 rounded-lg bg-gray-200 text-gray-700"
+                      >
+                        {el}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-          )}
+            <div className="hidden md:block">
+              <img
+                src={dealViewData.banner}
+                className="h-[200px] md:h-[400px] w-[200px] md:w-[400px]"
+                alt="Deal Banner"
+              />
+            </div>
           </div>
+<<<<<<< HEAD
           <div className="hidden md:block">
           <img
               src={dealViewData.banner}
@@ -192,6 +288,8 @@ const Page = () => {
           </div>
           </div>
       
+=======
+>>>>>>> 28302317e29afc5ed9f37cfb06110f5fdea8420b
 
           <div className="p-5 md:p-10 flex justify-center items-center">
             <button
