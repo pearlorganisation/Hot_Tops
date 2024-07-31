@@ -37,8 +37,6 @@ const Page = () => {
     <div className=" mx-auto container pb-10">
       <div className=" px-10 pt-5 ">
         <header class="text-center  bg-white">
-      
-
           <div className="flex items-center justify-center mb-2">
             <div className="flex-grow border-t border-red-800"></div>
             <h1 className="px-4 text-red-800 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
