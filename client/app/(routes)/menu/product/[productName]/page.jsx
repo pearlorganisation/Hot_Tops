@@ -158,7 +158,7 @@ const Product = () => {
 
   return (
     <>
-      <div className="max-w-xl md:max-w-6xl mx-auto p-4 bg-white shadow-md rounded-lg my-8">
+      <div className="md:max-w-6xl  mx-auto p-4 bg-white shadow-md rounded-lg my-">
         <div className="flex flex-col md:flex-row ">
           <div className="flex-1">
             <h1 className="text-4xl  text-gray-800">
@@ -188,7 +188,7 @@ const Product = () => {
                         onChange={handleRadioChange}
                       />
 
-                      <span className="mr-4 ">{data?.size?.name}</span>
+                      <span className="mr-4 text-gray-900 ">{data?.size?.name}</span>
                     </label>
                   ))}
               </div>
@@ -215,12 +215,12 @@ const Product = () => {
                         value={base?.name}
                         checked={selectedBase === base?.name}
                       />
-                      <span className="mr-4">
+                      <span className="mr-4 text-gray-900">
                         {base?.name}
                         <>
                           {" "}
                           {base?.price[0]?.price > 0 && (
-                            <span className="bg-red-500 text-white rounded-lg px-1">
+                            <span className="bg-red-800 text-white rounded-lg px-1">
                               + £ {base?.price[0]?.price}
                             </span>
                           )}
@@ -234,7 +234,9 @@ const Product = () => {
 
 
             {/* SAUCE STARTS */}
+            <div>
             <Sauce sauceData={saucePrices} />
+            </div>
             {/* SAUCE ENDS */}
 
             {/* CHEESE: STARTS */}

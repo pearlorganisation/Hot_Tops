@@ -131,18 +131,18 @@ const Sauce = ({ sauceData }) => {
   }, [selectedSauces]);
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Select Your Sauces</h1>
+    <div className="">
+      <h1 className="text-lg font-bold my-8">SAUCES</h1>
       <table className="min-w-full divide-y divide-gray-200 shadow-lg">
         <thead className="bg-gray-50">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-2 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
               Sauce
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-2 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
               Single
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-2 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
               Double
             </th>
           </tr>
@@ -150,31 +150,31 @@ const Sauce = ({ sauceData }) => {
         <tbody className="bg-white divide-y divide-gray-200">
           {sauceData.map((sauce) => (
             <tr key={sauce._id} className="hover:bg-gray-100">
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+              <td className="px-2 md:px-6 py-2 md:py-4 whitespace-wrap text-sm font-medium text-gray-900">
                 {sauce.name}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-2 md:px-6 py-2 md:py-4 whitespace-nowrap text-sm text-gray-500">
                 <div
-                  className={`cursor-pointer px-4 py-2 rounded ${
+                  className={`cursor-pointer px-2 md:px-4 py-2 rounded text-center ${
                     selectedSauces[sauce._id] === "single"
-                      ? "bg-red-600 text-white"
+                      ? "bg-red-800 text-white"
                       : "bg-gray-200 text-gray-900"
                   }`}
                   onClick={() => handleSelectionChange(sauce._id, "single")}
                 >
-                  £{sauce.price[0].singlePrice}
+                  £ {sauce.price[0].singlePrice}
                 </div>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-2 md:px-4 py-2 whitespace-nowrap text-sm text-gray-500">
                 <div
-                  className={`cursor-pointer px-4 py-2 rounded ${
+                  className={`cursor-pointer px-2 md:px-4 py-2 rounded text-center ${
                     selectedSauces[sauce._id] === "double"
-                      ? "bg-yellow-600 text-white"
+                      ? "bg-green-800 text-white"
                       : "bg-gray-200 text-gray-900"
                   }`}
                   onClick={() => handleSelectionChange(sauce._id, "double")}
                 >
-                  £{sauce.price[0].doublePrice}
+                  £ {sauce.price[0].doublePrice}
                 </div>
               </td>
             </tr>

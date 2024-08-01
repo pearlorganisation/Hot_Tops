@@ -76,18 +76,18 @@ const Cheese = ({ cheeseData }) => {
   }, [selectedCheese]);
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Select Your Cheese</h1>
+    <div className="">
+      <h1 className="text-lg font-bold my-10">CHEESES</h1>
       <table className="min-w-full divide-y divide-gray-200 shadow-lg">
         <thead className="bg-gray-50">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Sauce
+            <th className="px-2 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
+              Cheese
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-2 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
               Single
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-2 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
               Double
             </th>
           </tr>
@@ -95,31 +95,31 @@ const Cheese = ({ cheeseData }) => {
         <tbody className="bg-white divide-y divide-gray-200">
           {cheeseData.map((cheese) => (
             <tr key={cheese._id} className="hover:bg-gray-100">
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+              <td className="px-2 md:px-6 py-2 md:py-4 whitespace-wrap text-sm font-medium text-gray-900">
                 {cheese.name}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-2 md:px-4 py-2 md:py-4 whitespace-wrap text-sm font-medium text-gray-900">
                 <div
-                  className={`cursor-pointer px-4 py-2 rounded ${
+                  className={`cursor-pointer px-2 md:px-4 py-2 rounded text-center ${
                     selectedCheese[cheese._id] === "single"
-                      ? "bg-red-600 text-white"
+                      ? "bg-red-800 text-white"
                       : "bg-gray-200 text-gray-900"
                   }`}
                   onClick={() => handleSelectionChange(cheese._id, "single")}
                 >
-                  £{cheese.price[0].singlePrice}
+                  £ {cheese.price[0].singlePrice}
                 </div>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-2 md:px-4 py-2 whitespace-nowrap text-sm text-gray-500">
                 <div
-                  className={`cursor-pointer px-4 py-2 rounded ${
+                  className={`cursor-pointer px-2 md:px-4 py-2 rounded text-center ${
                     selectedCheese[cheese._id] === "double"
-                      ? "bg-yellow-600 text-white"
+                      ? "bg-green-800 text-white"
                       : "bg-gray-200 text-gray-900"
                   }`}
                   onClick={() => handleSelectionChange(cheese._id, "double")}
                 >
-                  £{cheese.price[0].doublePrice}
+                  £ {cheese.price[0].doublePrice}
                 </div>
               </td>
             </tr>
