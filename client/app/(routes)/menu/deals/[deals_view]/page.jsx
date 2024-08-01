@@ -9,6 +9,7 @@ import Select from "react-select";
 import { toast } from "sonner";
 import Link from "next/link";
 import { getCustomizationDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
+import { MdEditSquare } from "react-icons/md";
 
 async function getData(id) {
   try {
@@ -124,9 +125,11 @@ const Page = () => {
                   </h1>
                  
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+
                     {pizzas.map((_, index) => (
-                      <div className="flex  gap-2">
-                        <Link
+                      <div className="flex items-center  gap-2">
+                {Array.isArray(dealDataPizza) && dealDataPizza[index] && (
+                    <Link
                           onClick={() => {
                             console.log(
                               {
@@ -191,11 +194,12 @@ const Page = () => {
                           }}
                           href={`/menu/product/${dealDataPizza[index]?.label}`}
                         >
-                          <TbEdit
+                          <MdEditSquare
                             size={30}
-                            className="text-slate-800 hover:text-red-800"
+                            className="text-red-800 hover:text-red-700"
                           />
                         </Link>
+                      )}      
                         <Select
                           placeholder={`Choose pizza ${index + 1}`}
                           key={index}

@@ -59,9 +59,11 @@ const saucesData = [
 ];
 
 const Sauce = ({ sauceData }) => {
-  console.log(sauceData, "sauceData");
+  // console.log(sauceData, "sauceData");
   const { customizationData } = useSelector((state) => state.orderDetails);
   const [defaultSauceDetails, setDefaultSauceDetails] = useState([]);
+  const [selectedSauces, setSelectedSauces] = useState({});
+
   const dispatch = useDispatch();
   const defaultSelectedSauces = customizationData?.sauceName;
 
@@ -72,21 +74,19 @@ const Sauce = ({ sauceData }) => {
   useEffect(() => {
     setSelectedSauces(() => {
       const defaultSelected = {};
-      console.log(defaultSelectedSauces, "defaultSelectedSauces");
+      // console.log(defaultSelectedSauces, "defaultSelectedSauces");
       defaultSauceDetails?.forEach((sauceName) => {
-        console.log(sauceName, "sauceName");
+        // console.log(sauceName, "sauceName");
         const sauce = sauceData.find((s) => s.name === sauceName);
-        console.log(sauceData, "sauceData");
+        // console.log(sauceData, "sauceData");
         if (sauce) {
           defaultSelected[sauce._id] = "single";
         }
       });
-      console.log(defaultSelected, "defaultSelected");
+      // console.log(defaultSelected, "defaultSelected");
       return defaultSelected;
     });
   }, [defaultSauceDetails, customizationData, sauceData]);
-
-  const [selectedSauces, setSelectedSauces] = useState({});
 
   const handleSelectionChange = (sauceId, size) => {
     setSelectedSauces((prevSelected) => {
@@ -104,27 +104,7 @@ const Sauce = ({ sauceData }) => {
   };
 
   useEffect(() => {
-    console.log(selectedSauces, "selectedSauces");
-  }, [selectedSauces]);
-
-  const calculateTotalPrice = () => {
-    let total = 0;
-    for (const [sauceId, size] of Object.entries(selectedSauces)) {
-      const sauce = saucesData.find((s) => s._id === sauceId);
-      if (sauce) {
-        const price =
-          size === "single"
-            ? sauce.price[0].singlePrice
-            : sauce.price[0].doublePrice;
-        total += price;
-      }
-    }
-    return Number(total.toFixed(2));
-  };
-
-  useEffect(() => {
-    const total = calculateTotalPrice();
-    dispatch(setPrice({ saucePrice: Number(total) }));
+    // console.log(selectedSauces, "selectedSauces");
   }, [selectedSauces]);
 
   const handleSave = () => {
@@ -143,7 +123,7 @@ const Sauce = ({ sauceData }) => {
       }
     );
     dispatch(setToppings({ sauce: selectedSaucesData }));
-    console.log(selectedSaucesData, "selectedSaucesData");
+    // console.log(selectedSaucesData, "selectedSaucesData");
   };
 
   useEffect(() => {
@@ -151,18 +131,18 @@ const Sauce = ({ sauceData }) => {
   }, [selectedSauces]);
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Select Your Sauces</h1>
+    <div className="">
+      <h1 className="text-lg font-bold my-8">SAUCES</h1>
       <table className="min-w-full divide-y divide-gray-200 shadow-lg">
         <thead className="bg-gray-50">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-2 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
               Sauce
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-2 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
               Single
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-2 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
               Double
             </th>
           </tr>
@@ -170,31 +150,31 @@ const Sauce = ({ sauceData }) => {
         <tbody className="bg-white divide-y divide-gray-200">
           {sauceData.map((sauce) => (
             <tr key={sauce._id} className="hover:bg-gray-100">
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+              <td className="px-2 md:px-6 py-2 md:py-4 whitespace-wrap text-sm font-medium text-gray-900">
                 {sauce.name}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-2 md:px-6 py-2 md:py-4 whitespace-nowrap text-sm text-gray-500">
                 <div
-                  className={`cursor-pointer px-4 py-2 rounded ${
+                  className={`cursor-pointer px-2 md:px-4 py-2 rounded text-center ${
                     selectedSauces[sauce._id] === "single"
-                      ? "bg-red-600 text-white"
+                      ? "bg-red-800 text-white"
                       : "bg-gray-200 text-gray-900"
                   }`}
                   onClick={() => handleSelectionChange(sauce._id, "single")}
                 >
-                  £{sauce.price[0].singlePrice}
+                  £ {sauce.price[0].singlePrice}
                 </div>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-2 md:px-4 py-2 whitespace-nowrap text-sm text-gray-500">
                 <div
-                  className={`cursor-pointer px-4 py-2 rounded ${
+                  className={`cursor-pointer px-2 md:px-4 py-2 rounded text-center ${
                     selectedSauces[sauce._id] === "double"
-                      ? "bg-yellow-600 text-white"
+                      ? "bg-green-800 text-white"
                       : "bg-gray-200 text-gray-900"
                   }`}
                   onClick={() => handleSelectionChange(sauce._id, "double")}
                 >
-                  £{sauce.price[0].doublePrice}
+                  £ {sauce.price[0].doublePrice}
                 </div>
               </td>
             </tr>

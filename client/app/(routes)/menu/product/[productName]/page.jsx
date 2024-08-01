@@ -4,8 +4,9 @@ import MeatToppings from "@/app/_components/customization/meatToppings/MeatToppi
 import Sauce from "@/app/_components/customization/sauce/Sauce";
 import VegetarianToppings from "@/app/_components/customization/vegetarianToppings/VegetarianToppings";
 import TotalPriceCard from "@/app/_components/TotalPriceCard/TotalPriceCard";
+import { addToCart, setToppings } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useSWR from "swr";
 // import { useParams } from 'next/navigation';
 
@@ -14,6 +15,8 @@ const Product = () => {
   // const pizzaName= params?.productName
 
   const { customizationData } = useSelector((state) => state.orderDetails);
+  const { allToppings } = useSelector(state => state.cart)
+  const dispatch = useDispatch()
 
   const combineNames = () => {
     const items = [
@@ -58,11 +61,26 @@ const Product = () => {
   );
 
   useEffect(() => {
-    console.log(selectedSizeId, "mujhe maaf krna OM sai ram");
+    if (customizationData) {
+      const size = customizationData?.priceSection.find(item => {
+        return item?.size?._id === selectedSizeId
+      })
+      dispatch(setToppings(size))
+    }
   }, [selectedSizeId]);
+
+  useEffect(() => {
+    if (basePrices) {
+      const base = basePrices?.find(item => {
+        return item?.name === selectedBase
+      })
+      dispatch(setToppings({ base: base }))
+    }
+  }, [basePrices, selectedBase]);
   const handleRadioChange = async (e) => {
     const newSizeId = e.target.value;
     setSelectedSizeId(newSizeId);
+
 
     // Fetch new prices based on the selected size
     await fetchPricesForSelectedSize(newSizeId);
@@ -77,19 +95,9 @@ const Product = () => {
     setSelectedSizeId(customizationData?.selectedData);
   }, [customizationData]);
 
-  // useEffect(() => {
-  //   console.log(selectedSizeId)
-  // }, [selectedSizeId])
 
-  const handleCheckboxChange = (sauceName, isChecked) => {
-    setSelectedSauce((prevSelected) => {
-      if (isChecked) {
-        return [...prevSelected, sauceName];
-      } else {
-        return prevSelected.filter((name) => name !== sauceName);
-      }
-    });
-  };
+
+
 
   // -------------------data fetching for price-----------------------
 
@@ -132,7 +140,20 @@ const Product = () => {
 
 
 
+  const handleCustomization = () => {
 
+    const temp1 = allToppings
+    const emp = customizationData?.priceSection.find(item => {
+      return item?.size?._id === selectedSizeId
+    })
+    const temp2 = { name: customizationData?.name, img: customizationData?.img, base: selectedBase, size: emp, allToppings: allToppings }
+
+    dispatch(addToCart({
+      name: customizationData?.name, img: customizationData?.img, id: customizationData?.id + allToppings?.size?._id, quantity: 1, price: allToppings?.totalPrice, totalSum: allToppings?.totalPrice,
+      allToppings: allToppings
+    }))
+
+  }
 
 
 
@@ -141,7 +162,7 @@ const Product = () => {
 
   return (
     <>
-      <div className="max-w-xl md:max-w-6xl mx-auto p-4 bg-white shadow-md rounded-lg my-8">
+      <div className="md:max-w-6xl  mx-auto p-4 bg-white shadow-md rounded-lg my-">
         <div className="flex flex-col md:flex-row ">
           <div className="flex-1">
             <h1 className="text-4xl  text-gray-800">
@@ -149,7 +170,7 @@ const Product = () => {
             </h1>
             <p className="mt-2 text-gray-600">{combineNames()}</p>
             <div className="mt-4">
-              <button className="w-full px-4 py-2 bg-green-600 text-white rounded-lg">
+              <button onClick={handleCustomization} className="w-full px-4 py-2 bg-green-800 hover:bg-green-700 text-white rounded-lg">
                 Save
               </button>
             </div>
@@ -171,7 +192,7 @@ const Product = () => {
                         onChange={handleRadioChange}
                       />
 
-                      <span className="mr-4 ">{data?.size?.name}</span>
+                      <span className="mr-4 text-gray-900 ">{data?.size?.name}</span>
                     </label>
                   ))}
               </div>
@@ -190,6 +211,7 @@ const Product = () => {
                         type="radio"
                         className="form-radio"
                         onChange={(e) => {
+
                           const base = e.target.value;
                           setSelectedBase(base);
                         }}
@@ -197,12 +219,12 @@ const Product = () => {
                         value={base?.name}
                         checked={selectedBase === base?.name}
                       />
-                      <span className="mr-4">
+                      <span className="mr-4 text-gray-900">
                         {base?.name}
                         <>
                           {" "}
                           {base?.price[0]?.price > 0 && (
-                            <span className="bg-red-500 text-white rounded-lg px-1">
+                            <span className="bg-red-800 text-white rounded-lg px-1">
                               + £ {base?.price[0]?.price}
                             </span>
                           )}
@@ -216,7 +238,9 @@ const Product = () => {
 
 
             {/* SAUCE STARTS */}
+            <div>
             <Sauce sauceData={saucePrices} />
+            </div>
             {/* SAUCE ENDS */}
 
             {/* CHEESE: STARTS */}
@@ -235,7 +259,7 @@ const Product = () => {
 
 
             <div className="mt-4">
-              <button className="bg-[#39A144] text-white w-full px-10 p-2 rounded">
+              <button onClick={handleCustomization} className="bg-green-800 hover:bg-green-700 text-white w-full px-10 p-2 rounded">
                 Save
               </button>
             </div>

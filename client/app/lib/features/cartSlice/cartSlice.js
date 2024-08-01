@@ -86,37 +86,24 @@ const cartSlice = createSlice({
 
       state.cartData = temp;
     },
-    setPrice: (state, action) => {
-      console.log("price:", { ...action.payload });
-      console.log(current(state?.price));
-      const { saucePrice, cheesePrice, vegetarianPrice, meatPrice } = {
-        ...current(state.price),
+
+    setToppings: (state, action) => {
+      const temp = {
+        ...current(state.allToppings),
         ...action.payload,
       };
 
-      console.log(
-        saucePrice,
-        cheesePrice,
-        vegetarianPrice,
-        meatPrice,
-        "setPrice"
-      );
-
-      const totalSum = saucePrice + cheesePrice + vegetarianPrice + meatPrice;
-      state.price = {
-        saucePrice,
-        cheesePrice,
-        vegetarianPrice,
-        meatPrice,
-        totalPrice: totalSum,
+      const { sauce, cheese, veg, meat, base, price } = temp;
+      const extraPrice =
+        [sauce, cheese, veg, meat].flat().reduce((acc, cur) => {
+          return acc + cur?.price;
+        }, 0) + base?.price[0]?.price || 0;
+      const prices = {
+        ...temp,
+        extraPrice: extraPrice,
+        totalPrice: extraPrice + price,
       };
-    },
-    setToppings: (state, action) => {
-      console.log({ ...action.payload });
-
-      const temp = { ...current(state.allToppings), ...action.payload };
-      console.log(temp);
-      state.allToppings = temp;
+      state.allToppings = prices;
     },
 
     deletefromCart: (state, action) => {
