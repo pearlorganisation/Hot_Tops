@@ -59,9 +59,11 @@ const saucesData = [
 ];
 
 const Sauce = ({ sauceData }) => {
-  console.log(sauceData, "sauceData");
+  // console.log(sauceData, "sauceData");
   const { customizationData } = useSelector((state) => state.orderDetails);
   const [defaultSauceDetails, setDefaultSauceDetails] = useState([]);
+  const [selectedSauces, setSelectedSauces] = useState({});
+
   const dispatch = useDispatch();
   const defaultSelectedSauces = customizationData?.sauceName;
 
@@ -72,21 +74,19 @@ const Sauce = ({ sauceData }) => {
   useEffect(() => {
     setSelectedSauces(() => {
       const defaultSelected = {};
-      console.log(defaultSelectedSauces, "defaultSelectedSauces");
+      // console.log(defaultSelectedSauces, "defaultSelectedSauces");
       defaultSauceDetails?.forEach((sauceName) => {
-        console.log(sauceName, "sauceName");
+        // console.log(sauceName, "sauceName");
         const sauce = sauceData.find((s) => s.name === sauceName);
-        console.log(sauceData, "sauceData");
+        // console.log(sauceData, "sauceData");
         if (sauce) {
           defaultSelected[sauce._id] = "single";
         }
       });
-      console.log(defaultSelected, "defaultSelected");
+      // console.log(defaultSelected, "defaultSelected");
       return defaultSelected;
     });
   }, [defaultSauceDetails, customizationData, sauceData]);
-
-  const [selectedSauces, setSelectedSauces] = useState({});
 
   const handleSelectionChange = (sauceId, size) => {
     setSelectedSauces((prevSelected) => {
@@ -104,27 +104,7 @@ const Sauce = ({ sauceData }) => {
   };
 
   useEffect(() => {
-    console.log(selectedSauces, "selectedSauces");
-  }, [selectedSauces]);
-
-  const calculateTotalPrice = () => {
-    let total = 0;
-    for (const [sauceId, size] of Object.entries(selectedSauces)) {
-      const sauce = saucesData.find((s) => s._id === sauceId);
-      if (sauce) {
-        const price =
-          size === "single"
-            ? sauce.price[0].singlePrice
-            : sauce.price[0].doublePrice;
-        total += price;
-      }
-    }
-    return Number(total.toFixed(2));
-  };
-
-  useEffect(() => {
-    const total = calculateTotalPrice();
-    dispatch(setPrice({ saucePrice: Number(total) }));
+    // console.log(selectedSauces, "selectedSauces");
   }, [selectedSauces]);
 
   const handleSave = () => {
@@ -143,7 +123,7 @@ const Sauce = ({ sauceData }) => {
       }
     );
     dispatch(setToppings({ sauce: selectedSaucesData }));
-    console.log(selectedSaucesData, "selectedSaucesData");
+    // console.log(selectedSaucesData, "selectedSaucesData");
   };
 
   useEffect(() => {
