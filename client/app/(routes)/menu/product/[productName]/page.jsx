@@ -4,7 +4,7 @@ import MeatToppings from "@/app/_components/customization/meatToppings/MeatToppi
 import Sauce from "@/app/_components/customization/sauce/Sauce";
 import VegetarianToppings from "@/app/_components/customization/vegetarianToppings/VegetarianToppings";
 import TotalPriceCard from "@/app/_components/TotalPriceCard/TotalPriceCard";
-import { setToppings } from "@/app/lib/features/cartSlice/cartSlice";
+import { addToCart, setToppings } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useSWR from "swr";
@@ -141,14 +141,18 @@ const Product = () => {
 
 
   const handleCustomization = () => {
+
     const temp1 = allToppings
     const emp = customizationData?.priceSection.find(item => {
       return item?.size?._id === selectedSizeId
     })
     const temp2 = { name: customizationData?.name, img: customizationData?.img, base: selectedBase, size: emp, allToppings: allToppings }
 
-    console.log(temp2, "temp2")
-    console.log(basePrices)
+    dispatch(addToCart({
+      name: customizationData?.name, img: customizationData?.img, id: customizationData?.id + allToppings?.size?._id, quantity: 1, price: allToppings?.totalPrice, totalSum: allToppings?.totalPrice,
+      allToppings: allToppings
+    }))
+
   }
 
 
