@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import { useSelector } from "react-redux";
 
 const TotalPriceCard = () => {
-  const { price } = useSelector((state) => state.cart);
+  const { price, allToppings } = useSelector((state) => state.cart);
 
   const [mount, setMount] = useState(false);
   useEffect(() => {
@@ -19,9 +19,9 @@ const TotalPriceCard = () => {
       {mount &&
         createPortal(
           <div className="fixed bottom-5 rounded-md right-5 bg-red-600 p-6 text-white font-semibold text-center">
-            <div> </div>
-            <div></div>
-            <div>Total Price : {price?.totalPrice}</div>
+            <div> Price : {allToppings?.price}</div>
+            <div>Extra Price : {allToppings?.extraPrice.toFixed(2)}</div>
+            <div>Total Price : {allToppings?.totalPrice.toFixed(2)}</div>
           </div>,
           document.body
         )}

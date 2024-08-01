@@ -44,7 +44,9 @@ const OrderDetails = () => {
   }
 
   return (
+
     <div className="px-2 md:px-10 md:py-10 w-full lg:w-3/4 rounded-md shadow-lg">
+
       {Array.isArray(orderData) &&
         orderData.length > 0 ?
         orderData?.map((data) => {
@@ -65,6 +67,7 @@ const OrderDetails = () => {
                   </div>
                     <h2 className=" md:hidden text-red-800">{data?.orderStatus}</h2>
                     <h1 className="hidden md:block">Order Id - {data?.count}</h1> 
+
                 </h1>
                 <h2 className="hidden md:block text-red-800">{data?.orderStatus}</h2>
               </div>

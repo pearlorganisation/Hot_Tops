@@ -3,63 +3,8 @@ import { setPrice, setToppings } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const saucesData = [
-  {
-    _id: "6692599000cad24da6ad78b5",
-    name: "Manchurian Sauce",
-    price: [
-      {
-        size: "6683c965888a970ed1e08347",
-        singlePrice: 0.5,
-        doublePrice: 1.0,
-        _id: "6692599000cad24da6ad78b8",
-      },
-    ],
-    __v: 0,
-  },
-  {
-    _id: "66925a1400cad24da6ad78d5",
-    name: "Piri Piri Sauce",
-    price: [
-      {
-        size: "6683c965888a970ed1e08347",
-        singlePrice: 0.5,
-        doublePrice: 1.0,
-        _id: "66925a1400cad24da6ad78d8",
-      },
-    ],
-    __v: 0,
-  },
-  {
-    _id: "66925a4900cad24da6ad78fe",
-    name: "Garlic Sauce",
-    price: [
-      {
-        size: "6683c965888a970ed1e08347",
-        singlePrice: 0.5,
-        doublePrice: 1.0,
-        _id: "66925a4900cad24da6ad7901",
-      },
-    ],
-    __v: 0,
-  },
-  {
-    _id: "66925acb00cad24da6ad796f",
-    name: "Tikka Sauce",
-    price: [
-      {
-        size: "6683c965888a970ed1e08347",
-        singlePrice: 0.5,
-        doublePrice: 1.0,
-        _id: "66925acb00cad24da6ad7972",
-      },
-    ],
-    __v: 0,
-  },
-];
-
 const Cheese = ({ cheeseData }) => {
-  console.log(cheeseData, "cheeseData");
+  // console.log(cheeseData, "cheeseData");
   const { customizationData } = useSelector((state) => state.orderDetails);
   const [defaultCheeseDetails, setDefaultCheeseDetails] = useState([]);
   const dispatch = useDispatch();
@@ -72,25 +17,21 @@ const Cheese = ({ cheeseData }) => {
   useEffect(() => {
     setSelectedChees(() => {
       const defaultSelected = {};
-      console.log(defaultSelectedCheeses, "defaultSelectedSauces");
+      // console.log(defaultSelectedCheeses, "defaultSelectedSauces");
       defaultCheeseDetails?.forEach((cheeseName) => {
-        console.log(cheeseName, "cheeseName");
+        // console.log(cheeseName, "cheeseName");
         const cheese = cheeseData.find((s) => s.name === cheeseName);
-        console.log(cheeseData, "cheeseData");
+        // console.log(cheeseData, "cheeseData");
         if (cheese) {
           defaultSelected[cheese._id] = "single";
         }
       });
-      console.log(defaultSelected, "defaultSelected");
+      // console.log(defaultSelected, "defaultSelected");
       return defaultSelected;
     });
   }, [defaultCheeseDetails, customizationData, cheeseData]);
 
   const [selectedCheese, setSelectedChees] = useState({});
-
-  //   useEffect(() => {
-  //     console.log(customizationData?.sauceName, "customizationData?.sauceName");
-  //   }, [customizationData]);
 
   const handleSelectionChange = (cheeseId, size) => {
     setSelectedChees((prevSelected) => {
@@ -108,27 +49,7 @@ const Cheese = ({ cheeseData }) => {
   };
 
   useEffect(() => {
-    console.log(selectedCheese, "selectedCheese");
-  }, [selectedCheese]);
-
-  const calculateTotalPrice = () => {
-    let total = 0;
-    for (const [cheeseId, size] of Object.entries(selectedCheese)) {
-      const cheese = cheeseData.find((s) => s._id === cheeseId);
-      if (cheese) {
-        const price =
-          size === "single"
-            ? cheese.price[0].singlePrice
-            : cheese.price[0].doublePrice;
-        total += price;
-      }
-    }
-    return Number(total.toFixed(2));
-  };
-
-  useEffect(() => {
-    const total = calculateTotalPrice();
-    dispatch(setPrice({ cheesePrice: Number(total) }));
+    // console.log(selectedCheese, "selectedCheese");
   }, [selectedCheese]);
 
   const handleSave = () => {
@@ -147,7 +68,7 @@ const Cheese = ({ cheeseData }) => {
       }
     );
     dispatch(setToppings({ cheese: selectedCheeseData }));
-    console.log(selectedCheeseData, "selectedCheeseData");
+    // console.log(selectedCheeseData, "selectedCheeseData");
   };
 
   useEffect(() => {

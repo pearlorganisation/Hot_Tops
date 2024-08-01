@@ -4,8 +4,9 @@ import MeatToppings from "@/app/_components/customization/meatToppings/MeatToppi
 import Sauce from "@/app/_components/customization/sauce/Sauce";
 import VegetarianToppings from "@/app/_components/customization/vegetarianToppings/VegetarianToppings";
 import TotalPriceCard from "@/app/_components/TotalPriceCard/TotalPriceCard";
+import { setToppings } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useSWR from "swr";
 // import { useParams } from 'next/navigation';
 
@@ -14,6 +15,8 @@ const Product = () => {
   // const pizzaName= params?.productName
 
   const { customizationData } = useSelector((state) => state.orderDetails);
+  const { allToppings } = useSelector(state => state.cart)
+  const dispatch = useDispatch()
 
   const combineNames = () => {
     const items = [
@@ -58,11 +61,26 @@ const Product = () => {
   );
 
   useEffect(() => {
-    console.log(selectedSizeId, "mujhe maaf krna OM sai ram");
+    if (customizationData) {
+      const size = customizationData?.priceSection.find(item => {
+        return item?.size?._id === selectedSizeId
+      })
+      dispatch(setToppings(size))
+    }
   }, [selectedSizeId]);
+
+  useEffect(() => {
+    if (basePrices) {
+      const base = basePrices?.find(item => {
+        return item?.name === selectedBase
+      })
+      dispatch(setToppings({ base: base }))
+    }
+  }, [basePrices, selectedBase]);
   const handleRadioChange = async (e) => {
     const newSizeId = e.target.value;
     setSelectedSizeId(newSizeId);
+
 
     // Fetch new prices based on the selected size
     await fetchPricesForSelectedSize(newSizeId);
@@ -77,19 +95,9 @@ const Product = () => {
     setSelectedSizeId(customizationData?.selectedData);
   }, [customizationData]);
 
-  // useEffect(() => {
-  //   console.log(selectedSizeId)
-  // }, [selectedSizeId])
 
-  const handleCheckboxChange = (sauceName, isChecked) => {
-    setSelectedSauce((prevSelected) => {
-      if (isChecked) {
-        return [...prevSelected, sauceName];
-      } else {
-        return prevSelected.filter((name) => name !== sauceName);
-      }
-    });
-  };
+
+
 
   // -------------------data fetching for price-----------------------
 
@@ -132,7 +140,16 @@ const Product = () => {
 
 
 
+  const handleCustomization = () => {
+    const temp1 = allToppings
+    const emp = customizationData?.priceSection.find(item => {
+      return item?.size?._id === selectedSizeId
+    })
+    const temp2 = { name: customizationData?.name, img: customizationData?.img, base: selectedBase, size: emp, allToppings: allToppings }
 
+    console.log(temp2, "temp2")
+    console.log(basePrices)
+  }
 
 
 
@@ -190,6 +207,7 @@ const Product = () => {
                         type="radio"
                         className="form-radio"
                         onChange={(e) => {
+
                           const base = e.target.value;
                           setSelectedBase(base);
                         }}
@@ -235,7 +253,7 @@ const Product = () => {
 
 
             <div className="mt-4">
-              <button className="bg-[#39A144] text-white w-full px-10 p-2 rounded">
+              <button onClick={handleCustomization} className="bg-[#39A144] text-white w-full px-10 p-2 rounded">
                 Save
               </button>
             </div>

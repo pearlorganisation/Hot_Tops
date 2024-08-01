@@ -3,63 +3,8 @@ import { setPrice, setToppings } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const saucesData = [
-  {
-    _id: "6692599000cad24da6ad78b5",
-    name: "Manchurian Sauce",
-    price: [
-      {
-        size: "6683c965888a970ed1e08347",
-        singlePrice: 0.5,
-        doublePrice: 1.0,
-        _id: "6692599000cad24da6ad78b8",
-      },
-    ],
-    __v: 0,
-  },
-  {
-    _id: "66925a1400cad24da6ad78d5",
-    name: "Piri Piri Sauce",
-    price: [
-      {
-        size: "6683c965888a970ed1e08347",
-        singlePrice: 0.5,
-        doublePrice: 1.0,
-        _id: "66925a1400cad24da6ad78d8",
-      },
-    ],
-    __v: 0,
-  },
-  {
-    _id: "66925a4900cad24da6ad78fe",
-    name: "Garlic Sauce",
-    price: [
-      {
-        size: "6683c965888a970ed1e08347",
-        singlePrice: 0.5,
-        doublePrice: 1.0,
-        _id: "66925a4900cad24da6ad7901",
-      },
-    ],
-    __v: 0,
-  },
-  {
-    _id: "66925acb00cad24da6ad796f",
-    name: "Tikka Sauce",
-    price: [
-      {
-        size: "6683c965888a970ed1e08347",
-        singlePrice: 0.5,
-        doublePrice: 1.0,
-        _id: "66925acb00cad24da6ad7972",
-      },
-    ],
-    __v: 0,
-  },
-];
-
 const VegetarianToppings = ({ vegetarianTopData }) => {
-  console.log(vegetarianTopData, "vegetarianTopData");
+  // console.log(vegetarianTopData, "vegetarianTopData");
   const { customizationData } = useSelector((state) => state.orderDetails);
   const [defaultVegDetails, setDefaultVegDetails] = useState([]);
   const dispatch = useDispatch();
@@ -72,25 +17,21 @@ const VegetarianToppings = ({ vegetarianTopData }) => {
   useEffect(() => {
     setSelectedVeg(() => {
       const defaultSelected = {};
-      console.log(defaultSelectedVeg, "defaultSelectedVeg");
+      // console.log(defaultSelectedVeg, "defaultSelectedVeg");
       defaultVegDetails?.forEach((vegName) => {
-        console.log(vegName, "vegName");
+        // console.log(vegName, "vegName");
         const veg = vegetarianTopData.find((s) => s.name === vegName);
-        console.log(vegetarianTopData, "vegetarianTopData");
+        // console.log(vegetarianTopData, "vegetarianTopData");
         if (veg) {
           defaultSelected[veg._id] = "single";
         }
       });
-      console.log(defaultSelected, "defaultSelected");
+      // console.log(defaultSelected, "defaultSelected");
       return defaultSelected;
     });
   }, [defaultVegDetails, customizationData, vegetarianTopData]);
 
   const [selectedVeg, setSelectedVeg] = useState({});
-
-  //   useEffect(() => {
-  //     console.log(customizationData?.sauceName, "customizationData?.sauceName");
-  //   }, [customizationData]);
 
   const handleSelectionChange = (vegId, size) => {
     setSelectedVeg((prevSelected) => {
@@ -108,27 +49,7 @@ const VegetarianToppings = ({ vegetarianTopData }) => {
   };
 
   useEffect(() => {
-    console.log(selectedVeg, "selectedVeg");
-  }, [selectedVeg]);
-
-  const calculateTotalPrice = () => {
-    let total = 0;
-    for (const [vegId, size] of Object.entries(selectedVeg)) {
-      const veg = vegetarianTopData.find((s) => s._id === vegId);
-      if (veg) {
-        const price =
-          size === "single"
-            ? veg.price[0].singlePrice
-            : veg.price[0].doublePrice;
-        total += price;
-      }
-    }
-    return Number(total.toFixed(2));
-  };
-
-  useEffect(() => {
-    const total = calculateTotalPrice();
-    dispatch(setPrice({ vegetarianPrice: Number(total) }));
+    // console.log(selectedVeg, "selectedVeg");
   }, [selectedVeg]);
 
   const handleSave = () => {
@@ -147,7 +68,7 @@ const VegetarianToppings = ({ vegetarianTopData }) => {
       }
     );
     dispatch(setToppings({ veg: selectedVegetarianData }));
-    console.log(selectedVegetarianData, "selectedVegetarianData");
+    // console.log(selectedVegetarianData, "selectedVegetarianData");
   };
 
   useEffect(() => {
