@@ -101,7 +101,7 @@ const MeatToppings = ({ meatTopData }) => {
                 <div
                   className={`cursor-pointer px-2 md:px-4 py-2 rounded text-center ${
                     selectedMeat[meat._id] === "single"
-                      ? "bg-red-600 text-white"
+                      ? "bg-red-800 text-white"
                       : "bg-gray-200 text-gray-900"
                   }`}
                   onClick={() => handleSelectionChange(meat._id, "single")}
@@ -113,7 +113,7 @@ const MeatToppings = ({ meatTopData }) => {
                 <div
                   className={`cursor-pointer px-2 md:px-4 py-2 rounded text-center ${
                     selectedMeat[meat._id] === "double"
-                      ? "bg-yellow-600 text-white"
+                      ? "bg-green-800 text-white"
                       : "bg-gray-200 text-gray-900"
                   }`}
                   onClick={() => handleSelectionChange(meat._id, "double")}
