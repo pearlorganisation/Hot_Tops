@@ -170,7 +170,7 @@ const Product = () => {
             </h1>
             <p className="mt-2 text-gray-600">{combineNames()}</p>
             <div className="mt-4">
-              <button className="w-full px-4 py-2 bg-green-600 text-white rounded-lg">
+              <button onClick={handleCustomization} className="w-full px-4 py-2 bg-green-800 hover:bg-green-700 text-white rounded-lg">
                 Save
               </button>
             </div>
@@ -259,7 +259,7 @@ const Product = () => {
 
 
             <div className="mt-4">
-              <button onClick={handleCustomization} className="bg-[#39A144] text-white w-full px-10 p-2 rounded">
+              <button onClick={handleCustomization} className="bg-green-800 hover:bg-green-700 text-white w-full px-10 p-2 rounded">
                 Save
               </button>
             </div>
