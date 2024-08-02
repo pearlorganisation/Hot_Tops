@@ -8,8 +8,9 @@ import "swiper/css/pagination";
 import React, { useEffect, useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-import pizza1 from "../../_assets/images/pizza3.jpg"
-import pizza2 from "../../_assets/images/pizza4.jpg"
+import pizza1 from "../../_assets/images/pizza1.jpg"
+import pizza2 from "../../_assets/images/pizza2.jpg"
+import pizza3 from "../../_assets/images/pizza3.webp"
 import Image from "next/image";
 import DealsCards from "../Pages/DealsCards";
 import { ClockLoader } from "react-spinners";
@@ -26,8 +27,9 @@ import { ClockLoader } from "react-spinners";
 const HomePage = () => {
 
   const img = [
-     pizza2,
-     pizza1
+    pizza1,
+    pizza2,
+    pizza3
   ];
   
     const [popularDealData, setPopularDealData] = useState(null);
@@ -56,7 +58,7 @@ const HomePage = () => {
         {img.map((el, i) => {
             return (
               <SwiperSlide className="pb-8" key={i} >
-                <Image src={el} className="h-[20vh] mx-auto w-full lg:w-full border-2 xl:w-[80%] sm:h-fit md:[30vh] md:h-fit xl:h-[60vh] 2xl:w-[90%] 2xl:h-[60vh]  object-cover" />
+                <Image src={el} className="h-[20vh] mx-auto w-full lg:w-full xl:w-[80%] sm:h-fit md:[30vh] md:h-fit xl:h-[60vh] 2xl:w-[90%] 2xl:h-[60vh]  object-cover" />
               </SwiperSlide>
             );
           })}
