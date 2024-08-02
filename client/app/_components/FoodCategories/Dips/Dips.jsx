@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import AddedToCartModel from "../../Modals/AddedToCartModel";
 import DipsCard from "./DipsCard/DipsCard.jsx";
+import { ClockLoader } from "react-spinners";
 
 const Dips = () => {
 
@@ -20,8 +21,8 @@ const Dips = () => {
     isLoading,
   } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/dips`, dipsfetcher);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading data</div>;
+  if (error) return <div className="h-screen text-red-800 text-center text-3xl md:text-5xl font-bold">Sorry , Failed to load ... </div>;
+  if (isLoading) return <div className="flex justify-center pt-[25vh] h-[85vh] "><ClockLoader color="#991b1b" size={100}/></div>;
 
   return (
     <>

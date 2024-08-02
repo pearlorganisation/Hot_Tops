@@ -4,6 +4,7 @@ import { Router } from "next/router";
 import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import Select from "react-select";
+import { ClockLoader } from "react-spinners";
 
 
 
@@ -33,6 +34,8 @@ const Page = () => {
     console.log(dealData);
   }, [dealData]);
 
+  if (!dealData) return <div className="flex justify-center pt-[25vh] h-[85vh] "><ClockLoader color="#991b1b" size={100}/></div>;
+  
   return (
     <div className=" mx-auto container pb-10">
       <div className=" px-10 pt-5 ">
@@ -50,7 +53,7 @@ const Page = () => {
       <div className="p-8 gap-10 grid md:grid-cols-2 lg:grid-cols-4   place-content-center">
         {Array.isArray(dealData) &&
           dealData.map((el, index) => <DealsCards data={el} key={index} />)}
-        {!dealData && <h1>Loading </h1>}
+       
       </div>
     </div>
   );
