@@ -12,6 +12,7 @@ import pizza1 from "../../_assets/images/pizza3.jpg"
 import pizza2 from "../../_assets/images/pizza4.jpg"
 import Image from "next/image";
 import DealsCards from "../Pages/DealsCards";
+import { ClockLoader } from "react-spinners";
   async function getData() {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/deals?isPopular=true`);
@@ -42,9 +43,9 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="mx-auto w-full lg:y lg:px-10 ">
+      <div className="w-full">
       <Swiper
-      className="z-55 p-2"
+      className="z-55 "
         slidesPerView={1}
         pagination={{
           clickable: true,
@@ -55,7 +56,7 @@ const HomePage = () => {
         {img.map((el, i) => {
             return (
               <SwiperSlide className="pb-8" key={i} >
-                <Image src={el} className="h-[20vh] w-full sm:h-[30vh] md:h-[65vh] object-cover" />
+                <Image src={el} className="h-[20vh] mx-auto w-full lg:w-full border-2 xl:w-[80%] sm:h-fit md:[30vh] md:h-fit xl:h-[60vh] 2xl:w-[90%] 2xl:h-[60vh]  object-cover" />
               </SwiperSlide>
             );
           })}
@@ -80,11 +81,18 @@ const HomePage = () => {
         </header>
       </div>
 
-      <div className="container mb-10 mx-auto max-w-7xl gap-10 grid md:grid-cols-4 place-content-center ">
-        {Array.isArray(popularDealData) && popularDealData.map((el) => (
-          <DealsCards path={"menu"} data={el}/>
-        ))}
+      {popularDealData ? (
+      <div className="container mb-10 mx-auto max-w-7xl gap-10 grid md:grid-cols-4 place-content-center">
+        {Array.isArray(popularDealData) &&
+          popularDealData.map((el) => (
+            <DealsCards key={el.id} path={"menu"} data={el} />
+          ))}
       </div>
+    ) : (
+      <div className="flex justify-center pt-[25vh] h-[85vh]">
+        <ClockLoader color="#991b1b" size={100} />
+      </div>
+    )}
     </>
     </>
   );

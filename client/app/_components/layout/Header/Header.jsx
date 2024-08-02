@@ -7,7 +7,7 @@ import { Raleway, Teko } from "next/font/google";
 import { IoBagHandleOutline } from "react-icons/io5";
 import { FaRegUser, FaShop } from "react-icons/fa6";
 import { MdDeliveryDining } from "react-icons/md";
-import logo from "../../../_assets/images/HOTPIZZALOGO.png";
+import logo from "../../../_assets/images/HOTPIZZALOGO.jpg";
 import { categoryEnum } from "@/app/utils/utils";
 import { useAppSelector } from "@/app/lib/hooks";
 import { FaSyncAlt } from 'react-icons/fa';

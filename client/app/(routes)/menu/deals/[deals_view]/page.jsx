@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { getCustomizationDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
 import { MdEditSquare } from "react-icons/md";
+import { ClockLoader } from "react-spinners";
 
 async function getData(id) {
   try {
@@ -296,7 +297,7 @@ const Page = () => {
           </div>
         </div>
       ) : (
-        <h1>Loading ....</h1>
+        <div className="flex justify-center pt-[25vh] h-[85vh] "><ClockLoader color="#991b1b" size={100}/></div>
       )}
     </div>
   );
