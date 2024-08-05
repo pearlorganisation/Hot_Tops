@@ -7,14 +7,7 @@ const cartSlice = createSlice({
   initialState: {
     cartData: [],
     allToppings: [],
-    price: {
-      saucePrice: 0,
-      cheesePrice: 0,
-      vegetarianPrice: 0,
-      meatPrice: 0,
-      totalPrice: 0,
-    },
-
+    defaultPrice: 0,
     isOrderCheckout: false,
   },
 
@@ -87,6 +80,35 @@ const cartSlice = createSlice({
       state.cartData = temp;
     },
 
+    setDefaultPrice: (state, action) => {
+      console.log(action.payload, "action.payload");
+      const { arr, customizationData } = action.payload;
+      console.log(customizationData, "customiza");
+      // Filter the items based on the sauce names and calculate the default price
+      const {
+        sauceName,
+        cheeseName,
+        vegetarianToppingsName,
+        meatToppingsName,
+      } = customizationData;
+      const temp = [
+        sauceName,
+        cheeseName,
+        vegetarianToppingsName,
+        meatToppingsName,
+      ].flat();
+      const defaultPrice = arr
+        .filter((item) => temp.includes(item.name))
+        .reduce((acc, nxt) => {
+          return acc + (nxt.price[0]?.singlePrice || 0); // Ensure singlePrice exists
+        }, 0);
+
+      console.log(defaultPrice, "defaultPrice");
+
+      // Update the state with the calculated default price
+      state.defaultPrice = defaultPrice.toFixed(2);
+    },
+
     setToppings: (state, action) => {
       const temp = {
         ...current(state.allToppings),
@@ -100,8 +122,10 @@ const cartSlice = createSlice({
         }, 0) + base?.price[0]?.price || 0;
       const prices = {
         ...temp,
-        extraPrice: extraPrice.toFixed(2),
-        totalPrice: (extraPrice + price).toFixed(2),
+        extraPrice: Math.max(0, extraPrice).toFixed(2),
+        totalPrice:
+          ((extraPrice + price) -
+          Number(state.defaultPrice)).toFixed(2),
       };
       state.allToppings = prices;
     },
@@ -129,5 +153,6 @@ export const {
   increaseQuantity,
   setPrice,
   setToppings,
+  setDefaultPrice,
 } = cartSlice.actions;
 export default cartSlice.reducer;

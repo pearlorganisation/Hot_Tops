@@ -4,7 +4,7 @@ import MeatToppings from "@/app/_components/customization/meatToppings/MeatToppi
 import Sauce from "@/app/_components/customization/sauce/Sauce";
 import VegetarianToppings from "@/app/_components/customization/vegetarianToppings/VegetarianToppings";
 import TotalPriceCard from "@/app/_components/TotalPriceCard/TotalPriceCard";
-import { addToCart, setToppings } from "@/app/lib/features/cartSlice/cartSlice";
+import { addToCart, setDefaultPrice, setToppings } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useSWR from "swr";
@@ -154,6 +154,9 @@ const Product = () => {
     }))
 
   }
+  useEffect(() => {
+    dispatch(setDefaultPrice({ arr: [cheesePrices, saucePrices, vegetarianToppingsPrices, meatToppingsPrices].flat(), customizationData: customizationData }))
+  }, [cheesePrices, saucePrices, vegetarianToppingsPrices, meatToppingsPrices, customizationData])
 
 
 
@@ -239,7 +242,7 @@ const Product = () => {
 
             {/* SAUCE STARTS */}
             <div>
-            <Sauce sauceData={saucePrices} />
+              <Sauce sauceData={saucePrices} />
             </div>
             {/* SAUCE ENDS */}
 
