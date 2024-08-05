@@ -7,14 +7,6 @@ const cartSlice = createSlice({
   initialState: {
     cartData: [],
     allToppings: [],
-    price: {
-      saucePrice: 0,
-      cheesePrice: 0,
-      vegetarianPrice: 0,
-      meatPrice: 0,
-      totalPrice: 0,
-    },
-
     isOrderCheckout: false,
   },
 
