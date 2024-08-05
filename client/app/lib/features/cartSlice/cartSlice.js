@@ -122,10 +122,10 @@ const cartSlice = createSlice({
         }, 0) + base?.price[0]?.price || 0;
       const prices = {
         ...temp,
-        extraPrice: Math.max(0, extraPrice.toFixed(2)),
+        extraPrice: Math.max(0, extraPrice).toFixed(2),
         totalPrice:
-          (extraPrice + price).toFixed(2) -
-          Number(state.defaultPrice).toFixed(2),
+          ((extraPrice + price) -
+          Number(state.defaultPrice)).toFixed(2),
       };
       state.allToppings = prices;
     },
