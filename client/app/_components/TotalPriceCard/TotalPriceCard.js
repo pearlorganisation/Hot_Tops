@@ -4,8 +4,9 @@ import { createPortal } from "react-dom";
 import { useSelector } from "react-redux";
 
 const TotalPriceCard = () => {
-  const { price, allToppings } = useSelector((state) => state.cart);
-  const { defaultPrice } = useSelector((state) => state.orderDetails);
+  const { price, allToppings, defaultPrice } = useSelector(
+    (state) => state.cart
+  );
 
   const [mount, setMount] = useState(false);
   useEffect(() => {
@@ -23,7 +24,7 @@ const TotalPriceCard = () => {
             <div> Price : {allToppings?.price}</div>
             <div>
               Extra Price :{" "}
-              {(allToppings?.extraPrice - defaultPrice).toFixed(2)}
+              {Math.max(0, (allToppings?.extraPrice - defaultPrice).toFixed(2))}
             </div>
             <div>Total Price : {allToppings?.totalPrice}</div>
           </div>,
