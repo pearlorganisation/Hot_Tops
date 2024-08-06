@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useId } from "react";
 import { useAppSelector } from "@/app/lib/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
@@ -19,6 +19,9 @@ const Cart = () => {
   const cart = useSelector((state) => state?.cart?.cartData);
   const pathname = usePathname();
   const dispatch = useDispatch();
+  const uniqueId = useId();
+  
+
 
   useEffect(() => {
     dispatch(orderCheckedout(false));

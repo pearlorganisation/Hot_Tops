@@ -29,9 +29,7 @@ const Page = () => {
     fetchData();
   }, []);
 
-  useEffect(() => { 
-    console.log(dealData);
-  }, [dealData]);
+ 
 
   return (
     <div className=" mx-auto container pb-10">

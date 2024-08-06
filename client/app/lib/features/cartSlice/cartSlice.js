@@ -7,6 +7,10 @@ const cartSlice = createSlice({
   initialState: {
     cartData: [],
     allToppings: [],
+    dealsToppingData:[],
+    dealsTotalPrice:0,
+    dealsPrice:0,
+    
     price: {
       saucePrice: 0,
       cheesePrice: 0,
@@ -105,7 +109,25 @@ const cartSlice = createSlice({
       };
       state.allToppings = prices;
     },
+    addDealsData:(state,action) =>
+    {
+      const temp = {
+        ...current(state.allToppings),
+        ...action.payload,
+      };
 
+      const { sauce, cheese, veg, meat, base, price } = temp;
+      const extraPrice =
+        [sauce, cheese, veg, meat].flat().reduce((acc, cur) => {
+          return acc + cur?.price;
+        }, 0) + base?.price[0]?.price || 0;
+      const prices = {
+        ...temp,
+        extraPrice: extraPrice,
+        totalPrice: extraPrice + price,
+      };
+      state.dealsToppingData.push(prices);
+    },
     deletefromCart: (state, action) => {
       state.cartData = state.cartData.filter(
         (item) => item.id !== action.payload.id
@@ -117,6 +139,7 @@ const cartSlice = createSlice({
     emptyCart: (state, action) => {
       state.cartData = [];
     },
+    
   },
 });
 
@@ -129,5 +152,6 @@ export const {
   increaseQuantity,
   setPrice,
   setToppings,
+  addDealsData,
 } = cartSlice.actions;
 export default cartSlice.reducer;
