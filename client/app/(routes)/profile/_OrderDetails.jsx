@@ -52,7 +52,7 @@ const OrderDetails = () => {
         orderData?.map((data) => {
           return (
             <div className="pb-8 md:p-4">
-              <div className="md:flex gap-3 font-semibold justify-between">
+              <div className="md:flex gap-3  justify-between">
                 <h1 className="">
                  <div className="flex justify-between">
                    <span className="text-xl capitalize bg-red-800 rounded-md px-1 py-1 text-white">{`${data?.orderType}`}
