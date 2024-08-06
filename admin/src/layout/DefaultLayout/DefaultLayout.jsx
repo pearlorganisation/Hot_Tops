@@ -51,7 +51,7 @@ const DefaultLayout = () => {
             setIsSideNavOpen={setIsSideNavOpen}
           />
         </div>
-        <div className="flex-1 lg:h-[80px]  ">
+        <div className="relative flex flex-1 flex-col overflow-y-auto ">
           {/* <Header
             isSideNavOpen={isSideNavOpen}
             setIsSideNavOpen={setIsSideNavOpen}

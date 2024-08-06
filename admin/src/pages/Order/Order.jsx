@@ -46,13 +46,13 @@ const Order = () => {
               <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                 <tr>
                   <th className="py-3 px-6">Order No.</th>
-                  <th className="py-3 px-6">Name </th>
-                  <th className="py-3 px-6">Total Amount </th>
-                  <th className="py-3 px-6">Time </th>
-                  <th className="py-3 px-6">Order Type </th>
-                  <th className="py-3 px-6">Payment Method </th>
-                  <th className="py-3 px-6">Order Status</th>
-                  <th className="py-3 px-6">Actions</th>
+                  <th className="py-3 px-3">Name </th>
+                  <th className="py-3 px-3">Total Amount </th>
+                  <th className="py-3 px-3">Time </th>
+                  <th className="py-3 px-3">Order Type </th>
+                  <th className="py-3 px-3">Payment Method </th>
+                  <th className="py-3 px-3">Order Status</th>
+                  <th className="py-3 px-3">Actions</th>
                 
                   
                 </tr>
@@ -74,25 +74,25 @@ const Order = () => {
               Array.isArray(orderData) && orderData.length > 0 && orderData.slice().reverse().map((item, idx) => (
                     <tr key={idx}>
                       <td className="px-6 py-4 whitespace-nowrap">{item?.count}</td>
-                      <td className="px-6 py-4 whitespace-nowrap ">
+                      <td className="px-3 py-4 whitespace-nowrap ">
                         {item?.orderBy?.firstName} {item?.orderBy?.lastName}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap font-semibold ">
+                      <td className="px-3 py-4 whitespace-nowrap font-semibold ">
                       £ {Number(item?.totalAmount?.total) + Number(item?.totalAmount?.deliveryCharge)}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap ">
+                      <td className="px-3 py-4 whitespace-nowrap ">
                         {item?.time}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap ">
+                      <td className="px-3 py-4 whitespace-nowrap ">
                       <span className={`rounded-md py-1 px-3 font-semibold capitalize`}>{item?.orderType}</span>
                        
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap ">
+                      <td className="px-3 py-4 whitespace-nowrap ">
                       {item?.paymentMethode === 'card' ? <MdCreditCard className="inline-block size-7 text-emerald-600" /> : 
                       <AiFillPoundCircle className="inline-block size-7 text-yellow-600" />}
                       <span className={`rounded-md py-1 px-3 font-bold capitalize ${item?.paymentMethode === 'card' ? "text-emerald-600" : "text-yellow-600" }`}>{item?.paymentMethode}</span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap ">
+                      <td className="px-3 py-4 whitespace-nowrap ">
                       <span className={`rounded-md text-white py-1 px-3 font-semibold ${item?.orderStatus === 'Pending'? "bg-yellow-600" : 
                         item?.orderStatus === 'Completed' ? "bg-emerald-600" :"bg-red-600" }`}>{item?.orderStatus}</span>
                       
