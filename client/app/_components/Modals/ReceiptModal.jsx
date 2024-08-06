@@ -93,7 +93,14 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
                     const price = String(data?.size).includes("-")
                       ? data?.size?.split("-")
                       : data?.size;
-                    console.log(price);
+                      const allToppings = data?.allToppings || { cheese: [], sauce: [],veg:[],meat:[] };
+                    const mergedToppings = [
+                      ...allToppings.cheese.map(item => item.cheeseName),
+                      ...allToppings.sauce.map(item => item.sauceName),
+                      ...allToppings.veg.map(item => item.vegName),
+                      ...allToppings.meat.map(item => item.meatName)
+                    ].join(', ');
+
                     return (
                       <div className="p-4 border-b grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
                         <div className="flex items-center space-x-4 md:col-span-2">
@@ -102,12 +109,15 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
                           </div>
                           <p className=" font-semibold">
                             {data?.name}{" "}
-                            {Array.isArray(price) ? `(${price[0]})` : ""}
+                            {Array.isArray(price) ? `(${price[0]})` : (data?.dealsData ? `(${data?.size})` : `(${data?.allToppings?.size?.name})`) }    {data?.allToppings && <span className="text-sm bg-red-800 text-white rounded-md px-2"> Customized </span>}
                           </p>
                         </div>
 
-                        <div className="col-span-1 text-right  font-semibold md:col-span-3 md:text-left">
-                          £ {data?.price} x {data?.quantity}
+                        <div className="font-semibold md:col-span-3">
+  <div> <p className="text-sm text-green-800 pb-2">{mergedToppings}</p> </div>
+                        <div className=" text-right  md:text-left">
+                          £ {data?.price} <span className="text-sm">x {data?.quantity}</span>
+                        </div>
                         </div>
                       </div>
                     );
