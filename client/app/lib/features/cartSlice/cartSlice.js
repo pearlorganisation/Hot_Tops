@@ -6,7 +6,7 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: {
     cartData: [],
-    allToppings: [],
+    allToppings: {},
     defaultPrice: 0,
     isOrderCheckout: false,
   },
@@ -123,9 +123,10 @@ const cartSlice = createSlice({
       const prices = {
         ...temp,
         extraPrice: Math.max(0, extraPrice).toFixed(2),
-        totalPrice:
-          ((extraPrice + price) -
-          Number(state.defaultPrice)).toFixed(2),
+        totalPrice: Math.max(
+          state.allToppings.price,
+          extraPrice + price - Number(state.defaultPrice)
+        ).toFixed(2),
       };
       state.allToppings = prices;
     },
