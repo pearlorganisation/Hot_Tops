@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { getCustomizationDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
 import { MdEditSquare } from "react-icons/md";
 import PizzaCustomizationModal from "@/app/_components/Modals/PizzaCutomizationModal";
+import { ClockLoader } from "react-spinners";
 
 async function getData(id) {
   try {
@@ -23,19 +24,32 @@ async function getData(id) {
     return null;
   }
 }
-let customization = false;
 const Page = () => {
   const searchParams = useSearchParams();
+
   const [dealViewData, setDealView] = useState(null);
+  
   const dispatch = useDispatch();
+  
   const cardId = searchParams.get("card_id");
+  
   const sizeId = searchParams.get("size_id");
+  
   const sizeDetailRef = useRef(null);
+  
   const uniqueId = useId();
+  
   const [dealDataPizza, setDealDataPizza] = useState([]);
+  
   const [dealDataDrinks, setDealDataDrinks] = useState([]);
+  
   const modalRef = useRef();
+  
   const pizzaDataIndex = useRef(null);
+   
+  let defaultPizzaPrice = 0;
+
+
   const handleOpeningModal = () => {
     if (modalRef.current) {
       modalRef.current.open();
@@ -45,6 +59,9 @@ const Page = () => {
 
 
 
+
+
+  
   useEffect(() => {
     console.log(dealDataPizza, "deal data pizza");
   }, [dealDataPizza]);
@@ -76,24 +93,57 @@ const Page = () => {
       dealViewData &&
       submitData.every((item) => item !== null && item !== undefined)
     ) {
-      console.log(submitData);
+      console.log(submitData,"submitted data from pizzqaDeals");
+
+      const extraPrice = Number(
+        (dealDataPizza ? dealDataPizza.reduce((acc, currPizza) => acc + (currPizza.pizzaExtraToppingPrice || 0), 0) : 0)
+      ) + 0;
+      
+      const totalPrice = Number(
+        (dealDataPizza ? dealDataPizza.reduce((acc, currPizza) => acc + (currPizza.pizzaPrice || 0), 0) : 0)
+      ) + Number(sizeDetailRef.current?.price || 0);
+
+
+  console.log("total price pizzas ",totalPrice);
+  console.log("extra price pizzas ",extraPrice);
+
+
+
+
+
+
+      console.log({
+        name: dealViewData?.title,
+        img: dealViewData?.banner,
+        size: sizeDetailRef.current.size,
+        id:  dealViewData?._id + uniqueId ,
+        quantity: 1,
+        price : Number(extraPrice+dealViewData.sizes[0].price),
+
+        totalSum :Number(extraPrice+dealViewData.sizes[0].price),
+        
+        dealsData:[...submitData]
+
+      });
+      console.log( Number(totalPrice ),(defaultPizzaPrice.price ? defaultPizzaPrice.price : 0))
       dispatch(
         addToCart({
           name: dealViewData?.title,
           img: dealViewData?.banner,
           size: sizeDetailRef.current.size,
-          id: customization ? dealViewData?._id + uniqueId :dealViewData?._id,
+          id:  dealViewData?._id + uniqueId ,
           quantity: 1,
-          price:  customization ?  Number(dealDataPizza.reduce((acc,currpizza) => acc +currpizza.pizzaPrice+0 )) : Number(sizeDetailRef.current.price),
-          totalSum: Number(sizeDetailRef.current.price),
-          dealsData: [...submitData],
-        })
+          price : Number(extraPrice+dealViewData.sizes[0].price),
+
+          totalSum :Number(extraPrice+dealViewData.sizes[0].price),
+          dealsData:[...submitData]
+        }
 
 
         
 
 
-      );
+      ));
       
       
     } else {
@@ -117,7 +167,7 @@ const Page = () => {
 
   return (
     <>
-    <PizzaCustomizationModal ref={modalRef} pizzaIndex = {pizzaDataIndex} pizzaData = {dealDataPizza} key={1} />
+    <PizzaCustomizationModal ref={modalRef} pizzaIndex = {pizzaDataIndex} pizzaData = {dealDataPizza}  setDealDataPizza={setDealDataPizza} />
     <div className="">
       {dealViewData ? (
         <div>
@@ -152,7 +202,6 @@ const Page = () => {
                           onClick={() => {
                             pizzaDataIndex.current = index;    
                             handleOpeningModal();
-                            customization = true;
                             console.log(
                               {
                                 name: dealDataPizza[index]?.label,
@@ -184,11 +233,18 @@ const Page = () => {
                                 baseName: dealDataPizza[index]?.baseName,
                                 meatToppingsName:
                                   dealDataPizza?.[index]?.meatToppingsName,
+                                
 
                               },
                               "submitting to customization page"
                             );
-                            
+                            defaultPizzaPrice =  dealDataPizza[index].priceSection.find(
+                                (el) =>
+                                  el.size.name ===
+                                  dealViewData?.sizes[0].size
+                              )
+                            ;
+                            console.log( defaultPizzaPrice," defaultPizzaPriceRef")
                             dispatch(
                               getCustomizationDetails({
                                 name: dealDataPizza[index]?.label,
@@ -201,6 +257,7 @@ const Page = () => {
                                           dealViewData?.sizes[0].size
                                       )
                                     : dealDataPizza[index].priceSection,
+                                    
                                 id: dealDataPizza[index]?.id,
                                 sauceName: dealDataPizza[index]?.sauceName,
                                 cheeseName: dealDataPizza[index]?.cheeseName,
@@ -315,7 +372,7 @@ const Page = () => {
           </div>
         </div>
       ) : (
-        <h1>Loading ....</h1>
+        <div className="flex justify-center pt-[25vh] h-[85vh] "><ClockLoader color="#991b1b" size={100}/></div>
       )}
     </div>
     </>

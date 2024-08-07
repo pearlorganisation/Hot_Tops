@@ -8,10 +8,13 @@ import "swiper/css/pagination";
 import React, { useEffect, useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-import pizza1 from "../../_assets/images/pizza3.jpg"
-import pizza2 from "../../_assets/images/pizza4.jpg"
+import pizza1 from "../../_assets/images/pizza1.jpg"
+import pizza2 from "../../_assets/images/pizza2.jpg"
+import pizza3 from "../../_assets/images/pizza3.webp"
+import pizza4 from "../../_assets/images/pizza4.webp"
 import Image from "next/image";
 import DealsCards from "../Pages/DealsCards";
+import { ClockLoader } from "react-spinners";
   async function getData() {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/deals?isPopular=true`);
@@ -25,8 +28,10 @@ import DealsCards from "../Pages/DealsCards";
 const HomePage = () => {
 
   const img = [
-     pizza2,
-     pizza1
+    pizza1,
+    pizza2,
+    pizza3,
+    pizza4
   ];
   
     const [popularDealData, setPopularDealData] = useState(null);
@@ -42,9 +47,9 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="mx-auto w-full lg:y lg:px-10 ">
+      <div className="w-full">
       <Swiper
-      className="z-55 p-2"
+      className="z-55 "
         slidesPerView={1}
         pagination={{
           clickable: true,
@@ -55,7 +60,7 @@ const HomePage = () => {
         {img.map((el, i) => {
             return (
               <SwiperSlide className="pb-8" key={i} >
-                <Image src={el} className="h-[20vh] w-full sm:h-[30vh] md:h-[65vh] object-cover" />
+                <Image src={el} className="h-[20vh] mx-auto w-full lg:w-[70%] xl:w-[70%] sm:h-fit md:[30vh] md:h-fit xl:h-[65vh] 2xl:w-[60%] 2xl:h-[70vh]  object-cover" />
               </SwiperSlide>
             );
           })}
@@ -80,11 +85,18 @@ const HomePage = () => {
         </header>
       </div>
 
-      <div className="container mb-10 mx-auto max-w-7xl gap-10 grid md:grid-cols-4 place-content-center ">
-        {Array.isArray(popularDealData) && popularDealData.map((el) => (
-          <DealsCards path={"menu"} data={el}/>
-        ))}
+      {popularDealData ? (
+      <div className="container mb-10 mx-auto max-w-7xl gap-10 grid md:grid-cols-4 place-content-center">
+        {Array.isArray(popularDealData) &&
+          popularDealData.map((el) => (
+            <DealsCards key={el.id} path={"menu"} data={el} />
+          ))}
       </div>
+    ) : (
+      <div className="flex justify-center pt-[25vh] h-[85vh]">
+        <ClockLoader color="#991b1b" size={100} />
+      </div>
+    )}
     </>
     </>
   );

@@ -16,5 +16,6 @@ const orderDetailsSlice = createSlice({
   },
 });
 
-export const { getorderDetails,getCustomizationDetails } = orderDetailsSlice.actions;
+export const { getorderDetails, getCustomizationDetails } =
+  orderDetailsSlice.actions;
 export default orderDetailsSlice.reducer;

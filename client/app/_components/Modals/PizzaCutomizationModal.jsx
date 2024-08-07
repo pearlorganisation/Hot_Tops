@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addDealsData, setToppings } from '@/app/lib/features/cartSlice/cartSlice';
 import TotalPriceCard from '../TotalPriceCard/TotalPriceCard';
 
-const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData }, ref) => {
+const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataPizza }, ref) => {
   const modalRef = useRef(null);
 
 
@@ -32,7 +32,6 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData }, ref) => {
   const { customizationData } = useSelector((state) => state.orderDetails);
   const { allToppings } = useSelector(state => state.cart)
   const dispatch = useDispatch();
-  const uniqueId = useId();
 
 
   const combineNames = () => {
@@ -157,19 +156,24 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData }, ref) => {
 
   const handleCustomization = () => {
 
-    
+    setDealDataPizza((prevState)=>{
+      const temp = prevState;
+      temp[pizzaIndex.current] = {
+        ...pizzaData[pizzaIndex.current],
+        cheeseName: allToppings.cheese,
+        meatToppingsName: allToppings.meat ,
+        sauceName: allToppings.sauce ,
+        vegetarianToppingsName: allToppings.veg ,
+        baseName: allToppings.base ,
+        pizzaPrice:Number(allToppings.totalPrice),
+        pizzaExtraToppingPrice:Number(allToppings.extraPrice) ,
+      }
+      return temp;
+    })
 
     console.log("we came into the customizxation !!");
-    pizzaData[pizzaIndex.current] = {
-      ...pizzaData[pizzaIndex.current],
-      cheeseName: allToppings.cheese,
-      meatToppingsName: allToppings.meat ,
-      sauceName: allToppings.sauce ,
-      vegetarianToppingsName: allToppings.veg ,
-      baseName: allToppings.base ,
-      pizzaPrice:allToppings.price || 0,
-      pizzaExtraToppingPrice:allToppings.extraPrice || 0,
-    }
+
+    modalRef.current.close();
 
   }
 
@@ -197,11 +201,11 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData }, ref) => {
                   {customizationData?.name}
                 </h1>
                 <p className="mt-2 text-gray-600">{combineNames()}</p>
-                {/* <div className="mt-4">
+              <div className="mt-4">
               <button onClick={handleCustomization} className="w-full px-4 py-2 bg-green-800 hover:bg-green-700 text-white rounded-lg">
                 Save
               </button>
-            </div> */}
+            </div> 
 
                 <div className="mt-4">
                   <h2 className="text-lg font-semibold text-gray-800">SIZES</h2>

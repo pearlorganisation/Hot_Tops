@@ -17,19 +17,24 @@ import { getPreviousPath } from "@/app/lib/features/path/pathslice";
 const Cart = () => {
   // ----------------------hooks------------------------------------
   const cart = useSelector((state) => state?.cart?.cartData);
+
   const pathname = usePathname();
   const dispatch = useDispatch();
   const uniqueId = useId();
   
 
 
+
   useEffect(() => {
     dispatch(orderCheckedout(false));
   }, []);
+  
 
   const router = useRouter();
   console.log(pathname);
   const data = { previousRoute: pathname.toString() };
+
+
   return (
     <>
       <div className="max-w-7xl mx-auto bg-white shadow-md rounded-lg overflow-hidden my-4">
@@ -42,24 +47,38 @@ const Cart = () => {
             const price = String(data?.size).includes("-")
               ? data?.size?.split("-")
               : data?.size;
-            console.log(price);
+
+              const allToppings = data?.allToppings || { cheese: [], sauce: [],veg:[],meat:[] };
+              const mergedToppings = [
+                ...allToppings.cheese.map(item => item.cheeseName),
+                ...allToppings.sauce.map(item => item.sauceName),
+                ...allToppings.veg.map(item => item.vegName),
+                ...allToppings.meat.map(item => item.meatName)
+              ].join(', ');
+             
             return (
-              <div className="p-4 border-b grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+              <div className="text-slate-800 font-semibold p-4 border-b grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
                 <div className="flex items-center space-x-4 md:col-span-2">
               
                   <img src={data?.img} className="w-[85px] h-24 lg:h-20 lg:w-20 rounded-md" />
                 
-                  <p className="text-xl font-semibold">
-                    {data?.name}
+                  <p className="text-[17px]">
+                   <div className="flex gap-0 md:gap-10">
+                   <p> {data?.name}
                     {" "}
-                    {Array.isArray(price) ? `(${price[0]})` : (data?.dealsData ? `(${data?.size})` : "") }
-                    <br/>
+                    {Array.isArray(price) ? `(${price[0]})` : (data?.dealsData ? `(${data?.size})` : `(${data?.allToppings?.size?.name})`) }<br/>
+                    {data?.allToppings && <span className="text-sm bg-red-800 text-white rounded-md px-2"> Customized </span>}
+                    </p>
+           <p className="hidden md:block text-green-800">{mergedToppings}</p>
+                   </div>
                     {data?.dealsData && ( <div className="text-base text-gray-600"> {data?.dealsData?.map((item,idx) =>
                     item?.label).join(", ")} </div>)
                     }
                   </p>
                 </div>
-                <div className="flex justify-end space-x-2">
+                
+                <div className={`flex md:justify-end space-x-2 ${data?.allToppings ? "justify-between" : "justify-end"}  `}>
+                <p className=" md:hidden text-green-800">{mergedToppings}</p>
                   <button
                     onClick={() => {
 
@@ -67,7 +86,7 @@ const Cart = () => {
 
 
                     }}
-                    className="bg-red-800 hover:bg-red-700 text-white font-extrabold text-lg px-2 rounded">
+                    className="bg-red-800 hover:bg-red-700 h-8 text-white font-extrabold text-lg px-2 rounded">
                     -
                   </button>
                   <span className="px-2 py-1 font-semibold text-lg">{data?.quantity}</span>
@@ -76,18 +95,18 @@ const Cart = () => {
                     dispatch(increaseQuantity({ id: data?.id, quantity: 1 }))
 
 
-                  }} className="bg-green-700 hover:bg-green-600 text-white font-extrabold text-lg px-2 rounded">
+                  }} className="bg-green-700 hover:bg-green-600 h-8 text-white font-extrabold text-lg px-2 rounded">
                     +
                   </button>
 
                   <button
-                    className="bg-red-800 hover:bg-red-700 text-white px-2 rounded"
+                    className="bg-red-800 hover:bg-red-700 h-8 text-white px-2 rounded"
                     onClick={() => dispatch(deletefromCart({ id: data?.id }))}
                   >
                     <MdDelete size={20}/>
                   </button>
                 </div>
-                <div className="col-span-1 text-right text-xl font-semibold md:col-span-3 md:text-left">
+                <div className="col-span-1 text-right  text-xl font-normal md:col-span-3 md:text-left">
                   £ {data?.totalSum}
                 </div>
               </div>
