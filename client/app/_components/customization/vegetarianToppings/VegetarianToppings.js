@@ -2,10 +2,14 @@
 import { setPrice, setToppings } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 
 const VegetarianToppings = ({ vegetarianTopData }) => {
   // console.log(vegetarianTopData, "vegetarianTopData");
-  const { customizationData } = useSelector((state) => state.orderDetails);
+  const { customizationData, MAX_TOPPINGS } = useSelector(
+    (state) => state.orderDetails
+  );
+ 
   const [defaultVegDetails, setDefaultVegDetails] = useState([]);
   const dispatch = useDispatch();
   const defaultSelectedVeg = customizationData?.vegetarianToppingsName;
@@ -62,6 +66,7 @@ const VegetarianToppings = ({ vegetarianTopData }) => {
             : veg.price[0].doublePrice;
         return {
           vegName: veg.name,
+          _id: veg?._id,
           size,
           price,
         };
