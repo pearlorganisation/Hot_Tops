@@ -1,8 +1,10 @@
 "use client";
 import { setPrice, setToppings } from "@/app/lib/features/cartSlice/cartSlice";
 import { setDefaultPrice } from "@/app/lib/features/orderDetails/orderDetailsslice";
+import { Stalemate } from "next/font/google";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 
 const saucesData = [
   {
@@ -61,7 +63,10 @@ const saucesData = [
 
 const Sauce = ({ sauceData }) => {
   // console.log(sauceData, "sauceData");
-  const { customizationData } = useSelector((state) => state.orderDetails);
+  const { customizationData, MAX_TOPPINGS } = useSelector(
+    (state) => state.orderDetails
+  );
+
   const [defaultSauceDetails, setDefaultSauceDetails] = useState([]);
   const [selectedSauces, setSelectedSauces] = useState({});
 
@@ -107,6 +112,7 @@ const Sauce = ({ sauceData }) => {
   // useEffect(() => {
   //   dispatch(setDefaultPrice(sauceData));
   // }, [sauceData]);
+  console.log;
 
   const handleSave = () => {
     const selectedSaucesData = Object.entries(selectedSauces).map(
@@ -123,6 +129,7 @@ const Sauce = ({ sauceData }) => {
         console.log(price, "price:::");
         return {
           sauceName: sauce.name,
+          _id: sauce?._id,
           size,
           price,
         };

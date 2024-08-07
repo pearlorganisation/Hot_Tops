@@ -142,14 +142,19 @@ const Product = () => {
 
   const handleCustomization = () => {
 
-    const temp1 = allToppings
+
     const emp = customizationData?.priceSection.find(item => {
       return item?.size?._id === selectedSizeId
     })
-    const temp2 = { name: customizationData?.name, img: customizationData?.img, base: selectedBase, size: emp, allToppings: allToppings }
+    const { cheese, sauce, meat, veg, size, base } = allToppings
+    const temp = [...[cheese, sauce, meat, veg].flat(), base, size]
+    const uniqueId = temp.map(item => {
+      return item._id.slice(-4) + item?.size?.slice(0, 2)
+    }).join('')
+    console.log(uniqueId, "uniqueId")
 
     dispatch(addToCart({
-      name: customizationData?.name, img: customizationData?.img, id: customizationData?.id + allToppings?.size?._id, quantity: 1, price: allToppings?.totalPrice, totalSum: allToppings?.totalPrice,
+      name: customizationData?.name, img: customizationData?.img, id: uniqueId, quantity: 1, price: allToppings?.totalPrice, totalSum: allToppings?.totalPrice,
       allToppings: allToppings
     }))
 
