@@ -2,10 +2,14 @@
 import { setPrice, setToppings } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 
 const Cheese = ({ cheeseData }) => {
   // console.log(cheeseData, "cheeseData");
-  const { customizationData } = useSelector((state) => state.orderDetails);
+  const { customizationData, MAX_TOPPINGS } = useSelector(
+    (state) => state.orderDetails
+  );
+
   const [defaultCheeseDetails, setDefaultCheeseDetails] = useState([]);
   const dispatch = useDispatch();
   const defaultSelectedCheeses = customizationData?.cheeseName;
@@ -62,6 +66,7 @@ const Cheese = ({ cheeseData }) => {
             : cheese.price[0].doublePrice;
         return {
           cheeseName: cheese.name,
+          _id: cheese?._id,
           size,
           price,
         };

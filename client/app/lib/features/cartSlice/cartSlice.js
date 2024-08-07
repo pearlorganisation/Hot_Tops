@@ -7,7 +7,9 @@ const cartSlice = createSlice({
   initialState: {
     cartData: [],
     allToppings: {},
+
     defaultPrice: 0,
+
     isOrderCheckout: false,
   },
 
@@ -116,8 +118,9 @@ const cartSlice = createSlice({
       };
 
       const { sauce, cheese, veg, meat, base, price } = temp;
+      const flatArray = [sauce, cheese, veg, meat].flat();
       const extraPrice =
-        [sauce, cheese, veg, meat].flat().reduce((acc, cur) => {
+        flatArray.reduce((acc, cur) => {
           return acc + cur?.price;
         }, 0) + base?.price[0]?.price || 0;
       const prices = {
