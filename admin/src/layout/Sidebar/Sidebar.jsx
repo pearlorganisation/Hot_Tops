@@ -116,7 +116,7 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
 
       {/*  <!-- Side Navigation --> */}
 
-      <div className="flex h-full fixed">
+      <div className="flex h-screen fixed">
         <aside
           id="nav-menu-4"
           aria-label="Side navigation"
