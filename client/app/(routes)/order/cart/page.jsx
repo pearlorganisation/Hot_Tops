@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
 import { MdDelete } from "react-icons/md";
 
+
 import {
   decreaseQuantity,
   deletefromCart,
@@ -45,12 +46,12 @@ const Cart = () => {
               ? data?.size?.split("-")
               : data?.size;
 
-              const allToppings = data?.allToppings || { cheese: [], sauce: [],veg:[],meat:[] };
+              const allToppings = data?.allToppings || { cheese: [], sauce: [],veg:[],meat:[] };  
               const mergedToppings = [
-                ...allToppings.cheese.map(item => item.cheeseName),
-                ...allToppings.sauce.map(item => item.sauceName),
-                ...allToppings.veg.map(item => item.vegName),
-                ...allToppings.meat.map(item => item.meatName)
+                ...allToppings.cheese.map(item =>`${item.cheeseName} ${item?.size === "double" ? "2️⃣" : "1️⃣"}`),
+                ...allToppings.sauce.map(item => `${item.sauceName} ${item?.size === "double" ? "2️⃣" : "1️⃣"} `),
+                ...allToppings.veg.map(item => `${item.vegName} ${item?.size === "double" ? "2️⃣" : "1️⃣"}`),
+                ...allToppings.meat.map(item => `${item.meatName} ${item?.size === "double" ? "2️⃣" : "1️⃣"}`)
               ].join(', ');
              
             return (
