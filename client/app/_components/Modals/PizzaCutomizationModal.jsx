@@ -4,14 +4,13 @@ import Cheese from '../customization/cheese/Cheese';
 import VegetarianToppings from '../customization/vegetarianToppings/VegetarianToppings';
 import MeatToppings from '../customization/meatToppings/MeatToppings';
 import { useDispatch, useSelector } from 'react-redux';
-import { addDealsData, setToppings } from '@/app/lib/features/cartSlice/cartSlice';
+import { addDealsData, setDefaultPrice, setToppings } from '@/app/lib/features/cartSlice/cartSlice';
 import TotalPriceCard from '../TotalPriceCard/TotalPriceCard';
 
 const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataPizza }, ref) => {
   const modalRef = useRef(null);
 
 
-  console.log("this is pizzaDataIndex along with pizzaData", pizzaData, pizzaIndex.current);
 
 
 
@@ -30,8 +29,9 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
   }));
 
   const { customizationData } = useSelector((state) => state.orderDetails);
-  const { allToppings } = useSelector(state => state.cart)
-  const dispatch = useDispatch();
+  const { allToppings, defaultPrice } = useSelector(
+    (state) => state.cart
+  );  const dispatch = useDispatch();
 
 
   const combineNames = () => {
@@ -52,8 +52,6 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
   const [vegetarianToppingsPrices, setVegetarianToppingsPrices] = useState([]);
   const [meatToppingsPrices, setMeatToppingsPrices] = useState([]);
 
-  // console.log(saucePrices)
-  // console.log(customizationData?.sauceName)
   const [selectedSizeId, setSelectedSizeId] = useState(
     customizationData?.priceSection.length === 1
       ? customizationData?.priceSection[0]?.size._id
@@ -166,16 +164,22 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
         vegetarianToppingsName: allToppings.veg ,
         baseName: allToppings.base ,
         pizzaPrice:Number(allToppings.totalPrice),
-        pizzaExtraToppingPrice:Number(allToppings.extraPrice) ,
+        pizzaExtraToppingPrice:Number(Math.max(0, (allToppings?.extraPrice - defaultPrice).toFixed(2))) ,
       }
       return temp;
     })
 
-    console.log("we came into the customizxation !!");
+    // console.log("we came into the customizxation !!");
 
     modalRef.current.close();
 
   }
+
+  useEffect(() => {
+   if(customizationData){
+    dispatch(setDefaultPrice({ arr: [cheesePrices, saucePrices, vegetarianToppingsPrices, meatToppingsPrices].flat(), customizationData: customizationData }))
+   }
+  }, [cheesePrices, saucePrices, vegetarianToppingsPrices, meatToppingsPrices, customizationData])
 
 
 

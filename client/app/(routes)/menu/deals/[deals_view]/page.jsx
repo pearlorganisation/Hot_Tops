@@ -1,9 +1,7 @@
 "use client";
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
-import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useId, useRef, useState } from "react";
-import { TbEdit } from "react-icons/tb";
 import { useDispatch } from "react-redux";
 import Select from "react-select";
 import { toast } from "sonner";
@@ -27,6 +25,8 @@ async function getData(id) {
 const Page = () => {
   const searchParams = useSearchParams();
 
+  const router = useRouter();
+
   const [dealViewData, setDealView] = useState(null);
   
   const dispatch = useDispatch();
@@ -37,7 +37,6 @@ const Page = () => {
   
   const sizeDetailRef = useRef(null);
   
-  const uniqueId = useId();
   
   const [dealDataPizza, setDealDataPizza] = useState([]);
   
@@ -46,8 +45,7 @@ const Page = () => {
   const modalRef = useRef();
   
   const pizzaDataIndex = useRef(null);
-   
-  let defaultPizzaPrice = 0;
+
 
 
   const handleOpeningModal = () => {
@@ -62,9 +60,9 @@ const Page = () => {
 
 
   
-  useEffect(() => {
-    console.log(dealDataPizza, "deal data pizza");
-  }, [dealDataPizza]);
+  // useEffect(() => {
+  //   console.log(dealDataPizza, "deal data pizza");
+  // }, [dealDataPizza]);
 
   useEffect(() => {
     if (dealViewData) {
@@ -99,51 +97,41 @@ const Page = () => {
         (dealDataPizza ? dealDataPizza.reduce((acc, currPizza) => acc + (currPizza.pizzaExtraToppingPrice || 0), 0) : 0)
       ) + 0;
       
-      const totalPrice = Number(
-        (dealDataPizza ? dealDataPizza.reduce((acc, currPizza) => acc + (currPizza.pizzaPrice || 0), 0) : 0)
-      ) + Number(sizeDetailRef.current?.price || 0);
 
 
-  console.log("total price pizzas ",totalPrice);
-  console.log("extra price pizzas ",extraPrice);
+  
 
 
 
 
 
 
-      console.log({
-        name: dealViewData?.title,
-        img: dealViewData?.banner,
-        size: sizeDetailRef.current.size,
-        id:  dealViewData?._id + uniqueId ,
-        quantity: 1,
-        price : Number(extraPrice+dealViewData.sizes[0].price),
+      // console.log({
+      //   name: dealViewData?.title,
+      //   img: dealViewData?.banner,
+      //   size: sizeDetailRef.current.size,
+      //   id:  dealViewData?._id + uniqueId ,
+      //   quantity: 1,
+      //   price : Number(extraPrice+dealViewData.sizes[0].price),
 
-        totalSum :Number(extraPrice+dealViewData.sizes[0].price),
+      //   totalSum :Number(extraPrice+dealViewData.sizes[0].price),
         
-        dealsData:[...submitData]
+      //   dealsData:[...submitData]
 
-      });
-      console.log( Number(totalPrice ),(defaultPizzaPrice.price ? defaultPizzaPrice.price : 0))
+      // });
       dispatch(
         addToCart({
           name: dealViewData?.title,
           img: dealViewData?.banner,
           size: sizeDetailRef.current.size,
-          id:  dealViewData?._id + uniqueId ,
+          id:  dealViewData?._id ,
           quantity: 1,
           price : Number(extraPrice+dealViewData.sizes[0].price),
-
           totalSum :Number(extraPrice+dealViewData.sizes[0].price),
           dealsData:[...submitData]
-        }
+        }));
+      router.push("/order/cart");
 
-
-        
-
-
-      ));
       
       
     } else {
@@ -202,49 +190,7 @@ const Page = () => {
                           onClick={() => {
                             pizzaDataIndex.current = index;    
                             handleOpeningModal();
-                            console.log(
-                              {
-                                name: dealDataPizza[index]?.label,
-                                img: dealDataPizza[index]?.banner,
-                                priceSection:
-                                  dealViewData.sizes.length === 1
-                                    ? dealDataPizza[index].priceSection.filter(
-                                        (el) =>
-                                          el.size.name ===
-                                          dealViewData?.sizes[0].size
-                                      )
-                                    : dealDataPizza[index].priceSection.filter(
-                                        (el) =>
-                                          el.size.name ===
-                                          dealDataPizza[
-                                            index
-                                          ].priceSection.filter(
-                                            (el) =>
-                                              el.size.name ===
-                                              sizeDetailRef.current.size
-                                          )
-                                      ),
 
-                                id: dealDataPizza[index]?.id,
-                                sauceName: dealDataPizza[index]?.sauceName,
-                                cheeseName: dealDataPizza[index]?.cheeseName,
-                                vegetarianToppingsName:
-                                  dealDataPizza[index]?.vegetarianToppingsName,
-                                baseName: dealDataPizza[index]?.baseName,
-                                meatToppingsName:
-                                  dealDataPizza?.[index]?.meatToppingsName,
-                                
-
-                              },
-                              "submitting to customization page"
-                            );
-                            defaultPizzaPrice =  dealDataPizza[index].priceSection.find(
-                                (el) =>
-                                  el.size.name ===
-                                  dealViewData?.sizes[0].size
-                              )
-                            ;
-                            console.log( defaultPizzaPrice," defaultPizzaPriceRef")
                             dispatch(
                               getCustomizationDetails({
                                 name: dealDataPizza[index]?.label,
