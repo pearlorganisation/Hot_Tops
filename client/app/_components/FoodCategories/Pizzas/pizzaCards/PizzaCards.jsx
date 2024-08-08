@@ -87,7 +87,6 @@ const PizzaCards = ({ data, idx }) => {
               img: data?.banner,
               priceSection: data?.priceSection,
               id: data?._id,
-              // id: uniquePizzaId,
               sauceName: data?.sauceName,
               cheeseName: data?.cheeseName,
               vegetarianToppingsName: data?.vegetarianToppingsName,

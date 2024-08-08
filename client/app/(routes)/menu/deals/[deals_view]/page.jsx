@@ -2,7 +2,7 @@
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useId, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import { toast } from "sonner";
 import { getCustomizationDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
@@ -38,6 +38,8 @@ const Page = () => {
   const sizeDetailRef = useRef(null);
 
   const pizzaDealSize = searchParams.get("label");
+
+  const { allToppings } = useSelector((state)=> state.cart);
   
   
   const [dealDataPizza, setDealDataPizza] = useState([]);
@@ -99,7 +101,12 @@ const Page = () => {
         (dealDataPizza ? dealDataPizza.reduce((acc, currPizza) => acc + (currPizza.pizzaExtraToppingPrice || 0), 0) : 0)
       ) + 0;
       
-
+      const { cheese, sauce, meat, veg, size, base } = allToppings;
+      const temp = [...[cheese, sauce, meat, veg].flat(), base, size];
+      const uniqueId = temp.map(item => {
+        return item._id.slice(-4) + item?.size?.slice(0, 2)
+      }).join('')
+      console.log(uniqueId, "uniqueId")
 
   
 
@@ -126,7 +133,7 @@ const Page = () => {
           name: dealViewData?.title,
           img: dealViewData?.banner,
           size: sizeDetailRef.current.size,
-          id:  dealViewData?._id ,
+          id:  dealViewData?._id + dealDataPizza.reduce((acc,currEle)=> acc + currEle.id,''),
           quantity: 1,
           price : Number(extraPrice+dealViewData.sizes[0].price),
           totalSum :Number(extraPrice+dealViewData.sizes[0].price),
@@ -207,6 +214,7 @@ const Page = () => {
                                     :dealDataPizza[index].priceSection.filter((el)=> el.size.name === sizeDetailRef.current.size),
                                     
                                 id: dealDataPizza[index]?.id,
+                                selectedData:dealDataPizza[index].priceSection.find((el)=> el.size.name === sizeDetailRef.current.size).size._id,
                                 sauceName: dealDataPizza[index]?.sauceName,
                                 cheeseName: dealDataPizza[index]?.cheeseName,
                                 vegetarianToppingsName:
