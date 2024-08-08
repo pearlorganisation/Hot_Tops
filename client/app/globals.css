@@ -50,3 +50,7 @@
     top: 50px;
   }
 }
+
+.no-scroll {
+  overflow: hidden !important;
+}
