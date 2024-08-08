@@ -4,9 +4,10 @@ import Cheese from '../customization/cheese/Cheese';
 import VegetarianToppings from '../customization/vegetarianToppings/VegetarianToppings';
 import MeatToppings from '../customization/meatToppings/MeatToppings';
 import { useDispatch, useSelector } from 'react-redux';
-import { addDealsData, setDefaultPrice, setToppings } from '@/app/lib/features/cartSlice/cartSlice';
+import { resetToppings, setDefaultPrice, setToppings } from '@/app/lib/features/cartSlice/cartSlice';
 import TotalPriceCard from '../TotalPriceCard/TotalPriceCard';
-import { FaWindowClose } from "react-icons/fa";
+import { useSearchParams } from 'next/navigation';
+import { FaWindowClose } from 'react-icons/fa';
 
 const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataPizza }, ref) => {
   const modalRef = useRef(null);
@@ -112,8 +113,9 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
 
   useEffect(() => {
     fetchPricesForSelectedSize(selectedSizeId);
+    setSelectedBase(customizationData?.baseName)
     // console.log(selectedSizeId)
-  }, [selectedSizeId]);
+  }, [selectedSizeId,customizationData]);
 
   useEffect(() => {
     setSelectedSizeId(customizationData?.selectedData);
@@ -160,14 +162,23 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
       console.error("Error fetching prices:", error);
     }
   };
+    
 
 
   const handleCustomization = () => {
-
+    const { cheese, sauce, meat, veg, size, base } = allToppings
+    const temp = [...[cheese, sauce, meat, veg].flat(), base, size]
+    const uniqueId = temp.map(item => {
+      return item._id.slice(-4) + item?.size?.slice(0, 2)
+    }).join('')
+    console.log(uniqueId, "uniqueId")
+    
     setDealDataPizza((prevState)=>{
       const temp = prevState;
       temp[pizzaIndex.current] = {
+
         ...pizzaData[pizzaIndex.current],
+        id:temp[pizzaIndex.current].id   + uniqueId,
         cheeseName: allToppings.cheese,
         meatToppingsName: allToppings.meat ,
         sauceName: allToppings.sauce ,
@@ -181,6 +192,7 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
 
     // console.log("we came into the customizxation !!");
 
+    dispatch(resetToppings());
     modalRef.current.close();
 
   }
@@ -191,6 +203,9 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
    }
   }, [cheesePrices, saucePrices, vegetarianToppingsPrices, meatToppingsPrices, customizationData])
 
+
+
+  
 
 
 
@@ -250,36 +265,39 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
                   <h2 className="text-lg font-semibold text-gray-800">BASE</h2>
                   <div className="mt-2 space-y-2">
                     {Array.isArray(basePrices) &&
-                      basePrices?.map((base) => (
-                        <label
-                          key={base?._id}
-                          className="inline-flex gap-2 items-center"
-                        >
-                          <input
-                            type="radio"
-                            className="form-radio"
-                            onChange={(e) => {
-
-                              const base = e.target.value;
-                              setSelectedBase(base);
-                            }}
-                            name="base"
-                            value={base?.name}
-                            checked={selectedBase === base?.name}
-                          />
-                          <span className="mr-4 text-gray-900">
-                            {base?.name}
-                            <>
-                              {" "}
-                              {base?.price[0]?.price > 0 && (
-                                <span className="bg-red-800 text-white rounded-lg px-1">
-                                  + £ {base?.price[0]?.price}
-                                </span>
-                              )}
-                            </>
-                          </span>
-                        </label>
-                      ))}
+                      basePrices?.map((base) => {
+                       
+                        return (
+                          <label
+                            key={base?._id}
+                            className="inline-flex gap-2 items-center"
+                          >
+                            <input
+                              type="radio"
+                              className="form-radio"
+                              onChange={(e) => {
+  
+                                const base = e.target.value;
+                                setSelectedBase(base);
+                              }}
+                              name="base"
+                              value={base?.name}
+                              checked={selectedBase === base?.name}
+                            />
+                            <span className="mr-4 text-gray-900">
+                              {base?.name}
+                              <>
+                                {" "}
+                                {base?.price[0]?.price > 0 && (
+                                  <span className="bg-red-800 text-white rounded-lg px-1">
+                                    + £ {base?.price[0]?.price}
+                                  </span>
+                                )}
+                              </>
+                            </span>
+                          </label>
+                        )
+                      })}
                   </div>
                 </div>
 

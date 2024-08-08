@@ -141,11 +141,6 @@ const Product = () => {
 
 
   const handleCustomization = () => {
-
-
-    const emp = customizationData?.priceSection.find(item => {
-      return item?.size?._id === selectedSizeId
-    })
     const { cheese, sauce, meat, veg, size, base,_id } = allToppings
     const temp = [...[cheese, sauce, meat, veg].flat(), base, size]
     const uniqueId = temp.map(item => {
