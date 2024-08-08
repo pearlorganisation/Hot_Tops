@@ -114,7 +114,7 @@ const cartSlice = createSlice({
     setToppings: (state, action) => {
       const temp = {
         ...current(state.allToppings),
-        ...action.payload,
+        ...action?.payload,
       };
 
       const { sauce, cheese, veg, meat, base, price } = temp;
