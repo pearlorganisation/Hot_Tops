@@ -36,6 +36,8 @@ const Page = () => {
   const sizeId = searchParams.get("size_id");
   
   const sizeDetailRef = useRef(null);
+
+  const pizzaDealSize = searchParams.get("label");
   
   
   const [dealDataPizza, setDealDataPizza] = useState([]);
@@ -47,7 +49,7 @@ const Page = () => {
   const pizzaDataIndex = useRef(null);
 
 
-
+  console.log(pizzaDealSize,"pizas sizeee");
   const handleOpeningModal = () => {
     if (modalRef.current) {
       modalRef.current.open();
@@ -200,9 +202,9 @@ const Page = () => {
                                     ? dealDataPizza[index].priceSection.filter(
                                         (el) =>
                                           el.size.name ===
-                                          dealViewData?.sizes[0].size
+                                        sizeDetailRef.current.size
                                       )
-                                    : dealDataPizza[index].priceSection,
+                                    :dealDataPizza[index].priceSection.filter((el)=> el.size.name === sizeDetailRef.current.size),
                                     
                                 id: dealDataPizza[index]?.id,
                                 sauceName: dealDataPizza[index]?.sauceName,
