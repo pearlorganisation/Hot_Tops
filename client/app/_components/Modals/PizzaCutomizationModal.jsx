@@ -187,14 +187,14 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
 
 
   return (
-    <div>
+    <div className='flex '>
       <dialog
         ref={modalRef}
         id="static-modal"
         data-modal-backdrop="static"
         tabIndex="-1"
         aria-hidden="true"
-        className="overflow-y-auto overflow-x-hidden  fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 border-2 border-red-600     h-[80vh]"
+        className="overflow-y-auto overflow-x-hidden fixed z-50   w-[70%] md:inset-0 border-2 border-red-600  h-[80vh]"
       >
         <button onClick={() => modalRef.current.close()} >Close</button>
         <div className="relative p-4 w-full  max-h-full">
