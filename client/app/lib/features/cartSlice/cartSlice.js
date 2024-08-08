@@ -133,6 +133,9 @@ const cartSlice = createSlice({
       };
       state.allToppings = prices;
     },
+    resetToppings:(state)=>{
+      state.allToppings = {}
+    },
 
     deletefromCart: (state, action) => {
       state.cartData = state.cartData.filter(
@@ -158,5 +161,6 @@ export const {
   setPrice,
   setToppings,
   setDefaultPrice,
+  resetToppings
 } = cartSlice.actions;
 export default cartSlice.reducer;

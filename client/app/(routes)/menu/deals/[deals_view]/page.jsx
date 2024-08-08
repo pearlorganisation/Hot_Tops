@@ -199,7 +199,6 @@ const Page = () => {
                           onClick={() => {
                             pizzaDataIndex.current = index;    
                             handleOpeningModal();
-
                             dispatch(
                               getCustomizationDetails({
                                 name: dealDataPizza[index]?.label,

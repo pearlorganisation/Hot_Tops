@@ -4,7 +4,7 @@ import Cheese from '../customization/cheese/Cheese';
 import VegetarianToppings from '../customization/vegetarianToppings/VegetarianToppings';
 import MeatToppings from '../customization/meatToppings/MeatToppings';
 import { useDispatch, useSelector } from 'react-redux';
-import { setDefaultPrice, setToppings } from '@/app/lib/features/cartSlice/cartSlice';
+import { resetToppings, setDefaultPrice, setToppings } from '@/app/lib/features/cartSlice/cartSlice';
 import TotalPriceCard from '../TotalPriceCard/TotalPriceCard';
 import { useSearchParams } from 'next/navigation';
 
@@ -182,6 +182,7 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
 
     // console.log("we came into the customizxation !!");
 
+    dispatch(resetToppings());
     modalRef.current.close();
 
   }
@@ -192,6 +193,9 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
    }
   }, [cheesePrices, saucePrices, vegetarianToppingsPrices, meatToppingsPrices, customizationData])
 
+
+
+  
 
 
 
