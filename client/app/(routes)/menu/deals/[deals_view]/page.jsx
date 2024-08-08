@@ -134,7 +134,7 @@ const Page = () => {
         }));
       router.push("/order/cart");
 
-      
+
       
     } else {
       toast.error("Fill All Fields !!");

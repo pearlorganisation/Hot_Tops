@@ -204,9 +204,9 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
         data-modal-backdrop="static"
         tabIndex="-1"
         aria-hidden="true"
-        className="overflow-y-auto overflow-x-hidden fixed z-50 outline-none   w-full md:inset-0 rounded-lg  h-[80vh]"
+        className="overflow-y-auto overflow-x-hidden fixed z-50 outline-none  w-full md:inset-0 rounded-lg  h-[80vh]"
       >
-        <button className='fixed top-28 lg:top-20 right-8 md:p-4 z-[55]' onClick={() => { console.log('Enabling scroll'); 
+        <button className='fixed outline-none top-28 lg:top-20 right-8 md:p-4 z-[55]' onClick={() => { console.log('Enabling scroll'); 
           enableScroll();
           return modalRef.current.close()}} ><FaWindowClose size={30} className='text-red-800 hover:text-red-700'/></button>
         <div className="relative p-4 w-full  max-h-full">
