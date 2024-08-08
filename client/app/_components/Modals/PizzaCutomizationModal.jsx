@@ -295,7 +295,7 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
 
 
                 <div className="mt-4">
-                  <button onClick={() => { handleCustomization(); () => modalRef.current.close() }} className="bg-green-800 hover:bg-green-700 text-white w-full px-10 p-2 rounded">
+                  <button onClick={() => { handleCustomization();  modalRef.current.close(); }} className="bg-green-800 hover:bg-green-700 text-white w-full px-10 p-2 rounded">
                     Save
                   </button>
                 </div>
