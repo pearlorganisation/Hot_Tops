@@ -30,9 +30,7 @@ const Page = () => {
     fetchData();
   }, []);
 
-  useEffect(() => { 
-    console.log(dealData);
-  }, [dealData]);
+ 
 
   if (!dealData) return <div className="flex justify-center pt-[25vh] h-[85vh] "><ClockLoader color="#991b1b" size={100}/></div>;
   

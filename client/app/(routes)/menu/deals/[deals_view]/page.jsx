@@ -1,15 +1,13 @@
 "use client";
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
-import Image from "next/image";
-import { useSearchParams } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
-import { TbEdit } from "react-icons/tb";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useId, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import Select from "react-select";
 import { toast } from "sonner";
-import Link from "next/link";
 import { getCustomizationDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
 import { MdEditSquare } from "react-icons/md";
+import PizzaCustomizationModal from "@/app/_components/Modals/PizzaCutomizationModal";
 import { ClockLoader } from "react-spinners";
 
 async function getData(id) {
@@ -24,21 +22,47 @@ async function getData(id) {
     return null;
   }
 }
-
 const Page = () => {
   const searchParams = useSearchParams();
+
+  const router = useRouter();
+
   const [dealViewData, setDealView] = useState(null);
+  
   const dispatch = useDispatch();
+  
   const cardId = searchParams.get("card_id");
+  
   const sizeId = searchParams.get("size_id");
+  
   const sizeDetailRef = useRef(null);
-
+  
+  
   const [dealDataPizza, setDealDataPizza] = useState([]);
+  
   const [dealDataDrinks, setDealDataDrinks] = useState([]);
+  
+  const modalRef = useRef();
+  
+  const pizzaDataIndex = useRef(null);
 
-  useEffect(() => {
-    console.log(dealViewData, "deal data pizza");
-  }, [dealViewData]);
+
+
+  const handleOpeningModal = () => {
+    if (modalRef.current) {
+      modalRef.current.open();
+    }
+  };
+
+
+
+
+
+
+  
+  // useEffect(() => {
+  //   console.log(dealDataPizza, "deal data pizza");
+  // }, [dealDataPizza]);
 
   useEffect(() => {
     if (dealViewData) {
@@ -48,6 +72,7 @@ const Page = () => {
         (el) => el._id === sizeId
       );
       console.log(sizeDetailRef.current, "Size Details");
+      pizzaDataIndex.current = 0; 
     }
   }, [dealViewData]);
 
@@ -66,19 +91,49 @@ const Page = () => {
       dealViewData &&
       submitData.every((item) => item !== null && item !== undefined)
     ) {
-      console.log(submitData);
+      console.log(submitData,"submitted data from pizzqaDeals");
+
+      const extraPrice = Number(
+        (dealDataPizza ? dealDataPizza.reduce((acc, currPizza) => acc + (currPizza.pizzaExtraToppingPrice || 0), 0) : 0)
+      ) + 0;
+      
+
+
+  
+
+
+
+
+
+
+      // console.log({
+      //   name: dealViewData?.title,
+      //   img: dealViewData?.banner,
+      //   size: sizeDetailRef.current.size,
+      //   id:  dealViewData?._id + uniqueId ,
+      //   quantity: 1,
+      //   price : Number(extraPrice+dealViewData.sizes[0].price),
+
+      //   totalSum :Number(extraPrice+dealViewData.sizes[0].price),
+        
+      //   dealsData:[...submitData]
+
+      // });
       dispatch(
         addToCart({
           name: dealViewData?.title,
           img: dealViewData?.banner,
           size: sizeDetailRef.current.size,
-          id: dealViewData?._id,
+          id:  dealViewData?._id ,
           quantity: 1,
-          price: Number(sizeDetailRef.current.price),
-          totalSum: Number(sizeDetailRef.current.price),
-          dealsData: [...submitData],
-        })
-      );
+          price : Number(extraPrice+dealViewData.sizes[0].price),
+          totalSum :Number(extraPrice+dealViewData.sizes[0].price),
+          dealsData:[...submitData]
+        }));
+      router.push("/order/cart");
+
+      
+      
     } else {
       toast.error("Fill All Fields !!");
     }
@@ -99,6 +154,8 @@ const Page = () => {
   const drinks = new Array(drinkCount).fill(null);
 
   return (
+    <>
+    <PizzaCustomizationModal ref={modalRef} pizzaIndex = {pizzaDataIndex} pizzaData = {dealDataPizza}  setDealDataPizza={setDealDataPizza} />
     <div className="">
       {dealViewData ? (
         <div>
@@ -109,7 +166,6 @@ const Page = () => {
               alt="Deal Banner"
             />
             <div className="mt-5 md:mt-0 flex gap-4 mx-3 justify-between items-center">
-              {/* <p className="">{dealViewData.title}</p> */}
               <p className="text-red-800 font-bold">{dealViewData.title}</p>
 
               <p className="text-green-700 font-bold">
@@ -129,46 +185,11 @@ const Page = () => {
 
                     {pizzas.map((_, index) => (
                       <div className="flex items-center  gap-2">
-                {Array.isArray(dealDataPizza) && dealDataPizza[index] && (
-                    <Link
+                       {Array.isArray(dealDataPizza) && dealDataPizza[index] && (
+                        <button
                           onClick={() => {
-                            console.log(
-                              {
-                                name: dealDataPizza[index]?.label,
-                                img: dealDataPizza[index]?.banner,
-                                priceSection:
-                                  dealViewData.sizes.length === 1
-                                    ? dealDataPizza[index].priceSection.filter(
-                                        (el) =>
-                                          el.size.name ===
-                                          dealViewData?.sizes[0].size
-                                      )
-                                    : dealDataPizza[index].priceSection.filter(
-                                        (el) =>
-                                          el.size.name ===
-                                          dealDataPizza[
-                                            index
-                                          ].priceSection.filter(
-                                            (el) =>
-                                              el.size.name ===
-                                              sizeDetailRef.current.size
-                                          )
-                                      ),
-
-                                id: dealDataPizza[index]?.id,
-                                // id: uniquePizzaId,
-                                sauceName: dealDataPizza[index]?.sauceName,
-                                cheeseName: dealDataPizza[index]?.cheeseName,
-                                vegetarianToppingsName:
-                                  dealDataPizza[index]?.vegetarianToppingsName,
-                                baseName: dealDataPizza[index]?.baseName,
-                                meatToppingsName:
-                                  dealDataPizza?.[index]?.meatToppingsName,
-
-                                // selectedData: selectedData,
-                              },
-                              "submitting to customization page"
-                            );
+                            pizzaDataIndex.current = index;    
+                            handleOpeningModal();
 
                             dispatch(
                               getCustomizationDetails({
@@ -182,6 +203,7 @@ const Page = () => {
                                           dealViewData?.sizes[0].size
                                       )
                                     : dealDataPizza[index].priceSection,
+                                    
                                 id: dealDataPizza[index]?.id,
                                 sauceName: dealDataPizza[index]?.sauceName,
                                 cheeseName: dealDataPizza[index]?.cheeseName,
@@ -193,13 +215,12 @@ const Page = () => {
                               })
                             );
                           }}
-                          href={`/menu/product/${dealDataPizza[index]?.label}`}
                         >
                           <MdEditSquare
                             size={30}
                             className="text-red-800 hover:text-red-700"
                           />
-                        </Link>
+                        </button>
                       )}      
                         <Select
                           placeholder={`Choose pizza ${index + 1}`}
@@ -300,6 +321,8 @@ const Page = () => {
         <div className="flex justify-center pt-[25vh] h-[85vh] "><ClockLoader color="#991b1b" size={100}/></div>
       )}
     </div>
+    </>
+    
   );
 };
 
