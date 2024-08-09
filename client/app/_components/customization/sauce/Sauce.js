@@ -86,7 +86,7 @@ const Sauce = ({ sauceData }) => {
         const sauce = sauceData.find((s) => s.name === sauceName);
         // console.log(sauceData, "sauceData");
         if (sauce) {
-          defaultSelected[sauce._id] = "single";
+          defaultSelected[sauce._id] = "double";
         }
       });
       // console.log(defaultSelected, "defaultSelected");
