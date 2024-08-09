@@ -63,9 +63,7 @@ const saucesData = [
 
 const Sauce = ({ sauceData }) => {
   // console.log(sauceData, "sauceData");
-  const { customizationData, MAX_TOPPINGS } = useSelector(
-    (state) => state.orderDetails
-  );
+  const { customizationData } = useSelector((state) => state.orderDetails);
 
   const [defaultSauceDetails, setDefaultSauceDetails] = useState([]);
   const [selectedSauces, setSelectedSauces] = useState({});
@@ -95,18 +93,24 @@ const Sauce = ({ sauceData }) => {
   }, [defaultSauceDetails, customizationData, sauceData]);
 
   const handleSelectionChange = (sauceId, size) => {
-    setSelectedSauces((prevSelected) => {
-      // Toggle the selection
-      if (prevSelected[sauceId] === size) {
-        const { [sauceId]: _, ...rest } = prevSelected;
-        return rest;
-      } else {
-        return {
-          ...prevSelected,
-          [sauceId]: size,
-        };
-      }
-    });
+    const newSelectedSauces = { ...selectedSauces };
+
+    // If the sauce is already selected, change its size
+    if (newSelectedSauces[sauceId]) {
+      console.log("i am here... if");
+      newSelectedSauces[sauceId] = size;
+    } else {
+      const maxTop1 = 2;
+      const maxTop2 = 4;
+      // Check if the limit is reached before adding a new sauce
+      console.log("i am here... else");
+      // if (maxTop2 <= maxTop1) {
+      newSelectedSauces[sauceId] = size;
+      // } else {
+      //   toast.info("You have reached limit...");
+      // }
+    }
+    setSelectedSauces(newSelectedSauces);
   };
 
   // useEffect(() => {

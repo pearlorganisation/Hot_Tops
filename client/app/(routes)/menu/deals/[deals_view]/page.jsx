@@ -9,7 +9,6 @@ import { getCustomizationDetails } from "@/app/lib/features/orderDetails/orderDe
 import { MdEditSquare } from "react-icons/md";
 import PizzaCustomizationModal from "@/app/_components/Modals/PizzaCutomizationModal";
 import { ClockLoader } from "react-spinners";
-let lastCutomizedPizza = -1;
 
 async function getData(id) {
   try {
@@ -115,7 +114,7 @@ const Page = () => {
         }));
       router.push("/order/cart");
 
-      
+
       
     } else {
       toast.error("Fill All Fields !!");

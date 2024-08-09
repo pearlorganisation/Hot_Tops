@@ -6,12 +6,19 @@ import MeatToppings from '../customization/meatToppings/MeatToppings';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetToppings, setDefaultPrice, setToppings } from '@/app/lib/features/cartSlice/cartSlice';
 import TotalPriceCard from '../TotalPriceCard/TotalPriceCard';
-
+import { useSearchParams } from 'next/navigation';
+import { FaWindowClose } from 'react-icons/fa';
 
 const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataPizza }, ref) => {
   const modalRef = useRef(null);
 
+  const disableScroll = () => {
+    document.body.classList.add("no-scroll");
+  };
 
+  const enableScroll = () => {
+    document.body.classList.remove("no-scroll");
+  };
 
 
 
@@ -19,12 +26,15 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
   useImperativeHandle(ref, () => ({
     open() {
       if (modalRef.current) {
-        modalRef.current.showModal(); 
+        modalRef.current.showModal(); // Use showModal() to open the dialog
+        disableScroll();
       }
     },
     close() {
       if (modalRef.current) {
-        modalRef.current.close(); 
+        console.log('Enabling scroll');
+        modalRef.current.close(); // Use close() to close the dialog
+        enableScroll();
       }
     }
   }));
@@ -66,7 +76,7 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
   );
 
   const [selectedBase, setSelectedBase] = useState(
-    customizationData?.baseName || "Deep Pan"
+    customizationData?.baseName || ""
   );
 
   useEffect(()=>{
@@ -202,16 +212,18 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
 
 
   return (
-    <div className='flex '>
+    <div className=''>
       <dialog
         ref={modalRef}
         id="static-modal"
         data-modal-backdrop="static"
         tabIndex="-1"
         aria-hidden="true"
-        className="overflow-y-auto overflow-x-hidden fixed z-50   w-[70%] md:inset-0 border-2 border-red-600  h-[80vh]"
+        className="overflow-y-auto overflow-x-hidden fixed z-50 outline-none  w-full md:inset-0 rounded-lg  h-[80vh]"
       >
-        <button onClick={() => modalRef.current.close()} >Close</button>
+        <button className='fixed outline-none top-28 lg:top-20 right-8 md:p-4 z-[55]' onClick={() => { console.log('Enabling scroll'); 
+          enableScroll();
+          return modalRef.current.close()}} ><FaWindowClose size={30} className='text-red-800 hover:text-red-700'/></button>
         <div className="relative p-4 w-full  max-h-full">
           <div className="md:max-w-6xl  mx-auto p-4 bg-white shadow-md rounded-lg my-">
             <div className="flex flex-col md:flex-row ">
@@ -310,14 +322,13 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
                 {/* MEAT TOPPINGS: ENDS */}
 
 
-
-
-                <div className="mt-4">
+                <div className="mt-4 mb-10">
                   <button onClick={() => { handleCustomization();  modalRef.current.close(); }} className="bg-green-800 hover:bg-green-700 text-white w-full px-10 p-2 rounded">
                     Save
                   </button>
                 </div>
               </div>
+              
 
               <div className="hidden md:block md:ml-8">
                 <img
@@ -330,7 +341,6 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
             </div>
           </div>
           <TotalPriceCard />
-
         </div>
       </dialog>
     </div>
