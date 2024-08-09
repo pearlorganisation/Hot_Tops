@@ -92,6 +92,7 @@ const Product = () => {
   }, [selectedSizeId]);
 
   useEffect(() => {
+    setSelectedBase(customizationData?.baseName)
     setSelectedSizeId(customizationData?.selectedData);
   }, [customizationData]);
 
@@ -155,7 +156,7 @@ const Product = () => {
 
   }
   useEffect(() => {
-    dispatch(setDefaultPrice({ arr: [cheesePrices, saucePrices, vegetarianToppingsPrices, meatToppingsPrices].flat(), customizationData: customizationData }))
+    dispatch(setDefaultPrice({ arr: [cheesePrices, saucePrices, vegetarianToppingsPrices, meatToppingsPrices].flat(), customizationData: customizationData||{}}))
   }, [cheesePrices, saucePrices, vegetarianToppingsPrices, meatToppingsPrices, customizationData])
 
 
