@@ -92,6 +92,7 @@ const Product = () => {
   }, [selectedSizeId]);
 
   useEffect(() => {
+    setSelectedBase(customizationData?.baseName)
     setSelectedSizeId(customizationData?.selectedData);
   }, [customizationData]);
 
@@ -141,11 +142,6 @@ const Product = () => {
 
 
   const handleCustomization = () => {
-
-
-    const emp = customizationData?.priceSection.find(item => {
-      return item?.size?._id === selectedSizeId
-    })
     const { cheese, sauce, meat, veg, size, base,_id } = allToppings
     const temp = [...[cheese, sauce, meat, veg].flat(), base, size]
     const uniqueId = temp.map(item => {
@@ -160,7 +156,7 @@ const Product = () => {
 
   }
   useEffect(() => {
-    dispatch(setDefaultPrice({ arr: [cheesePrices, saucePrices, vegetarianToppingsPrices, meatToppingsPrices].flat(), customizationData: customizationData }))
+    dispatch(setDefaultPrice({ arr: [cheesePrices, saucePrices, vegetarianToppingsPrices, meatToppingsPrices].flat(), customizationData: customizationData||{}}))
   }, [cheesePrices, saucePrices, vegetarianToppingsPrices, meatToppingsPrices, customizationData])
 
 

@@ -9,7 +9,7 @@ const VegetarianToppings = ({ vegetarianTopData }) => {
   const { customizationData, MAX_TOPPINGS } = useSelector(
     (state) => state.orderDetails
   );
- 
+
   const [defaultVegDetails, setDefaultVegDetails] = useState([]);
   const dispatch = useDispatch();
   const defaultSelectedVeg = customizationData?.vegetarianToppingsName;

@@ -114,7 +114,7 @@ const cartSlice = createSlice({
     setToppings: (state, action) => {
       const temp = {
         ...current(state.allToppings),
-        ...action.payload,
+        ...action?.payload,
       };
 
       const { sauce, cheese, veg, meat, base, price } = temp;
@@ -132,6 +132,9 @@ const cartSlice = createSlice({
         ).toFixed(2),
       };
       state.allToppings = prices;
+    },
+    resetToppings:(state)=>{
+      state.allToppings = {}
     },
 
     deletefromCart: (state, action) => {
@@ -158,5 +161,6 @@ export const {
   setPrice,
   setToppings,
   setDefaultPrice,
+  resetToppings
 } = cartSlice.actions;
 export default cartSlice.reducer;

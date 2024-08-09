@@ -21,7 +21,7 @@ const Cheese = ({ cheeseData }) => {
   useEffect(() => {
     setSelectedChees(() => {
       const defaultSelected = {};
-      // console.log(defaultSelectedCheeses, "defaultSelectedSauces");
+      console.log(defaultSelectedCheeses, "defaultSelectedSauces");
       defaultCheeseDetails?.forEach((cheeseName) => {
         // console.log(cheeseName, "cheeseName");
         const cheese = cheeseData.find((s) => s.name === cheeseName);
@@ -53,7 +53,7 @@ const Cheese = ({ cheeseData }) => {
   };
 
   useEffect(() => {
-    // console.log(selectedCheese, "selectedCheese");
+    console.log(selectedCheese, "selectedCheese");
   }, [selectedCheese]);
 
   const handleSave = () => {

@@ -1,8 +1,8 @@
 "use client";
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useId, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect,  useRef, useState } from "react";
+import { useDispatch, useSelector  } from "react-redux";
 import Select from "react-select";
 import { toast } from "sonner";
 import { getCustomizationDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
@@ -37,8 +37,11 @@ const Page = () => {
   
   const sizeDetailRef = useRef(null);
 
-  const pizzaDealSize = searchParams.get("label");
-  
+
+
+
+
+  const {customizationData} = useSelector((state)=> state.orderDetails);
   
   const [dealDataPizza, setDealDataPizza] = useState([]);
   
@@ -49,7 +52,9 @@ const Page = () => {
   const pizzaDataIndex = useRef(null);
 
 
-  console.log(pizzaDealSize,"pizas sizeee");
+  useEffect(()=>{
+    console.log("Deal data pizza ",dealDataPizza);
+    },[dealDataPizza]);
   const handleOpeningModal = () => {
     if (modalRef.current) {
       modalRef.current.open();
@@ -62,9 +67,7 @@ const Page = () => {
 
 
   
-  // useEffect(() => {
-  //   console.log(dealDataPizza, "deal data pizza");
-  // }, [dealDataPizza]);
+
 
   useEffect(() => {
     if (dealViewData) {
@@ -73,7 +76,6 @@ const Page = () => {
       sizeDetailRef.current = dealViewData?.sizes.find(
         (el) => el._id === sizeId
       );
-      console.log(sizeDetailRef.current, "Size Details");
       pizzaDataIndex.current = 0; 
     }
   }, [dealViewData]);
@@ -99,34 +101,12 @@ const Page = () => {
         (dealDataPizza ? dealDataPizza.reduce((acc, currPizza) => acc + (currPizza.pizzaExtraToppingPrice || 0), 0) : 0)
       ) + 0;
       
-
-
-  
-
-
-
-
-
-
-      // console.log({
-      //   name: dealViewData?.title,
-      //   img: dealViewData?.banner,
-      //   size: sizeDetailRef.current.size,
-      //   id:  dealViewData?._id + uniqueId ,
-      //   quantity: 1,
-      //   price : Number(extraPrice+dealViewData.sizes[0].price),
-
-      //   totalSum :Number(extraPrice+dealViewData.sizes[0].price),
-        
-      //   dealsData:[...submitData]
-
-      // });
       dispatch(
         addToCart({
           name: dealViewData?.title,
           img: dealViewData?.banner,
           size: sizeDetailRef.current.size,
-          id:  dealViewData?._id ,
+          id:  dealViewData?._id + dealDataPizza.reduce((acc,currEle)=> acc + currEle.id,''),
           quantity: 1,
           price : Number(extraPrice+dealViewData.sizes[0].price),
           totalSum :Number(extraPrice+dealViewData.sizes[0].price),
@@ -134,7 +114,7 @@ const Page = () => {
         }));
       router.push("/order/cart");
 
-      
+
       
     } else {
       toast.error("Fill All Fields !!");
@@ -157,7 +137,7 @@ const Page = () => {
 
   return (
     <>
-    <PizzaCustomizationModal ref={modalRef} pizzaIndex = {pizzaDataIndex} pizzaData = {dealDataPizza}  setDealDataPizza={setDealDataPizza} />
+    <PizzaCustomizationModal  ref={modalRef} pizzaIndex = {pizzaDataIndex} pizzaData = {dealDataPizza}  setDealDataPizza={setDealDataPizza} />
     <div className="">
       {dealViewData ? (
         <div>
@@ -192,7 +172,28 @@ const Page = () => {
                           onClick={() => {
                             pizzaDataIndex.current = index;    
                             handleOpeningModal();
-
+                            console.log({
+                              name: dealDataPizza[index]?.label,
+                              img: dealDataPizza[index]?.banner,
+                              priceSection:
+                                dealViewData.sizes.length === 1
+                                  ? dealDataPizza[index].priceSection.filter(
+                                      (el) =>
+                                        el.size.name ===
+                                      sizeDetailRef.current.size
+                                    )
+                                  :dealDataPizza[index].priceSection.filter((el)=> el.size.name === sizeDetailRef.current.size),
+                                  
+                              id: dealDataPizza[index]?.id,
+                              selectedData:dealDataPizza[index].priceSection.find((el)=> el.size.name === sizeDetailRef.current.size).size._id,
+                              sauceName: dealDataPizza[index]?.sauceName,
+                              cheeseName: dealDataPizza[index]?.cheeseName,
+                              vegetarianToppingsName:
+                                dealDataPizza[index]?.vegetarianToppingsName ,
+                              baseName: dealDataPizza[index]?.baseName,
+                              meatToppingsName:
+                                dealDataPizza?.[index]?.meatToppingsName,
+                            },"getCustomizationData");
                             dispatch(
                               getCustomizationDetails({
                                 name: dealDataPizza[index]?.label,
@@ -207,15 +208,40 @@ const Page = () => {
                                     :dealDataPizza[index].priceSection.filter((el)=> el.size.name === sizeDetailRef.current.size),
                                     
                                 id: dealDataPizza[index]?.id,
-                                sauceName: dealDataPizza[index]?.sauceName,
-                                cheeseName: dealDataPizza[index]?.cheeseName,
-                                vegetarianToppingsName:
-                                  dealDataPizza[index]?.vegetarianToppingsName,
-                                baseName: dealDataPizza[index]?.baseName,
-                                meatToppingsName:
-                                  dealDataPizza?.[index]?.meatToppingsName,
+                                selectedData:dealDataPizza[index].priceSection.find((el)=> el.size.name === sizeDetailRef.current.size).size._id,
+                                
+                                sauceName: (dealDataPizza[index]?.name) ?dealDataPizza[index]?.sauceName.map((el)=>{
+                                  return el.sauceName
+                                }) 
+                                :dealDataPizza[index]?.sauceName,
+                                
+                                
+                                cheeseName: (dealDataPizza[index]?.name) ?dealDataPizza[index]?.cheeseName.map((el)=>{
+                                  return el.cheeseName  
+                                }) 
+                                :dealDataPizza[index]?.cheeseName ,
+
+                                vegetarianToppingsName: (dealDataPizza[index]?.name) ?dealDataPizza[index]?.vegetarianToppingsName.map((el)=>{
+                                  return el.vegName
+                                }) 
+                                :  dealDataPizza[index]?.vegetarianToppingsName ,
+                                
+                                
+                                baseName: (dealDataPizza[index]?.name) ? dealDataPizza[index]?.baseName.name
+                                :dealDataPizza[index]?.baseName,
+
+
+                                meatToppingsName: ((customizationData) && (customizationData.name ===  dealDataPizza[index].name)) ?
+                                dealDataPizza[index]?.meatToppingsName.map((el)=>{
+                                  return el.meatName
+                                }) 
+                                :dealDataPizza[index]?.meatToppingsName,
                               })
                             );
+                            console.log("lastCustomized pizza")
+                            lastCutomizedPizza = index;
+                            
+
                           }}
                         >
                           <MdEditSquare
