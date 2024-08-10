@@ -24,7 +24,7 @@ export const sendMail = async (email, otp) => {
   let mailOptions = {
     from: "avnish@pearlorganisation.com",
     to: email,
-    subject: "Petheeds Otp",
+    subject: "Hot House Pizza Otp",
     html: data,
   };
 

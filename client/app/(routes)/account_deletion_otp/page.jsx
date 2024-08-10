@@ -76,7 +76,7 @@ const OTPReceiver = () => {
   };
 console.log(response)
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="flex items-center justify-center  px-4 pt-10 pb-20  mx-auto ">
     
       <div className="max-w-md w-full bg-white shadow-md rounded-lg p-8">
         {response && response?.status == false ? (

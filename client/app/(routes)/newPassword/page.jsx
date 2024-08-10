@@ -5,13 +5,16 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { ClipLoader } from "react-spinners";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 
 const Page = () => {
   const [response, setResponse] = useState(null);
   const router = useRouter();
   const dispatch = useDispatch();
+  const [isLoading,setIsLoading] = useState(false)
   const { forgetPasswordEmail: email } = useSelector((state) => state?.auth);
   const {
     register,
@@ -31,6 +34,7 @@ const Page = () => {
     }
 
     try {
+      setIsLoading(true)
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/newPassword`,
         {
@@ -48,7 +52,7 @@ const Page = () => {
       const newData = await res.json();
       console.log(newData);
       if (newData?.status === true) {
-        toast.success("Password Changed successfully !!!");
+        toast.success("Password Changed successfully");
         dispatch(setForgetPasswordEmail(false));
         router.push("/login");
         console.log("Redirecting to login");
@@ -56,17 +60,19 @@ const Page = () => {
         toast.error("Failed to change password. Please try again.");
       }
       setResponse(newData);
+      setIsLoading(false)
     } catch (error) {
+      setIsLoading(false)
       toast.error("An error occurred. Please try again later.");
     }
   };
 
   return (
     <>
-      <div className="bg-gray-100 flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center  px-4 pt-10 pb-20  mx-auto ">
         <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
           <h2 className="text-2xl font-bold mb-6 text-center">
-            ENTER NEW PASSWORD
+            Enter New Password
           </h2>
           {response && response.status === false && (
             <div className="p-2 text-center text-red-600 font-semibold">
@@ -123,7 +129,7 @@ const Page = () => {
                 type="submit"
                 className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
-                Reset password
+                {isLoading ? <ClipLoader color=""/>: "Reset password" } 
               </button>
             </div>
           </form>

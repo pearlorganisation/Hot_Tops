@@ -3,6 +3,9 @@ import { getcredentials } from "@/app/lib/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { ClipLoader } from "react-spinners";
+import { toast } from "sonner";
+
 
 
 const OTPReceiver = () => {
@@ -10,6 +13,7 @@ const OTPReceiver = () => {
   const { email, password, firstName, lastName,mobileNumber } = useSelector(
     (state) => state.auth
   );
+  const [isLoading,setIsLoading] = useState(false)
   const router = useRouter()
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
@@ -36,6 +40,7 @@ const OTPReceiver = () => {
     } else {
       // Handle OTP submission logic here
       try {
+        setIsLoading(true)
         const data = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/verifyOtp`,
           {
@@ -58,11 +63,15 @@ const OTPReceiver = () => {
 
         if (newData.status === true) {
           dispatch(getcredentials({ email: "", password: "" }));
+          toast.success(`${newData?.message.toUpperCase()}`)
           router.push("/login");
+        }else{
+          toast.error(`${newData?.message.toUpperCase()}`)
         }
         setResponse(newData);
-        console.log(newData);
+        setIsLoading(false)
       } catch (error) {
+        setIsLoading(false)
         console.log(error);
       }
 
@@ -71,20 +80,14 @@ const OTPReceiver = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="flex items-center justify-center  px-4 pt-10 pb-20  mx-auto ">
       <div className="max-w-md w-full bg-white shadow-md rounded-lg p-8">
-        {response && response?.status == false ? (
-          <div className="p-2 text-center text-red-600 font-semibold">
-            {response?.message}!
-          </div>
-        ) : (
-          ""
-        )}
+   
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
           Enter OTP
         </h2>
         <p className="text-center text-gray-600 mb-8">
-          Please enter the OTP sent to your email or phone.
+          Please enter the OTP sent to your email.
         </p>
         <form onSubmit={handleSubmit}>
           <div className="mb-6">
@@ -102,7 +105,7 @@ const OTPReceiver = () => {
             type="submit"
             className="w-full bg-[#DC2626] text-white font-bold py-2 px-4 rounded-lg transition duration-300"
           >
-            Verify OTP
+            {isLoading ? <ClipLoader color=""/>: "Verify OTP" } 
           </button>
         </form>
         <div className="mt-4 text-center">

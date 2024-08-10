@@ -194,6 +194,7 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
 
     dispatch(resetToppings());
     modalRef.current.close();
+    enableScroll();
 
   }
 
@@ -221,7 +222,7 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
         aria-hidden="true"
         className="overflow-y-auto overflow-x-hidden fixed z-50 outline-none  w-full md:inset-0 rounded-lg  h-[80vh]"
       >
-        <button className='fixed outline-none top-28 lg:top-20 right-8 md:p-4 z-[55]' onClick={() => { console.log('Enabling scroll'); 
+        <button className='fixed outline-none top-28 lg:top-20 right-8 md:p-4 z-[55]' onClick={() => { 
           enableScroll();
           return modalRef.current.close()}} ><FaWindowClose size={30} className='text-red-800 hover:text-red-700'/></button>
         <div className="relative p-4 w-full  max-h-full">
@@ -233,7 +234,7 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
                 </h1>
                 <p className="mt-2 text-gray-600">{combineNames()}</p>
               <div className="mt-4">
-              <button onClick={handleCustomization} className="w-full px-4 py-2 bg-green-800 hover:bg-green-700 text-white rounded-lg">
+              <button onClick={handleCustomization } className="w-full px-4 py-2 bg-green-800 hover:bg-green-700 text-white rounded-lg">
                 Save
               </button>
             </div> 
