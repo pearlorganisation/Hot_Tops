@@ -5,13 +5,15 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
+
 
 const Page = () => {
   // ----------------------------Hooks-------------------------------------
-  const [response, setResponse] = useState(null);
   const router = useRouter();
   const dispatch = useDispatch();
+  const [isLoading,setIsLoading] = useState(false)
   const {
     register,
     handleSubmit,
@@ -21,6 +23,7 @@ const Page = () => {
 
   const onSubmit = async (data) => {
     try {
+      setIsLoading(true)
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/login`,
         {
@@ -44,10 +47,14 @@ const Page = () => {
 
         router.push("/");
         toast.success("login successfully");
+      }else{
+        toast.error(`${newData?.message}`)
       }
 
+      setIsLoading(false)
       setResponse(newData);
     } catch (error) {
+      setIsLoading(false)
       console.log(error);
     }
   };
@@ -57,15 +64,9 @@ const Page = () => {
       <div className=" flex items-center justify-center pb-14">
         <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
           <h2 className="text-xl font-bold mb-6 text-center">
-            If you're already a member. LOGIN
+            If you're already a member. Login here.
           </h2>
-          {response && response?.status == false ? (
-            <div className="p-2 text-center text-red-600 font-semibold">
-              {response?.message}!
-            </div>
-          ) : (
-            ""
-          )}
+       
           <form onSubmit={handleSubmit(onSubmit)} method="POST">
             <div className="mb-4">
               <label className="block text-gray-700" htmlFor="login-email">
@@ -113,7 +114,7 @@ const Page = () => {
                 type="submit"
                 className="bg-green-700  text-white px-4 py-2 rounded-md hover:bg-green-600"
               >
-                Login
+                {isLoading ? <ClipLoader color=""/>: "Login" } 
               </button>
             </div>
             <p className="mt-4">

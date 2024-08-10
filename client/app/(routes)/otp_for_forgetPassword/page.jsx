@@ -5,6 +5,7 @@ import { setForgetPasswordEmail} from "@/app/lib/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { ClipLoader } from "react-spinners";
 import { ToastContainer, toast } from "react-toastify";
 
 
@@ -14,6 +15,7 @@ const OTPReceiver = () => {
 
   const {forgetPasswordEmail:email} =  useSelector((state)=> state?.auth);
   const [otp, setOtp] = useState("");
+  const [isLoading,setIsLoading] = useState(false)
   
   const [error, setError] = useState("");
 
@@ -44,6 +46,7 @@ const OTPReceiver = () => {
     } else {
       // Handle OTP submission logic here
       try {
+        setIsLoading(true)
         const data = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/verifyOtpForForgotPassword`,
           {
@@ -74,8 +77,9 @@ const OTPReceiver = () => {
 
         }
         
-        console.log(newData);
+        setIsLoading(false)
       } catch (error) {
+        setIsLoading(false)
         console.log(error);
       }
 
@@ -84,7 +88,7 @@ const OTPReceiver = () => {
   };
   return (
     <>
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className=" flex items-center justify-center  px-4 pt-10 pb-20  mx-auto ">
       
       <div className="max-w-md w-full bg-white shadow-md rounded-lg p-8">
         {response && response?.success === false ? (
@@ -98,7 +102,7 @@ const OTPReceiver = () => {
           Enter OTP
         </h2>
         <p className="text-center text-gray-600 mb-8">
-          Please enter the OTP sent to your email or phone.
+          Please enter the OTP sent to your email.
         </p>
         <form onSubmit={handleSubmit}>
           <div className="mb-6">
@@ -116,7 +120,7 @@ const OTPReceiver = () => {
             type="submit"
             className="w-full bg-[#DC2626] text-white font-bold py-2 px-4 rounded-lg transition duration-300"
           >
-            Verify OTP
+           {isLoading ? <ClipLoader color=""/>: "Verify OTP" } 
           </button>
         </form>
         <div className="mt-4 text-center">

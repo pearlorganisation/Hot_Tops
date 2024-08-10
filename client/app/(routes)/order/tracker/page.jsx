@@ -37,7 +37,7 @@ const page = () => {
             </p>
           </div> */}
 
-          <h1 className="mx-1 my-5 text-center">
+          <h1 className="mx-1 my-5 text-center font-semibold">
             {" "}
             PIZZA DELIVERY AND TAKEAWAY DEALS IN HOTHOUSE{" "}
           </h1>
@@ -77,7 +77,7 @@ const page = () => {
             </div>
 
             <div className=" text-center md:py-2 lg:justify-self-end items-center md:block flex justify-center">
-              <div className="md:w-1/2 md:flex-none flex flex-col  justify-center items-center ">
+              <div className=" md:flex-none flex flex-col  justify-center items-center ">
 
                 <p>
                 1 Joel St, Pinner, Northwood HA6 1LW, UK

@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useDispatch } from "react-redux";
+import { ClipLoader } from "react-spinners";
 
 const Page = () => {
   // -------------------------------------hooks---------------------------------
@@ -13,6 +14,7 @@ const Page = () => {
   const [response, setResponse] = useState(null);
   const dispatch = useDispatch();
   const router = useRouter();
+const [isLoading,setIsLoading] = useState(false)
 
   const {
     register,
@@ -23,6 +25,7 @@ const Page = () => {
 
   const onSubmit = async (data) => {
     try {
+      setIsLoading(true)
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/signup`,
         {
@@ -58,9 +61,10 @@ const Page = () => {
       }
 
       const result = await response.json();
-
+      setIsLoading(false)
       // Add your logic for a successful signup
     } catch (error) {
+      setIsLoading(false)
       console.error("Error during signup:", error.message);
       // Handle error (e.g., show an error message to the user)
     }
@@ -75,7 +79,7 @@ const Page = () => {
           </h2>
           {response && response?.status == false ? (
             <div className="p-2 text-center text-red-600 font-semibold">
-              {response?.message}!
+              {response?.message} !
             </div>
           ) : (
             ""
@@ -255,7 +259,7 @@ const Page = () => {
               type="submit"
               className="w-full bg-green-700  text-white px-4 py-2 rounded-md hover:bg-green-600"
             >
-              Register
+             {isLoading ? <ClipLoader color=""/>: "Register" } 
             </button>
             <p className="mt-4">
               Already have an account?{" "}

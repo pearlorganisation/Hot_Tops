@@ -7,6 +7,8 @@ import { useDispatch } from 'react-redux';
 import { setForgetPasswordEmail } from '@/app/lib/features/auth/authSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import { ClipLoader } from 'react-spinners';
+
 
 const Page = () => {
 
@@ -15,10 +17,12 @@ const Page = () => {
     const dispatch = useDispatch();
     const [error,setError] = useState('');
     const [response,setResponse] = useState(''); 
+    const [isLoading,setIsLoading] = useState(false)
     async function sendData(email)
     {
      //endpoint forget passowrd    
    try {
+    setIsLoading(true)
     const data = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/forgetPassword`,
       {
@@ -44,7 +48,7 @@ const Page = () => {
 
             
             dispatch(setForgetPasswordEmail(email));
-            toast.success("Otp Send Successfully !!");
+            toast.success("Otp Sent Successfully !!");
             router.push("/otp_for_forgetPassword");
             console.log("Redirecting to otp_for_forgetPassword");
 
@@ -55,7 +59,9 @@ const Page = () => {
         else{
           toast.error("Email Not Found");
         }
+        setIsLoading(false)
   } catch (error) {
+    setIsLoading(false)
     console.log(error);
     
   }
@@ -84,15 +90,12 @@ const Page = () => {
 
     return (
       <>
-        <section className="bg-gray-50 dark:bg-gray-900">
-            <div className="flex flex-col  items-center justify-center px-4 py-6 mx-auto md:h-screen lg:py-0">
-                <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                    <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo"/>
-                    HotHouse    
-                </a>
+        <section className=" dark:bg-gray-900">
+            <div className="flex flex-col  items-center justify-center px-4 pt-10 pb-20  mx-auto ">
+             
                 <div className="w-full p-6 bg-white rounded-lg shadow   dark:border md:mt-0 sm:max-w-md dark:bg-gray-800 dark:border-gray-700 sm:p-8">
                     <h2 className="mb-1 text-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                        Forget Password
+                        Forgot Password
                     </h2>
                     {response && response?.status == false ? (
           <div className="p-2 text-center text-red-600 font-semibold">
@@ -115,10 +118,10 @@ const Page = () => {
                                 <label htmlFor="newsletter" className="font-light text-gray-500 dark:text-gray-300">I accept the <a className="font-medium text-blue-600 hover:underline dark:text-blue-500" href="#">Terms and Conditions</a></label>
                             </div>
                         </div>
-                        {(errors.newsletter)  && <p className="text-red-500 text-xs mt-1">This field is required.</p>}
+                        {(errors.newsletter)  && <p className="text-red-500 text-sm mt-1">Please accept the terms and conditions.</p>}
                        
                         
-                        <button type="submit" className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Reset password</button>
+                        <button type="submit" className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{isLoading ? <ClipLoader color=""/>: "Reset password" } </button>
                     </form>
                 </div>
             </div>

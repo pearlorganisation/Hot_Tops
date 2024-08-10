@@ -1,23 +1,21 @@
 "use client";
-
-import { useAppSelector } from "@/app/lib/hooks";
 import { redirect, useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { emptyCart } from "@/app/lib/features/cartSlice/cartSlice";
+import { ClipLoader } from "react-spinners";
+
 
 const page = ({ searchParams }) => {
   const { previousPath } = useSelector((state) => state.path);
   const dispatch = useDispatch();
-  console.log(previousPath);
   const router = useRouter();
   const cart = useSelector((state) => state.cart.cartData);
   const order = useSelector((state) => state.orderDetails?.order);
   const userData = useSelector((state) => state.auth.userData);
+  const [isLoading,setIsLoading] = useState(false)
   const deliveryCharge = 0.5;
-  console.log(userData);
-  console.log("searchParams", searchParams)
   const {
     register,
     handleSubmit,
@@ -43,6 +41,7 @@ const page = ({ searchParams }) => {
     };
 
     try {
+      setIsLoading(true)
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/order`,
         {
@@ -59,7 +58,9 @@ const page = ({ searchParams }) => {
         dispatch(emptyCart());
         router.push("/order/tracker");
       }
+      setIsLoading(false)
     } catch (error) {
+      setIsLoading(false)
       console.log(error);
     }
   };
@@ -67,9 +68,6 @@ const page = ({ searchParams }) => {
   
 
   // -----------------------------------useeffects-------------------------------------------
-  // useEffect(() => {
-  //   previousPath !== "/order/orders" ? redirect("/order/cart") : "";
-  // }, []);
 
   useEffect(() => { }, [order?.address, order?.time]);
 
@@ -78,7 +76,6 @@ const page = ({ searchParams }) => {
     return acc + Number(item?.totalSum);
   }, 0);
 
-  console.log(totalPrice)
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -220,9 +217,10 @@ const page = ({ searchParams }) => {
               </button>
               <button
                 type="submit"
+                disabled={isLoading}
                 className="px-4 py-2 bg-green-700 hover:bg-green-600  text-white rounded-md"
               >
-                Order
+                {isLoading ? <ClipLoader color=""/>: "Order" } 
               </button>
             </div>
           </div>

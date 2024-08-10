@@ -111,7 +111,7 @@ export const verifyOtp = asyncErrorHandler(async (req, res) => {
 
   res.status(200).json({
     status: true,
-    message: "verify verified",
+    message: "Otp verified",
   });
 });
 // --------------login controller--------------------
