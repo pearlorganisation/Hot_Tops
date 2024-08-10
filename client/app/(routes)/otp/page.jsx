@@ -13,7 +13,7 @@ const OTPReceiver = () => {
   const { email, password, firstName, lastName,mobileNumber } = useSelector(
     (state) => state.auth
   );
-  const [isLoading,setIsLoading] = useState(false)
+  const [isLoading,setIsLoading] = useState(false)  
   const router = useRouter()
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
@@ -32,6 +32,53 @@ const OTPReceiver = () => {
       setError("OTP must be a number.");
     }
   };
+
+  const handleResendOtp = async() =>{
+    try {
+      setIsLoading(true)
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/signup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+            firstName: firstName,
+            lastName: lastName,
+            mobileNumber:mobileNumber
+          }),
+        }
+      );
+      const newData = await response.json();
+      dispatch(
+        getcredentials({
+          email: data?.email,
+          password: data?.password,
+          firstName: data?.firstName,
+          lastName: data?.lastName,
+          mobileNumber: data?.mobileNumber
+        })
+      );
+      setResponse(newData);
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+      if (newData.success === true) {
+        router.push("/otp");
+      }
+
+      const result = await response.json();
+      setIsLoading(false)
+      // Add your logic for a successful signup
+    } catch (error) {
+      setIsLoading(false)
+      console.error("Error during signup:", error.message);
+      // Handle error (e.g., show an error message to the user)
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -83,7 +130,7 @@ const OTPReceiver = () => {
     <div className="flex items-center justify-center  px-4 pt-10 pb-20  mx-auto ">
       <div className="max-w-md w-full bg-white shadow-md rounded-lg p-8">
    
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
+        <h2 className="text-2xl font-bold text-center text-red-800 mb-4">
           Enter OTP
         </h2>
         <p className="text-center text-gray-600 mb-8">
@@ -96,21 +143,21 @@ const OTPReceiver = () => {
               maxLength="6"
               value={otp}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-xl tracking-widest"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-300 focus:border-transparent text-center text-xl tracking-widest"
               placeholder="------"
             />
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </div>
           <button
             type="submit"
-            className="w-full bg-[#DC2626] text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+            className="w-full bg-red-800 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
           >
             {isLoading ? <ClipLoader color=""/>: "Verify OTP" } 
           </button>
         </form>
         <div className="mt-4 text-center">
           <p className="text-gray-600">Didn't receive the code?</p>
-          <button className="hover:underline mt-2">Resend OTP</button>
+          <button onClick={handleResendOtp} className="hover:underline mt-2 text-red-800 hover:text-red-700">Resend OTP</button>
         </div>
       </div>
     </div>

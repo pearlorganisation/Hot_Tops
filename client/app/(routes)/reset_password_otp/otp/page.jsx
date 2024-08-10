@@ -79,7 +79,7 @@ const OTPReceiver = () => {
         ) : (
           ""
         )}
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
+        <h2 className="text-2xl font-bold text-red-800 text-center  mb-4">
           Enter OTP
         </h2>
         <p className="text-center text-gray-600 mb-8">
@@ -92,14 +92,14 @@ const OTPReceiver = () => {
               maxLength="6"
               value={otp}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-xl tracking-widest"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-300 focus:border-transparent text-center text-xl tracking-widest"
               placeholder="------"
             />
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </div>
           <button
             type="submit"
-            className="w-full bg-[#DC2626] text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+            className="w-full bg-red-800 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
           >
             Verify OTP
           </button>

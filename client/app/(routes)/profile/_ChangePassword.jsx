@@ -5,10 +5,12 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewPassword } from "@/app/lib/features/auth/authSlice";
+import { ClipLoader } from "react-spinners";
+import { toast } from "sonner";
 
 const ChangePassword = () => {
   const [response, setResponse] = useState(null);
-
+  const [isLoading,setIsLoading] = useState(false)
   const {
     register,
     handleSubmit,
@@ -23,6 +25,7 @@ const ChangePassword = () => {
 
   const updatePassword = async (data) => {
     try {
+      setIsLoading(true)
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/resetPassword`,
         {
@@ -42,8 +45,13 @@ const ChangePassword = () => {
       if (newData.success === true) {
         dispatch(addNewPassword(data.newPassword));
         router.push("/reset_password_otp");
+        toast.success("Otp Sent successfully");
+      }else{
+        toast.error(`${newData?.message}`)
       }
+      setIsLoading(false)
     } catch (error) {
+      setIsLoading(false)
       console.error("Error during signup:", error.message);
       // Handle error (e.g., show an error message to the user)
     }
@@ -117,7 +125,7 @@ const ChangePassword = () => {
           type="submit"
           className="w-full py-3 bg-red-800 text-white rounded-md hover:bg-red-800"
         >
-          Save & continue
+            {isLoading ? <ClipLoader color=""/>: "Save & continue" } 
         </button>
       </form>
     </main>

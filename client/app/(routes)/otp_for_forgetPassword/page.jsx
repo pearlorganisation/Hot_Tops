@@ -34,6 +34,53 @@ const OTPReceiver = () => {
     }
   };
 
+  async function sendData() {   
+ try {  
+  setIsLoading(true)
+  const data = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/forgetPassword`,
+    {
+      method: "POST", 
+      body: JSON.stringify({
+        email: email,
+        
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      credentials: "include",
+    }
+  );
+  
+  const res = await data.json();
+  setResponse(res);
+  console.log(res);
+
+  
+  if(res?.status === true)
+      {
+
+          
+          dispatch(setForgetPasswordEmail(email));
+          toast.success("Otp Sent Successfully");
+          router.push("/otp_for_forgetPassword");
+          console.log("Redirecting to otp_for_forgetPassword");
+
+
+
+          
+      }
+      else{
+        toast.error("Email Not Found");
+      }
+      setIsLoading(false)
+} catch (error) {
+  setIsLoading(false)
+  console.log(error);
+  
+}
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -64,7 +111,7 @@ const OTPReceiver = () => {
         setResponse(newData)
         if (newData.status === true) {
           
-            toast.success("Otp verfied successfully !!!!");
+            toast.success("Otp verified successfully");
             router.push("/newPassword");
             console.log("Redirecting to newPassword");
 
@@ -98,7 +145,7 @@ const OTPReceiver = () => {
         ) : (
           ""
         )}
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
+        <h2 className="text-2xl font-bold text-red-800 text-center  mb-4">
           Enter OTP
         </h2>
         <p className="text-center text-gray-600 mb-8">
@@ -111,21 +158,21 @@ const OTPReceiver = () => {
               maxLength="6"
               value={otp}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-xl tracking-widest"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-300 focus:border-transparent text-center text-xl tracking-widest"
               placeholder="------"
             />
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </div>
           <button
             type="submit"
-            className="w-full bg-[#DC2626] text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+            className="w-full bg-red-800 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
           >
            {isLoading ? <ClipLoader color=""/>: "Verify OTP" } 
           </button>
         </form>
         <div className="mt-4 text-center">
           <p className="text-gray-600">Didn't receive the code?</p>
-          <button className="hover:underline mt-2">Resend OTP</button>
+          <button onClick={sendData} className="hover:underline text-red-800 hover:text-red-700 mt-2">Resend OTP</button>
         </div>
       </div>
     </div>
