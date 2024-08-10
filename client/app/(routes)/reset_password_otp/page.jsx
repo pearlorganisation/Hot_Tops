@@ -4,6 +4,9 @@ import { addNewPassword } from "@/app/lib/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { ClipLoader } from "react-spinners";
+import { toast } from "sonner";
+
 
 const OTPReceiver = () => {
   // ----------------------------------------hooks----------------------------------------
@@ -14,6 +17,7 @@ const OTPReceiver = () => {
   const [response, setResponse] = useState("");
   const dispatch = useDispatch();
   const router = useRouter();
+  const [isLoading,setIsLoading] = useState(false)
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -33,6 +37,7 @@ const OTPReceiver = () => {
     } else {
       // Handle OTP submission logic here
       try {
+        setIsLoading(true)
         const data = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/verifyResetPasswordOtp`,
           {
@@ -52,11 +57,14 @@ const OTPReceiver = () => {
         if (newData.status === true) {
           router.push("/");
           dispatch(addNewPassword(""));
+          toast.success("Password Changed successfully");
+        }else{
+          toast.error(`${newData?.message}`)
         }
 
-        console.log(newData);
+        setIsLoading(false)
       } catch (error) {
-        console.log(error);
+        setIsLoading(false)
       }
 
       setError(""); // Clear error when submitting
@@ -73,7 +81,7 @@ const OTPReceiver = () => {
         ) : (
           ""
         )}
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
+        <h2 className="text-2xl font-bold text-red-800 text-center  mb-4">
           Enter OTP
         </h2>
         <p className="text-center text-gray-600 mb-8">
@@ -86,16 +94,16 @@ const OTPReceiver = () => {
               maxLength="6"
               value={otp}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-xl tracking-widest"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-300 focus:border-transparent text-center text-xl tracking-widest"
               placeholder="------"
             />
             {error && <p className="text-red-800 text-sm mt-2">{error}</p>}
           </div>
           <button
             type="submit"
-            className="w-full bg-[#DC2626] text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+            className="w-full bg-red-800 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
           >
-            Verify OTP
+            {isLoading ? <ClipLoader color=""/>: "Verify OTP " } 
           </button>
         </form>
         <div className="mt-4 text-center">

@@ -46,7 +46,7 @@ const Page = () => {
         dispatch(addUserData(userData));
 
         router.push("/");
-        toast.success("login successfully");
+        toast.success("Login successfully");
       }else{
         toast.error(`${newData?.message}`)
       }
@@ -63,7 +63,7 @@ const Page = () => {
     <>
       <div className=" flex items-center justify-center pb-14">
         <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
-          <h2 className="text-xl font-bold mb-6 text-center">
+          <h2 className="text-xl text-green-900 font-bold mb-6 text-center">
             If you're already a member. Login here.
           </h2>
        
@@ -77,7 +77,7 @@ const Page = () => {
                 id="login-email"
                 className={`w-full px-3 py-2 border ${
                   errors.email ? "border-red-800" : "border-gray-300"
-                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                } rounded-md focus:outline-none focus:ring focus:ring-slate-300`}
                 placeholder="Enter your email"
                 {...register("email", { required: "Email is required" })}
               />
@@ -96,7 +96,7 @@ const Page = () => {
                 id="login-password"
                 className={`w-full px-3 py-2 border ${
                   errors.password ? "border-red-800" : "border-gray-300"
-                } rounded-md focus:outline-none focus:ring focus:ring-green-200`}
+                } rounded-md focus:outline-none focus:ring focus:ring-slate-300`}
                 placeholder="Enter your password"
                 {...register("password", { required: "Password is required" })}
               />
@@ -112,7 +112,7 @@ const Page = () => {
               </Link>
               <button
                 type="submit"
-                className="bg-green-700  text-white px-4 py-2 rounded-md hover:bg-green-600"
+                className="bg-green-700  text-white px-6 py-2 rounded-md hover:bg-green-600"
               >
                 {isLoading ? <ClipLoader color=""/>: "Login" } 
               </button>
@@ -120,8 +120,8 @@ const Page = () => {
             <p className="mt-4">
               Don't have an account ?{" "}
               <span>
-                <Link href="/signUp" className="text-red-900 hover:text-red-700">
-                  Create here
+                <Link href="/signUp" className="text-red-900 hover:text-red-700 font-semibold">
+                  Create here.
                 </Link>
               </span>
             </p>

@@ -74,8 +74,8 @@ const [isLoading,setIsLoading] = useState(false)
     <>
       <div className=" flex items-center justify-center pb-14 ">
         <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
-          <h2 className="text-xl font-bold mb-6 text-center">
-            New member ? REGISTER
+          <h2 className="text-xl text-green-900 font-bold mb-6 text-center">
+            New member ? Register here.
           </h2>
           {response && response?.status == false ? (
             <div className="p-2 text-center text-red-600 font-semibold">
@@ -219,7 +219,7 @@ const [isLoading,setIsLoading] = useState(false)
                 })}
               />
               <span
-                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer pt-5"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer pt-5 text-red-800 hover:text-red-700"
                 onClick={() => setShowConfirmPassword((prev) => !prev)}
               >
                 {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
@@ -241,13 +241,10 @@ const [isLoading,setIsLoading] = useState(false)
               />
               <label htmlFor="terms" className="text-gray-700">
                 I accept the Hot House Pizza{" "}
-                <a href="#" className="text-blue-500 underline">
-                  Terms & Conditions
+                <a href="/termsAndConditions" className="text-red-800 hover:text-red-700 underline">
+                  Terms & Conditions.
                 </a>{" "}
-                and{" "}
-                <a href="#" className="text-blue-500 underline">
-                  Privacy Policy
-                </a>
+                
               </label>
             </div>
             {errors.terms && (
@@ -264,8 +261,8 @@ const [isLoading,setIsLoading] = useState(false)
             <p className="mt-4">
               Already have an account?{" "}
               <span>
-                <Link href="/login" className="text-red-800 hover:text-red-700">
-                  Login here
+                <Link href="/login" className="text-red-800 hover:text-red-700 font-semibold">
+                  Login here.
                 </Link>
               </span>
             </p>

@@ -2,6 +2,8 @@
 import { useRouter } from 'next/navigation';
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ClipLoader } from 'react-spinners';
+import { toast } from 'sonner';
 
 const DeleteAccountModal = forwardRef((props, ref) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +13,7 @@ const DeleteAccountModal = forwardRef((props, ref) => {
         close: () => setIsOpen(false)
     }));
      
-
+    const [isLoading,setIsLoading] = useState(false)
 
 
     const { userData } = useSelector((state) => state?.auth);
@@ -21,6 +23,7 @@ const DeleteAccountModal = forwardRef((props, ref) => {
   
     const deleteAccount = async (data) => {
       try {
+        setIsLoading(true)
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/deleteAccount`,
           {
@@ -40,8 +43,13 @@ const DeleteAccountModal = forwardRef((props, ref) => {
         if (newData?.success === true) {
         //   dispatch(addNewPassword(data.newPassword));
           router.push("/account_deletion_otp");
-        }
+          toast.success("Otp sent successfully");
+        }else{
+            toast.error(`${newData?.message}`)
+          }
+        setIsLoading(false)
       } catch (error) {
+        setIsLoading(false)
         console.error("Error during signup:", error.message);
         // Handle error (e.g., show an error message to the user)
       }
@@ -78,7 +86,7 @@ const DeleteAccountModal = forwardRef((props, ref) => {
                         </button>
                         <div className="p-4 md:p-5 text-center">
                             <svg
-                                className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+                                className="mx-auto mb-4 text-red-800 w-12 h-12"
                                 aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -95,19 +103,17 @@ const DeleteAccountModal = forwardRef((props, ref) => {
                             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                                 Are you sure you want to delete this account ?
                             </h3>
-                            {response && response?.success === true && <h3>
-                                   {response?.message}
-                            </h3>}
+                      
                             <button
                                 type="button"
-                                className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+                                className="text-white bg-red-800 hover:bg-red-700 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
                                 onClick={deleteAccount}
                             >
-                                Yes, I'm sure
+                                  {isLoading ? <ClipLoader size={14}/>: "Yes, I'm sure" } 
                             </button>
                             <button
                                 type="button"
-                                className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                                className="py-2.5 px-5 ms-3 text-sm font-medium text-red-800  focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-50 hover:text-red-600 focus:z-10 focus:ring-4 focus:ring-gray-100 "
                                 onClick={() => setIsOpen(false)}
                             >
                                 No, cancel
