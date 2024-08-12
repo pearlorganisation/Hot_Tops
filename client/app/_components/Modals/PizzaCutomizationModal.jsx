@@ -14,11 +14,14 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
 
   const disableScroll = () => {
     document.body.classList.add("no-scroll");
+
   };
 
   const enableScroll = () => {
     document.body.classList.remove("no-scroll");
+
   };
+
 
 
 

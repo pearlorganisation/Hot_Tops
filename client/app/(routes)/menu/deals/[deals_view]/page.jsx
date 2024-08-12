@@ -102,27 +102,6 @@ const Page = () => {
       ) + 0;
       
 
-
-  
-
-
-
-
-
-
-      // console.log({
-      //   name: dealViewData?.title,
-      //   img: dealViewData?.banner,
-      //   size: sizeDetailRef.current.size,
-      //   id:  dealViewData?._id + uniqueId ,
-      //   quantity: 1,
-      //   price : Number(extraPrice+dealViewData.sizes[0].price),
-
-      //   totalSum :Number(extraPrice+dealViewData.sizes[0].price),
-        
-      //   dealsData:[...submitData]
-
-      // });
       dispatch(
         addToCart({
           name: dealViewData?.title,
@@ -315,7 +294,7 @@ const Page = () => {
           <div className="p-5 md:p-10 flex justify-center items-center">
             <button
               onClick={handleDataSubmission}
-              className="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md shadow-md transform hover:scale-105 transition-transform duration-200 ease-in-out"
+              className="buTTon bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md shadow-md transform hover:scale-105 transition-transform duration-200 ease-in-out"
             >
               ADD TO CART
             </button>
