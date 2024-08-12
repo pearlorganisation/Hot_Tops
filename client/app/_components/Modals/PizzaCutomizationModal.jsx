@@ -6,7 +6,6 @@ import MeatToppings from '../customization/meatToppings/MeatToppings';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetToppings, setDefaultPrice, setToppings } from '@/app/lib/features/cartSlice/cartSlice';
 import TotalPriceCard from '../TotalPriceCard/TotalPriceCard';
-import { useSearchParams } from 'next/navigation';
 import { FaWindowClose } from 'react-icons/fa';
 
 const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataPizza }, ref) => {
@@ -163,7 +162,6 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
     }
   };
     
-  const uniqueTempId = useId();
 
   const handleCustomization = () => {
     const { cheese, sauce, meat, veg, size, base } = allToppings

@@ -185,7 +185,7 @@ const Page = () => {
                                   :dealDataPizza[index].priceSection.filter((el)=> el.size.name === sizeDetailRef.current.size),
                                   
                               id: dealDataPizza[index]?.id,
-                              selectedData:dealDataPizza[index].priceSection.find((el)=> el.size.name === sizeDetailRef.current.size).size._id,
+                              selectedData:dealDataPizza[index]?.priceSection.find((el)=> el.size.name === sizeDetailRef.current.size).size._id,
                               sauceName: dealDataPizza[index]?.sauceName,
                               cheeseName: dealDataPizza[index]?.cheeseName,
                               vegetarianToppingsName:
@@ -210,36 +210,29 @@ const Page = () => {
                                 id: dealDataPizza[index]?.id,
                                 selectedData:dealDataPizza[index].priceSection.find((el)=> el.size.name === sizeDetailRef.current.size).size._id,
                                 
-                                sauceName: (dealDataPizza[index]?.name) ?dealDataPizza[index]?.sauceName.map((el)=>{
-                                  return el.sauceName
-                                }) 
+                                sauceName: ((customizationData) && (customizationData.name ===  dealDataPizza[index].name))?
+                                customizationData?.sauceName
                                 :dealDataPizza[index]?.sauceName,
                                 
                                 
-                                cheeseName: (dealDataPizza[index]?.name) ?dealDataPizza[index]?.cheeseName.map((el)=>{
-                                  return el.cheeseName  
-                                }) 
+                                cheeseName: ((customizationData) && (customizationData.name ===  dealDataPizza[index].name))?
+                                customizationData?.cheeseName  
                                 :dealDataPizza[index]?.cheeseName ,
 
-                                vegetarianToppingsName: (dealDataPizza[index]?.name) ?dealDataPizza[index]?.vegetarianToppingsName.map((el)=>{
-                                  return el.vegName
-                                }) 
+                                vegetarianToppingsName: ((customizationData) && (customizationData.name ===  dealDataPizza[index].name)) ? 
+                                customizationData?.vegetarianToppingsName 
                                 :  dealDataPizza[index]?.vegetarianToppingsName ,
                                 
                                 
-                                baseName: (dealDataPizza[index]?.name) ? dealDataPizza[index]?.baseName.name
+                                baseName: ((customizationData) && (customizationData.name ===  dealDataPizza[index].name)) ? customizationData?.baseName
                                 :dealDataPizza[index]?.baseName,
 
 
                                 meatToppingsName: ((customizationData) && (customizationData.name ===  dealDataPizza[index].name)) ?
-                                dealDataPizza[index]?.meatToppingsName.map((el)=>{
-                                  return el.meatName
-                                }) 
+                                customizationData?.meatToppingsName
                                 :dealDataPizza[index]?.meatToppingsName,
                               })
                             );
-                            console.log("lastCustomized pizza")
-                            lastCutomizedPizza = index;
                             
 
                           }}
