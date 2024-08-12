@@ -63,7 +63,9 @@ const Page = () => {
 
 
 
-
+useEffect(()=>{
+  console.log("deal data pizza",dealDataPizza);
+},[dealDataPizza]);
 
 
   
@@ -212,25 +214,42 @@ const Page = () => {
                                 
                                 sauceName: ((customizationData) && (customizationData.name ===  dealDataPizza[index].name))?
                                 customizationData?.sauceName
-                                :dealDataPizza[index]?.sauceName,
+                                :(  dealDataPizza[index]?.sauceName.map((el)=>{
+                                  
+                                  return el?.sauceName ? el.sauceName:el
+                                  
+                               })),
                                 
                                 
                                 cheeseName: ((customizationData) && (customizationData.name ===  dealDataPizza[index].name))?
                                 customizationData?.cheeseName  
-                                :dealDataPizza[index]?.cheeseName ,
+                                :(  dealDataPizza[index]?.cheeseName.map((el)=>{
+                                  
+                                  return el?.cheeseName ? el.cheeseName:el
+                                  
+                               })) ,
 
-                                vegetarianToppingsName: ((customizationData) && (customizationData.name ===  dealDataPizza[index].name)) ? 
+                                vegetarianToppingsName: ((customizationData) && (customizationData.name ===  dealDataPizza[index].name))? 
                                 customizationData?.vegetarianToppingsName 
-                                :  dealDataPizza[index]?.vegetarianToppingsName ,
+                                :(  dealDataPizza[index]?.vegetarianToppingsName.map((el)=>{
+                                  
+                                  return el?.vegName ? el.vegName:el
+                                  
+                               })) ,
                                 
                                 
                                 baseName: ((customizationData) && (customizationData.name ===  dealDataPizza[index].name)) ? customizationData?.baseName
-                                :dealDataPizza[index]?.baseName,
+                                :(typeof(dealDataPizza[index]?.baseName) === typeof {}) ? dealDataPizza[index]?.baseName.name:
+                                dealDataPizza[index]?.baseName,
 
 
                                 meatToppingsName: ((customizationData) && (customizationData.name ===  dealDataPizza[index].name)) ?
                                 customizationData?.meatToppingsName
-                                :dealDataPizza[index]?.meatToppingsName,
+                                :(  dealDataPizza[index]?.meatToppingsName.map((el)=>{
+                                  
+                                  return el?.meatName ? el.meatName:el
+                                  
+                               }))
                               })
                             );
                             
