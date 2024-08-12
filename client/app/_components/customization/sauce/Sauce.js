@@ -84,7 +84,7 @@ const Sauce = ({ sauceData }) => {
         const sauce = sauceData.find((s) => s.name === sauceName);
         // console.log(sauceData, "sauceData");
         if (sauce) {
-          defaultSelected[sauce._id] = "double";
+          defaultSelected[sauce._id] = "single";
         }
       });
       // console.log(defaultSelected, "defaultSelected");
@@ -93,25 +93,21 @@ const Sauce = ({ sauceData }) => {
   }, [defaultSauceDetails, customizationData, sauceData]);
 
   const handleSelectionChange = (sauceId, size) => {
-    const newSelectedSauces = { ...selectedSauces };
-
-    // If the sauce is already selected, change its size
-    if (newSelectedSauces[sauceId]) {
-      console.log("i am here... if");
-      newSelectedSauces[sauceId] = size;
-    } else {
-      const maxTop1 = 2;
-      const maxTop2 = 4;
-      // Check if the limit is reached before adding a new sauce
-      console.log("i am here... else");
-      // if (maxTop2 <= maxTop1) {
-      newSelectedSauces[sauceId] = size;
-      // } else {
-      //   toast.info("You have reached limit...");
-      // }
-    }
-    setSelectedSauces(newSelectedSauces);
+    setSelectedSauces((prevSelected) => {
+      // Toggle the selection
+      if (prevSelected[sauceId] === size) {
+        const { [sauceId]: _, ...rest } = prevSelected;
+        return rest;
+      } else {
+        return {
+          ...prevSelected,
+          [sauceId]: size,
+        };
+      }
+    });
   };
+
+ 
 
   // useEffect(() => {
   //   dispatch(setDefaultPrice(sauceData));

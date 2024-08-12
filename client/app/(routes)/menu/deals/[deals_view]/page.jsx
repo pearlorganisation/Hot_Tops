@@ -46,6 +46,7 @@ const Page = () => {
   const [dealDataPizza, setDealDataPizza] = useState([]);
   
   const [dealDataDrinks, setDealDataDrinks] = useState([]);
+  const [viewButton, setViewButton] = useState(false);
   
   const modalRef = useRef();
   
@@ -58,12 +59,15 @@ const Page = () => {
   const handleOpeningModal = () => {
     if (modalRef.current) {
       modalRef.current.open();
+      setViewButton(true)
     }
   };
 
 
 
-
+useEffect(()=>{
+  console.log("deal data pizza",dealDataPizza);
+},[dealDataPizza]);
 
 
   
@@ -137,7 +141,7 @@ const Page = () => {
 
   return (
     <>
-    <PizzaCustomizationModal  ref={modalRef} pizzaIndex = {pizzaDataIndex} pizzaData = {dealDataPizza}  setDealDataPizza={setDealDataPizza} />
+    <PizzaCustomizationModal  ref={modalRef} pizzaIndex = {pizzaDataIndex} pizzaData = {dealDataPizza} setViewButton={setViewButton}  setDealDataPizza={setDealDataPizza} />
     <div className="">
       {dealViewData ? (
         <div>
@@ -185,7 +189,7 @@ const Page = () => {
                                   :dealDataPizza[index].priceSection.filter((el)=> el.size.name === sizeDetailRef.current.size),
                                   
                               id: dealDataPizza[index]?.id,
-                              selectedData:dealDataPizza[index].priceSection.find((el)=> el.size.name === sizeDetailRef.current.size).size._id,
+                              selectedData:dealDataPizza[index]?.priceSection.find((el)=> el.size.name === sizeDetailRef.current.size).size._id,
                               sauceName: dealDataPizza[index]?.sauceName,
                               cheeseName: dealDataPizza[index]?.cheeseName,
                               vegetarianToppingsName:
@@ -210,36 +214,46 @@ const Page = () => {
                                 id: dealDataPizza[index]?.id,
                                 selectedData:dealDataPizza[index].priceSection.find((el)=> el.size.name === sizeDetailRef.current.size).size._id,
                                 
-                                sauceName: (dealDataPizza[index]?.name) ?dealDataPizza[index]?.sauceName.map((el)=>{
-                                  return el.sauceName
-                                }) 
-                                :dealDataPizza[index]?.sauceName,
+                                sauceName: customizationData?
+                                customizationData?.sauceName
+                                :(  dealDataPizza[index]?.sauceName.map((el)=>{
+                                  
+                                  return el?.sauceName ? el.sauceName:el
+                                  
+                               })),
                                 
                                 
-                                cheeseName: (dealDataPizza[index]?.name) ?dealDataPizza[index]?.cheeseName.map((el)=>{
-                                  return el.cheeseName  
-                                }) 
-                                :dealDataPizza[index]?.cheeseName ,
+                                cheeseName: ((customizationData) && (customizationData.name ===  dealDataPizza[index].name))?
+                                customizationData?.cheeseName  
+                                :(  dealDataPizza[index]?.cheeseName.map((el)=>{
+                                  
+                                  return el?.cheeseName ? el.cheeseName:el
+                                  
+                               })) ,
 
-                                vegetarianToppingsName: (dealDataPizza[index]?.name) ?dealDataPizza[index]?.vegetarianToppingsName.map((el)=>{
-                                  return el.vegName
-                                }) 
-                                :  dealDataPizza[index]?.vegetarianToppingsName ,
+                                vegetarianToppingsName: ((customizationData) && (customizationData.name ===  dealDataPizza[index].name))? 
+                                customizationData?.vegetarianToppingsName 
+                                :(  dealDataPizza[index]?.vegetarianToppingsName.map((el)=>{
+                                  
+                                  return el?.vegName ? el.vegName:el
+                                  
+                               })) ,
                                 
                                 
-                                baseName: (dealDataPizza[index]?.name) ? dealDataPizza[index]?.baseName.name
-                                :dealDataPizza[index]?.baseName,
+                                baseName: ((customizationData) && (customizationData.name ===  dealDataPizza[index].name)) ? customizationData?.baseName
+                                :(typeof(dealDataPizza[index]?.baseName) === typeof {}) ? dealDataPizza[index]?.baseName.name:
+                                dealDataPizza[index]?.baseName,
 
 
                                 meatToppingsName: ((customizationData) && (customizationData.name ===  dealDataPizza[index].name)) ?
-                                dealDataPizza[index]?.meatToppingsName.map((el)=>{
-                                  return el.meatName
-                                }) 
-                                :dealDataPizza[index]?.meatToppingsName,
+                                customizationData?.meatToppingsName
+                                :(  dealDataPizza[index]?.meatToppingsName.map((el)=>{
+                                  
+                                  return el?.meatName ? el.meatName:el
+                                  
+                               }))
                               })
                             );
-                            console.log("lastCustomized pizza")
-                            lastCutomizedPizza = index;
                             
 
                           }}
@@ -339,7 +353,7 @@ const Page = () => {
           <div className="p-5 md:p-10 flex justify-center items-center">
             <button
               onClick={handleDataSubmission}
-              className="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md shadow-md transform hover:scale-105 transition-transform duration-200 ease-in-out"
+              className={` ${viewButton ? "hidden" : ""} bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md shadow-md transform hover:scale-105 transition-transform duration-200 ease-in-out`}
             >
               ADD TO CART
             </button>
