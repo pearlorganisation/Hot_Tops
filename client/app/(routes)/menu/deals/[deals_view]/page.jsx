@@ -1,8 +1,8 @@
 "use client";
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useId, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect,  useRef, useState } from "react";
+import { useDispatch, useSelector  } from "react-redux";
 import Select from "react-select";
 import { toast } from "sonner";
 import { getCustomizationDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
@@ -37,24 +37,29 @@ const Page = () => {
   
   const sizeDetailRef = useRef(null);
 
-  const pizzaDealSize = searchParams.get("label");
 
-  const { allToppings } = useSelector((state)=> state.cart);
-  
+
+
+
+  const {customizationData} = useSelector((state)=> state.orderDetails);
   
   const [dealDataPizza, setDealDataPizza] = useState([]);
   
   const [dealDataDrinks, setDealDataDrinks] = useState([]);
+  const [viewButton, setViewButton] = useState(false);
   
   const modalRef = useRef();
   
   const pizzaDataIndex = useRef(null);
 
 
-  console.log(pizzaDealSize,"pizas sizeee");
+  useEffect(()=>{
+    console.log("Deal data pizza ",dealDataPizza);
+    },[dealDataPizza]);
   const handleOpeningModal = () => {
     if (modalRef.current) {
       modalRef.current.open();
+      setViewButton(true)
     }
   };
 
@@ -64,9 +69,7 @@ const Page = () => {
 
 
   
-  // useEffect(() => {
-  //   console.log(dealDataPizza, "deal data pizza");
-  // }, [dealDataPizza]);
+
 
   useEffect(() => {
     if (dealViewData) {
@@ -75,7 +78,6 @@ const Page = () => {
       sizeDetailRef.current = dealViewData?.sizes.find(
         (el) => el._id === sizeId
       );
-      console.log(sizeDetailRef.current, "Size Details");
       pizzaDataIndex.current = 0; 
     }
   }, [dealViewData]);
@@ -101,7 +103,6 @@ const Page = () => {
         (dealDataPizza ? dealDataPizza.reduce((acc, currPizza) => acc + (currPizza.pizzaExtraToppingPrice || 0), 0) : 0)
       ) + 0;
       
-
       dispatch(
         addToCart({
           name: dealViewData?.title,
@@ -138,7 +139,7 @@ const Page = () => {
 
   return (
     <>
-    <PizzaCustomizationModal ref={modalRef} pizzaIndex = {pizzaDataIndex} pizzaData = {dealDataPizza}  setDealDataPizza={setDealDataPizza} />
+    <PizzaCustomizationModal  ref={modalRef} pizzaIndex = {pizzaDataIndex} pizzaData = {dealDataPizza} setViewButton={setViewButton}  setDealDataPizza={setDealDataPizza} />
     <div className="">
       {dealViewData ? (
         <div>
@@ -173,6 +174,28 @@ const Page = () => {
                           onClick={() => {
                             pizzaDataIndex.current = index;    
                             handleOpeningModal();
+                            console.log({
+                              name: dealDataPizza[index]?.label,
+                              img: dealDataPizza[index]?.banner,
+                              priceSection:
+                                dealViewData.sizes.length === 1
+                                  ? dealDataPizza[index].priceSection.filter(
+                                      (el) =>
+                                        el.size.name ===
+                                      sizeDetailRef.current.size
+                                    )
+                                  :dealDataPizza[index].priceSection.filter((el)=> el.size.name === sizeDetailRef.current.size),
+                                  
+                              id: dealDataPizza[index]?.id,
+                              selectedData:dealDataPizza[index]?.priceSection.find((el)=> el.size.name === sizeDetailRef.current.size).size._id,
+                              sauceName: dealDataPizza[index]?.sauceName,
+                              cheeseName: dealDataPizza[index]?.cheeseName,
+                              vegetarianToppingsName:
+                                dealDataPizza[index]?.vegetarianToppingsName ,
+                              baseName: dealDataPizza[index]?.baseName,
+                              meatToppingsName:
+                                dealDataPizza?.[index]?.meatToppingsName,
+                            },"getCustomizationData");
                             dispatch(
                               getCustomizationDetails({
                                 name: dealDataPizza[index]?.label,
@@ -188,15 +211,32 @@ const Page = () => {
                                     
                                 id: dealDataPizza[index]?.id,
                                 selectedData:dealDataPizza[index].priceSection.find((el)=> el.size.name === sizeDetailRef.current.size).size._id,
-                                sauceName: dealDataPizza[index]?.sauceName,
-                                cheeseName: dealDataPizza[index]?.cheeseName,
-                                vegetarianToppingsName:
-                                  dealDataPizza[index]?.vegetarianToppingsName,
-                                baseName: dealDataPizza[index]?.baseName,
-                                meatToppingsName:
-                                  dealDataPizza?.[index]?.meatToppingsName,
+                                
+                                sauceName: customizationData?
+                                customizationData?.sauceName
+                                :dealDataPizza[index]?.sauceName,
+                                
+                                
+                                cheeseName: ((customizationData) && (customizationData.name ===  dealDataPizza[index].name))?
+                                customizationData?.cheeseName  
+                                :dealDataPizza[index]?.cheeseName ,
+
+                                vegetarianToppingsName: ((customizationData) && (customizationData.name ===  dealDataPizza[index].name)) ? 
+                                customizationData?.vegetarianToppingsName 
+                                :  dealDataPizza[index]?.vegetarianToppingsName ,
+                                
+                                
+                                baseName: ((customizationData) && (customizationData.name ===  dealDataPizza[index].name)) ? customizationData?.baseName
+                                :dealDataPizza[index]?.baseName,
+
+
+                                meatToppingsName: ((customizationData) && (customizationData.name ===  dealDataPizza[index].name)) ?
+                                customizationData?.meatToppingsName
+                                :dealDataPizza[index]?.meatToppingsName,
                               })
                             );
+                            
+
                           }}
                         >
                           <MdEditSquare
@@ -294,7 +334,7 @@ const Page = () => {
           <div className="p-5 md:p-10 flex justify-center items-center">
             <button
               onClick={handleDataSubmission}
-              className="buTTon bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md shadow-md transform hover:scale-105 transition-transform duration-200 ease-in-out"
+              className={` ${viewButton ? "hidden" : ""} bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md shadow-md transform hover:scale-105 transition-transform duration-200 ease-in-out`}
             >
               ADD TO CART
             </button>

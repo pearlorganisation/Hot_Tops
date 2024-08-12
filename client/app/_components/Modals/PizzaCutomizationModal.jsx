@@ -6,10 +6,9 @@ import MeatToppings from '../customization/meatToppings/MeatToppings';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetToppings, setDefaultPrice, setToppings } from '@/app/lib/features/cartSlice/cartSlice';
 import TotalPriceCard from '../TotalPriceCard/TotalPriceCard';
-import { useSearchParams } from 'next/navigation';
 import { FaWindowClose } from 'react-icons/fa';
 
-const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataPizza }, ref) => {
+const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataPizza,setViewButton }, ref) => {
   const modalRef = useRef(null);
 
   const disableScroll = () => {
@@ -19,7 +18,7 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
 
   const enableScroll = () => {
     document.body.classList.remove("no-scroll");
-
+    setViewButton(false)
   };
 
 
@@ -45,7 +44,8 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
   const { customizationData } = useSelector((state) => state.orderDetails);
   const { allToppings, defaultPrice } = useSelector(
     (state) => state.cart
-  );  const dispatch = useDispatch();
+  );  
+  const dispatch = useDispatch();
 
 
   const combineNames = () => {
@@ -59,6 +59,11 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
     // Join the items with a comma
     return items.join(", ");
   };
+
+
+  useEffect(()=>{
+
+  },[])
 
   const [basePrices, setBasePrices] = useState([]);
   const [cheesePrices, setCheesePrices] = useState([]);
@@ -75,18 +80,11 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
   const [selectedBase, setSelectedBase] = useState(
     customizationData?.baseName || ""
   );
-  const [selectedCheese, setSelectedCheese] = useState(
-    customizationData?.cheeseName || ""
-  );
-  const [selectedSauce, setSelectedSauce] = useState(
-    customizationData?.sauceName || ""
-  );
-  const [selectedMeatToppings, setSelectedMeatToppings] = useState(
-    customizationData?.meatToppingsName || ""
-  );
-  const [selectedVegetarianToppings, setSelectedVegetarianToppings] = useState(
-    customizationData?.vegetarianToppingsName || ""
-  );
+
+  useEffect(()=>{
+   console.log("This is selectedBase ",selectedBase)
+  },[selectedBase]);
+
 
   useEffect(() => {
     if (customizationData) {
@@ -96,6 +94,7 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
       dispatch(setToppings(size))
     }
   }, [selectedSizeId]);
+
 
   useEffect(() => {
     if (basePrices) {
@@ -117,7 +116,7 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
   useEffect(() => {
     fetchPricesForSelectedSize(selectedSizeId);
     setSelectedBase(customizationData?.baseName)
-    // console.log(selectedSizeId)
+    console.log(selectedSizeId)
   }, [selectedSizeId,customizationData]);
 
   useEffect(() => {
@@ -167,20 +166,19 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
   };
     
 
-
   const handleCustomization = () => {
     const { cheese, sauce, meat, veg, size, base } = allToppings
     const temp = [...[cheese, sauce, meat, veg].flat(), base, size]
     const uniqueId = temp.map(item => {
-      return item._id.slice(-4) + item?.size?.slice(0, 2)
+      return item?._id.slice(-4) + item?.size?.slice(0, 2)
     }).join('')
-    console.log(uniqueId, "uniqueId")
     
     setDealDataPizza((prevState)=>{
       const temp = prevState;
       temp[pizzaIndex.current] = {
-
+        
         ...pizzaData[pizzaIndex.current],
+        name:customizationData.name,
         id:temp[pizzaIndex.current].id   + uniqueId,
         cheeseName: allToppings.cheese,
         meatToppingsName: allToppings.meat ,
@@ -195,7 +193,7 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
 
     // console.log("we came into the customizxation !!");
 
-    dispatch(resetToppings());
+    // dispatch(resetToppings());
     modalRef.current.close();
     enableScroll();
 
@@ -314,7 +312,7 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
                 {/* SAUCE ENDS */}
 
                 {/* CHEESE: STARTS */}
-                <Cheese cheeseData={cheesePrices} />
+                <Cheese cheeseData={cheesePrices}  />
                 {/* CHEESE: ENDS */}
 
                 {/* VEGETARIAN TOPPINGS: STARTS */}
