@@ -9,6 +9,7 @@ import { getCustomizationDetails } from "@/app/lib/features/orderDetails/orderDe
 import { MdEditSquare } from "react-icons/md";
 import PizzaCustomizationModal from "@/app/_components/Modals/PizzaCutomizationModal";
 import { ClockLoader } from "react-spinners";
+import DealPriceCard from "@/app/_components/TotalPriceCard/DealPriceCard";
 
 async function getData(id) {
   try {
@@ -36,6 +37,7 @@ const Page = () => {
   const sizeId = searchParams.get("size_id");
   
   const sizeDetailRef = useRef(null);
+
 
 
 
@@ -104,7 +106,9 @@ useEffect(()=>{
       const extraPrice = Number(
         (dealDataPizza ? dealDataPizza.reduce((acc, currPizza) => acc + (currPizza.pizzaExtraToppingPrice || 0), 0) : 0)
       ) + 0;
+
       
+
       dispatch(
         addToCart({
           name: dealViewData?.title,
@@ -125,6 +129,7 @@ useEffect(()=>{
     }
   }
 
+
   useEffect(() => {
     async function fetchData() {
       const data = await getData(cardId);
@@ -138,6 +143,14 @@ useEffect(()=>{
 
   const drinkCount = dealViewData?.chooseItems?.drinks || 0;
   const drinks = new Array(drinkCount).fill(null);
+
+  const extraPrice = dealDataPizza.reduce((acc, currVal) => {
+    return acc + (currVal?.pizzaExtraToppingPrice !== undefined ? currVal?.pizzaExtraToppingPrice : 0);
+  }, 0);
+
+       console.log(
+        extraPrice
+       )
 
   return (
     <>
@@ -358,6 +371,7 @@ useEffect(()=>{
               ADD TO CART
             </button>
           </div>
+        { !viewButton ? <DealPriceCard  dealPrice={dealViewData.sizes[0].price} extraPrice={extraPrice} />: ""}
         </div>
       ) : (
         <div className="flex justify-center pt-[25vh] h-[85vh] "><ClockLoader color="#991b1b" size={100}/></div>

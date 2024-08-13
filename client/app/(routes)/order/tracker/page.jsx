@@ -1,10 +1,30 @@
-import React from "react";
+"use client"
+
+import React, { useEffect } from "react";
 import { BsFillTelephoneOutboundFill } from "react-icons/bs";
+
 const page = () => {
+  
+  useEffect(() => {
+    // Push a new state to the history stack
+    window.history.pushState(null, document.title, window.location.href);
+    // Add a popstate event listener to prevent navigating back
+    const handlePopState = (event) => {
+      window.history.pushState(null, document.title, window.location.href);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
   return (
     <section className=" py-4 md:py-0 md:pb-10 rounded-2xl">
       <div className="flex flex-col gap-8 justify-center items-center">
-        <h1 className=" font-bold text-xl text-center">
+        <h1 className=" font-bold text-xl text-center text-green-800">
           THANKS , YOUR ORDER IS BEING DEALT WITH BY HOT HOUSE 
         </h1>
 
@@ -12,32 +32,9 @@ const page = () => {
           className="border-2 w-[80vw] lg:w-[60vw] h-full p-6 rounded-2xl "
           style={{ boxShadow: " rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
         >
-          {/* <div>
-            <p>
-              {" "}
-              <span className="text-red-600 font-bold">
-                Status :
-              </span> Accepted{" "}
-            </p>
-            <p>
-              {" "}
-              <span className="text-red-600 font-bold">
-                {" "}
-                Requested at :{" "}
-              </span>{" "}
-              13:30:00,Jul 2nd 2024
-            </p>
-            <p>
-              {" "}
-              <span className="text-red-600 font-bold">
-                {" "}
-                Estimated at :{" "}
-              </span>{" "}
-              13:30:00,Jul 2nd 2024
-            </p>
-          </div> */}
 
-          <h1 className="mx-1 my-5 text-center font-semibold">
+
+          <h1 className="mx-1 my-5 text-center font-semibold text-red-800">
             {" "}
             PIZZA DELIVERY AND TAKEAWAY DEALS IN HOTHOUSE{" "}
           </h1>
