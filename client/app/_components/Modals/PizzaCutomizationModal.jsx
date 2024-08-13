@@ -4,9 +4,10 @@ import Cheese from '../customization/cheese/Cheese';
 import VegetarianToppings from '../customization/vegetarianToppings/VegetarianToppings';
 import MeatToppings from '../customization/meatToppings/MeatToppings';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetToppings, setDefaultPrice, setToppings } from '@/app/lib/features/cartSlice/cartSlice';
-import TotalPriceCard from '../TotalPriceCard/TotalPriceCard';
+import {setDefaultPrice, setToppings } from '@/app/lib/features/cartSlice/cartSlice';
 import { FaWindowClose } from 'react-icons/fa';
+import ToppingsPriceCard from '../TotalPriceCard/ToppingsPriceCard';
+import { toast } from 'sonner';
 
 const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataPizza,setViewButton }, ref) => {
   const modalRef = useRef(null);
@@ -20,7 +21,6 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
     document.body.classList.remove("no-scroll");
     setViewButton(false)
   };
-
 
 
 
@@ -46,6 +46,7 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
     (state) => state.cart
   );  
   const dispatch = useDispatch();
+
 
 
   const combineNames = () => {
@@ -342,8 +343,8 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
               </div>
             </div>
           </div>
-          <TotalPriceCard />
         </div>
+          <ToppingsPriceCard />
       </dialog>
     </div>
   );
