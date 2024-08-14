@@ -16,12 +16,12 @@ import { Link } from "react-router-dom";
 
 export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
   const sideBarItems = [
-    {
-      label: "Dashboard",
-      path: "/",
-      icon: <MdSpaceDashboard size={28} />,
-      isDropDown: false,
-    },
+    // {
+    //   label: "Dashboard",
+    //   path: "/",
+    //   icon: <MdSpaceDashboard size={28} />,
+    //   isDropDown: false,
+    // },
     {
       label: "Orders",
       path: "/order",

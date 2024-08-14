@@ -16,20 +16,19 @@ export const getAllOrders = createAsyncThunk("getDrink",
 }
 );
 
+export const updateOrder = createAsyncThunk("updateOrder",    
+  async (payload, { rejectWithValue }) => {
+  try {
+    const {data} = await instance.patch(`/order/${payload.id}`, payload ,{
+      withCredentials: true,
+    });
+    return data;
 
-// //deleteDrink api
-// export const deleteDrink = createAsyncThunk(
-//   'deleteDrink',
-//   async (id, { rejectWithValue }) => {
-//     try {
-//       const response = await instance.delete(
-//         `/drinks/${id}`,
-        
-//         { withCredentials: true }
-//       );
-//       return response;
-//     } catch (e) {
-//       return rejectWithValue(e);
-//     }
-//   }
-// );
+  } catch (e) {
+    return rejectWithValue(e);
+  }
+}
+);
+
+
+

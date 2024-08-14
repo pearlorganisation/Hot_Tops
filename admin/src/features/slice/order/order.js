@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllOrders} from "../../actions/order/order";
+import { getAllOrders, updateOrder} from "../../actions/order/order";
 import { toast } from "sonner";
 
 const initialState = {
@@ -30,6 +30,27 @@ export const orderSlice = createSlice({
         state.orderData = action.payload.data;
       })
       .addCase(getAllOrders.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.errorMessage = action.payload;
+        toast.error(action?.payload || "Something went wrong",{
+            position:"top-center"
+          });
+      })
+      .addCase(updateOrder.pending, (state, action) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.errorMessage = "";
+      })
+      .addCase(updateOrder.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.errorMessage = "";
+        toast.success("Order status changed successfully", {
+          position: "top-center",
+        });
+      })
+      .addCase(updateOrder.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.errorMessage = action.payload;
