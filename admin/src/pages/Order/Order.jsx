@@ -2,10 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Stack,Skeleton } from '@mui/material';
-import Delete from '../../components/delete';
-import { getAllOrders } from '../../features/actions/order/order';
-import { MdCreditCard } from "react-icons/md";
-import { AiFillPoundCircle } from "react-icons/ai";
+import { getAllOrders, updateOrder } from '../../features/actions/order/order';
 import OrderViewModal from './OrderViewModal';
 
 
@@ -13,6 +10,7 @@ import OrderViewModal from './OrderViewModal';
 const Order = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const [approval, setApproval] = useState({});
     const { orderData,isLoading } = useSelector(state => state.order)
 
     const [showViewModal,setShowViewModal] = useState(false)
@@ -21,7 +19,35 @@ const Order = () => {
       setShowViewModal(true)
       setViewData(itemData)
     }
-    
+
+
+    const handleChange = (event, orderId) => {
+      const value = event.target.value;
+      setApproval((prevApproval) => ({
+        ...prevApproval,
+        [orderId]: value === 'Pending' ? null : value === 'Completed' ? "Completed" : "Cancelled",
+      }));
+    };
+  
+
+    const handleSubmit = (event, orderId) => {
+      event.preventDefault();
+      dispatch(updateOrder({ id:orderId, isCompleted: approval[orderId] }));
+    };
+
+    useEffect(() => {
+      if (Array.isArray(orderData) && orderData.length > 0) {
+        const initialApproval = {};
+        orderData?.forEach((item) => { console.log(item.orderStatus)
+          return initialApproval[item._id] = item.orderStatus == "Pending" ? "Pending" : item.orderStatus ;
+        });
+        console.log(initialApproval)
+        setApproval(initialApproval);
+      
+      }
+    }, [orderData]);
+
+
     useEffect(() => {
           dispatch(getAllOrders())
       }, [])
@@ -45,7 +71,7 @@ const Order = () => {
             <table className="w-full table-auto text-sm text-left">
               <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                 <tr>
-                  <th className="py-3 px-6">Order No.</th>
+                  <th className="py-3 px-3">Order No.</th>
                   <th className="py-3 px-3">Name </th>
                   <th className="py-3 px-3">Total Amount </th>
                   <th className="py-3 px-3">Time </th>
@@ -73,7 +99,7 @@ const Order = () => {
             ) : (
               Array.isArray(orderData) && orderData.length > 0 && orderData.slice().reverse().map((item, idx) => (
                     <tr key={idx}>
-                      <td className="px-6 py-4 whitespace-nowrap">{item?.count}</td>
+                      <td className="px-3 py-4 whitespace-nowrap">{item?.count}</td>
                       <td className="px-3 py-4 whitespace-nowrap ">
                         {item?.orderBy?.firstName} {item?.orderBy?.lastName}
                       </td>
@@ -83,18 +109,30 @@ const Order = () => {
                       <td className="px-3 py-4 whitespace-nowrap ">
                         {item?.time}
                       </td>
-                      <td className="px-3 py-4 whitespace-nowrap ">
+                      <td className=" py-4 whitespace-nowrap ">
                       <span className={`rounded-md py-1 px-3 font-semibold capitalize`}>{item?.orderType}</span>
                        
                       </td>
-                      <td className="px-3 py-4 whitespace-nowrap ">
-                      {item?.paymentMethode === 'card' ? <MdCreditCard className="inline-block size-7 text-emerald-600" /> : 
-                      <AiFillPoundCircle className="inline-block size-7 text-yellow-600" />}
+                      <td className=" py-4 whitespace-nowrap ">
                       <span className={`rounded-md py-1 px-3 font-bold capitalize ${item?.paymentMethode === 'card' ? "text-emerald-600" : "text-yellow-600" }`}>{item?.paymentMethode}</span>
                       </td>
                       <td className="px-3 py-4 whitespace-nowrap ">
-                      <span className={`rounded-md text-white py-1 px-3 font-semibold ${item?.orderStatus === 'Pending'? "bg-yellow-600" : 
-                        item?.orderStatus === 'Completed' ? "bg-emerald-600" :"bg-red-600" }`}>{item?.orderStatus}</span>
+                      <form onSubmit={(e) => handleSubmit(e, item._id)} className="flex items-center">
+                          <select
+                            value={approval[item._id] !== undefined ? approval[item._id] === "Completed" ? 'Completed' : approval[item._id] === 'Cancelled' ? 'Cancelled' : "" : ""}
+                            onChange={(e) => handleChange(e, item._id)}
+                            className="px-3 py-2 text-sm text-gray-600 bg-white border rounded-lg shadow-sm outline-none appearance-none focus:ring-offset-2 focus:ring-indigo-600 focus:ring-2"
+                          >
+                            <option value="" disabled hidden>
+                              Choose Status
+                            </option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
+                          </select>
+                          <button type="submit" className="py-2 px-3 font-semibold text-blue-500 hover:text-blue-600 duration-150 hover:bg-gray-50 rounded-lg">
+                            Save
+                          </button>
+                        </form>
                       
                       </td>
                   
@@ -110,22 +148,7 @@ const Order = () => {
                         >
                           View
                         </button>
-                        {/* <a
-                          onClick={() => {
-                            navigate(`/updatePizza/${item?._id}`, { state: item  });
-                          }}
-                          className="cursor-pointer py-2 px-3 font-semibold text-green-600 hover:text-green-700 duration-150 hover:bg-gray-50 rounded-lg"
-                        >
-                          Edit
-                        </a>
-                        <button
-                          onClick={() => {
-                            handleModal(item?._id);
-                          }}
-                          className="py-2 leading-none px-3 font-semibold text-red-500 hover:text-red-600 duration-150 hover:bg-gray-50 rounded-lg"
-                        >
-                          Delete
-                        </button> */}
+     
                       </td>
                     </tr>
                   ))
@@ -138,9 +161,6 @@ const Order = () => {
         {showViewModal && (
         <OrderViewModal setModal={setShowViewModal} viewData={viewData} />
       )}
-        {/* {showDeleteModal && (
-          <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
-        )} */}
       </>
     )
 }

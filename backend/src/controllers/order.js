@@ -53,3 +53,16 @@ export const getParticularUserOrders = asyncErrorHandler(
       .json({ status: true, message: "User Orders Found successfully", data });
   }
 );
+
+export const updateCompleteOrder = asyncErrorHandler(async (req, res, next) => {
+  const {id}= req?.params
+  const {isCompleted}= req?.body
+    const data = await order.findByIdAndUpdate(id,{orderStatus:isCompleted});
+    if(!data){
+      return next( new errorResponse("Id is not valid to complete the order",400))
+    }
+    res.status(200).json({
+      status: true,
+      message:"Order completed successfully!" ,
+    });
+  });
