@@ -14,7 +14,7 @@ const CreatePizza = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const {pizzaData,isLoading} = useSelector((state)=>state.pizza)
+    const {pizzaData,isLoading} = useSelector((state)=>state.pizzaSlice)
     const {filterData} = useSelector((state)=>state.pizzaFilter)
     const {categoryData} = useSelector((state)=>state.pizzaCategory)
     const {base,sauce,cheese,vegetarianToppings,meatToppings,size} = useSelector((state)=>state.pizza)
@@ -104,6 +104,8 @@ if (data?.meatToppingsName) {
           navigate("/pizza")
         }
       }, [pizzaData]);
+
+      console.log(pizzaData)
 
 
     return (
@@ -244,7 +246,7 @@ if (data?.meatToppingsName) {
                                               options={Array.isArray(vegetarianToppings)&& vegetarianToppings.length> 0 && vegetarianToppings.map(item=> ({ value: item?.name, label: item?.name }))}
                                               onChange={(selectedOption) => field.onChange(selectedOption)}
                                               className="mt-2 "
-                                              placeholder="Choose Base "
+                                              placeholder="Choose Vegetarian Toppings "
                                               isMulti
                                               components={animatedComponents}
                                               styles={{
@@ -272,7 +274,7 @@ if (data?.meatToppingsName) {
                                               options={Array.isArray(meatToppings)&& meatToppings.length> 0 && meatToppings.map(item=> ({ value: item?.name, label: item?.name }))}
                                               onChange={(selectedOption) => field.onChange(selectedOption)}
                                               className="mt-2 "
-                                              placeholder="Choose Base "
+                                              placeholder="Choose Meat Toppings "
                                               isMulti
                                               components={animatedComponents}
                                               styles={{

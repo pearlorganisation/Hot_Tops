@@ -7,14 +7,24 @@ import {updatePizza } from '../../features/actions/pizza/pizza'
 import { ClipLoader } from "react-spinners";
 import { MdInsertPhoto } from "react-icons/md";
 import Select from "react-select"
+import makeAnimated from 'react-select/animated';
 
 const UpdatePizza = () => {
+  const animatedComponents = makeAnimated();
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const {state:item}= useLocation()
-    const {pizzaData,isLoading} = useSelector((state)=>state.pizza)
+    const {pizzaData,isLoading} = useSelector((state)=>state.pizzaSlice)
     const {filterData} = useSelector((state)=>state.pizzaFilter)
     const {categoryData} = useSelector((state)=>state.pizzaCategory)
+    const {base,sauce,cheese,vegetarianToppings,meatToppings,size} = useSelector((state)=>state.pizza)
+
+    const [selectedSizes, setSelectedSizes] = useState([]);
+    const sizeOptions = (size) =>
+      size?.filter(item => !selectedSizes.includes(item?._id)).map(item => ({
+        value: item?._id,
+        label: item?.name,
+      }));
 
     const {
         register,
@@ -29,9 +39,30 @@ const UpdatePizza = () => {
             filter: Array.isArray(filterData)&& filterData.length> 0 && filterData.map(item=> ({ value: item?._id, label: item?.filter }))
             ?.find(c=>c?.label===item?.filter?.filter) || ""
             ,
+            baseName: Array.isArray(base)&& base.length> 0 && base.map(item=> ({ value: item?.name, label: item?.name }))
+            ?.find(c=>c?.label===item?.baseName) || ""
+            ,
+            cheeseName: Array.isArray(cheese)&& cheese.length> 0 && cheese.filter((c,idx)=>{
+              return item?.cheeseName.includes(c.name)
+            }) .map(item=> ({ value: item?.name, label: item?.name })) || ""
+            ,
+                  sauceName: Array.isArray(sauce)&& sauce.length> 0 && sauce.filter((c,idx)=>{
+                    return item?.sauceName.includes(c.name)
+                  }) .map(item=> ({ value: item?.name, label: item?.name }))|| "",
+
+                  vegetarianToppingsName: Array.isArray(vegetarianToppings)&& vegetarianToppings.length> 0 && vegetarianToppings.filter((c,idx)=>{
+                    return item?.vegetarianToppingsName.includes(c.name)
+                  }) .map(item=> ({ value: item?.name, label: item?.name })) || "",
+
+                  meatToppingsName: Array.isArray(meatToppings)&& meatToppings.length> 0 && meatToppings.filter((c,idx)=>{
+                    return item?.meatToppingsName.includes(c.name)
+                  }) .map(item=> ({ value: item?.name, label: item?.name }))|| "",
+
           priceSection:item?.priceSection|| ""
         }
     })
+
+
     const onSubmit = (data) => {
         const {category,filter}= data
 
@@ -95,10 +126,170 @@ const UpdatePizza = () => {
                     </span>
                   )}
           </div>
+          <div className="w-full">
+            <label className="font-medium">Base</label>
+            <Controller 
+                                      control={control}
+                                      name="baseName"
+                                      render={({ field }) => (
+                                          <Select
+                                              value={field.value}
+                                              options={Array.isArray(base)&& base.length> 0 && base.map(item=> ({ value: item?.name, label: item?.name }))}
+                                              onChange={(selectedOption) => field.onChange(selectedOption)}
+                                              className="mt-2 "
+                                              placeholder="Choose Base "
+                                             
+                                              styles={{
+                                                  control: (provided) => ({
+                                                      ...provided,
+                                                      border: '1px solid #CBD5E1', // Set custom border style
+                                                      borderRadius: '0.400rem', // Set custom border radius
+                                                      height: '40px', // Add height here
+                                                  }),
+                                                  placeholder: (provided) => ({
+                                                      ...provided,
+                                                      color: '#9CA3AF', // Set custom placeholder color
+                                                  }),
+                                              }}
+ 
+                                          />
+                                     )}
+                                      rules={{ required: true }}
+                                      
+                                  />
+             {errors.baseName && (
+                    <span className=" text-sm font-medium text-red-500">
+                      Base is required
+                    </span>
+                  )}
+          </div>
 
           
           </div>
+     
+          <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
+          
+          <div className="w-full">
+            <label className="font-medium">Cheese <span className='text-[10px] font-medium bg-slate-700 text-white rounded-sm px-1 '>MULTISELECT</span></label>
+            <Controller 
+                                      control={control}
+                                      name="cheeseName"
+                                      render={({ field }) => (
+                                          <Select
+                                              value={field.value}
+                                              options={Array.isArray(cheese)&& cheese.length> 0 && cheese.map(item=> ({ value: item?.name, label: item?.name }))}
+                                              onChange={(selectedOption) => field.onChange(selectedOption)}
+                                              className="mt-2 "
+                                              placeholder="Choose Cheese "
+                                              isMulti
+                                              components={animatedComponents}
+                                              styles={{
+                                                placeholder: (provided) => ({
+                                                    ...provided,
+                                                    color: '#9CA3AF', // Set custom placeholder color
+                                                }),
+                                            }}
+                                              
+ 
+                                          />
+                                     )}
+                                    
+                                      
+                                  />
+           
+          </div>
+          <div className="w-full">
+            <label className="font-medium">Sauce <span className='text-[10px] font-medium bg-slate-700 text-white rounded-sm px-1 '>MULTISELECT</span> </label>
+            <Controller 
+                                      control={control}
+                                      name="sauceName"
+                                      render={({ field }) => (
+                                          <Select
+                                              value={field.value}
+                                              options={Array.isArray(sauce)&& sauce.length> 0 && sauce.map(item=> ({ value: item?.name, label: item?.name }))}
+                                              onChange={(selectedOption) => field.onChange(selectedOption)}
+                                              className="mt-2 "
+                                              placeholder="Choose Sauce "
+                                              isMulti
+                                              components={animatedComponents}
+                                              styles={{
+                                                placeholder: (provided) => ({
+                                                    ...provided,
+                                                    color: '#9CA3AF', // Set custom placeholder color
+                                                }),
+                                            }}
+                                          />
+                                     )}
+                                     
+                                      
+                                  />
+           
+          </div>
 
+          
+          </div>
+          <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
+          
+          <div className="w-full">
+            <label className="font-medium">Vegetarian Toppings <span className='text-[10px] font-medium bg-slate-700 text-white rounded-sm px-1 '>MULTISELECT</span></label>
+            <Controller 
+                                      control={control}
+                                      name="vegetarianToppingsName"
+                                      render={({ field }) => (
+                                          <Select
+                                              value={field.value}
+                                              options={Array.isArray(vegetarianToppings)&& vegetarianToppings.length> 0 && vegetarianToppings.map(item=> ({ value: item?.name, label: item?.name }))}
+                                              onChange={(selectedOption) => field.onChange(selectedOption)}
+                                              className="mt-2 "
+                                              placeholder="Choose Vegetarian Toppings "
+                                              isMulti
+                                              components={animatedComponents}
+                                              styles={{
+                                                  placeholder: (provided) => ({
+                                                      ...provided,
+                                                      color: '#9CA3AF', // Set custom placeholder color
+                                                  }),
+                                              }}
+ 
+                                          />
+                                     )}
+                                    
+                                      
+                                  />
+           
+          </div>
+          <div className="w-full">
+            <label className="font-medium">Meat Toppings <span className='text-[10px] font-medium bg-slate-700 text-white rounded-sm px-1 '>MULTISELECT</span></label>
+            <Controller 
+                                      control={control}
+                                      name="meatToppingsName"
+                                      render={({ field }) => (
+                                          <Select
+                                              value={field.value}
+                                              options={Array.isArray(meatToppings)&& meatToppings.length> 0 && meatToppings.map(item=> ({ value: item?.name, label: item?.name }))}
+                                              onChange={(selectedOption) => field.onChange(selectedOption)}
+                                              className="mt-2 "
+                                              placeholder="Choose Meat Toppings "
+                                              isMulti
+                                              components={animatedComponents}
+                                              styles={{
+                                                  placeholder: (provided) => ({
+                                                      ...provided,
+                                                      color: '#9CA3AF', // Set custom placeholder color
+                                                  }),
+                                              }}
+ 
+                                          />
+                                     )}
+                                    
+                                      
+                                  />
+           
+          </div>
+
+          
+          </div>
+          
           <div className="sm:flex space-y-6 sm:space-y-0 justify-between gap-10">
           <div className="w-full">
             <label className="font-medium">Category</label>
@@ -178,7 +369,7 @@ const UpdatePizza = () => {
        
          
             </div>
-            
+       
             <div className="sm:flex sm:space-y-0 justify-between ">
 
           
@@ -198,12 +389,39 @@ onClick={() => appendPrice({ priceSection: ""})}
 <div className="sm:flex gap-10 ">
 <div className="w-full">
 
-<input
-{...register(`priceSection.${index}.size`, { required: 'Size is required' })}
-  type="text"
-  placeholder=" Size "
-  className="w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
-/>
+    <Controller 
+                                      control={control}
+                                      name={`priceSection.${index}.size`}
+                                      render={({ field }) => (
+                                          <Select
+                                              value={field.value}
+                                              options={sizeOptions(size)}
+                                              onChange={(selectedOption) => 
+                                               { field.onChange(selectedOption)
+                                                setSelectedSizes([...selectedSizes, selectedOption.value]);
+                                              }}
+                                              className="mt-2 "
+                                              placeholder="Choose Size "
+                                              styles={{
+                                                control: (provided) => ({
+                                                    ...provided,
+                                                    border: '1px solid #CBD5E1', // Set custom border style
+                                                    borderRadius: '0.400rem', // Set custom border radius
+                                                    height: '40px', // Add height here
+                                                }),
+                                                placeholder: (provided) => ({
+                                                    ...provided,
+                                                    color: '#9CA3AF', // Set custom placeholder color
+                                                }),
+                                            }}
+
+                                              
+ 
+                                          />
+                                     )}
+                                      rules={{ required: true }}
+                                      
+                                  />
 
 </div>
 <div className="w-full">
