@@ -23,8 +23,7 @@ const Header = () => {
   const totalPrice = cart?.reduce((acc, item) => acc + Number(item?.price), 0);
 
   if (!isMounted) {
-    return <>
-    fucking up baby </>; // Render nothing until the component has mounted
+    return null; // Render nothing until the component has mounted
   }
 
   return (

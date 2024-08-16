@@ -181,7 +181,7 @@ export const appRouter = createBrowserRouter([
         element: <UpdatePizza />,
       },
       {
-        path: "/order",
+        path: "/",
         element: <Order />,
       },
     ],

@@ -6,6 +6,7 @@ import { deletePizza, getPizza } from '../../features/actions/pizza/pizza';
 import Delete from '../../components/delete';
 import { getCategory } from '../../features/actions/pizza/categoryPizza';
 import { getFilter } from '../../features/actions/pizza/filterPizza';
+import { getBasePizza, getCheesePizza, getMeatTopping, getSaucePizza, getSizePizza, getVegetarianTopping } from '../../features/actions/pizza/getCustomization';
 
 
 
@@ -36,6 +37,12 @@ const Pizza = () => {
           dispatch(getPizza())
           dispatch(getCategory())
           dispatch(getFilter())
+          dispatch(getBasePizza())
+          dispatch(getSaucePizza());
+          dispatch(getCheesePizza());
+          dispatch(getSizePizza());
+          dispatch(getMeatTopping());
+    dispatch(getVegetarianTopping());
           
       }, [])
 
