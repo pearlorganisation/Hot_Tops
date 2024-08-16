@@ -24,7 +24,7 @@ const page = ({ searchParams }) => {
   console.log(tab, "tab");
   useEffect(() => {
     if (!isUserLoggedIn) {
-      router.push("/");
+      router.push("/login");
     }
   }, [isUserLoggedIn]);
 

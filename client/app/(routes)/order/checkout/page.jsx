@@ -142,9 +142,9 @@ const page = ({ searchParams }) => {
             </div>
             <div className="space-y-1">
               <p>Total: £{totalPrice?.toFixed(2)}</p>
-              {order?.type === 'collection' ? <p>Delivery charge: £0</p> : <p>Delivery charge: £{deliveryCharge}</p>}
+              {order?.orderType === 'collection' ? <p>Delivery charge: £0</p> : <p>Delivery charge: £{deliveryCharge}</p>}
               <p className="font-bold">
-                You pay: {(Number(totalPrice) + 0.5).toFixed(2)}
+                You pay: {order?.orderType === 'collection' ?  (Number(totalPrice) + 0).toFixed(2) : (Number(totalPrice) + 0.5).toFixed(2)}
               </p>
             </div>
           </div>

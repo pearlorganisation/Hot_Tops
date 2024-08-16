@@ -120,7 +120,7 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
         <aside
           id="nav-menu-4"
           aria-label="Side navigation"
-          className={` top-0 bottom-0 left-0 lg:static  z-40 flex w-72 flex-col border-r   bg-red-500 transition-transform lg:translate-x-0 ${isSideNavOpen ? "translate-x-0" : " -translate-x-full"
+          className={` top-0 bottom-0 left-0 lg:static  z-40 flex w-72 flex-col border-r font-medium bg-red-700 transition-transform lg:translate-x-0 ${isSideNavOpen ? "translate-x-0" : " -translate-x-full"
             }`}
         >
           <div className=" items-center border-b   ">

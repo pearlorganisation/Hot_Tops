@@ -49,13 +49,25 @@ const Cart = () => {
               ? data?.size?.split("-")
               : data?.size;
 
-              const allToppings = data?.allToppings || { cheese: [], sauce: [],veg:[],meat:[] };  
+              const allToppings = data?.allToppings || { base:{},cheese: [], sauce: [],veg:[],meat:[] };  
               const mergedToppings = [
-                ...allToppings.cheese.map(item =>`${item.cheeseName} ${item?.size === "double" ? "2️⃣" : "1️⃣"}`),
-                ...allToppings.sauce.map(item => `${item.sauceName} ${item?.size === "double" ? "2️⃣" : "1️⃣"} `),
-                ...allToppings.veg.map(item => `${item.vegName} ${item?.size === "double" ? "2️⃣" : "1️⃣"}`),
-                ...allToppings.meat.map(item => `${item.meatName} ${item?.size === "double" ? "2️⃣" : "1️⃣"}`)
+                allToppings?.base?.name,
+                ...allToppings?.cheese.map(item =>`${item?.cheeseName} ${item?.size === "double" ? "2️⃣" : "1️⃣"}`),
+                ...allToppings?.sauce.map(item => `${item?.sauceName} ${item?.size === "double" ? "2️⃣" : "1️⃣"} `),
+                ...allToppings?.veg.map(item => `${item?.vegName} ${item?.size === "double" ? "2️⃣" : "1️⃣"}`),
+                ...allToppings?.meat.map(item => `${item?.meatName} ${item?.size === "double" ? "2️⃣" : "1️⃣"}`)
               ].join(', ');
+
+              const mergedDealToppingsArray = data?.dealsData && Array.isArray(data.dealsData)
+              ? data.dealsData.map((item) => [
+                  item?.baseName?.name,
+                  ...(Array.isArray(item?.cheeseName) ? item?.cheeseName.map(cheese => `${cheese.cheeseName} ${cheese?.size === "double" ? "2️⃣" : "1️⃣"}`) : []),
+                  ...(Array.isArray(item?.vegetarianToppingsName) ? item?.vegetarianToppingsName.map(veg => `${veg.vegName} ${veg?.size === "double" ? "2️⃣" : "1️⃣"}`) : []),
+                  ...(Array.isArray(item?.meatToppingsName) ? item?.meatToppingsName.map(meat => `${meat.meatName} ${meat?.size === "double" ? "2️⃣" : "1️⃣"}`) : []),
+                  ...(Array.isArray(item?.sauceName) ? item?.sauceName.map(sauce => `${sauce.sauceName} ${sauce?.size === "double" ? "2️⃣" : "1️⃣"}`) : [])
+                ].join(', '))
+              : [];
+              
              
             return (
               <div className="text-slate-800 font-semibold p-4 border-b grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
@@ -65,7 +77,7 @@ const Cart = () => {
                 
                   <p className="text-[17px]">
                    <div className="flex gap-0 md:gap-10">
-                   <p> {data?.name}
+                   <p className="text-lg"> {data?.name}
                     {" "}
                     {Array.isArray(price) ? `(${price[0]})` : (data?.dealsData ? `(${data?.size})` : `(${data?.allToppings?.size?.name})`) }<br/>
                     {data?.allToppings && <span className="text-sm bg-red-800 text-white rounded-md px-2"> Customized </span>}
@@ -107,6 +119,18 @@ const Cart = () => {
                     <MdDelete size={20}/>
                   </button>
                 </div>
+                {data?.dealsData && ( <div className="text-base md:col-span-3 lg:col-span-2 text-gray-600"> {data?.dealsData?.map((item,idx) =>
+                  item?.name && 
+                  (<> <div key={idx} className="flex ">
+                    <div className="min-w-[10rem] max-w-[10rem] md:min-w-[30rem]">{item?.name} <span className="text-sm bg-red-800 text-white rounded-md px-2"> Customized </span></div>
+                    <div className="text-green-900">{mergedDealToppingsArray[idx]}</div>
+                  </div>
+                  <div className="border-b py-1"></div>
+                  </>
+                  )
+                  )} 
+                    </div>)
+                    }
                 <div className="col-span-1 text-right  text-xl font-normal md:col-span-3 md:text-left">
                   £ {data?.totalSum}
                 </div>
