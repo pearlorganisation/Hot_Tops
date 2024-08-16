@@ -6,11 +6,11 @@ import orderReducer from "./features/orderDetails/orderDetailsslice.js";
 import receiptReducer from "./features/orderDetails/selectedRecipt.js";
 import { persistStore, persistReducer } from "redux-persist";
 import pathReducer from "./features/path/pathslice.js";
-import storage from "redux-persist/lib/storage";
+import AsyncStorage from '@react-native-community/async-storage';
 
 const persistConfig = {
   key: "persist",
-  storage,
+  storage: AsyncStorage,
 };
 
 const makeConfiguredStore = () =>
@@ -35,6 +35,10 @@ export const makeStore = () => {
     const persistedReducer = persistReducer(persistConfig, rootReducer);
     let store = configureStore({
       reducer: persistedReducer,
+      middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+          serializableCheck: false,
+        }),
     });
     store.__persistor = persistStore(store);
     return store;

@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { ClipLoader } from "react-spinners";
+import { toast } from "sonner";
 
 const Page = () => {
   // -------------------------------------hooks---------------------------------
@@ -58,6 +59,7 @@ const [isLoading,setIsLoading] = useState(false)
       }
       if (newData.success === true) {
         router.push("/otp");
+           toast.success("Otp Sent Successfully");
       }
 
       const result = await response.json();
@@ -77,13 +79,7 @@ const [isLoading,setIsLoading] = useState(false)
           <h2 className="text-xl text-green-900 font-bold mb-6 text-center">
             New member ? Register here.
           </h2>
-          {response && response?.status == false ? (
-            <div className="p-2 text-center text-red-600 font-semibold">
-              {response?.message} !
-            </div>
-          ) : (
-            ""
-          )}
+       
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
               <label className="block text-gray-700" htmlFor="register-email">
@@ -253,11 +249,20 @@ const [isLoading,setIsLoading] = useState(false)
               </p>
             )}
             <button
-              type="submit"
+              type="submit" disabled={isLoading}
               className="w-full bg-green-700  text-white px-4 py-2 rounded-md hover:bg-green-600"
             >
              {isLoading ? <ClipLoader color=""/>: "Register" } 
+             
             </button>
+            {response && response?.success == false ? (
+            <div className="p-2 text-center text-red-600 font-semibold">
+              {response?.message} !
+             
+            </div>
+          ) : (
+            ""
+          )}
             <p className="mt-4">
               Already have an account?{" "}
               <span>

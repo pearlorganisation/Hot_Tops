@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux';
 import { setForgetPasswordEmail } from '@/app/lib/features/auth/authSlice';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { ClipLoader } from 'react-spinners';
 
@@ -115,7 +115,7 @@ const Page = () => {
                         {(errors.newsletter)  && <p className="text-red-500 text-sm mt-1">Please accept the terms and conditions.</p>}
                        
                         
-                        <button type="submit" className="w-full text-white bg-red-800 hover:bg-red-700 focus:ring-4  font-medium rounded-lg text-sm px-5 py-2.5 text-center ">{isLoading ? <ClipLoader color=""/>: "Reset password" } </button>
+                        <button type="submit" disabled={isLoading} className="w-full text-white bg-red-800 hover:bg-red-700 focus:ring-4  font-medium rounded-lg text-sm px-5 py-2.5 text-center ">{isLoading ? <ClipLoader color=""/>: "Reset password" } </button>
                     </form>
                 </div>
             </div>
