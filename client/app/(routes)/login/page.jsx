@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { ClipLoader } from "react-spinners";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 
 const Page = () => {

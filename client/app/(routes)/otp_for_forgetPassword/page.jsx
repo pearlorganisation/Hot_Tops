@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "sonner";
 
 
 const OTPReceiver = () => {
