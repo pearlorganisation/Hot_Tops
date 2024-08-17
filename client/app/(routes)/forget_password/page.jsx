@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
 
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux';
 import { setForgetPasswordEmail } from '@/app/lib/features/auth/authSlice';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { ClipLoader } from 'react-spinners';
 

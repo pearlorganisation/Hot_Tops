@@ -6,11 +6,12 @@ import orderReducer from "./features/orderDetails/orderDetailsslice.js";
 import receiptReducer from "./features/orderDetails/selectedRecipt.js";
 import { persistStore, persistReducer } from "redux-persist";
 import pathReducer from "./features/path/pathslice.js";
-import AsyncStorage from '@react-native-community/async-storage';
+import storage from "redux-persist/lib/storage";
+
 
 const persistConfig = {
   key: "persist",
-  storage: AsyncStorage,
+  storage,
 };
 
 const makeConfiguredStore = () =>

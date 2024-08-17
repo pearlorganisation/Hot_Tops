@@ -3,7 +3,6 @@ import "./globals.css";
 import Header from "./_components/layout/Header/Header";
 import Footer from "./_components/layout/Footer/Footer";
 import StoreProvider from "./StoreProvider";
-import { ToastContainer } from "react-toastify";
 import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -26,8 +25,7 @@ export default function RootLayout({ children }) {
         <StoreProvider>
           <Header />
           <div className="pt-36">{children}</div>
-          <ToastContainer />
-          <Toaster position="top-center" richColors />
+          <Toaster position="top-right" richColors />
           <Footer />
         </StoreProvider>
       </body>
