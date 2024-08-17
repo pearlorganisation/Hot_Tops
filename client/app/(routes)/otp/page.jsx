@@ -1,5 +1,5 @@
 "use client";
-import { getcredentials } from "@/app/lib/features/auth/authSlice";
+import { addUserData, getcredentials } from "@/app/lib/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -109,9 +109,45 @@ const OTPReceiver = () => {
         console.log(newData, "newData")
 
         if (newData.status === true) {
-          dispatch(getcredentials({ email: "", password: "" }));
-          toast.success(`${newData?.message.toUpperCase()}`)
-          router.push("/login");
+          // dispatch(getcredentials({ email: "", password: "" }));
+          // toast.success(`${newData?.message.toUpperCase()}`)
+          // router.push("/login");
+
+          try {
+            setIsLoading(true)
+            const res = await fetch(
+              `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/login`,
+              {
+                method: "POST",
+                body: JSON.stringify({
+                  email,
+                  password
+                }),
+                headers: {
+                  "Content-type": "application/json; charset=UTF-8",
+                },
+                credentials: "include",
+              }
+            );
+            const newData = await res.json();
+            console.log(newData);
+            if (newData?.status === true) {
+              const userData = { isUserLoggedIn: true, data: newData.data };
+      
+              dispatch(addUserData(userData));
+      
+              router.push("/");
+              toast.success("Account created & Login successfully");
+            }else{
+              toast.error(`${newData?.message}`)
+            }
+      
+            setIsLoading(false)
+            setResponse(newData);
+          } catch (error) {
+            setIsLoading(false)
+            console.log(error);
+          }
         }else{
           toast.error(`${newData?.message.toUpperCase()}`)
         }
@@ -131,7 +167,7 @@ const OTPReceiver = () => {
       <div className="max-w-md w-full bg-white shadow-md rounded-lg p-8">
    
         <h2 className="text-2xl font-bold text-center text-red-800 mb-4">
-          Enter OTP
+          Enter OTP 
         </h2>
         <p className="text-center text-gray-600 mb-8">
           Please enter the OTP sent to your email.

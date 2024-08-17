@@ -103,7 +103,7 @@ const UpdateProfile = () => {
           </label>
           <div className="relative">
             <input
-              type="text"
+              type="Number"
               {...register("mobileNumber", { required: true })}
               id="mobile"
               className="w-full p-2 border  rounded-md focus:outline-none focus:ring-2 focus:ring-red-800"

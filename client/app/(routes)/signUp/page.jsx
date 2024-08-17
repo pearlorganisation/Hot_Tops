@@ -24,6 +24,11 @@ const [isLoading,setIsLoading] = useState(false)
     watch,
   } = useForm();
 
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email) || "Please enter a valid email address";
+  };
+
   const onSubmit = async (data) => {
     try {
       setIsLoading(true)
@@ -157,10 +162,7 @@ const [isLoading,setIsLoading] = useState(false)
                 placeholder="Enter your email"
                 {...register("email", {
                   required: "Email is required",
-                  pattern: {
-                    value: /^\S+@\S+$/i,
-                    message: "Entered value does not match email format",
-                  },
+                  validate: validateEmail,
                 })}
               />
               {errors.email && (
