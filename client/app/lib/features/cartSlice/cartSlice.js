@@ -36,10 +36,11 @@ const cartSlice = createSlice({
           return item;
         });
         state.cartData = temp;
-        toast.success("Added...");
+        toast.success("Added",  {
+          position: 'top-center',duration:300});
       } else {
         state.cartData = [...state.cartData, action.payload];
-        toast.success("Item Added Successfully...");
+        toast.success("Item Added Successfully",{position:"top-center"});
       }
     },
     increaseQuantity: (state, action) => {
