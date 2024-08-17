@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
         <StoreProvider>
           <Header />
           <div className="pt-36">{children}</div>
-          <Toaster position="top-right" richColors />
+          <Toaster position="top-right" richColors duration={2000} />
           <Footer />
         </StoreProvider>
       </body>

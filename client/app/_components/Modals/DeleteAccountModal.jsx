@@ -106,14 +106,14 @@ const DeleteAccountModal = forwardRef((props, ref) => {
                       
                             <button
                                 type="button"
-                                className="text-white bg-red-800 hover:bg-red-700 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+                                className="text-white bg-red-800 hover:bg-red-700 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
                                 onClick={deleteAccount}
                             >
                                   {isLoading ? <ClipLoader size={14}/>: "Yes, I'm sure" } 
                             </button>
                             <button
                                 type="button"
-                                className="py-2.5 px-5 ms-3 text-sm font-medium text-red-800  focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-50 hover:text-red-600 focus:z-10 focus:ring-4 focus:ring-gray-100 "
+                                className="py-2.5 px-5 ms-3 text-sm font-medium text-red-800 bg-white rounded-lg border border-gray-200 hover:bg-gray-50 hover:text-red-600 focus:z-10 focus:ring-4 focus:ring-gray-100 "
                                 onClick={() => setIsOpen(false)}
                             >
                                 No, cancel

@@ -21,7 +21,7 @@ export const signUp = asyncErrorHandler(async (req, res) => {
     if (isUserAlreadyExist) {
       return res.status(400).json({
         success: false,
-        message: "User already exist",
+        message: "This email is already exist",
       });
     }
 

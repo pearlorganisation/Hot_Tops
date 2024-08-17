@@ -90,26 +90,26 @@ const Page = () => {
 
     return (
       <>
-        <section className=" dark:bg-gray-900">
+        <section className=" ">
             <div className="flex flex-col  items-center justify-center px-4 pt-10 pb-20  mx-auto ">
              
-                <div className="w-full p-6 bg-white rounded-lg shadow   dark:border md:mt-0 sm:max-w-md dark:bg-gray-800 dark:border-gray-700 sm:p-8">
-                    <h2 className="mb-1 text-center  text-xl font-bold leading-tight tracking-tight text-red-800 md:text-2xl dark:text-white">
+                <div className="w-full p-6 bg-white rounded-lg shadow    md:mt-0 sm:max-w-md sm:p-8">
+                    <h2 className="mb-1 text-center  text-xl font-bold leading-tight tracking-tight text-red-800 md:text-2xl ">
                         Forgot Password
                     </h2>
        
                     <form className="mt-4 space-y-4 lg:mt-5 md:space-y-5" onSubmit={handleSubmit(onSubmit)}>
                         <div>
-                            <label htmlFor="email" className="block mb-2 text-sm font-semibold text-gray-800 dark:text-white">Your email</label>
+                            <label htmlFor="email" className="block mb-2 text-sm font-semibold text-gray-800 ">Your email</label>
                             <input type="email" {...register('email', { required: true })} className=" bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-2 outline-none focus:ring-slate-300 block w-full p-2.5 " placeholder="name@company.com" required/>
                         </div>
 
                         <div className="flex items-start">
                             <div className="flex items-center h-5">
-                                <input id="newsletter" aria-describedby="newsletter" type="checkbox" {...register('newsletter', { required: true })} className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"/>
+                                <input id="newsletter" aria-describedby="newsletter" type="checkbox" {...register('newsletter', { required: true })} className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 "/>
                             </div>
                             <div className="ml-3 text-sm">
-                                <label htmlFor="newsletter" className="font-light text-gray-500 dark:text-gray-300">I accept the <a className="font-medium text-red-800 hover:underline hover:text-red-700" href="/termsAndConditions">Terms and Conditions</a></label>
+                                <label htmlFor="newsletter" className="font-light text-gray-500 ">I accept the <a className="font-medium text-red-800 hover:underline hover:text-red-700" href="/termsAndConditions">Terms and Conditions</a></label>
                             </div>
                         </div>
                         {(errors.newsletter)  && <p className="text-red-500 text-sm mt-1">Please accept the terms and conditions.</p>}
