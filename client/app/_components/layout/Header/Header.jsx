@@ -20,7 +20,7 @@ const Header = () => {
     setIsMounted(true);
   }, []);
 
-  const totalPrice = cart?.reduce((acc, item) => acc + Number(item?.price), 0);
+  const totalPrice = cart?.reduce((acc, item) => acc + Number(item?.totalSum), 0);
 
   if (!isMounted) {
     return null; // Render nothing until the component has mounted

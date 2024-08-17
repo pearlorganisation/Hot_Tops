@@ -86,7 +86,7 @@ const HomePage = () => {
       </div>
 
       {popularDealData ? (
-      <div className="container mb-10 mx-auto max-w-7xl gap-10 grid md:grid-cols-4 place-content-center">
+      <div className="flex gap-8 flex-wrap justify-center">
         {Array.isArray(popularDealData) &&
           popularDealData.map((el) => (
             <DealsCards key={el.id} path={"menu"} data={el} />

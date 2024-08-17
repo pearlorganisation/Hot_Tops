@@ -61,10 +61,10 @@ const DeleteAccountModal = forwardRef((props, ref) => {
         isOpen && (
             <div id="popup-modal" tabindex="-1" className="fixed inset-0 flex items-center justify-center z-50 w-full h-full bg-black bg-opacity-50">
                 <div className="relative p-4 w-full max-w-md max-h-full">
-                    <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <div className="relative bg-white rounded-lg shadow ">
                         <button
                             type="button"
-                            className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                            className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center "
                             onClick={() => setIsOpen(false)}
                         >
                             <svg
@@ -100,7 +100,7 @@ const DeleteAccountModal = forwardRef((props, ref) => {
                                     d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                                 />
                             </svg>
-                            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                            <h3 className="mb-5 text-lg font-normal text-gray-500 ">
                                 Are you sure you want to delete this account ?
                             </h3>
                       

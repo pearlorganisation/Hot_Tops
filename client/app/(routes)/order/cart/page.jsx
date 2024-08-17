@@ -45,6 +45,7 @@ const Cart = () => {
         {Array.isArray(cart) &&
           cart?.length > 0 ?
           cart?.map((data, idx) => {
+            const size= String(data?.size).includes("-")
             const price = String(data?.size).includes("-")
               ? data?.size?.split("-")
               : data?.size;
@@ -67,7 +68,7 @@ const Cart = () => {
                   ...(Array.isArray(item?.sauceName) ? item?.sauceName.map(sauce => `${sauce.sauceName} ${sauce?.size === "double" ? "2️⃣" : "1️⃣"}`) : [])
                 ].join(', '))
               : [];
-              
+
              
             return (
               <div className="text-slate-800 font-semibold p-4 border-b grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
@@ -79,7 +80,7 @@ const Cart = () => {
                    <div className="flex gap-0 md:gap-10">
                    <p className="text-lg"> {data?.name}
                     {" "}
-                    {Array.isArray(price) ? `(${price[0]})` : (data?.dealsData ? `(${data?.size})` : `(${data?.allToppings?.size?.name})`) }<br/>
+                    {size ? `(${price[0]})` : (data?.dealsData ? `(${data?.size})` : data?.allToppings?.size?.name ? `(${data?.allToppings?.size?.name})` : "" ) }<br/>
                     {data?.allToppings && <span className="text-sm bg-red-800 text-white rounded-md px-2"> Customized </span>}
                     </p>
            <p className="hidden md:block text-green-800">{mergedToppings}</p>

@@ -31,7 +31,7 @@ const Footer = () => {
               <a href="/menu/dips">Dips</a>
             </p>
           </div>
-          <div className="hidden lg:flex justify-center m-3">
+          <div className="hidden md:flex justify-center m-3">
             <hr className="border border-white w-[300px] h-[4px]  " />
           </div>
           <div>
@@ -51,7 +51,7 @@ const Footer = () => {
 
 
         <div className="flex   flex-col gap-2 items-center ">
-        <div className="lg:hidden flex justify-center  m-4">
+        <div className="md:hidden flex justify-center  m-4">
             <hr className=" border border-white w-[300px] h-[4px]  " />
           </div>
           <h1 className="font-bold text-lg">SOCIAL LINKS</h1>
@@ -69,7 +69,7 @@ const Footer = () => {
           
         </div>
         <div className="flex   flex-col gap-2 items-center ">
-        <div className="lg:hidden flex justify-center  m-4">
+        <div className="md:hidden flex justify-center  m-4">
             <hr className="border border-white w-[300px] h-[4px]  " />
           </div>
           <h1 className="font-bold text-lg">POLICIES</h1>

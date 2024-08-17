@@ -62,20 +62,22 @@ const OTPReceiver = () => {
           mobileNumber: data?.mobileNumber
         })
       );
+      console.log("asdsad")
       setResponse(newData);
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
       }
       if (newData.success === true) {
+        toast.success("Otp sent again successfully");
         router.push("/otp");
       }
-
+      
       const result = await response.json();
       setIsLoading(false)
+      // console.error("Error during signup:", error.message);
       // Add your logic for a successful signup
     } catch (error) {
       setIsLoading(false)
-      console.error("Error during signup:", error.message);
       // Handle error (e.g., show an error message to the user)
     }
   }
