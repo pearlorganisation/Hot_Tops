@@ -10,6 +10,7 @@ export default function OrderViewModal ({viewData,setModal}) {
       };
 
 
+
   return (
     <div
     className="fixed top-0 left-0 z-1000 flex h-screen w-screen items-center justify-center bg-slate-300/20 backdroap-blur-sm"
@@ -69,21 +70,64 @@ export default function OrderViewModal ({viewData,setModal}) {
         <td className="py-2 px-4 border border-gray-300">{viewData ? `${viewData?.orderBy?.firstName} ${viewData?.orderBy?.lastName}` : ''}</td>
       </tr>
       <tr>
-        <td className="py-2 px-4 border border-gray-300">Items </td>
+        <td className="py-2 px-4 border border-gray-300">Order Items </td>
         <td className="py-2 px-4 border border-gray-300">
           {viewData && viewData.items ? (
-            viewData.items.map((item, idx) => (
+            viewData.items.map((item, idx) => 
+            {       const size= String(item?.size).includes("-")
+              const price = String(item?.size).includes("-")
+                ? item?.size?.split("-")
+                : item?.size;
+
+                const allToppings = item?.allToppings || { base:{},cheese: [], sauce: [],veg:[],meat:[] }; 
+                const mergedToppings = [
+                  allToppings?.base?.name,
+                  ...allToppings?.cheese.map(item2 =>`${item2?.cheeseName} - ${item2?.size === "double" ? "2️⃣ " : "1️⃣ "}`),
+                  ...allToppings?.sauce.map(item2 => `${item2?.sauceName} - ${item2?.size === "double" ? "2️⃣ " : "1️⃣ "} `),
+                  ...allToppings?.veg.map(item2 => `${item2?.vegName} - ${item2?.size === "double" ? "2️⃣ " : "1️⃣ "}`),
+                  ...allToppings?.meat.map(item2 => `${item2?.meatName} - ${item2?.size === "double" ? "2️⃣ " : "1️⃣ "}`)
+                ].join(', ');
+
+                const mergedDealToppingsArray = item?.dealsData && Array.isArray(item.dealsData)
+                ? item.dealsData.map((item) => [
+                    item?.baseName?.name,
+                    ...(Array.isArray(item?.cheeseName) ? item?.cheeseName.map(cheese => `${cheese.cheeseName} - ${cheese?.size === "double" ? "2️⃣ " : "1️⃣ "}`) : []),
+                    ...(Array.isArray(item?.vegetarianToppingsName) ? item?.vegetarianToppingsName.map(veg => `${veg.vegName} - ${veg?.size === "double" ? "2️⃣ " : "1️⃣ "}`) : []),
+                    ...(Array.isArray(item?.meatToppingsName) ? item?.meatToppingsName.map(meat => `${meat.meatName} - ${meat?.size === "double" ? "2️⃣ " : "1️⃣ "}`) : []),
+                    ...(Array.isArray(item?.sauceName) ? item?.sauceName.map(sauce => `${sauce.sauceName} - ${sauce?.size === "double" ? "2️⃣ " : "1️⃣ "}`) : [])
+                  ].join(', '))
+                : [];
+         
+              return (
               <div className='border border-slate-300 flex mb-2 rounded-md px-2 gap-2' key={idx}>
-                 <div className='flex items-center '><span className=''>{idx+1} :</span> </div>
+                 <div className='flex items-center '><span className=''>{idx+1}:</span> </div>
                  <div className='p-2 space-x-2'>
-              <span className='bg-slate-100 mb-2 rounded-md px-2 '>{item?.name} {item?.size}</span>
-             
+              <span className=' mb-2 rounded-md px-2 '>   <p className="text-lg"> {item?.name}
+                    {" "}
+                    {size ? `(${price[0]})` : (item?.dealsData ? `(${item?.size})` : item?.allToppings?.size?.name ? `(${item?.allToppings?.size?.name})` : "" ) }<br/>
+                    {item?.allToppings && <span className="text-sm bg-red-800 text-white rounded-md px-2"> Customized </span>}
+                    </p></span>
+                    <p className=" text-green-800">{mergedToppings}</p>
+                    {item?.dealsData && ( <div className="text-base  text-gray-600"> {
+                    item?.dealsData?.map((item,idx) =>
+                  item?.name && 
+                  (<> <div key={idx} className=" ">
+                    <div className="min-w-[10rem] max-w-[10rem] md:min-w-[30rem]">{item?.name} <span className="text-sm bg-red-800 text-white rounded-md px-2"> Customized </span></div>
+                    <div className="text-green-900 text-sm">{mergedDealToppingsArray[idx]}</div>
+                  </div>
+                  <div className="border-b py-1"></div>
+                  </>
+                  )
+                  )} 
+                    </div>)
+                    }
            
               </div>
               </div>
-            ))
+            )}
+          )
           ) : (
-            'No Price available'
+            'No Data available'
           )}
         </td>
       </tr>
@@ -131,7 +175,7 @@ export default function OrderViewModal ({viewData,setModal}) {
         <td className="py-2 px-4 border  border-gray-300">Delivery Address</td>
         <td className="py-2 px-4 border border-gray-300 font-semibold">
         
-        {viewData ?  <span className='bg-slate-100 mb-2 rounded-md px-2 capitalize'>{viewData?.address} </span> : 'No data'}
+        {viewData?.address ?  <span className='bg-slate-100 mb-2 rounded-md px-2 capitalize'>{viewData?.address} </span> : 'Collection or No data'}
           
         </td>
       </tr>
@@ -139,7 +183,7 @@ export default function OrderViewModal ({viewData,setModal}) {
         <td className="py-2 px-4 border border-b-1 border-gray-300">Mobile Number</td>
         <td className="py-2 px-4 border border-gray-300 font-semibold">
         
-        {viewData ?  <span className='bg-slate-100 mb-2 rounded-md px-2 capitalize'>{viewData?.orderBy?.mobileNumber} </span> : 'No data'}
+        {viewData?.orderBy?.mobileNumber ?  <span className='bg-slate-100 mb-2 rounded-md px-2 capitalize'>{viewData?.orderBy?.mobileNumber} </span> : 'Collection or No data'}
           
         </td>
       </tr>

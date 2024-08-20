@@ -146,7 +146,7 @@ const Order = () => {
                           }}
                           className="py-2 leading-none px-6 font-semibold text-green-600 hover:text-green-700 duration-150 hover:bg-gray-50 rounded-lg"
                         >
-                          View
+                          View full details
                         </button>
      
                       </td>
