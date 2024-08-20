@@ -86,7 +86,7 @@ const Filter = () => {
               </td>
             </tr>
             ) : (
-                 Array.isArray(filterData) && filterData.length > 0 && filterData?.map((item, idx) => (
+                 Array.isArray(filterData) && filterData.length > 0 && filterData?.filter((item) => item?.filter !== "All")?.map((item, idx) => (
                     <tr key={idx}>
                       <td className="px-6 py-4 whitespace-nowrap">{idx+1}</td>
                       <td className="px-6 py-4 whitespace-nowrap ">

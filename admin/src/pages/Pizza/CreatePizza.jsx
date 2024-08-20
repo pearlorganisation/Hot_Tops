@@ -105,7 +105,7 @@ if (data?.meatToppingsName) {
         }
       }, [pizzaData]);
 
-      console.log(pizzaData)
+
 
 
     return (
@@ -341,7 +341,8 @@ if (data?.meatToppingsName) {
                                       render={({ field }) => (
                                           <Select
                                               value={field.value}
-                                              options={Array.isArray(filterData)&& filterData.length> 0 && filterData.map(item=> ({ value: item?._id, label: item?.filter }))}
+                                              options={Array.isArray(filterData)&& filterData.length> 0 && filterData.map(item=> (
+                                                item?.filter != "All" ? { value: item?._id, label: item?.filter }: null)).filter(Boolean)}
                                               onChange={(selectedOption) => field.onChange(selectedOption)}
                                               className="mt-2 "
                                               placeholder="Choose Filter "

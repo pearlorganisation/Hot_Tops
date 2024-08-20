@@ -58,22 +58,60 @@ const UpdatePizza = () => {
                     return item?.meatToppingsName.includes(c.name)
                   }) .map(item=> ({ value: item?.name, label: item?.name }))|| "",
 
-          priceSection:item?.priceSection|| ""
+          priceSection:item?.priceSection.map((priceItem,idx)=>{
+             return {
+            price: priceItem?.price,
+            size: {value:priceItem?.size?._id, label:priceItem?.size?.name},
+          }}) || ""
         }
     })
-
+console.log(item?.priceSection.map((priceItem,idx)=>{
+  return {
+ price: priceItem?.price,
+ size: {value:priceItem?._id, label:priceItem?.size?.name},
+}}))
 
     const onSubmit = (data) => {
-        const {category,filter}= data
+     
+      const {category,filter,baseName,priceSection}= data
+        
+      const priceSectionFilter= (priceSection).map(item=>{ return {size:item?.size?.value,price:item?.price}})
 
-        const formData= new FormData()
-        formData.append("pizzaName",data?.pizzaName)
-        formData.append("priceSection",JSON.stringify(data?.priceSection))
-        formData.append("category",category?.value)
-        formData.append("filter",filter?.value) 
-        Array.from(data?.banner).forEach((img)=>{
-            formData?.append("banner",img)
-        })
+
+      const formData= new FormData()
+      formData.append("pizzaName",data?.pizzaName)
+      formData.append("priceSection",JSON.stringify(priceSectionFilter))
+      formData.append("baseName",baseName?.value)
+      formData.append("category",category?.value)
+      formData.append("filter",filter?.value) 
+      Array.from(data?.banner).forEach((img)=>{
+          formData?.append("banner",img)
+      })
+
+if (data?.cheeseName) {
+Array.from(data.cheeseName).forEach((item) => {
+    formData.append("cheeseName", item.value);
+});
+}
+
+if (data?.sauceName) {
+Array.from(data.sauceName).forEach((item) => {
+    formData.append("sauceName", item.value);
+});
+}
+
+if (data?.vegetarianToppingsName) {
+Array.from(data.vegetarianToppingsName).forEach((item) => {
+    formData.append("vegetarianToppingsName", item.value);
+});
+}
+
+if (data?.meatToppingsName) {
+Array.from(data.meatToppingsName).forEach((item) => {
+    formData.append("meatToppingsName", item.value);
+});
+}
+
         dispatch(updatePizza({id:item?._id,payload:formData}))
       
     }
@@ -103,6 +141,8 @@ const UpdatePizza = () => {
           navigate("/pizza")
         }
       }, [pizzaData]);
+
+      console.log(item?.priceSection)
 
 
     return (
@@ -336,8 +376,10 @@ const UpdatePizza = () => {
                                       render={({ field }) => (
                                           <Select
                                               value={field.value}
-                                              options={Array.isArray(filterData)&& filterData.length> 0 && filterData.map(item=> ({ value: item?._id, label: item?.filter }))}
+                                              options={Array.isArray(filterData)&& filterData.length> 0 && filterData.map(item=> (
+                                                item?.filter != "All" ? { value: item?._id, label: item?.filter }: null)).filter(Boolean)}
                                               onChange={(selectedOption) => field.onChange(selectedOption)}
+                                         
                                               className="mt-2 "
                                               placeholder="Choose Filter "
                                              

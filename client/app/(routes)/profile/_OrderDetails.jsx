@@ -65,11 +65,11 @@ const OrderDetails = () => {
                     Reorder Now
                   </a>
                   </div>
-                    <h2 className=" md:hidden text-red-800">{data?.orderStatus}</h2>
+                    <h2 className={` md:hidden font-semibold  ${data?.orderStatus === "Completed" ? "text-green-800" : data?.orderStatus === "Pending" ? "text-yellow-600" : "text-red-800" } `}>{data?.orderStatus}</h2>
                     <h1 className="hidden md:block">Order Id - {data?.count}</h1> 
 
                 </h1>
-                <h2 className="hidden md:block text-red-800">{data?.orderStatus}</h2>
+                <h2 className={`hidden md:block font-semibold  ${data?.orderStatus === "Completed" ? "text-green-800" : data?.orderStatus === "Pending" ? "text-yellow-600" : "text-red-800"} `}>{data?.orderStatus}</h2>
               </div>
               <div className="flex justify-between items-center">
                 <div className="font-semibold">
