@@ -1,11 +1,10 @@
 import order from "../models/order.js";
-
+import Stripe from "stripe"
 import { asyncErrorHandler } from "../utils/errors/asyncErrorHandler.js";
 import { CustomError } from "../utils/errors/customError.js";
 
 export const newOrder = asyncErrorHandler(async (req, res, next) => {
   const orders = await order.find();
-
   const count = orders.length + 1;
   function getCurrentDateTime() {
     const now = new Date();
@@ -66,3 +65,32 @@ export const updateCompleteOrder = asyncErrorHandler(async (req, res, next) => {
       message:"Order completed successfully!" ,
     });
   });
+
+  export const onlineOrder = asyncErrorHandler(async (req, res, next) => {
+
+    const {items,email}= req?.body
+
+    const lineItems = items?.map((item)=>({
+      price_data:{
+        currency:"GBP",
+        product_data:{
+          name:item.name
+        },
+        unit_amount:Math.round(item.totalSum*100)    
+      },
+      quantity:item.quantity
+    }))
+
+    const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY)
+
+   const session = await stripe.checkout.sessions.create({
+    payment_method_types:["card"],
+    line_items:lineItems,
+    customer_email: email,
+    mode:"payment",
+    success_url:process.env.STRIPE_SUCCESS_URL,
+    cancel_url:process.env.STRIPE_CANCEL_URL,
+   })
+
+res.json({id:session.id})
+  })
