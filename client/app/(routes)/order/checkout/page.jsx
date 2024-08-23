@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 // import { emptyCart } from "@/app/lib/features/cartSlice/cartSlice";
 import { ClipLoader } from "react-spinners";
-// import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "sonner";
 
 
@@ -273,6 +272,7 @@ const [mount, setMount] = useState(false)
                  
                 />
                 <label htmlFor="card">Pay Now</label> */}
+
               </div>
             </div>
             <div className="flex items-center space-x-2">
