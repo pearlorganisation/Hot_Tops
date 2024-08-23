@@ -157,14 +157,14 @@ const Delivery = ({ step }) => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className=" border-t-2 p-2 space-y-6">
                     <div className="space-y-2">
-                        <label htmlFor="address">Please Enter Your Address</label>{" "}
+                        <label htmlFor="address">Please Enter Your Postal Code</label>{" "}
                         <div className="relative">
                             <input
                                 className="border-2 border-gray-300 rounded-md px-4 py-2 outline-none w-full focus:ring-2 focus:ring-red-800"
                                 type="text"
                                 name="address"
                                 id=""
-                                placeholder="Enter Your Address"
+                                placeholder="Enter Your Postal Code"
                                 onChange={(e) => { setPostalCode(e.target.value) }}
                             />
                             {
@@ -243,7 +243,7 @@ const Delivery = ({ step }) => {
                                     </button>
                                 </div>
                             </form> : Array.isArray(addressData) && addressData.length > 0 && <div className="space-y-3">
-                                <h1 className="text-2xl font-medium">OR SELECT FROM THE LIST :</h1>
+                                <h1 className="text-green-800">OR SELECT FROM THE LIST :</h1>
                                 {
                                     addressData?.map((item, index) => {
                                         return <div onClick={() => { setSelectedAddress(item) }} className={`border-2 rounded-md ${selectedAddress?.address === item?.address ? '  border-green-400 bg-green-400/30' : "bg-transparent"} p-4 cursor-pointer flex justify-between items-center`}>{item?.address}
