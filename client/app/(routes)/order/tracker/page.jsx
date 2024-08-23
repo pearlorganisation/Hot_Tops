@@ -1,9 +1,13 @@
 "use client"
 
+import { emptyCart } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect } from "react";
 import { BsFillTelephoneOutboundFill } from "react-icons/bs";
+import { useDispatch } from "react-redux";
 
 const page = () => {
+
+  const dispatch = useDispatch()
   
   useEffect(() => {
     // Push a new state to the history stack
@@ -20,6 +24,10 @@ const page = () => {
       window.removeEventListener('popstate', handlePopState);
     };
   }, []);
+
+  useEffect(()=>{
+    dispatch(emptyCart());
+  },[])
 
   return (
     <section className=" py-4 md:py-0 md:pb-10 rounded-2xl">

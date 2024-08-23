@@ -1,14 +1,11 @@
-import mongoose, { Types } from "mongoose";
+import mongoose from "mongoose";
 
 const addressSchema = new mongoose.Schema({
     userId:{
         type: mongoose.Types.ObjectId,
+        ref:"auth",
         required:[true,"User Id is required! "]
     },
-name:{
-    type:String,
-    // required:[true,'Name is required!']
-},
 address:{
     type:String,
     required:[true,"Address is Required!"]

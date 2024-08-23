@@ -112,9 +112,9 @@ const Page = () => {
               </Link>
               <button
                 type="submit"
-                className="bg-green-700  text-white px-6 py-2 rounded-md hover:bg-green-600"
+                className="bg-green-700  text-white px-6 py-2 rounded-md hover:bg-green-600 flex items-center justify-center"
               >
-                {isLoading ? <ClipLoader color=""/>: "Login" } 
+                {isLoading ? <ClipLoader color="white" size={22}/>: "Login" } 
               </button>
             </div>
             <p className="mt-4">

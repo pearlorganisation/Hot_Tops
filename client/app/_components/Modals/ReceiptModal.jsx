@@ -90,6 +90,7 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
                 {Array.isArray(orderData?.items) &&
                   orderData?.items?.length > 0 &&
                   orderData?.items?.map((data, idx) => {
+                    const size= String(data?.size).includes("-")
                     const price = String(data?.size).includes("-")
                       ? data?.size?.split("-")
                       : data?.size;
@@ -109,7 +110,8 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
                           </div>
                           <p className=" font-semibold">
                             {data?.name}{" "}
-                            {Array.isArray(price) ? `(${price[0]})` : (data?.dealsData ? `(${data?.size})` : `(${data?.allToppings?.size?.name})`) }    {data?.allToppings && <span className="text-sm bg-red-800 text-white rounded-md px-2"> Customized </span>}
+                            {size ? `(${price[0]})` : (data?.dealsData ? `(${data?.size})` : data?.allToppings?.size?.name ? `(${data?.allToppings?.size?.name})` : "" ) }
+                              {data?.allToppings && <span className="text-sm bg-red-800 text-white rounded-md px-2"> Customized </span>}
                           </p>
                         </div>
 

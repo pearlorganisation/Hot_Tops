@@ -1,11 +1,11 @@
 import order from "../models/order.js";
-
+// import Stripe from "stripe"
 import { asyncErrorHandler } from "../utils/errors/asyncErrorHandler.js";
 import { CustomError } from "../utils/errors/customError.js";
 
+
 export const newOrder = asyncErrorHandler(async (req, res, next) => {
   const orders = await order.find();
-
   const count = orders.length + 1;
   function getCurrentDateTime() {
     const now = new Date();
@@ -66,3 +66,78 @@ export const updateCompleteOrder = asyncErrorHandler(async (req, res, next) => {
       message:"Order completed successfully!" ,
     });
   });
+
+//   export const onlineOrder = asyncErrorHandler(async (req, res, next) => {
+
+//     const {items,email}= req?.body
+
+//     const lineItems = items?.map((item)=>({
+//       price_data:{
+//         currency:"GBP",
+//         product_data:{
+//           name:item.name
+//         },
+//         unit_amount:Math.round(item.totalSum*100)    
+//       },
+//       quantity:item.quantity
+//     }))
+
+//     const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY)
+
+//    const session = await stripe.checkout.sessions.create({
+//     payment_method_types:["card"],
+//     line_items:lineItems,
+//     customer_email: email,
+//     mode:"payment",
+//     success_url:process.env.STRIPE_SUCCESS_URL,
+//     cancel_url:process.env.STRIPE_CANCEL_URL,
+//    })
+
+// res.json({id:session.id})
+//   })
+
+  export const onlineOrder = asyncErrorHandler(async (req, res, next) => {
+
+    const response = await fetch("https://accounts.vivapayments.com/connect/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        grant_type: 'client_credentials',
+        client_id: '56sucz9t1my1w6c5axz8vkf5o5mf2ff77rbooqhugot14.apps.vivapayments.com',  
+        client_secret: 't6Ay63s2da78pir3f98WvJNV0W4hBW', 
+        scope: 'urn:viva:payments:core:api:redirectcheckout', 
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return next(new CustomError(data, 400));
+    }
+
+    // res.status(200).json(data);
+    console.log(data)
+console.log(req?.body)
+    const responseOrder = await fetch("https://api.vivapayments.com/checkout/v2/orders", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+    'Authorization': `Bearer ${data.access_token}`
+      },
+
+      body: JSON.stringify({
+        "amount": 1234,
+      
+      }),
+    });
+
+    const finalResult= await responseOrder.json()
+    console.log(finalResult)
+    if (!responseOrder.ok) {
+      return next(new CustomError(finalResult, 400));
+    }
+
+     res.status(200).json(finalResult);
+  })

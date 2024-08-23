@@ -12,7 +12,7 @@ export const newAddress = asyncErrorHandler(async (req, res, next) => {
 export const getParticularUserAddress = asyncErrorHandler(
   async (req, res, next) => {
     const { userId } = req?.params;
-    const data = await address.findOne({ userId: userId });
+    const data = await address.find({ userId: userId });
     if (!data) {
       return next(new CustomError("User Id doesn't exist!!", 400));
     }
@@ -29,12 +29,12 @@ export const updateAddress = asyncErrorHandler(async (req, res, next) => {
     return next(new CustomError("Id doesn't exist!!", 400));
   }
 
-  res.status(200).json({ status: true, message: "Address found successfully" });
+  res.status(200).json({ status: true, message: "Address Updated successfully" });
 });
 
 export const deleteAddress = asyncErrorHandler(async (req, res, next) => {
   const { id } = req?.params;
-  const isValidId = await address.findByIdAndUpdate(id, req?.body);
+  const isValidId = await address.findByIdAndDelete(id);
   if (!isValidId) {
     return next(new CustomError("Id doesn't exist!!", 400));
   }

@@ -103,13 +103,13 @@ const DeleteAccountModal = forwardRef((props, ref) => {
                             <h3 className="mb-5 text-lg font-normal text-gray-500 ">
                                 Are you sure you want to delete this account ?
                             </h3>
-                      
+                      <div className='flex justify-center'>
                             <button
                                 type="button"
-                                className="text-white bg-red-800 hover:bg-red-700 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+                                className="text-white bg-red-800 hover:bg-red-700 font-medium rounded-lg text-sm flex items-center px-5 py-2.5 text-center "
                                 onClick={deleteAccount}
                             >
-                                  {isLoading ? <ClipLoader size={14}/>: "Yes, I'm sure" } 
+                                  {isLoading ? <ClipLoader color="white" size={24}/>: "Yes, I'm sure" } 
                             </button>
                             <button
                                 type="button"
@@ -118,6 +118,8 @@ const DeleteAccountModal = forwardRef((props, ref) => {
                             >
                                 No, cancel
                             </button>
+
+                            </div>
                         </div>
                     </div>
                 </div>
