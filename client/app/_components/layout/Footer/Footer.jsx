@@ -1,8 +1,12 @@
 import React from "react";
-import { RiTwitterXLine } from "react-icons/ri";
+
 import { SlSocialInstagram } from "react-icons/sl";
 import { FiFacebook } from "react-icons/fi";
-import Link from "next/link";
+import { SiWhatsapp } from "react-icons/si";
+import { FaPhone } from "react-icons/fa6";
+import { FaStore } from "react-icons/fa";
+import { IoMdMail } from "react-icons/io";
+
 const Footer = () => {
   return (
     <div className="h-full bg-red-800 py-4">
@@ -56,7 +60,7 @@ const Footer = () => {
           </div>
           <h1 className="font-bold text-lg">SOCIAL LINKS</h1>
 
-          <div className="flex justify-center  items-center gap-3 m-2">
+          <div className="flex justify-center  items-center gap-5 m-2">
            
             <a href="https://www.facebook.com/HotHousePizzaNorthwood" target="_blank" rel="noopener noreferrer"  className="hover:text-yellow-500">
               <FiFacebook size={24} />
@@ -64,14 +68,18 @@ const Footer = () => {
             <a href="https://www.instagram.com/hothousepizzanorthwood" target="_blank" rel="noopener noreferrer"  className="hover:text-yellow-500">
               <SlSocialInstagram size={24} />
             </a>
+            <a href="https://wa.me/+447769108542" target="_blank" rel="noopener noreferrer"  className="hover:text-yellow-500">
+              <SiWhatsapp size={24} />
+            </a>
            
           </div>
           
         </div>
-        <div className="flex   flex-col gap-2 items-center ">
+        <div className="flex   flex-col gap-2 items-center justify-between ">
         <div className="md:hidden flex justify-center  m-4">
             <hr className="border border-white w-[300px] h-[4px]  " />
           </div>
+          <div className="text-center space-y-[8px]">
           <h1 className="font-bold text-lg">POLICIES</h1>
 
           <p className="hover:text-yellow-500 text-sm cursor-pointer">
@@ -83,8 +91,20 @@ const Footer = () => {
             {" "}
             <a href="/refundPolicy">Refund Policy</a>
           </p>
-               <div>
-
+          </div>
+               <div className="mt-4 flex flex-col justify-center items-center">
+                <p className="flex items-center justify-center mt-2">
+                  <FaStore  className="mr-2" size={20} />
+                  <span>Store : 91 Joel St, Pinner, Northwood HA6 1LW, UK</span>
+                </p>
+                <p className="flex items-center mt-2">
+                  <IoMdMail  className="mr-2" size={20} />
+                  Email : info@hothousenorthwood.co.uk
+                </p>
+                <p className="flex items-center mt-2">
+                  <FaPhone className="mr-2" size={20} />
+                Contact Us :  + 441923510520
+                </p>
         
      
         </div>

@@ -21,6 +21,8 @@ app.use(
           origin: [
             "https://hot-house.vercel.app",
             "https://hot-house-9gco.vercel.app",
+            "https://homfix.co.uk",
+            "https://admin.homfix.co.uk",
             "http://localhost:4112",
             "http://localhost:3000",
             "http://localhost:3001",
@@ -36,6 +38,8 @@ app.use(
           origin: [
             "https://hot-house.vercel.app",
             "https://hot-house-9gco.vercel.app",
+            "https://homfix.co.uk",
+            "https://admin.homfix.co.uk",
             "http://localhost:4112",
             "http://localhost:3000",
             "http://localhost:3001",

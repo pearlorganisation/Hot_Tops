@@ -1,11 +1,11 @@
 "use client";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { emptyCart } from "@/app/lib/features/cartSlice/cartSlice";
+// import { emptyCart } from "@/app/lib/features/cartSlice/cartSlice";
 import { ClipLoader } from "react-spinners";
-import { loadStripe } from "@stripe/stripe-js";
+// import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "sonner";
 
 
@@ -264,7 +264,7 @@ const [mount, setMount] = useState(false)
                   defaultChecked
                 />
                 <label htmlFor="cash">Cash on delivery</label>
-                <input
+                {/* <input
                   {...register("paymentMethode")}
                   name="paymentMethode"
                   type="radio"
@@ -272,7 +272,7 @@ const [mount, setMount] = useState(false)
                   value="Online Payment"
                  
                 />
-                <label htmlFor="card">Pay Now</label>
+                <label htmlFor="card">Pay Now</label> */}
               </div>
             </div>
             <div className="flex items-center space-x-2">
