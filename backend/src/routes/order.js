@@ -12,6 +12,6 @@ const router = express.Router();
 router.route("/:userId").get(getParticularUserOrders);
 router.route("/").post(newOrder).get(getAllOrders);
 router.route("/:id").patch(updateCompleteOrder);
-router.route("/create-checkout-session").post(onlineOrder)
+router.route("/create-viva-order").post(onlineOrder)
 
 export default router;

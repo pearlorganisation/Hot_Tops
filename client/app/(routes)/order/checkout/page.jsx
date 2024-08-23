@@ -68,32 +68,62 @@ const page = ({ searchParams }) => {
 }
 else{
   setIsLoading(true)
-  try {
-    const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
+  // try {
+  //   const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/order/create-checkout-session`,{
-     method:"POST",
-     headers: {
-       "Content-Type": "application/json",
-     },
-     body:JSON.stringify(newData)
-    })
-    setIsLoading(false)
-    const session = await response.json()
+  //   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/order/create-checkout-session`,{
+  //    method:"POST",
+  //    headers: {
+  //      "Content-Type": "application/json",
+  //    },
+  //    body:JSON.stringify(newData)
+  //   })
+  //   setIsLoading(false)
+  //   const session = await response.json()
   
-    const result = stripe.redirectToCheckout({
-     sessionId:session.id
-    })
+  //   const result = stripe.redirectToCheckout({
+  //    sessionId:session.id
+  //   })
  
-    if(result.error){
-      toast.error("Error verifying payment", { position: "top-center" });
-     }
+  //   if(result.error){
+  //     toast.error("Error verifying payment", { position: "top-center" });
+  //    }
      
-  } catch (error) {
+  // } catch (error) {
+  //   setIsLoading(false)
+  //   toast.error("Error verifying payment", { position: "top-center" });
+  // }
+ 
+  try {
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/order/create-viva-order`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        amount: 1234,
+        customerTrns: "string",
+        customer: {
+          email: "string",
+          fullName: "string",
+          phone: "string",
+          countryCode: "string",
+          requestLang: "string",
+        },
+        dynamicDescriptor: "Descriptor",
+        paymentTimeout: 1800,
+        currencyCode: 826, // Great Britain Pound
+      }),
+    });
+
+  const vivaResponse = await response.json();
+  console.log(vivaResponse);
+
+} catch (error) {
     setIsLoading(false)
     toast.error("Error verifying payment", { position: "top-center" });
   }
-
 }
 
 

@@ -21,7 +21,7 @@ const authSchema = new mongoose.Schema(
     mobileNumber: {
       type: String,
       required:[ true,"Mobile Number is required"]
-    },
+    }
   },
   { timestamps: true }
 );
