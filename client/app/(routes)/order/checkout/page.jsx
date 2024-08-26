@@ -3,9 +3,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-// import { emptyCart } from "@/app/lib/features/cartSlice/cartSlice";
 import { ClipLoader } from "react-spinners";
-// import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "sonner";
 
 
@@ -103,22 +101,28 @@ else{
       },
       body: JSON.stringify({
         amount: 1234,
-        customerTrns: "string",
         customer: {
-          email: "string",
-          fullName: "string",
-          phone: "string",
-          countryCode: "string",
-          requestLang: "string",
-        },
-        dynamicDescriptor: "Descriptor",
-        paymentTimeout: 1800,
-        currencyCode: 826, // Great Britain Pound
+          email: userData?.email,
+          fullName: `${userData?.firstName} ${userData?.lastName}`,
+          phone: userData?.mobileNumber,
+        }
       }),
     });
 
   const vivaResponse = await response.json();
-  console.log(vivaResponse);
+
+  if (!response.ok) {
+    return next(new CustomError(vivaResponse, 400));
+  }
+  const orderCode= vivaResponse.orderCode
+  // const checkoutUrl = `https://www.vivapayments.com/web/checkout?ref=${orderCode}`;
+  const checkoutUrl = `https://demo.vivapayments.com/web/checkout?ref=${orderCode}`;
+
+    // Redirect to Viva Payments checkout page
+    window.location.href = checkoutUrl;
+
+    
+
 
 } catch (error) {
     setIsLoading(false)
@@ -264,7 +268,7 @@ const [mount, setMount] = useState(false)
                   defaultChecked
                 />
                 <label htmlFor="cash">Cash on delivery</label>
-                {/* <input
+                <input
                   {...register("paymentMethode")}
                   name="paymentMethode"
                   type="radio"
@@ -272,7 +276,7 @@ const [mount, setMount] = useState(false)
                   value="Online Payment"
                  
                 />
-                <label htmlFor="card">Pay Now</label> */}
+                <label htmlFor="card">Pay Now</label>
               </div>
             </div>
             <div className="flex items-center space-x-2">

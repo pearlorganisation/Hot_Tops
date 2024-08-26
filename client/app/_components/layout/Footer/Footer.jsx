@@ -99,7 +99,7 @@ const Footer = () => {
                 </p>
                 <p className="flex items-center mt-2">
                   <IoMdMail  className="mr-2" size={20} />
-                  Email : info@hothousenorthwood.co.uk
+                  Email : info@hothousenorthwood.com
                 </p>
                 <p className="flex items-center mt-2">
                   <FaPhone className="mr-2" size={20} />

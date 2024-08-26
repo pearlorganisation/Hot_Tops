@@ -98,37 +98,47 @@ export const updateCompleteOrder = asyncErrorHandler(async (req, res, next) => {
 
   export const onlineOrder = asyncErrorHandler(async (req, res, next) => {
 
-    const response = await fetch("https://accounts.vivapayments.com/connect/token", {
+    const {amount,customer} = req.body
+
+    // const generateToken = await fetch("https://accounts.vivapayments.com/connect/token", {
+    const generateToken = await fetch("https://demo-accounts.vivapayments.com/connect/token", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: new URLSearchParams({
         grant_type: 'client_credentials',
-        client_id: '56sucz9t1my1w6c5axz8vkf5o5mf2ff77rbooqhugot14.apps.vivapayments.com',  
-        client_secret: 't6Ay63s2da78pir3f98WvJNV0W4hBW', 
+        // client_id: '56sucz9t1my1w6c5axz8vkf5o5mf2ff77rbooqhugot14.apps.vivapayments.com',  
+        // client_secret: 't6Ay63s2da78pir3f98WvJNV0W4hBW', 
+        client_id: 'wc37z4tch73nk3amxt162fy8nxa0301wndrxs680ach73.apps.vivapayments.com',  
+        client_secret: 'tyd8a7GJZFQ5Zsb8s3QTJ8X087POaW', 
         scope: 'urn:viva:payments:core:api:redirectcheckout', 
       }),
     });
 
-    const data = await response.json();
+    const response = await generateToken.json();
 
-    if (!response.ok) {
-      return next(new CustomError(data, 400));
+    if (!generateToken.ok) {
+      return next(new CustomError(response, 400));
     }
 
-    // res.status(200).json(data);
-    console.log(data)
-console.log(req?.body)
-    const responseOrder = await fetch("https://api.vivapayments.com/checkout/v2/orders", {
+    console.log(response)
+
+    // const responseOrder = await fetch("https://api.vivapayments.com/checkout/v2/orders", {
+    const responseOrder = await fetch("https://demo-api.vivapayments.com/checkout/v2/orders", {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
-    'Authorization': `Bearer ${data.access_token}`
+    'Authorization': `Bearer ${response.access_token}`
       },
 
       body: JSON.stringify({
-        "amount": 1234,
+        "amount": amount,
+        "customer" : {
+          email : customer.email,
+          fullName : customer.fullName,
+          phone: customer.phone
+        }
       
       }),
     });
@@ -140,4 +150,5 @@ console.log(req?.body)
     }
 
      res.status(200).json(finalResult);
+     
   })

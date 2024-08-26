@@ -40,6 +40,7 @@ app.use(
             "https://hot-house-9gco.vercel.app",
             "https://homfix.co.uk",
             "https://admin.homfix.co.uk",
+            "https://demo.vivapayments.com",
             "http://localhost:4112",
             "http://localhost:3000",
             "http://localhost:3001",
