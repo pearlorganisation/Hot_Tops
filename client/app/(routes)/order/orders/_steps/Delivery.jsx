@@ -102,7 +102,7 @@ const Delivery = ({ step }) => {
     const [postCodeAddresses, setPostCodeAddresses] = useState([])
     const [postalCode, setPostalCode] = useState('')
     const [savedOrSelectedAddress, setSavedOrSelectedAddress] = useState([])
-    const [selectedAddress, setSelectedAddress] = useState(0)
+    const [selectedAddress, setSelectedAddress] = useState('')
     const [isUpdateAdress, setUpdateAddress] = useState(false)
 
     const handleSearchDebounce = debounce(async (value) => {
@@ -116,170 +116,236 @@ const Delivery = ({ step }) => {
 
     }, [postalCode])
 
+    const postAddress = async (address) => {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/address`,
+            {
+                method: "post",
+                body: JSON.stringify({
+                    address: address,
+                    postCode: postalCode,
+                    userId: userData?._id,
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+            }
+        )
+        console.log(response, "response")
+        if (response.status) {
+            setPostCodeAddresses([])
+            fetchAddress(userData?._id)
+        }
+    }
+    const deleteAddress = async (id) => {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/address/${id}`,
+            {
+                method: "DELETE",
+
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+            }
+        )
+        console.log(response, "response")
+        if (response.status) {
+            toast.success("Deleted")
+            setPostCodeAddresses([])
+            fetchAddress(userData?._id)
+        }
+    }
+
     const onSubmit = async (data) => {
         console.log(data);
-        dispatch(
+        if (selectedAddress?.address)
+     {   dispatch(
             getorderDetails({
-                address: savedOrSelectedAddress[0],
+                address: selectedAddress,
                 time: data?.daytime,
                 orderType: step === 1 ? "collection" : "delivery",
             })
         );
+ 
+        
+            dispatch(getPreviousPath("/order/orders"));
+            router.push("/order/checkout");}
+            else{
+                toast.error("Please select the address")
+            }
+
+    };
+
+    const handleAddress = async (formData) => {
+        const address = formData.get("address")
+        const postCode = formData.get("postCode")
+        const note = formData.get("note")
+        console.log(address, postCode, note)
         try {
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/address`,
+                `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/address/${selectedAddress?._id}`,
                 {
-                    method: "post",
+                    method: "PATCH",
                     body: JSON.stringify({
-                        address: savedOrSelectedAddress[0],
-                        postCode: postalCode,
+                        address: address,
+                        postCode: selectedAddress?.postCode,
                         userId: userData?._id,
+                        note: note
                     }),
                     headers: {
                         "Content-type": "application/json; charset=UTF-8",
                     },
                 }
             );
-            const newData = await response?.json();
-            // setAddressData(newData);
-
-            if (newData?.status === true) {
-                dispatch(getPreviousPath("/order/orders"));
-                router.push("/order/checkout");
+            if (response.status) {
+                toast.success("Updated")
+                setUpdateAddress(false)
+                fetchAddress(userData?._id)
+                const newData = await response?.json();
+                // setAddressData(newData);
             }
+
+
         } catch (error) {
             console.log(error);
         }
-    };
+        console.log("submitted")
+    }
+    useEffect(() => {
+        console.log(addressData, "")
+        console.log(selectedAddress, "")
+    }, [addressData, selectedAddress])
+
 
     return (
         <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div className=" border-t-2 p-2 space-y-6">
-                    <div className="space-y-2">
-                        <label htmlFor="address">Please Enter Your Postal Code</label>{" "}
-                        <div className="relative">
-                            <input
-                                className="border-2 border-gray-300 rounded-md px-4 py-2 outline-none w-full focus:ring-2 focus:ring-red-800"
-                                type="text"
-                                name="address"
-                                id=""
-                                placeholder="Enter Your Postal Code"
-                                onChange={(e) => { setPostalCode(e.target.value) }}
-                            />
-                            {
-                                Array.isArray(postCodeAddresses) && postCodeAddresses.length > 0 && <div className="absolute w-full bg-white top-12 border max-h-[20rem] overflow-y-auto">
-                                    {
-                                        postCodeAddresses?.map(item => {
-                                            return <div
-                                                onClick={() => {
-                                                    setAddressData(prev => {
-                                                        setPostCodeAddresses([])
-                                                        // setPostalCode('')
-                                                        const temp = prev.filter(ad => ad?.address != item.address)
-                                                        return [...temp, { address: item?.address, postCode: postalCode }]
 
-                                                    })
-                                                    setSavedOrSelectedAddress([item.address])
-                                                }}
-                                                className="px-6 py-2 hover:bg-black/10 cursor-pointer">{item?.address}</div>
-                                        })
-                                    }
-                                </div>
-                            }
-                        </div>
+            <div className=" border-t-2 p-2 space-y-6">
+                <div className="space-y-2">
+                    <label htmlFor="address">Please Enter Your Postal Code</label>{" "}
+                    <div className="relative">
+                        <input
+                            className="border-2 border-gray-300 rounded-md px-4 py-2 outline-none w-full  focus:border-red-800"
+                            type="text"
+                            name="address"
+                            id=""
+                            placeholder="Enter Your Postal Code"
+                            onChange={(e) => { setPostalCode(e.target.value) }}
+                        />
                         {
-                            isUpdateAdress ? <form onSubmit={(e) => {
-                                e.preventDefault()
-
-                                console.log("subm")
-                            }} className="w-full mx-auto p-4 space-y-6 bg-white shadow-lg rounded-lg">
-
-
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700">Address</label>
-                                    <input
-                                        type="text"
-                                        name="address"
-                                        defaultValue={selectedAddress?.address}
-                                        placeholder="Enter address"
-                                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700">Postcode</label>
-                                    <input
-                                        type="text"
-                                        placeholder="Enter postcode"
-                                        name="postCode"
-                                        defaultValue={selectedAddress?.postCode}
-                                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                        disabled
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700">Note</label>
-                                    <textarea
-                                        placeholder="Enter your note"
-                                        name="note"
-                                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                    ></textarea>
-                                </div>
-
-                                <div className="flex justify-between">
-                                    <button
-                                        type="button"
-                                        className="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                    >
-                                        Cancel
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                                    >
-                                        Save
-                                    </button>
-                                </div>
-                            </form> : Array.isArray(addressData) && addressData.length > 0 && <div className="space-y-3">
-                                <h1 className="text-green-800">OR SELECT FROM THE LIST :</h1>
+                            Array.isArray(postCodeAddresses) && postCodeAddresses.length > 0 && <div className="absolute w-full bg-white top-12 border max-h-[20rem] overflow-y-auto">
                                 {
-                                    addressData?.map((item, index) => {
-                                        return <div onClick={() => { setSelectedAddress(item) }} className={`border-2 rounded-md ${selectedAddress?.address === item?.address ? '  border-green-400 bg-green-400/30' : "bg-transparent"} p-4 cursor-pointer flex justify-between items-center`}>{item?.address}
-                                            {/* <div className="flex gap-2 justify-start items-center"><MdModeEdit onClick={() => {
-                                            setUpdateAddress(true)
-                                        }} className="text-blue-600" /> <MdDelete className="text-red-600" /></div> */}
-                                        </div>
+                                    postCodeAddresses?.map(item => {
+                                        return <div
+                                            onClick={() => {
+                                                postAddress(item?.address)
+                                                // setAddressData(prev => {
+                                                //     setPostCodeAddresses([])
+                                                //     // setPostalCode('')
+                                                //     const temp = prev?.filter(ad => ad?.address != item?.address) || []
+                                                //     return [...temp, { address: item?.address, postCode: postalCode }]
+
+                                                // })
+                                                setSavedOrSelectedAddress([item.address])
+                                            }}
+                                            className="px-6 py-2 hover:bg-black/10 cursor-pointer">{item?.address}</div>
                                     })
                                 }
                             </div>
                         }
-
-
-
-                        {errors.address && <p className="text-red-500">Please fill the address</p>}
                     </div>
-
-                    <div className="space-y-2">
-                        <h1>Please Select Time & Day</h1>
-                        <select
-                            {...register("daytime", { required: true })}
-                            id="day"
-                            defaultValue=""
-                            className="px-4 py-2 border-2 w-full border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent"
-                        >
-                            <option value="" disabled>Select Time & Day</option>
-                            {dayTimeIntervals.map((interval, index) => (
-                                <option key={index} value={`${interval.day}-${interval.time}`}>
-                                    {interval.day} - {interval.time}
-                                </option>
-                            ))}
-                        </select>
-                        {errors.daytime && <span className="text-red-500">Please select the time & day</span>}
-                    </div>
+                    {
+                        isUpdateAdress ? <form action={handleAddress} className="w-full mx-auto p-4 space-y-6 bg-white shadow-lg rounded-lg">
 
 
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">Address</label>
+                                <input
+                                    type="text"
+                                    name="address"
+                                    defaultValue={selectedAddress?.address}
+                                    placeholder="Enter address"
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">Postcode</label>
+                                <input
+                                    type="text"
+                                    placeholder="Enter postcode"
+                                    name="postCode"
+                                    defaultValue={selectedAddress?.postCode}
+                                    value={selectedAddress?.postCode}
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    disabled
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">Note</label>
+                                <textarea
+                                    placeholder="Enter your note"
+                                    name="note"
+                                    defaultValue={selectedAddress?.note}
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                ></textarea>
+                            </div>
+
+                            <div className="flex justify-between">
+                                <button
+                                    type="button"
+                                    onClick={() => { setUpdateAddress(false) }}
+                                    className="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-300"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                                >
+                                    Save
+                                </button>
+                            </div>
+                        </form> : Array.isArray(addressData) && addressData.length > 0 && <div className="space-y-3">
+                            <h1 className="">And Select From The List :</h1>
+                            {
+                                addressData?.map((item, index) => {
+                                    return <div onClick={() => { setSelectedAddress(item) }} className={`border p-4 rounded-md ${selectedAddress?.address === item?.address ? '  border-none bg-green-400/30' : "bg-transparent"} cursor-pointer flex justify-between items-center`}>{item?.address}
+                                        <div className="flex gap-2 justify-start items-center"><MdModeEdit size={24} onClick={() => {
+                                            setUpdateAddress(true)
+                                        }} className="text-green-700 hover:text-green-800" />
+                                        <MdDelete onClick={() => {
+                                            deleteAddress(item?._id)
+                                        }} size={24} className="text-red-600 hover:text-red-700" /></div>
+                                    </div>
+                                })
+                            }
+                        </div>
+                    }
+
+
+
+                    {errors.address && <p className="text-red-500">Please fill the address</p>}
+                </div>
+
+                <div className="space-y-2">
+                    <h1>Please Select Time & Day</h1>
+                    <select
+                        {...register("daytime", { required: true })}
+                        id="day"
+                        defaultValue=""
+                        className="px-4 py-2 border-2 w-full border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent"
+                    >
+                        <option value="" disabled>Select Time & Day</option>
+                        {dayTimeIntervals.map((interval, index) => (
+                            <option key={index} value={`${interval.day}-${interval.time}`}>
+                                {interval.day} - {interval.time}
+                            </option>
+                        ))}
+                    </select>
+                    {errors.daytime && <span className="text-red-500">Please select the time & day</span>}
+                </div>
+
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="bg-red-800 p-6 rounded-md text-white">
                         <h2 className="font-bold text-lg mb-4">
                             ORDERING INFORMATION:
@@ -307,13 +373,13 @@ const Delivery = ({ step }) => {
                         </p>
                     </div>
                     <button
-                        className="bg-green-700 hover:bg-green-600  py-2 w-full text-white rounded"
+                        className=" mt-5 bg-green-700 hover:bg-green-600  py-2 w-full text-white rounded"
                         type="submit"
                     >
                         Proceed To Checkout
                     </button>
-                </div>{" "}
-            </form>
+                </form>
+            </div>{" "}
         </div>
     )
 }

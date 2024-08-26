@@ -213,7 +213,7 @@ const [isLoading,setIsLoading] = useState(false)
                 {...register("confirmPassword", {
                   required: "Please confirm your password",
                   validate: (value) =>
-                    value === watch("password") || "The passwords do not match",
+                    value === watch("password") || "The passwords does not match",
                 })}
               />
               <span
