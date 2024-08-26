@@ -243,7 +243,7 @@ const [mount, setMount] = useState(false)
             {order?.orderType === 'delivery' && <div>
                 <h3 className="text-lg font-bold">YOUR ADDRESS & MOBILE NUMBER:</h3>
                 <p>
-                  {order?.address} , <span className="text-red-800">{userData?.mobileNumber ? userData?.mobileNumber: "No Mobile Number is added"}</span>
+                  {order?.address?.address} , <span className="text-red-800">{userData?.mobileNumber ? userData?.mobileNumber: "No Mobile Number is added"}</span>
 
                 </p>
               </div>
@@ -268,7 +268,7 @@ const [mount, setMount] = useState(false)
                   defaultChecked
                 />
                 <label htmlFor="cash">Cash on delivery</label>
-                <input
+                {/* <input
                   {...register("paymentMethode")}
                   name="paymentMethode"
                   type="radio"
@@ -276,7 +276,7 @@ const [mount, setMount] = useState(false)
                   value="Online Payment"
                  
                 />
-                <label htmlFor="card">Pay Now</label>
+                <label htmlFor="card">Pay Now</label> */}
               </div>
             </div>
             <div className="flex items-center space-x-2">
