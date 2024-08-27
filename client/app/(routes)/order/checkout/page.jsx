@@ -21,6 +21,7 @@ const page = ({ searchParams }) => {
     formState: { errors },
   } = useForm();
 
+ 
   const onSubmit = async (data) => {
     const newData = {
       orderType: order?.orderType,
@@ -100,7 +101,7 @@ else{
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        amount: 1234,
+        amount: onlinePrice * 100,
         customer: {
           email: userData?.email,
           fullName: `${userData?.firstName} ${userData?.lastName}`,
@@ -142,6 +143,8 @@ else{
 
     return acc + Number(item?.totalSum);
   }, 0);
+  const onlinePrice =  (Number(totalPrice?.toFixed(2)) + Number(deliveryCharge))
+
 const [mount, setMount] = useState(false)
   useEffect(()=>{
     console.log(cart.length)
@@ -268,7 +271,7 @@ const [mount, setMount] = useState(false)
                   defaultChecked
                 />
                 <label htmlFor="cash">Cash on delivery</label>
-                {/* <input
+                <input
                   {...register("paymentMethode")}
                   name="paymentMethode"
                   type="radio"
@@ -276,7 +279,7 @@ const [mount, setMount] = useState(false)
                   value="Online Payment"
                  
                 />
-                <label htmlFor="card">Pay Now</label> */}
+                <label htmlFor="card">Pay Now</label>
 
               </div>
             </div>
