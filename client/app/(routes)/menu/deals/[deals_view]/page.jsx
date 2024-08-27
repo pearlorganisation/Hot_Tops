@@ -82,6 +82,7 @@ useEffect(()=>{
       sizeDetailRef.current = dealViewData?.sizes.find(
         (el) => el._id === sizeId
       );
+      console.log(sizeDetailRef,"sdfdsf")
       pizzaDataIndex.current = 0; 
     }
   }, [dealViewData]);
