@@ -62,8 +62,8 @@ const MeatToppings = ({ meatTopData }) => {
         const meat = meatTopData.find((s) => s._id === meatId);
         const price =
           size === "single"
-            ? meat.price[0].singlePrice
-            : meat.price[0].doublePrice;
+            ? meat?.price[0]?.singlePrice
+            : meat?.price[0]?.doublePrice;
         return {
           meatName: meat.name,
           _id: meat?._id,
@@ -111,7 +111,7 @@ const MeatToppings = ({ meatTopData }) => {
                   }`}
                   onClick={() => handleSelectionChange(meat._id, "single")}
                 >
-                  £ {meat.price[0].singlePrice}
+                  £ {meat?.price[0]?.singlePrice}
                 </div>
               </td>
               <td className="px-2 md:px-4 py-2 whitespace-nowrap text-sm text-gray-500">
@@ -123,7 +123,7 @@ const MeatToppings = ({ meatTopData }) => {
                   }`}
                   onClick={() => handleSelectionChange(meat._id, "double")}
                 >
-                  £ {meat.price[0].doublePrice}
+                  £ {meat?.price[0]?.doublePrice}
                 </div>
               </td>
             </tr>

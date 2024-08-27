@@ -63,12 +63,12 @@ export const getDeal = asyncErrorHandler(async (req, res, next) => {
       return next(new CustomError("Deal not found", 404));
     }
     let pizzaData;
-    if (!resultantData?.pizzaData)
+    if (resultantData?.pizzaData)
     {
     pizzaData = await pizza.find({},"pizzaName priceSection banner sauceName cheeseName vegetarianToppingsName meatToppingsName baseName ").populate("priceSection.size").lean();
     }
     else {
-    pizzaData = await pizza.find({ _id: { $nin: resultantData?.pizzaData } }, "pizzaName").lean();
+    pizzaData = await pizza.find({ _id: { $nin: resultantData?.pizzaData } }, "pizzaName priceSection banner sauceName cheeseName vegetarianToppingsName meatToppingsName baseName").populate("priceSection.size").lean();
     }
     console.log(pizzaData, "pizza Data ");
     let drinksToInclude = [];
