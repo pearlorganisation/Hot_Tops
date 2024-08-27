@@ -116,8 +116,8 @@ useEffect(()=>{
           size: sizeDetailRef.current.size,
           id:  dealViewData?._id + dealDataPizza.reduce((acc,currEle)=> acc + currEle.id,''),
           quantity: 1,
-          price : Number(extraPrice+dealViewData.sizes[0].price).toFixed(2),
-          totalSum :Number(extraPrice+dealViewData.sizes[0].price).toFixed(2),
+          price : Number(extraPrice+sizeDetailRef.current.price).toFixed(2),
+          totalSum :Number(extraPrice+sizeDetailRef.current.price).toFixed(2),
           dealsData:[...submitData]
         }));
       router.push("/order/cart");
