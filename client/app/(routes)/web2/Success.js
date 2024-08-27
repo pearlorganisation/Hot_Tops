@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { SiTicktick } from "react-icons/si";
 import { useSelector } from "react-redux";
 
-const Success = () =>{
+const Success = ({transId}) =>{
     const router = useRouter()
     const order = useSelector((state) => state.orderDetails?.order);
     const userData = useSelector((state) => state.auth.userData);
@@ -54,12 +54,14 @@ const Success = () =>{
             console.log(error);
           }
     }
-
+console.log(transId,"transId")
     useEffect(()=>{
  
         
-        postData(); 
-    },[])
+        if(transId){
+            postData(); 
+        }
+    },[transId])
 
 
     return (
