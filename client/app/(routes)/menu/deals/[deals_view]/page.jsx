@@ -372,7 +372,7 @@ useEffect(()=>{
               ADD TO CART
             </button>
           </div>
-        { !viewButton ? <DealPriceCard  dealPrice={dealViewData.sizes[0].price} extraPrice={extraPrice} />: ""}
+        { !viewButton ? <DealPriceCard  dealPrice={sizeDetailRef?.current?.price || 0} extraPrice={extraPrice} />: ""}
         </div>
       ) : (
         <div className="flex justify-center pt-[25vh] h-[85vh] "><ClockLoader color="#991b1b" size={100}/></div>

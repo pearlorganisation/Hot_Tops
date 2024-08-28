@@ -1,6 +1,7 @@
 "use client"
 
 import { emptyCart } from "@/app/lib/features/cartSlice/cartSlice";
+import { successRedirectStatus } from "@/app/lib/features/orderDetails/orderDetailsslice";
 import React, { useEffect } from "react";
 import { BsFillTelephoneOutboundFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
@@ -26,6 +27,7 @@ const page = () => {
   }, []);
 
   useEffect(()=>{
+    dispatch(successRedirectStatus(false))
     dispatch(emptyCart());
   },[])
 

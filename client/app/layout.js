@@ -7,10 +7,7 @@ import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
-  title: "Hot House Pizza",
-  description: "Pizza Website"
-};
+
 
 export default function RootLayout({ children }) {
   return (

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { ClipLoader } from "react-spinners";
 import { toast } from "sonner";
+import { successRedirectStatus } from "@/app/lib/features/orderDetails/orderDetailsslice";
 
 
 const page = ({ searchParams }) => {
@@ -115,6 +116,7 @@ else{
   if (!response.ok) {
     return next(new CustomError(vivaResponse, 400));
   }
+  dispatch(successRedirectStatus(true))
   const orderCode= vivaResponse.orderCode
   // const checkoutUrl = `https://www.vivapayments.com/web/checkout?ref=${orderCode}`;
   const checkoutUrl = `https://demo.vivapayments.com/web/checkout?ref=${orderCode}`;
@@ -126,6 +128,7 @@ else{
 
 
 } catch (error) {
+  dispatch(successRedirectStatus(false))
     setIsLoading(false)
     toast.error("Error verifying payment", { position: "top-center" });
   }
@@ -154,6 +157,10 @@ const [mount, setMount] = useState(false)
       }
   
   },[cart])
+
+  useEffect(()=>{
+    dispatch(successRedirectStatus(false))
+  },[])
 
   return (
     <div>
