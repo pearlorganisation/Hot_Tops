@@ -69,11 +69,10 @@ const Success = ({transId}) =>{
     },[transId])
 
     useEffect(() => {
-      dispatch(successRedirectStatus(false))
       if (!isSuccess) {
         router.push("/notFound");
       }
-    }, [isSuccess]);
+    }, []);
 
     return (
         <div className="mx-10 mb-10 flex flex-col gap-4 items-center bg-green-600 justify-center h-[60vh] rounded-lg" >
