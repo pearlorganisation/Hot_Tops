@@ -1,8 +1,10 @@
 "use client"
+import { successRedirectStatus } from "@/app/lib/features/orderDetails/orderDetailsslice";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SiTicktick } from "react-icons/si";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
 
 const Success = ({transId}) =>{
     const router = useRouter()
@@ -10,6 +12,9 @@ const Success = ({transId}) =>{
     const userData = useSelector((state) => state.auth.userData);
     const cart = useSelector((state) => state.cart.cartData);
     const [isLoading,setIsLoading] = useState(false)
+    const {isSuccess} = useSelector((state=>state.orderDetails))
+    const dispatch = useDispatch()
+
 
     const deliveryCharge = 0.5;
     const postData = async()=>{
@@ -46,23 +51,28 @@ const Success = ({transId}) =>{
             const responsejson = await response.json();
             if (responsejson?.status === true) {
               // --------------clearing the cart after successfull order---------------
+            
               router.push("/order/tracker");
             }
             setIsLoading(false)
           } catch (error) {
+            dispatch(successRedirectStatus(false))
             setIsLoading(false)
             console.log(error);
           }
     }
-console.log(transId,"transId")
+
     useEffect(()=>{
- 
-        
-        if(transId){
+  if(transId){
             postData(); 
         }
     },[transId])
 
+    useEffect(() => {
+      if (!isSuccess) {
+        router.push("/notFound");
+      }
+    }, []);
 
     return (
         <div className="mx-10 mb-10 flex flex-col gap-4 items-center bg-green-600 justify-center h-[60vh] rounded-lg" >
