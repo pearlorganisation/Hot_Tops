@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
+
 const NotFound = () => {
   return (
     <section class="bg-white ">
