@@ -4,9 +4,14 @@ import Header from "./_components/layout/Header/Header";
 import Footer from "./_components/layout/Footer/Footer";
 import StoreProvider from "./StoreProvider";
 import { Toaster } from "sonner";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const metadata = {
+  title: 'Hot House pizza | Best Pizza in Northwood | Order online now',
+  description: 'Discover the best pizza takeaway in Northwood at Hot House Pizza, Convenient online ordering, quick service, and unbeatable taste. Order now',
+}
 
 
 export default function RootLayout({ children }) {
@@ -18,6 +23,19 @@ export default function RootLayout({ children }) {
     <link rel="icon" type="image/svg+xml" href="/favicon.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
+  <Script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=AW-16577048939"
+      ></Script>
+      <Script id="google-ads">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'AW-16577048939');
+        `}
+      </Script>
+
       <body className={inter.className}>
         <StoreProvider>
           <Header />

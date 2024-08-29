@@ -3,6 +3,7 @@ import useSWR from "swr";
 import PizzaCards from "./pizzaCards/PizzaCards";
 import { ClockLoader } from "react-spinners";
 
+
 // -------------------data fetching function-----------------------
 const pizzaFetcher = (...args) => fetch(...args).then((res) => res.json());
 
