@@ -23,9 +23,9 @@ export const sendMail = async (email, otp) => {
 // );
 
 const transporter = nodemailer.createTransport({
-  host: "mail.hothousenorthwood.com", // Your mail server's host
-  port: 587,                      // Typically 587 for secure transmission with STARTTLS, or 465 for SSL
-  secure: false,                  // Set `true` for port 465, `false` for other ports
+  host:  'server57.hostingraja.org', // Your mail server's host
+  port: 465,                      // Typically 587 for secure transmission with STARTTLS, or 465 for SSL
+  secure: true,                  // Set `true` for port 465, `false` for other ports
   auth: {
     user: process.env.NODEMAILER_EMAIL,   // Your email address
     pass: process.env.NODEMAILER_PASSWORD // Your email password
@@ -39,7 +39,7 @@ const transporter = nodemailer.createTransport({
   let mailOptions = {
     from: process.env.NODEMAILER_EMAIL,
     to: email,
-    subject: "Hot House Pizza Otp",
+    subject: "OTP - Hot House Pizza",
     html: data,
   };
 
