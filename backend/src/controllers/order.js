@@ -152,3 +152,28 @@ export const updateCompleteOrder = asyncErrorHandler(async (req, res, next) => {
      res.status(200).json(finalResult);
      
   })
+
+  export const transactionCreatedWebHook = asyncErrorHandler( async(req,res,next)=>{
+    
+    const Username = 'ebc52109-c09b-4c9f-a96d-415bafb43aa9';  // Replace with your merchant ID
+const Password = 'GlmfBP'; 
+
+    const generateToken = await fetch("https://demo.vivapayments.com/api/messages/config/token",{
+      method:"GET",
+      headers:{
+             'Content-Type': 'application/json',
+    'Authorization': `Basic ${btoa(`${Username}:${Password}`)}`
+      },
+    })
+
+    const response = await generateToken.json();
+
+    if (!generateToken.ok) {
+      return next(new CustomError(response, 400));
+    }
+
+    console.log(response,"acnsa")
+
+    res.status(200).json(response)
+
+  })

@@ -4,6 +4,7 @@ import {
   getParticularUserOrders,
   newOrder,
   onlineOrder,
+  transactionCreatedWebHook,
   updateCompleteOrder,
 } from "../controllers/order.js";
 
@@ -13,5 +14,6 @@ router.route("/:userId").get(getParticularUserOrders);
 router.route("/").post(newOrder).get(getAllOrders);
 router.route("/:id").patch(updateCompleteOrder);
 router.route("/create-viva-order").post(onlineOrder)
+router.route("/transactionCreatedWebhook").post(transactionCreatedWebHook)
 
 export default router;
