@@ -158,7 +158,7 @@ export const updateCompleteOrder = asyncErrorHandler(async (req, res, next) => {
     const Username = '69b72cc2-a7a9-44da-95c2-bfab799198b1';  // Replace with your merchant ID
 const Password = 'JMGP469tP6o3u7feHc9C5w68F179AB'; 
 
-    const generateToken = await fetch("https://demo.vivapayments.com/api/messages/config/token",{
+    const generateToken = await fetch("https://www.vivapayments.com/api/messages/config/token",{
       method:"GET",
       headers:{
              'Content-Type': 'application/json',
