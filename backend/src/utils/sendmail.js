@@ -18,9 +18,6 @@ export const sendMail = async (email, otp) => {
   //   },
   // });
 
-// const transporter = nodemailer.createTransport(
-//   `smtp://${process.env.NODEMAILER_EMAIL}:${process.env.NODEMAILER_PASSWORD}@hothousenorthwood.com:587`
-// );
 
 const transporter = nodemailer.createTransport({
   host:  'server57.hostingraja.org', // Your mail server's host
