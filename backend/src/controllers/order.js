@@ -177,3 +177,19 @@ const Password = 'JMGP469tP6o3u7feHc9C5w68F179AB';
     res.status(200).json(response)
 
   })
+
+
+    export const webhookResponse = asyncErrorHandler( async(req,res,next)=>{
+
+  const data = req.body;
+
+  // Validate incoming data
+  if (!data || !data.EventData) {
+    return res.status(400).json({message:"error"})
+  }
+
+  // Process the data and render 'process' view
+  res.status(200).json({eventData: data.EventData})
+
+  })
+

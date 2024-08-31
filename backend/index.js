@@ -4,11 +4,9 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { connectMongo } from "./src/configs/db/mongo/mongoConfig.js";
-import { corsConfig, envAccess } from "./src/utils/index.js";
+import { envAccess } from "./src/utils/index.js";
 import { CustomError } from "./src/utils/errors/customError.js";
-import pkg from 'express-ipfilter';
 
-const  { IpFilter, IpDeniedError } = pkg
 // -------------------------------------------------------------------------------------------------------------
 dotenv.config();
 
@@ -102,40 +100,43 @@ import adminAuth from "./src/routes/admin/auth.js";
 import addressRoutes from "./src/routes/address.js";
 import orderRoutes from "./src/routes/order.js";
 import dealsRoutes from "./src/routes/deals/deals.js";
+import webhookRoutes from "./src/routes/webhook.js"
 import morgan from "morgan";
 
 
-const ips = [
-  // Production IPs
-  "51.138.37.238",
-  "20.54.89.16",
-  "13.80.70.181",
-  "13.80.71.223",
-  "13.79.28.70",
-  "40.127.253.112/28",
-  "51.105.129.192/28",
-  // Demo IPs
-  "20.50.240.57",
-  "40.74.20.78",
-  "94.70.170.65",
-  "94.70.174.36",
-  "94.70.255.73",
-  "94.70.248.18",
-  "83.235.24.226",
-  "20.13.195.185"
-];
 
-// Apply the IP filter middleware
-app.use(IpFilter(ips, { mode: "allow" }));
+// const ips = [
+//   // Production IPs
+//   "103.182.161.55",
+//   "51.138.37.238",
+//   "20.54.89.16",
+//   "13.80.70.181",
+//   "13.80.71.223",
+//   "13.79.28.70",
+//   "40.127.253.112/28",
+//   "51.105.129.192/28",
+//   // Demo IPs
+//   "20.50.240.57",
+//   "40.74.20.78",
+//   "94.70.170.65",
+//   "94.70.174.36",
+//   "94.70.255.73",
+//   "94.70.248.18",
+//   "83.235.24.226",
+//   "20.13.195.185"
+// ];
 
-// Error handling for blocked IPs
-app.use((err, req, res, next) => {
-  if (err instanceof IpDeniedError) {
-    res.status(403).send("Forbidden");
-  } else {
-    next(err);
-  }
-});
+// // Apply the IP filter middleware
+// app.use(IpFilter(ips, { mode: "allow" }));
+
+// // Error handling for blocked IPs
+// app.use((err, req, res, next) => {
+//   if (err instanceof IpDeniedError) {
+//     res.status(403).send("Forbidden");
+//   } else {
+//     next(err);
+//   }
+// });
 
 
 app.use(morgan("dev"));
@@ -169,6 +170,7 @@ app.use("/api/v1/auth/adminSignUp", adminAuth);
 app.use("/api/v1/address", addressRoutes);
 app.use("/api/v1/order", orderRoutes);
 app.use("/api/v1/deals", dealsRoutes);
+app.use("/api/v1/webhook", webhookRoutes);
 
 // -------------------------------------------------------------------------------------------------------------
 
