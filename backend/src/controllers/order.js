@@ -184,16 +184,46 @@ const Password = 'GlmfBP';
 
     export const webhookResponse = asyncErrorHandler( async(req,res,next)=>{
 
+
+
+      const Username = 'ebc52109-c09b-4c9f-a96d-415bafb43aa9';  // Replace with your merchant ID
+      const Password = 'GlmfBP'; 
+
   const data = req.body;
 
   // Validate incoming data
   if (!data || !data.EventData) {
     return res.status(400).json({message:"error"})
   }
+  const transactionId = data.EventData.TransactionId
+
+  const generateToken = await fetch(`https://demo-api.vivapayments.com/checkout/v2/transactions/${transactionId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      grant_type: 'client_credentials',
+      // client_id: '56sucz9t1my1w6c5axz8vkf5o5mf2ff77rbooqhugot14.apps.vivapayments.com',  
+      // client_secret: 't6Ay63s2da78pir3f98WvJNV0W4hBW', 
+      client_id: 'wc37z4tch73nk3amxt162fy8nxa0301wndrxs680ach73.apps.vivapayments.com',  
+      client_secret: 'tyd8a7GJZFQ5Zsb8s3QTJ8X087POaW', 
+      scope: 'urn:viva:payments:core:api:redirectcheckout', 
+    }),
+  });
+
+  const response = await generateToken.json();
+
+  if (!generateToken.ok) {
+    return next(new CustomError(response, 400));
+  }
+
+  console.log(response)
 
 console.log( data.EventData,"hi")
+
   // Process the data and render 'process' view
-  res.status(200).json({eventData: data.EventData})
+  res.status(200).json({status:true, data:response})
   
 
   })
