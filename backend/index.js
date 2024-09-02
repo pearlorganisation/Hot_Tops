@@ -105,40 +105,6 @@ import morgan from "morgan";
 
 
 
-// const ips = [
-//   // Production IPs
-//   "103.182.161.55",
-//   "51.138.37.238",
-//   "20.54.89.16",
-//   "13.80.70.181",
-//   "13.80.71.223",
-//   "13.79.28.70",
-//   "40.127.253.112/28",
-//   "51.105.129.192/28",
-//   // Demo IPs
-//   "20.50.240.57",
-//   "40.74.20.78",
-//   "94.70.170.65",
-//   "94.70.174.36",
-//   "94.70.255.73",
-//   "94.70.248.18",
-//   "83.235.24.226",
-//   "20.13.195.185"
-// ];
-
-// // Apply the IP filter middleware
-// app.use(IpFilter(ips, { mode: "allow" }));
-
-// // Error handling for blocked IPs
-// app.use((err, req, res, next) => {
-//   if (err instanceof IpDeniedError) {
-//     res.status(403).send("Forbidden");
-//   } else {
-//     next(err);
-//   }
-// });
-
-
 app.use(morgan("dev"));
 app.all(["/", "/api", "/api/v1"], (req, res, next) => {
   return res.status(200).json({

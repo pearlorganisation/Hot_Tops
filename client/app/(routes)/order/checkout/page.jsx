@@ -278,7 +278,7 @@ const [mount, setMount] = useState(false)
                   defaultChecked
                 />
                 <label htmlFor="cash">Cash on delivery</label>
-                {/* <input
+                <input
                   {...register("paymentMethode")}
                   name="paymentMethode"
                   type="radio"
@@ -286,7 +286,7 @@ const [mount, setMount] = useState(false)
                   value="Online Payment"
                  
                 />
-                <label htmlFor="card">Pay Now</label> */}
+                <label htmlFor="card">Pay Now</label>
 
               </div>
             </div>
