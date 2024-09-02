@@ -191,8 +191,25 @@ const Password = 'GlmfBP';
     return res.status(400).json({message:"error"})
   }
 
+console.log( data.EventData,"hi")
   // Process the data and render 'process' view
   res.status(200).json({eventData: data.EventData})
+  
 
   })
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
