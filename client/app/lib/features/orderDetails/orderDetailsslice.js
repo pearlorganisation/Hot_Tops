@@ -16,6 +16,9 @@ const orderDetailsSlice = createSlice({
     successRedirectStatus:(state,action)=>{
       state.isSuccess = action.payload
     },
+    trackerStatus:(state,action)=>{
+      state.trackerStatus = action.payload
+    },
     getCustomizationDetails: (state, action) => {
       const {
         sauceName,
@@ -39,6 +42,6 @@ const orderDetailsSlice = createSlice({
   },
 });
 
-export const { getorderDetails, getCustomizationDetails ,successRedirectStatus} =
+export const { getorderDetails, getCustomizationDetails ,successRedirectStatus,trackerStatus} =
   orderDetailsSlice.actions;
 export default orderDetailsSlice.reducer;

@@ -5,27 +5,7 @@ import { CustomError } from "../utils/errors/customError.js";
 
 
 export const newOrder = asyncErrorHandler(async (req, res, next) => {
-  const orders = await order.find();
-  const count = orders.length + 1;
-  function getCurrentDateTime() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, "0"); // Months are zero-based
-    const day = String(now.getDate()).padStart(2, "0");
-    const hours = String(now.getHours()).padStart(2, "0");
-    const minutes = String(now.getMinutes()).padStart(2, "0");
-    const seconds = String(now.getSeconds()).padStart(2, "0");
-
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  }
-
-  const newOrder = new order({
-    ...req?.body,
-    count,
-    orderAt: getCurrentDateTime(),
-  });
-
-  // newOrder.calculateTotalPrice();
+  const newOrder = new order(req?.body);
 
   await newOrder.save();
 
@@ -98,7 +78,8 @@ export const updateCompleteOrder = asyncErrorHandler(async (req, res, next) => {
 
   export const onlineOrder = asyncErrorHandler(async (req, res, next) => {
 
-    const {amount,customer} = req.body
+    const {amount,customer,newData} = req.body
+
 
     // const generateToken = await fetch("https://accounts.vivapayments.com/connect/token", {
     const generateToken = await fetch("https://demo-accounts.vivapayments.com/connect/token", {
@@ -122,8 +103,6 @@ export const updateCompleteOrder = asyncErrorHandler(async (req, res, next) => {
       return next(new CustomError(response, 400));
     }
 
-    console.log(response)
-
     // const responseOrder = await fetch("https://api.vivapayments.com/checkout/v2/orders", {
     const responseOrder = await fetch("https://demo-api.vivapayments.com/checkout/v2/orders", {
       method: "POST",
@@ -144,10 +123,15 @@ export const updateCompleteOrder = asyncErrorHandler(async (req, res, next) => {
     });
 
     const finalResult= await responseOrder.json()
-    console.log(finalResult)
+
     if (!responseOrder.ok) {
       return next(new CustomError(finalResult, 400));
     }
+
+    await order.create({...newData,
+      paymentStatus:false,
+      orderCode:finalResult.orderCode
+    })
 
      res.status(200).json(finalResult);
      
@@ -174,8 +158,6 @@ const Password = 'GlmfBP';
     if (!generateToken.ok) {
       return next(new CustomError(response, 400));
     }
-
-    console.log(response,"acnsa")
 
     res.status(200).json(response)
 
@@ -214,8 +196,7 @@ const Password = 'GlmfBP';
       if (!generateToken.ok) {
         return next(new CustomError(response, 400));
       }
-  
-      console.log(response)
+
   
     const accessToken = response.access_token; // Extract the OAuth2 access token
   
@@ -235,9 +216,18 @@ const Password = 'GlmfBP';
     }
   
     console.log(transactionData); // Log the transaction data for debugging
+
+    if (transactionData?.statusId === "F") {
+      await order.updateOne(
+        { orderCode: transactionData.orderCode }, // Filter to match the document
+        { $set: { paymentStatus: true } } // Update operation
+      );
+    }
   
     // Return the transaction data in response
-    res.status(200).json({ status: true, data: transactionData });
+    res.status(200).json({ status: true});
+
+
   });
   
 

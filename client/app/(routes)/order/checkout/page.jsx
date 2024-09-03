@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { ClipLoader } from "react-spinners";
 import { toast } from "sonner";
-import { successRedirectStatus } from "@/app/lib/features/orderDetails/orderDetailsslice";
+import { successRedirectStatus, trackerStatus } from "@/app/lib/features/orderDetails/orderDetailsslice";
 
 
 const page = ({ searchParams }) => {
@@ -24,6 +24,8 @@ const page = ({ searchParams }) => {
 
  
   const onSubmit = async (data) => {
+
+    dispatch(trackerStatus(true))
     const newData = {
       orderType: order?.orderType,
       email:userData?.email,
@@ -102,6 +104,7 @@ else{
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
+        newData:newData,
         amount: onlinePrice * 100,
         customer: {
           email: userData?.email,
@@ -118,6 +121,7 @@ else{
   }
   dispatch(successRedirectStatus(true))
   const orderCode= vivaResponse.orderCode
+
   // const checkoutUrl = `https://www.vivapayments.com/web/checkout?ref=${orderCode}`;
   const checkoutUrl = `https://demo.vivapayments.com/web/checkout?ref=${orderCode}`;
 
@@ -160,6 +164,7 @@ const [mount, setMount] = useState(false)
 
   useEffect(()=>{
     dispatch(successRedirectStatus(false))
+    dispatch(trackerStatus(false))
   },[])
 
   return (

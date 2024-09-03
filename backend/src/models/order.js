@@ -37,24 +37,13 @@ const orderSchema = new mongoose.Schema(
     paymentMethode: {
       type: String,
     },
-    count: {
-      type: String,
+    paymentStatus:{
+      type:Boolean
     },
-    orderAt: {
-      type: String,
-    },
-    // pizza: [
-    //   {
-    //     pizzaName: { type: String },
-    //     customization: [{ name: String, price: Number }],
-    //     size: { name: String, price: Number },
-    //     base: { name: String, price: Number },
-    //   },
-    // ],
-    // drink: [{ name: String, drinkType: String, price: Number }],
-    // dips: [{ name: String, dipType: String, price: Number }],
-    // sides: [{ name: String, price: Number }],
-    // dessert: [{ name: String, price: Number }],
+    orderCode:{
+      type:String
+    }
+
   },
   { timestamps: true }
 );
