@@ -1,6 +1,6 @@
 "use client";
 
-import { Navigation, Pagination } from "swiper/modules";
+import {  Pagination } from "swiper/modules";
 // import Swiper and modules styles
 import "swiper/css";
 import "swiper/css/navigation";
@@ -15,6 +15,8 @@ import pizza4 from "../../_assets/images/pizza4.webp"
 import Image from "next/image";
 import DealsCards from "../Pages/DealsCards";
 import { ClockLoader } from "react-spinners";
+import { useDispatch } from "react-redux";
+import { trackerStatus } from "@/app/lib/features/orderDetails/orderDetailsslice";
   async function getData() {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/deals?isPopular=true`);
@@ -33,6 +35,7 @@ const HomePage = () => {
     pizza3,
     pizza4
   ];
+  const dispatch = useDispatch()
   
     const [popularDealData, setPopularDealData] = useState(null);
 
@@ -41,6 +44,7 @@ const HomePage = () => {
       const data = await getData();
       setPopularDealData(data);
     }
+    dispatch(trackerStatus(false))
     fetchData();
   }, []);
 

@@ -3,8 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { IoBagHandleOutline } from "react-icons/io5";
-import { FaRegUser } from "react-icons/fa6";
+import { FaBagShopping } from "react-icons/fa6";
+import { FaUser } from "react-icons/fa6";
+import { CiUser } from "react-icons/ci";
+import { PiHandbagSimpleLight } from "react-icons/pi";
 import { RiRefreshFill } from "react-icons/ri";
 import logo from "../../../_assets/images/HOTPIZZALOGO.jpg";
 import { categoryEnum } from "@/app/utils/utils";
@@ -37,9 +39,9 @@ const Header = () => {
           {isUserLoggedIn ? (
             <Link href="/profile?tab=1">
               <p className="flex items-center gap-2 text-green-950">
-                <FaRegUser size={19} aria-label="User Profile" />
+                <FaUser size={20} className="text-slate-700" aria-label="User Profile" />
                 <span className="text-red-800 text-sm font-semibold">
-                  {userData?.firstName} {userData?.lastName}
+                  {userData?.firstName[0]}.{userData?.lastName}
                 </span>
               </p>
             </Link>
@@ -49,7 +51,7 @@ const Header = () => {
             </li>
           )}
           <Link href="/order/cart" className="flex items-center text-base">
-            <IoBagHandleOutline size={22} aria-label="Cart" />
+            <FaBagShopping size={22} className="text-slate-700" aria-label="Cart" />
             <span className="bg-red-800 text-sm text-white rounded-full px-[6px] py-[1px] mx-2">
               {cart?.length}
             </span>
@@ -94,9 +96,9 @@ const Header = () => {
         <div className="flex items-center gap-5">
           {isUserLoggedIn ? (
             <Link href="/profile?tab=1" className="hidden lg:flex items-center gap-2 text-black">
-              <FaRegUser size={20} aria-label="User Profile" />
+              <CiUser size={25} aria-label="User Profile" />
               <span className="text-base text-red-800 hover:text-red-700 hover:font-bold">
-                {userData?.firstName} {userData?.lastName}
+                {userData?.firstName[0]}.{userData?.lastName}
               </span>
             </Link>
           ) : (
@@ -105,7 +107,7 @@ const Header = () => {
             </li>
           )}
           <Link href="/order/cart" className="hidden text-black lg:flex items-center text-lg">
-            <IoBagHandleOutline size={25} aria-label="Cart" />
+            <PiHandbagSimpleLight size={25}  aria-label="Cart" />
             <span className="bg-red-800 hover:bg-red-700 text-white rounded-full px-2 mx-2">
               {cart?.length}
             </span>
@@ -114,7 +116,7 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="hidden lg:flex absolute top-full left-[82%] xl:left-[87%] transform -translate-x-1/2 gap-[2px]">
+      <div className="hidden md:flex absolute top-full left-[82%] xl:left-[87%] transform -translate-x-1/2 gap-[2px]">
         <a
           href="/profile?tab=3"
           className="inline-flex items-center bg-red-800 border-white text-white py-2 px-4 text-lg rounded-b-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
@@ -124,7 +126,7 @@ const Header = () => {
         </a>
       </div>
 
-      <div className="lg:hidden flex justify-center">
+      <div className="md:hidden flex justify-center">
         <a
           href="/profile?tab=3"
           className="w-full border-r border-r-white justify-center inline-flex items-center bg-red-800 text-white py-2 px-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
