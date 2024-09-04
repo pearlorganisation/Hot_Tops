@@ -46,16 +46,11 @@ headers:{"Content-Type": "application/json"}
 }
 }
 
-
-    useEffect(()=>{
-  if(transId){
-    getData(); 
-    console.log(paymentStatus)
-
-        }
-    },[transId])
-
     useEffect(() => {
+      if(transId){
+        getData(); 
+        console.log(paymentStatus)
+        }
         if (paymentStatus) {
           setIsLoading(false);
           toast.success("Payment Successful");
