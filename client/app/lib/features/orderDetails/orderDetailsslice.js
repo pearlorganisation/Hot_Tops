@@ -8,7 +8,9 @@ const initialState = {
 };
 const orderDetailsSlice = createSlice({
   name: "orderDetails",
-  initialState,
+  initialState:{
+    isSuccess:null
+  },
   reducers: {
     getorderDetails: (state, action) => {
       state.order = action.payload;
