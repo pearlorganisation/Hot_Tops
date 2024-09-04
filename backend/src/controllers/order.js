@@ -231,6 +231,14 @@ const Password = 'GlmfBP';
   });
   
 
+  export const getOrderWithOrderCode = asyncErrorHandler(async (req, res, next) => {
+    console.log(req.params)
+    const {orderCode}= req?.params
+    const data = await order.findOne({orderCode:orderCode},{paymentStatus:1});
+    res.status(200).json({ status: true, message: "All Orders Found successfully", data });
+  });
+  
+
 
 
 

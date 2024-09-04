@@ -116,11 +116,12 @@ else{
 
   const vivaResponse = await response.json();
 
-  if (!response.ok) {
-    return next(new CustomError(vivaResponse, 400));
+   // Check if the response is not okay (e.g., 4xx or 5xx status codes)
+   if (!response.ok) {
+    throw new Error(vivaResponse.message || 'Something went wrong while creating the Viva order');
   }
-  dispatch(successRedirectStatus(true))
   const orderCode= vivaResponse.orderCode
+  dispatch(successRedirectStatus(orderCode))
 
   // const checkoutUrl = `https://www.vivapayments.com/web/checkout?ref=${orderCode}`;
   const checkoutUrl = `https://demo.vivapayments.com/web/checkout?ref=${orderCode}`;
@@ -132,9 +133,9 @@ else{
 
 
 } catch (error) {
-  dispatch(successRedirectStatus(false))
+  dispatch(successRedirectStatus(null))
     setIsLoading(false)
-    toast.error("Error verifying payment", { position: "top-center" });
+    toast.error("Error opening the payment checkout page", { position: "top-center" });
   }
 }
 
@@ -163,7 +164,6 @@ const [mount, setMount] = useState(false)
   },[cart])
 
   useEffect(()=>{
-    dispatch(successRedirectStatus(false))
     dispatch(trackerStatus(false))
   },[])
 
