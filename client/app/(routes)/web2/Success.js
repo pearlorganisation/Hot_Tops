@@ -11,11 +11,10 @@ import { ClockLoader } from "react-spinners";
 const Success = ({transId}) =>{
     const router = useRouter()
     const [isLoading,setIsLoading] = useState(true)
-    const [paymentStatus,setPaymentStatus] = useState(false)
+    const [paymentStatus,setPaymentStatus] = useState(null)
     const {isSuccess} = useSelector((state=>state.orderDetails))
     const dispatch = useDispatch()
 
-    console.log(isSuccess)
 
 const getData = async() =>{
   
@@ -46,19 +45,25 @@ headers:{"Content-Type": "application/json"}
 }
 }
 
-    useEffect(() => {
-      if(transId){
-        getData(); 
-        console.log(paymentStatus)
+
+    useEffect(()=>{
+  if(transId){
+    getData(); 
+    console.log(paymentStatus)
+
         }
+    },[transId])
+
+    useEffect(() => {
+      if (paymentStatus !== null) { // Ensure paymentStatus has been set (true or false)
         if (paymentStatus) {
-          setIsLoading(false);
           toast.success("Payment Successful");
           router.push("/order/tracker");
-        } else if (transId) {
+        } else {
           router.push("/web2/fail");
         }
-      }, [paymentStatus, transId]);
+      }
+    }, [paymentStatus]);
 
     useEffect(() => {
       if (!isSuccess) {
