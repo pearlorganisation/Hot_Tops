@@ -62,7 +62,7 @@ const OrderDetails = () => {
               <div className="md:flex gap-3  justify-between">
                 <h1 className="">
                  <div className="flex justify-between">
-                   <span className="text-xl capitalize bg-red-800 rounded-md px-1 py-1 text-white">{`${data?.orderType}`}
+                   <span className="text-xl capitalize bg-red-800 rounded-t-md px-1 py-1 text-white">{`${data?.orderType}`}
                     </span>   
                     <a
                     href="/order/cart"
@@ -86,7 +86,7 @@ const OrderDetails = () => {
                 <div className="">
                 <div className=" md:hidden text-slate-700">Requested For <span className="font-semibold">{data?.time}</span>, </div> 
                 <div className=" md:hidden text-slate-700">Order At <span className="font-semibold">{formattedDate}</span>, </div> 
-                  <p>{data?.orderAt}</p>
+                  {/* <p>{data?.orderAt}</p> */}
                   <p className="font-semibold">
                     Order Amount - £{" "} 
                     {Number(data?.totalAmount?.total) +

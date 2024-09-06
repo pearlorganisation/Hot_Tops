@@ -23,10 +23,14 @@ export const getAllOrders = asyncErrorHandler(async (req, res, next) => {
 export const getParticularUserOrders = asyncErrorHandler(
   async (req, res, next) => {
     const { userId } = req?.params;
-    console.log(userId);
-    const data = await order.find({ orderBy: userId }).sort({createdAt:-1});
+    const data = await order.find({ 
+      orderBy: userId,
+      $or: [
+        { paymentStatus: true },
+        { paymentMethode: "Cash on delivery" }
+      ] }).sort({createdAt:-1});
     if (!data) {
-      return res.status(400).json({ status: false, message: "no order found" });
+      return res.status(400).json({ status: false, message: "No Order History" });
     }
     res
       .status(200)
