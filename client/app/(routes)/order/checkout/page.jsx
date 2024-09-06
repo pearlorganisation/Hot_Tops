@@ -123,8 +123,8 @@ else{
   const orderCode= vivaResponse.orderCode
   dispatch(successRedirectStatus(orderCode))
 
-  // const checkoutUrl = `https://www.vivapayments.com/web/checkout?ref=${orderCode}`;
-  const checkoutUrl = `https://demo.vivapayments.com/web/checkout?ref=${orderCode}`;
+  const checkoutUrl = `https://www.vivapayments.com/web/checkout?ref=${orderCode}`;
+  // const checkoutUrl = `https://demo.vivapayments.com/web/checkout?ref=${orderCode}`;
 
     // Redirect to Viva Payments checkout page
     window.location.href = checkoutUrl;
