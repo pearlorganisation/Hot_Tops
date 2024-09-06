@@ -133,7 +133,7 @@ else{
   const checkoutUrl = `https://www.vivapayments.com/web/checkout?ref=${orderCode}`;
 
   setIsLoading(false)
-  dispatch(trackerStatus(false))
+
   // const checkoutUrl = `https://demo.vivapayments.com/web/checkout?ref=${orderCode}`;
 
     // Redirect to Viva Payments checkout page
