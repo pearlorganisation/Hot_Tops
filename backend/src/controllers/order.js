@@ -80,7 +80,7 @@ export const updateCompleteOrder = asyncErrorHandler(async (req, res, next) => {
 
     const {amount,customer,newData} = req.body
 
-
+console.log(amount)
     const generateToken = await fetch("https://accounts.vivapayments.com/connect/token", {
     // const generateToken = await fetch("https://demo-accounts.vivapayments.com/connect/token", {
       method: "POST",
