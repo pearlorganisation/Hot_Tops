@@ -71,7 +71,7 @@ const Order = () => {
             <table className="w-full table-auto text-sm text-left">
               <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                 <tr>
-                  <th className="py-3 px-3">Order No.</th>
+                  <th className="py-3 px-3">Order Id</th>
                   <th className="py-3 px-3">Name </th>
                   <th className="py-3 px-3">Total Amount </th>
                   <th className="py-3 px-3">Time </th>
@@ -99,7 +99,7 @@ const Order = () => {
             ) : (
               Array.isArray(orderData) && orderData.length > 0 && orderData.slice().reverse().map((item, idx) => (
                     <tr key={idx}>
-                      <td className="px-3 py-4 whitespace-nowrap">{item?.count}</td>
+                      <td className="px-3 py-4 whitespace-nowrap">{item?._id}</td>
                       <td className="px-3 py-4 whitespace-nowrap ">
                         {item?.orderBy?.firstName} {item?.orderBy?.lastName}
                       </td>

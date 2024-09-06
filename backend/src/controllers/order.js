@@ -81,18 +81,18 @@ export const updateCompleteOrder = asyncErrorHandler(async (req, res, next) => {
     const {amount,customer,newData} = req.body
 
 
-    // const generateToken = await fetch("https://accounts.vivapayments.com/connect/token", {
-    const generateToken = await fetch("https://demo-accounts.vivapayments.com/connect/token", {
+    const generateToken = await fetch("https://accounts.vivapayments.com/connect/token", {
+    // const generateToken = await fetch("https://demo-accounts.vivapayments.com/connect/token", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: new URLSearchParams({
         grant_type: 'client_credentials',
-        // client_id: '56sucz9t1my1w6c5axz8vkf5o5mf2ff77rbooqhugot14.apps.vivapayments.com',  
-        // client_secret: 't6Ay63s2da78pir3f98WvJNV0W4hBW', 
-        client_id: 'wc37z4tch73nk3amxt162fy8nxa0301wndrxs680ach73.apps.vivapayments.com',  
-        client_secret: 'tyd8a7GJZFQ5Zsb8s3QTJ8X087POaW', 
+        client_id: process.env.VIVA_SMARTCHECKOUT_CLIENT_ID,  
+        client_secret: process.env.VIVA_SMARTCHECKOUT_SECRET_KEY, 
+        // client_id: 'wc37z4tch73nk3amxt162fy8nxa0301wndrxs680ach73.apps.vivapayments.com',  
+        // client_secret: 'tyd8a7GJZFQ5Zsb8s3QTJ8X087POaW', 
         scope: 'urn:viva:payments:core:api:redirectcheckout', 
       }),
     });
@@ -103,8 +103,8 @@ export const updateCompleteOrder = asyncErrorHandler(async (req, res, next) => {
       return next(new CustomError(response, 400));
     }
 
-    // const responseOrder = await fetch("https://api.vivapayments.com/checkout/v2/orders", {
-    const responseOrder = await fetch("https://demo-api.vivapayments.com/checkout/v2/orders", {
+    const responseOrder = await fetch("https://api.vivapayments.com/checkout/v2/orders", {
+    // const responseOrder = await fetch("https://demo-api.vivapayments.com/checkout/v2/orders", {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
@@ -139,13 +139,13 @@ export const updateCompleteOrder = asyncErrorHandler(async (req, res, next) => {
 
   export const transactionCreatedWebHook = asyncErrorHandler( async(req,res,next)=>{
     
-    // const Username = '69b72cc2-a7a9-44da-95c2-bfab799198b1';  // Replace with your merchant ID
-// const Password = 'JMGP469tP6o3u7feHc9C5w68F179AB'; 
-    const Username = 'ebc52109-c09b-4c9f-a96d-415bafb43aa9';  // Replace with your merchant ID
-const Password = 'GlmfBP'; 
+    const Username = process.env.VIVA_MERCHANT_ID;  
+const Password = process.env.VIVA_API_KEY; 
+//     const Username = 'ebc52109-c09b-4c9f-a96d-415bafb43aa9';  // Replace with your merchant ID
+// const Password = 'GlmfBP'; 
 
-    // const generateToken = await fetch("https://www.vivapayments.com/api/messages/config/token",{
-    const generateToken = await fetch("https://demo.vivapayments.com/api/messages/config/token",{
+    const generateToken = await fetch("https://www.vivapayments.com/api/messages/config/token",{
+    // const generateToken = await fetch("https://demo.vivapayments.com/api/messages/config/token",{
       method:"GET",
       headers:{
              'Content-Type': 'application/json',
@@ -175,18 +175,18 @@ const Password = 'GlmfBP';
     const transactionId = data.EventData.TransactionId;
     console.log(transactionId);
   
-    // const generateToken = await fetch("https://accounts.vivapayments.com/connect/token", {
-      const generateToken = await fetch("https://demo-accounts.vivapayments.com/connect/token", {
+    const generateToken = await fetch("https://accounts.vivapayments.com/connect/token", {
+      // const generateToken = await fetch("https://demo-accounts.vivapayments.com/connect/token", {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: new URLSearchParams({
           grant_type: 'client_credentials',
-          // client_id: '56sucz9t1my1w6c5axz8vkf5o5mf2ff77rbooqhugot14.apps.vivapayments.com',  
-          // client_secret: 't6Ay63s2da78pir3f98WvJNV0W4hBW', 
-          client_id: 'wc37z4tch73nk3amxt162fy8nxa0301wndrxs680ach73.apps.vivapayments.com',  
-          client_secret: 'tyd8a7GJZFQ5Zsb8s3QTJ8X087POaW', 
+          client_id: process.env.VIVA_SMARTCHECKOUT_CLIENT_ID,  
+          client_secret: process.env.VIVA_SMARTCHECKOUT_SECRET_KEY, 
+          // client_id: 'wc37z4tch73nk3amxt162fy8nxa0301wndrxs680ach73.apps.vivapayments.com',  
+          // client_secret: 'tyd8a7GJZFQ5Zsb8s3QTJ8X087POaW', 
           scope: 'urn:viva:payments:core:api:redirectcheckout', 
         }),
       });
@@ -196,12 +196,12 @@ const Password = 'GlmfBP';
       if (!generateToken.ok) {
         return next(new CustomError(response, 400));
       }
-
   
     const accessToken = response.access_token; // Extract the OAuth2 access token
   
     // Step 2: Use the access token to call the transaction API
-    const transactionResponse = await fetch(`https://demo-api.vivapayments.com/checkout/v2/transactions/${transactionId}`, {
+    // const transactionResponse = await fetch(`https://demo-api.vivapayments.com/checkout/v2/transactions/${transactionId}`, {
+    const transactionResponse = await fetch(`https://api.vivapayments.com/checkout/v2/transactions/${transactionId}`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${accessToken}`,
