@@ -89,6 +89,9 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
               <p>Mobile : {userData?.mobileNumber}</p>
               <p className="capitalize">Order type : {orderData?.orderType}</p>
               <p className="capitalize">Order ID : {orderData?._id}</p>
+              <p className="capitalize">Payment Method : <span className={`${orderData?.paymentMethode === "Cash on delivery" ? "text-yellow-600":
+                "text-green-800"
+              }`}>{orderData?.paymentMethode}</span></p>
             </div>
             <div className="p-2 flex justify-between items-center">
               <h1 className="text-2xl font-bold">Your Order</h1>
