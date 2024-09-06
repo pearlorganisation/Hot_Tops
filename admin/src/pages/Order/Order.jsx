@@ -49,6 +49,7 @@ const Order = () => {
 
 
     useEffect(() => {
+      
           dispatch(getAllOrders())
       }, [])
 

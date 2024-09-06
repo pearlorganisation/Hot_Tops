@@ -98,6 +98,13 @@ else{
  
   try {
 
+    let onlinePrice 
+
+  if(order?.orderType === 'collection'){
+    onlinePrice = (Number(totalPrice) + 0).toFixed(2) 
+  }else
+   {onlinePrice =  (Number(totalPrice?.toFixed(2)) + Number(deliveryCharge))}
+
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/order/create-viva-order`, {
       method: "POST",
       headers: {
@@ -151,7 +158,8 @@ else{
 
     return acc + Number(item?.totalSum);
   }, 0);
-  const onlinePrice =  (Number(totalPrice?.toFixed(2)) + Number(deliveryCharge))
+
+
 
 const [mount, setMount] = useState(false)
   useEffect(()=>{
@@ -165,6 +173,7 @@ const [mount, setMount] = useState(false)
 
   useEffect(()=>{
     dispatch(trackerStatus(false))
+    setIsLoading(false)
   },[])
 
   return (
@@ -234,10 +243,10 @@ const [mount, setMount] = useState(false)
               </div>
             </div>
             <div className="space-y-1">
-              <p>Total: £{totalPrice?.toFixed(2)}</p>
-              {order?.orderType === 'collection' ? <p>Delivery charge: £0</p> : <p>Delivery charge: £{deliveryCharge}</p>}
+              <p>Total: £ {totalPrice?.toFixed(2)}</p>
+              {order?.orderType === 'collection' ? <p>Delivery charge: £ 0 (No charges for collection)</p> : <p>Delivery charge: £ {deliveryCharge}</p>}
               <p className="font-bold">
-                You pay: {order?.orderType === 'collection' ?  (Number(totalPrice) + 0).toFixed(2) : (Number(totalPrice) + 0.5).toFixed(2)}
+                You pay: £ {order?.orderType === 'collection' ?  (Number(totalPrice) + 0).toFixed(2) : (Number(totalPrice) + 0.5).toFixed(2)}
               </p>
             </div>
           </div>
