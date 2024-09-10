@@ -31,15 +31,17 @@ const DealsCards = ({ data, path }) => {
     <div className="flex flex-col justify-between bg-white shadow-sm rounded-md max-w-xs w-full newshadow ">
       <div>
         {" "}
-        <Link   href={{
-              pathname: path ? `${path}/deals/deals_view` : `deals/deals_view`,
-              query: { card_id: data?._id, size_id: selectedOption?.value },
-            }}>
-        <img
-          src={data.banner}
-          alt="Card Image"
-          className="rounded-t-md w-full object-cover"
-        />
+        <Link
+          href={{
+            pathname: path ? `${path}/deals/deals_view` : `deals/deals_view`,
+            query: { card_id: data?._id, size_id: selectedOption?.value },
+          }}
+        >
+          <img
+            src={data.banner}
+            alt="Card Image"
+            className="rounded-t-md w-full object-cover"
+          />
         </Link>
         <div className="px-3">
           <div className="mt-3">
@@ -54,7 +56,9 @@ const DealsCards = ({ data, path }) => {
               {data?.defaultItems.length > 0 && ", "}
               {data?.defaultItems.map((item, index) => (
                 <React.Fragment key={index}>
-                  {index === data.defaultItems.length - 1 ? item : `${item}, `}
+                  {index === data.defaultItems.length - 1
+                    ? item.replace(/ /g, "\u00A0")
+                    : `${item.replace(/ /g, "\u00A0")}, `}
                 </React.Fragment>
               ))}
             </p>
