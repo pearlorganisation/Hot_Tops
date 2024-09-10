@@ -34,6 +34,8 @@ app.use(
             "http://localhost:4114",
             "https://hothousenorthwood.com",
             "https://admin.hothousenorthwood.com",
+            "www.hothousenorthwood.com",
+            "www.admin.hothousenorthwood.com",
           ],
           credentials: true,
         }
@@ -54,6 +56,8 @@ app.use(
             "http://localhost:4114",
             "https://hothousenorthwood.com",
             "https://admin.hothousenorthwood.com",
+            "www.hothousenorthwood.com",
+            "www.admin.hothousenorthwood.com",
           ],
           methods: ["GET", "PUT", "POST", "PATCH", "DELETE"],
           allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
@@ -100,10 +104,8 @@ import adminAuth from "./src/routes/admin/auth.js";
 import addressRoutes from "./src/routes/address.js";
 import orderRoutes from "./src/routes/order.js";
 import dealsRoutes from "./src/routes/deals/deals.js";
-import webhookRoutes from "./src/routes/webhook.js"
+import webhookRoutes from "./src/routes/webhook.js";
 import morgan from "morgan";
-
-
 
 app.use(morgan("dev"));
 app.all(["/", "/api", "/api/v1"], (req, res, next) => {
@@ -141,8 +143,6 @@ app.use("/api/v1/webhook", webhookRoutes);
 // -------------------------------------------------------------------------------------------------------------
 
 // ------------------------------------------Global Error Handling----------------------------------------------
-
-
 
 app.all("*", (req, res, next) => {
   return next(
