@@ -4,10 +4,10 @@ import { IoAddCircleSharp } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { RiEditCircleFill } from "react-icons/ri";
 import { Stack,Skeleton } from '@mui/material';
-import EditItem from "../../../../../../components/FoodCustomizationDialog/EditItemModel/EditItem";
 import { deleteBasePizza } from "../../../../../../features/actions/pizza/deleteCustomization";
 import Delete from "../../../../../../components/delete";
 import BaseModal from "../../../../../../components/FoodCustomizationDialog/BaseModal";
+import EditBaseModal from "../../../../../../components/FoodCustomizationDialog/EditItemModel/EditBaseModal";
 
 
 const BaseContainer = () => {
@@ -45,7 +45,7 @@ const BaseContainer = () => {
   return (
     <>
       <BaseModal ref={modalRef} itemName="Base" />
-      <EditItem ref={editRef} data = {editItemData} itemName="Base"/>
+      <EditBaseModal ref={editRef} data = {editItemData} itemName="Base"/>
       {showDeleteModal && (
         <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
       )}
