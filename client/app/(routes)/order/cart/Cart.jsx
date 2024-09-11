@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useId } from "react";
-import { useAppSelector } from "@/app/lib/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
 import { MdDelete } from "react-icons/md";
