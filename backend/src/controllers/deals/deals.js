@@ -9,15 +9,20 @@ import drinks from "../../models/drinks.js";
 
 
 export const createDeal = asyncErrorHandler(async (req, res, next) => {
+  
+  console.log("req.body",req.body)
+  const {pizzas,drinks} = JSON.parse(req.body.chooseItems);
+  console.log("pizzas,drinks",pizzas,drinks);
   const data = new deals({
     ...req?.body,
     sizes: JSON.parse(req.body.sizes),
     banner: req?.file?.path,
+    pizzaData:JSON.parse(req.body.pizzaData)||[],
     chooseItems: {
-      pizza: JSON.parse(req.body.chooseItems)?.pizzas || 0,
-      dips: JSON.parse(req.body.chooseItems)?.dips || 0,
-      drinks: JSON.parse(req.body.chooseItems)?.drinks || 0,
-      dessert: JSON.parse(req.body.chooseItems)?.desserts || 0,
+      pizzas: pizzas || 0,
+      dips:  0,
+      drinks: drinks || 0,
+      dessert: 0,
     },
   });
   await data.save();
@@ -68,7 +73,11 @@ export const getDeal = asyncErrorHandler(async (req, res, next) => {
     pizzaData = await pizza.find({},"pizzaName priceSection banner sauceName cheeseName vegetarianToppingsName meatToppingsName baseName ").populate("priceSection.size").lean();
     }
     else {
-    pizzaData = await pizza.find({ _id: { $nin: resultantData?.pizzaData } }, "pizzaName priceSection banner sauceName cheeseName vegetarianToppingsName meatToppingsName baseName").lean();
+    pizzaData = await pizza.find({ _id: { $nin: resultantData?.pizzaData } }, "pizzaName priceSection banner sauceName cheeseName vegetarianToppingsName meatToppingsName baseName").
+    
+    
+    
+    lean();
     }
     console.log(pizzaData, "pizza Data ");
     let drinksToInclude = [];
