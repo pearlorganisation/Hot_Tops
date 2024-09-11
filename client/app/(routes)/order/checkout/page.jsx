@@ -317,6 +317,7 @@ const [mount, setMount] = useState(false)
             { errors.terms &&  <p className="text-red-500">Please accept the terms & conditions.</p>}
             <div className="flex space-x-4">
               <button
+              type="button"
                 className="px-4 py-2 border rounded-md"
                 onClick={() => router.push("/order/cart")}
               >
