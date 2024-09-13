@@ -1,18 +1,17 @@
 import { DevTool } from '@hookform/devtools';
-import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import React, {useState } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import Select from 'react-select'
 
 
-
-const EditBaseModal = forwardRef((props, ref) => {
-    console.log(props)
+export default function EditBaseModal({data,setEditModal}){
+    console.log(data)
   const {size} = useSelector((state)=>state.pizza)
-  const dialogRef = useRef();
-  const priceS = props.data.price;
+  const priceS = data.price;
   console.log("afadfa",priceS);
+  
 
   const {
     register,
@@ -21,7 +20,7 @@ const EditBaseModal = forwardRef((props, ref) => {
     control
 } = useForm({
     defaultValues:{
-      name: props.data.name,
+      name: data.name,
       price:Array.isArray(priceS) && priceS.map((priceItem)=>{
         return {
        price: priceItem.price,
@@ -44,59 +43,40 @@ const { fields: priceFields, append: appendPrice, remove: removePrice } = useFie
 });
 
 
-
-  useImperativeHandle(ref, () => ({
-    open: () => {
-      dialogRef.current.showModal();
-    //   reset({
-    //     name: props.data?.name || "",
-    //     price: props.data?.price?.map(priceItem => ({
-    //       price: priceItem?.price || "",
-    //       size: {
-    //         value: priceItem?.size?._id || "",
-    //         label: priceItem?.size?.name || ""
-    //       }
-    //     })) || [{ price: "", size: null }]
-    //   });
-    },
-    close: () => {
-      dialogRef.current.close();
-    },
-  }));
-
   const dispatch = useDispatch();
   function onSubmit(data){
     const{price,name} = data
     const priceFilter= (price).map(item=>{ return {size:item?.size?.value,price:item?.price}})
     const newData = {name,price:priceFilter}
 
-    if(props.itemName === "Base")
-       dispatch(postBasePizza(newData));
-    else 
-       dispatch(postSizePizza(newData));
-       dialogRef.current.close();
+      dispatch(postBasePizza(newData));
+      setEditModal((prev)=> !prev);
   }
 
   return (
-    <dialog
-    ref={dialogRef}
-    id="static-modal"
-    data-modal-backdrop="static"
-    tabIndex="-1"
-    aria-hidden="true"
-    className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center rounded-2xl w-[500px] md:inset-0 max-h-full"
-    style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
+    <div
+    className="fixed top-0 left-0 z-1000 flex h-screen w-screen items-center justify-center bg-slate-300/20 backdrop-blur-sm"
+    aria-labelledby="header-3a content-3a"
+    aria-modal="true"
+    tabindex="-1"
+    role="dialog"
   >
+    {/*    <!-- Modal --> */}
+    <div
+      className="flex w-[80%] sm:w-[70%] h-full  flex-col gap-6  rounded bg-white p-6 pb-14 shadow-xl "
+      id="modal"
+      role="document"
+    >
     <div className="relative p-4 w-full max-w-2xl max-h-full">
       <div className="relative ">
         <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
           <h3 className="text-xl  text-slate-700 rounded-md font-semibold py-1 dark:text-white">
-            {props.itemName}
+            {data.itemName}
           </h3>
           <button
             type="button"
             className="text-white bg-red-500 hover:bg-red-600  rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-            onClick={() => dialogRef.current.close()}
+            onClick={setEditModal((prev)=> !prev)}
           >
             <svg
               className="w-3 h-3"
@@ -124,11 +104,11 @@ const { fields: priceFields, append: appendPrice, remove: removePrice } = useFie
                   Name
                 </label>
                 <input
-                defaultValue={props.data.name}
+                defaultValue={data.name}
                   id="name"
                   {...register("name")}
                   className="border p-[7px] rounded-md outline-slate-600 w-full"
-                  placeholder={`Enter ${props.itemName}`}
+                  placeholder={`Enter ${data.itemName}`}
                   required
                   minLength={2}
                   
@@ -223,8 +203,7 @@ onClick={() => appendPrice({ price: ""})}
             <button
               type="button"
               className="py-2 px-5 ms-3 text-sm font-medium focus:outline-none bg-red-500 text-white rounded-lg border border-gray-200 hover:bg-red-700  focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-              onClick={() => dialogRef.current.close()}
-            >
+              onClick={setEditModal((prev)=> !prev)}            >
               Cancel
             </button>
           </div>
@@ -233,8 +212,8 @@ onClick={() => appendPrice({ price: ""})}
        </DevTool>
       </div>
     </div>
-  </dialog>
+</div>
+</div>
   );
-});
+}
 
-export default EditBaseModal;
