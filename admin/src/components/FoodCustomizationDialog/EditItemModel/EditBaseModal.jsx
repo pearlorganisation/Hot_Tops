@@ -2,15 +2,18 @@ import { DevTool } from '@hookform/devtools';
 import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { postBasePizza, postSizePizza } from '../../features/actions/pizza/postCustomization';
 import { useSelector } from 'react-redux';
 import Select from 'react-select'
 
 
 
-const BaseModal = forwardRef((props, ref) => {
+const EditBaseModal = forwardRef((props, ref) => {
+    console.log(props)
   const {size} = useSelector((state)=>state.pizza)
   const dialogRef = useRef();
+  const priceS = props.data.price;
+  console.log("afadfa",priceS);
+
   const {
     register,
     handleSubmit,
@@ -18,7 +21,13 @@ const BaseModal = forwardRef((props, ref) => {
     control
 } = useForm({
     defaultValues:{
-      price:[{size:"",price:""}]
+      name: props.data.name,
+      price:Array.isArray(priceS) && priceS.map((priceItem)=>{
+        return {
+       price: priceItem.price,
+    //    size: {value:priceItem?.size, label:priceItem?.size?.name},
+     }}) || [ {"price": "sdghjh"} ,{"price": "sdghjh"} ]
+
     }
 })
 
@@ -36,7 +45,24 @@ const { fields: priceFields, append: appendPrice, remove: removePrice } = useFie
 
 
 
-
+  useImperativeHandle(ref, () => ({
+    open: () => {
+      dialogRef.current.showModal();
+    //   reset({
+    //     name: props.data?.name || "",
+    //     price: props.data?.price?.map(priceItem => ({
+    //       price: priceItem?.price || "",
+    //       size: {
+    //         value: priceItem?.size?._id || "",
+    //         label: priceItem?.size?.name || ""
+    //       }
+    //     })) || [{ price: "", size: null }]
+    //   });
+    },
+    close: () => {
+      dialogRef.current.close();
+    },
+  }));
 
   const dispatch = useDispatch();
   function onSubmit(data){
@@ -48,12 +74,7 @@ const { fields: priceFields, append: appendPrice, remove: removePrice } = useFie
        dispatch(postBasePizza(newData));
     else 
        dispatch(postSizePizza(newData));
-
-
-
-     
-    
-   
+       dialogRef.current.close();
   }
 
   return (
@@ -95,13 +116,15 @@ const { fields: priceFields, append: appendPrice, remove: removePrice } = useFie
             <span className="sr-only">Close modal</span>
           </button>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+       <DevTool control={control}>
+       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="p-4 md:p-5 space-y-4">
               <div className="mb-2 space-y-1">
                 <label htmlFor="name" className="block font-medium text-gray-700">
                   Name
                 </label>
                 <input
+                defaultValue={props.data.name}
                   id="name"
                   {...register("name")}
                   className="border p-[7px] rounded-md outline-slate-600 w-full"
@@ -132,6 +155,7 @@ onClick={() => appendPrice({ price: ""})}
                                       name={`price.${index}.size`}
                                       render={({ field }) => (
                                           <Select
+                               
                                               value={field.value}
                                               options={sizeOptions(size)}
                                               onChange={(selectedOption) => 
@@ -206,10 +230,11 @@ onClick={() => appendPrice({ price: ""})}
           </div>
           <DevTool control={control} />
         </form>
+       </DevTool>
       </div>
     </div>
   </dialog>
   );
 });
 
-export default BaseModal;
+export default EditBaseModal;

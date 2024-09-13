@@ -36,7 +36,7 @@ const transporter = nodemailer.createTransport({
   let mailOptions = {
     from: process.env.NODEMAILER_EMAIL,
     to: email,
-    subject: "OTP - Hot House Pizza",
+    subject: "OTP - Hot House Pizza Northwood",
     html: data,
   };
 

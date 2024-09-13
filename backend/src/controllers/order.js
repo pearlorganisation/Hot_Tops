@@ -15,7 +15,10 @@ export const newOrder = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const getAllOrders = asyncErrorHandler(async (req, res, next) => {
-  const data = await order.find().sort({createdAt:-1}).populate("orderBy");
+  const data = await order.find({ $or: [
+    { paymentStatus: true },
+    { paymentMethode: "Cash on delivery" }
+  ]}).sort({createdAt:-1}).populate("orderBy");
   
   res.status(200).json({ status: true, message: "All Orders Found successfully", data });
 });
