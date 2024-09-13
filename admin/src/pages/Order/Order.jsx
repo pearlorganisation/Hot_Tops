@@ -98,7 +98,7 @@ const Order = () => {
               </td>
             </tr>
             ) : (
-              Array.isArray(orderData) && orderData.length > 0 && orderData.slice().reverse().map((item, idx) => (
+              Array.isArray(orderData) && orderData.length > 0 && orderData.map((item, idx) => (
                     <tr key={idx}>
                       <td className="px-3 py-4 whitespace-nowrap">{item?._id}</td>
                       <td className="px-3 py-4 whitespace-nowrap ">
@@ -115,7 +115,7 @@ const Order = () => {
                        
                       </td>
                       <td className=" py-4 whitespace-nowrap ">
-                      <span className={`rounded-md py-1 px-3 font-bold capitalize ${item?.paymentMethode === 'card' ? "text-emerald-600" : "text-yellow-600" }`}>{item?.paymentMethode}</span>
+                      <span className={`rounded-md py-1 px-3 font-bold capitalize ${item?.paymentMethode === 'Online Payment' ? "text-emerald-600" : "text-yellow-600" }`}>{item?.paymentMethode}</span>
                       </td>
                       <td className="px-3 py-4 whitespace-nowrap ">
                       <form onSubmit={(e) => handleSubmit(e, item._id)} className="flex items-center">

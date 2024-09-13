@@ -36,14 +36,7 @@ const { fields: priceFields, append: appendPrice, remove: removePrice } = useFie
 
 
 
-  useImperativeHandle(ref, () => ({
-    open: () => {
-      dialogRef.current.showModal();
-    },
-    close: () => {
-      dialogRef.current.close();
-    },
-  }));
+
 
   const dispatch = useDispatch();
   function onSubmit(data){
@@ -57,7 +50,6 @@ const { fields: priceFields, append: appendPrice, remove: removePrice } = useFie
        dispatch(postSizePizza(newData));
 
 
-       dialogRef.current.close();
 
      
     
