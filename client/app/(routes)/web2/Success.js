@@ -10,7 +10,7 @@ import { ClockLoader } from "react-spinners";
 
 const Success = ({transId}) =>{
     const router = useRouter()
-    const [isLoading,setIsLoading] = useState(true)
+    const [isLoading,setIsLoading] = useState(false)
     const [paymentStatus,setPaymentStatus] = useState(null)
     const {isSuccess} = useSelector((state=>state.orderDetails))
     const dispatch = useDispatch()
@@ -33,11 +33,7 @@ headers:{"Content-Type": "application/json"}
 
   const data = response.data
   setPaymentStatus(data?.paymentStatus)
-
-
-
-
-
+  setIsLoading(false)
 } catch (error) {
     dispatch(successRedirectStatus(null))
     setIsLoading(false)
@@ -65,11 +61,11 @@ headers:{"Content-Type": "application/json"}
       }
     }, [paymentStatus]);
 
-    useEffect(() => {
-      if (!isSuccess) {
-        router.push("/notFound");
-      }
-    }, [isSuccess]);
+    // useEffect(() => {
+    //   if (!isSuccess) {
+    //     router.push("/notFound");
+    //   }
+    // }, [isSuccess]);
 
     return (
         isLoading ? (<div className="flex justify-center pt-[25vh] h-[85vh] ">
