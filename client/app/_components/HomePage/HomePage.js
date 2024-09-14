@@ -64,7 +64,7 @@ const HomePage = () => {
         {img.map((el, i) => {
             return (
               <SwiperSlide className="pb-8" key={i} >
-                <Image src={el} className="h-[20vh] mx-auto w-full lg:w-[70%] xl:w-[70%] sm:h-fit md:[30vh] md:h-fit xl:h-[65vh] 2xl:w-[60%] 2xl:h-[70vh]  object-cover" />
+                <Image src={el} className="h-full mx-auto w-full lg:w-[70%] xl:w-[70%] sm:h-fit md:[30vh] md:h-fit xl:h-[65vh] 2xl:w-[60%] 2xl:h-[70vh]  object-cover" />
               </SwiperSlide>
             );
           })}
