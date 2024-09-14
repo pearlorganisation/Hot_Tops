@@ -194,10 +194,18 @@ export default function OrderViewModal ({viewData,setModal}) {
         </td>
       </tr>
       <tr>
-        <td className="py-2 px-4 border border-b-1 border-gray-300">Mobile Number</td>
+        <td className="py-2 px-4 border  border-gray-300">Mobile Number</td>
         <td className="py-2 px-4 border border-gray-300 font-semibold">
         
         {viewData?.orderBy?.mobileNumber ?  <span className='bg-slate-100 mb-2 rounded-md px-2 capitalize'>{viewData?.orderBy?.mobileNumber} </span> : 'Collection or No data'}
+          
+        </td>
+      </tr>
+      <tr>
+        <td className="py-2 px-4 border border-b-1 border-gray-300">Comment</td>
+        <td className="py-2 px-4 border border-gray-300 font-semibold">
+        
+        {viewData?.orderBy?.mobileNumber ?  <span className='bg-slate-100 mb-2 rounded-md px-2 capitalize'>{viewData?.comment ? viewData?.comment :"No comment"} </span> : 'Collection or No data'}
           
         </td>
       </tr>
