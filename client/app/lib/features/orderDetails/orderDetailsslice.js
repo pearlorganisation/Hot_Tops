@@ -1,7 +1,7 @@
 const { createSlice } = require("@reduxjs/toolkit");
 const initialState = {
   order: null,
-  isSuccess:false,
+  isSuccess:null,
   customizationData: null,
   TOTAL_DEFAUTL_TOPPINGS: 0,
   MAX_TOPPINGS: 8,
