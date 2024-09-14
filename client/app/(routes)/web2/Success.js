@@ -12,29 +12,33 @@ const Success = ({transId}) =>{
     const router = useRouter()
     const [isLoading,setIsLoading] = useState(false)
     const [paymentStatus,setPaymentStatus] = useState(null)
-    const {isSuccess} = useSelector((state=>state.orderDetails))
+    const {isSuccess} = useSelector((state)=>state.orderDetails)
     const dispatch = useDispatch()
-
+console.log(isSuccess,"isSuccess")
 
 const getData = async() =>{
   
 try {
     setIsLoading(true)
-    const getOrderStatus = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/order/paymentStatus/${isSuccess}`,{
+    if(isSuccess)
+{   
+   const getOrderStatus = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/order/paymentStatus/${isSuccess}`,{
 method:"GET",
 headers:{"Content-Type": "application/json"}
     }
 ) 
-    const response = await getOrderStatus.json()
 
-  if (!getOrderStatus.ok) {
-    throw new Error(response.message || 'Something went wrong while creating the Viva order');
-  }
 
-  const data = await response.data
+if (!getOrderStatus.ok) {
+  throw new Error(response.message || 'Something went wrong while creating the Viva order');
+}
+const response = await getOrderStatus.json()
+
+  const data = response.data
   alert(data)
   console.log(data,"hi")
   setPaymentStatus(data?.paymentStatus)
+}
   setIsLoading(false)
 } catch (error) {
     dispatch(successRedirectStatus(null))
@@ -50,7 +54,7 @@ headers:{"Content-Type": "application/json"}
     alert(paymentStatus,"hi this is the payment status")
 
         }
-    },[transId])
+    },[transId,isSuccess])
 
    alert(paymentStatus,"hi this is the payment status")
 
