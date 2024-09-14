@@ -175,7 +175,21 @@ export default function OrderViewModal ({viewData,setModal}) {
         <td className="py-2 px-4 border  border-gray-300">Delivery Address</td>
         <td className="py-2 px-4 border border-gray-300 font-semibold">
         
-        {viewData?.address ?  <span className='bg-slate-100 mb-2 rounded-md px-2 capitalize'>{viewData?.address} </span> : 'Collection or No data'}
+        {viewData?.address ? 
+              <div className=' bg-slate-100 flex mb-2 rounded-md px-2 gap-2 w-fit' >
+  
+              <div className='p-2'>
+          <div>Address :  <span className='bg-white mb-2 rounded-md px-2 '> {viewData?.address?.address}</span></div>
+          <div>Postal Code : <span className='bg-white mb-2 rounded-md px-2 '> {viewData?.address?.postCode}</span></div>
+          <div>Note : <span className='bg-white mb-2 rounded-md px-2 '> {viewData?.address?.note ? viewData?.address?.note : "There is no note"} </span></div>
+      
+        
+           </div>
+           </div>
+        // <span className='bg-slate-100 mb-2 rounded-md px-2 capitalize'>
+         
+        //    </span> 
+           : 'Collection or No data'}
           
         </td>
       </tr>
