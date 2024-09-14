@@ -60,10 +60,10 @@ const response = await getOrderStatus.json()
 
     useEffect(() => {
       if (paymentStatus !== null) { // Ensure paymentStatus has been set (true or false)
-        if (paymentStatus) {
+        if (paymentStatus===true) {
           toast.success("Payment Successful");
           router.push("/order/tracker");
-        } else {
+        }ifelse(paymentStatus===false) {
           router.push("/web2/fail");
         }
       }
