@@ -63,7 +63,7 @@ const response = await getOrderStatus.json()
         if (paymentStatus===true) {
           toast.success("Payment Successful");
           router.push("/order/tracker");
-        }ifelse(paymentStatus===false) {
+        }else if(paymentStatus===false) {
           router.push("/web2/fail");
         }
       }
