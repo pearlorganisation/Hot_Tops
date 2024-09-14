@@ -8,6 +8,7 @@ const initialState = {
     isSuccess: false,
     dealData: [],
     errorMessage: "",
+    isDeleted:false,
 };
 
 
@@ -18,7 +19,8 @@ export const dealsSlice =  createSlice({
     initialState,
     reducers:{
       clearIsSuccess: (state)=>{
-        state.isSuccess= false
+        state.isSuccess= false,
+        state.isDeleted = false
       }
     },
     extraReducers : (builder) => {
@@ -35,7 +37,7 @@ export const dealsSlice =  createSlice({
             state.errorMessage = "";
             state.dealData = action.payload;
             console.log(state.dealData)
-            toast.success("DealData Created Successfully...",{
+            toast.success("Deal Created Successfully...",{
               position:"top-center"
             });
             
@@ -51,24 +53,18 @@ export const dealsSlice =  createSlice({
 
         .addCase(getDeal.pending, (state, action) => {
             state.isLoading = true;
-            state.isSuccess = false;
+          
             state.errorMessage = "";
           })
         .addCase(getDeal.fulfilled,(state,action)=>{
             state.isLoading = false;
-            state.isSuccess = true;
+        
             state.errorMessage = "";
             state.dealData = action.payload;
             console.log(state.dealData)
-            toast.success("DealData Added Successfully...",{
-              position:"top-center"
-            });
-            state.isSuccess = false;
-
         })
         .addCase(getDeal.rejected,(state,action)=>{
             state.isLoading = false;
-            state.isSuccess = false;
             state.errorMessage = action.payload;
             toast.error(action?.payload || "Something went wrong",{
               position:"top-center"
@@ -87,11 +83,9 @@ export const dealsSlice =  createSlice({
             state.errorMessage = "";
             // state.dealData = action.payload.data;
             console.log(state.dealData)
-            toast.success("DealData Fetched Successfully...",{
+            toast.success("Deal Updated Successfully...",{
               position:"top-center"
             });
-            state.isSuccess = false;
-
         })
         .addCase(updateDeal.rejected,(state,action)=>{
             state.isLoading = false;
@@ -109,24 +103,20 @@ export const dealsSlice =  createSlice({
           })
         .addCase(deleteDeal.fulfilled,(state,action)=>{
             state.isLoading = false;
-            state.isSuccess = true;
-            state.errorMessage = "";
-            state.dealData = action.payload;
-            console.log(state.dealData)
+            state.isDeleted = true;
+            state.errorMessage = 
             toast.success("DealData Deleted Successfully...",{
               position:"top-center"
             });
-            state.isSuccess = false;
 
         })
         .addCase(deleteDeal.rejected,(state,action)=>{
             state.isLoading = false;
-            state.isSuccess = false;
+            state.isDeleted = false;
             state.errorMessage = action.payload;
             toast.error(action?.payload || "Something went wrong",{
               position:"top-center"
             })
-            state.isSuccess = false;
 
         })
     

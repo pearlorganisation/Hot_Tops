@@ -11,11 +11,15 @@ const DealsCustomization = () => {
   const [modal, setModal] = useState(false);
   const [dealId, setDealId] = useState(null); // State to manage the current deal ID for deletion
   const dispatch = useDispatch();
-  const { dealData ,isLoading  } = useSelector((state) => state?.deals);
+  const { dealData ,isLoading ,isDeleted  } = useSelector((state) => state?.deals);
 
   useEffect(() => {
     dispatch(getDeal());
   }, []);
+
+  useEffect(() => {
+    dispatch(getDeal());
+  }, [isDeleted]);
 
   const handleDeleteDeal = (id) => {
     setDealId(id);

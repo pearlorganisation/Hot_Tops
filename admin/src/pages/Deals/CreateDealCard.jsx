@@ -82,7 +82,8 @@ const CreateDealCard = () => {
       drinks: data?.numberOfDrinks
     };
 
-    const defaultItems = data.extraLoading.map(el => el.extra) || null;
+    const defaultItems = data.extraLoading.map(el => el.extra) || [];
+    console.log("defaultItems",defaultItems);
     const priceSectionFilter = data.priceSection.map(item => ({
       size: item?.size?.label || '',
       price: item?.price || ''
@@ -126,7 +127,6 @@ const CreateDealCard = () => {
         navigate('/deal')
       } 
 
-    console.log(data);
 
 
 
@@ -175,11 +175,11 @@ const CreateDealCard = () => {
                   required: "This is required field",
                   min: {
                     value: 1,
-                    message: "Value Can be at least 0 ..."
+                    message: "Value Can be at least 1 ..."
                   },
                   max: {
                     value: 20,
-                    message: "Max Value Can be  10 ..."
+                    message: "Max Value Can be  20 ..."
                   },
                 })} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="pizzas" required />
               {
@@ -196,12 +196,12 @@ const CreateDealCard = () => {
                 {...register('numberOfDrinks', {
                   required: "This is required field",
                   min: {
-                    value: 1,
+                    value: 0,
                     message: "Value Can be at least 0 ..."
                   },
                   max: {
                     value: 20,
-                    message: "Max Value Can be  10 ..."
+                    message: "Max Value Can be  20 ..."
                   },
                 })} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="drinks" required />
               {

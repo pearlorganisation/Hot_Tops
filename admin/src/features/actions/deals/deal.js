@@ -39,9 +39,11 @@ export const createDeal = createAsyncThunk(
 
 export const updateDeal = createAsyncThunk(
   "updateDeal",
-  async (id,payload, { rejectWithValue }) => {
+  async ({id,formData}, { rejectWithValue }) => {
     try {
-      const response = await instance.patch(`/deals/${id}`, payload, {
+      console.log('sdfsdf',id);
+
+      const response = await instance.patch(`/deals/${id}`, formData, {
         withCredentials: true,
         headers: {
           "Content-type": "multipart/form-data",

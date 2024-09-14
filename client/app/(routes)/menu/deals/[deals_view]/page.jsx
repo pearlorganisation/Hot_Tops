@@ -129,6 +129,10 @@ useEffect(()=>{
     }
   }
 
+  useEffect(()=>{
+console.log("deal data pizza")
+  },[dealDataPizza]);
+
 
   useEffect(() => {
     async function fetchData() {
@@ -202,7 +206,7 @@ useEffect(()=>{
                                   :dealDataPizza[index].priceSection.filter((el)=> el.size.name === sizeDetailRef.current.size),
                                   
                               id: dealDataPizza[index]?.id,
-                              selectedData:dealDataPizza[index]?.priceSection.find((el)=> el.size.name === sizeDetailRef.current.size).size._id,
+                              selectedData:(dealDataPizza[index]?.priceSection.find((el)=> el.size.name === sizeDetailRef.current.size)?.size?._id)||(dealDataPizza[index]?.priceSection.find((el)=> el.size.name === sizeDetailRef.current.size)),
                               sauceName: dealDataPizza[index]?.sauceName,
                               cheeseName: dealDataPizza[index]?.cheeseName,
                               vegetarianToppingsName:
@@ -225,8 +229,8 @@ useEffect(()=>{
                                     :dealDataPizza[index].priceSection.filter((el)=> el.size.name === sizeDetailRef.current.size),
                                     
                                 id: dealDataPizza[index]?.id,
-                                selectedData:dealDataPizza[index].priceSection.find((el)=> el.size.name === sizeDetailRef.current.size).size._id,
-                                
+                                selectedData:dealDataPizza[index]?.priceSection.find((el)=> el.size.name === sizeDetailRef.current.size).size._id,
+                  
                                 sauceName: customizationData?
                                 customizationData?.sauceName
                                 :(  dealDataPizza[index]?.sauceName.map((el)=>{

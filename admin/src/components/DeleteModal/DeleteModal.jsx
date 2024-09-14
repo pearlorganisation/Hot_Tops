@@ -1,8 +1,13 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteDeal } from '../../features/actions/deals/deal';
+import { useNavigate } from 'react-router-dom';
 
 export default function DeleteModal({ setModal,onConfirm }) {
+
+  const {isLoading , isSuccess} = useSelector((state)=> state.deals); 
+  const navigate = useNavigate();
+  
   return (
     <div className="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]">
       <div className="w-full max-w-md bg-white shadow-lg rounded-md p-6 relative">
