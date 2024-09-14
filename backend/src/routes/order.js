@@ -1,7 +1,7 @@
 import express from "express";
 import {
+  checkTransaction,
   getAllOrders,
-  getOrderWithOrderCode,
   getParticularUserOrders,
   newOrder,
   onlineOrder,
@@ -14,7 +14,7 @@ router.route("/:userId").get(getParticularUserOrders);
 router.route("/").post(newOrder).get(getAllOrders);
 router.route("/:id").patch(updateCompleteOrder);
 router.route("/create-viva-order").post(onlineOrder);
-router.route("/paymentStatus/:orderCode").get(getOrderWithOrderCode);
+router.route("/checkTransaction/:transactionId").get(checkTransaction);
 
 
 export default router;
