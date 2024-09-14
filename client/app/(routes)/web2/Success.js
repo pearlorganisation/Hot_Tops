@@ -35,8 +35,8 @@ if (!getOrderStatus.ok) {
 const response = await getOrderStatus.json()
 
   const data = response.data
-  alert(data)
-  console.log(data,"hi")
+  // alert(data)
+  // console.log(data,"hi")
   setPaymentStatus(data?.paymentStatus)
 }
   setIsLoading(false)
@@ -51,12 +51,12 @@ const response = await getOrderStatus.json()
     useEffect(()=>{
   if(transId){
     getData(); 
-    alert(paymentStatus,"hi this is the payment status")
+    // alert(paymentStatus,"hi this is the payment status")
 
         }
     },[transId,isSuccess])
 
-   alert(paymentStatus,"hi this is the payment status")
+  //  alert(paymentStatus,"hi this is the payment status")
 
     useEffect(() => {
       if (paymentStatus !== null) { // Ensure paymentStatus has been set (true or false)
