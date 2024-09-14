@@ -32,6 +32,8 @@ headers:{"Content-Type": "application/json"}
   }
 
   const data = await response.data
+  alert(data)
+  console.log(data,"hi")
   setPaymentStatus(data?.paymentStatus)
   setIsLoading(false)
 } catch (error) {
