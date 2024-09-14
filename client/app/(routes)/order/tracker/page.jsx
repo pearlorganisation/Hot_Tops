@@ -12,7 +12,7 @@ const page = () => {
   const dispatch = useDispatch()
   const router = useRouter()
 
-  const {trackerStatus} = useSelector((state=>state.orderDetails))
+  const {trackerStatus} = useSelector((state)=>state.orderDetails)
   
   useEffect(() => {
     // Push a new state to the history stack
@@ -31,7 +31,7 @@ const page = () => {
   }, []);
 
   useEffect(()=>{
-    dispatch(successRedirectStatus(false))
+    dispatch(successRedirectStatus(null))
     dispatch(emptyCart());
   },[])
 
