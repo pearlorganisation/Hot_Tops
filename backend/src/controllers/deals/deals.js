@@ -9,16 +9,22 @@ import drinks from "../../models/drinks.js";
 
 
 export const createDeal = asyncErrorHandler(async (req, res, next) => {
+  
+  console.log("req.body",req.body)
+  const {pizzas,drinks} = JSON.parse(req.body.chooseItems);
   const data = new deals({
     ...req?.body,
+    defaultItems:JSON?.parse(req.body.defaultItems)||[],
     sizes: JSON.parse(req.body.sizes),
     banner: req?.file?.path,
+    pizzaData:JSON.parse(req.body.pizzaData)||[],
     chooseItems: {
-      pizza: JSON.parse(req.body.chooseItems)?.pizzas || 0,
-      dips: JSON.parse(req.body.chooseItems)?.dips || 0,
-      drinks: JSON.parse(req.body.chooseItems)?.drinks || 0,
-      dessert: JSON.parse(req.body.chooseItems)?.desserts || 0,
+      pizzas: pizzas || 0,
+      dips:  0,
+      drinks: drinks || 0,
+      dessert: 0,
     },
+    
   });
   await data.save();
 
@@ -41,7 +47,47 @@ export const deleteDeal = asyncErrorHandler(async (req, res, next) => {
 
 export const updateDeal = asyncErrorHandler(async (req, res, next) => {
 
-  res.status(200).json({ status: true, message: "Under Development" });
+  const {id} = req.params;
+
+  if(!id)
+  {
+    return res.status(400).json({status:false,message:"Bad Request Id Required"});
+  }
+   console.log("req.body",req.body);
+
+  const banner = req?.file?.path;
+  const {pizzas,drinks} = JSON.parse(req.body.chooseItems);
+  let updatationDeal = {
+      ...req?.body,
+      defaultItems:JSON?.parse(req.body.defaultItems)||[],
+      sizes: JSON.parse(req.body.sizes),
+      pizzaData:JSON.parse(req.body.pizzaData)||[],
+      chooseItems: {
+        pizzas: pizzas || 0,
+        dips:  0,
+        drinks: drinks || 0,
+        dessert: 0,
+      },
+      
+    } ;
+    if(banner){
+      updatationDeal = {
+        ...updatationDeal,
+        banner:banner
+      }
+    }
+    
+    const data = await deals.findOneAndUpdate({ _id: id },
+      updatationDeal,
+      {
+        new: true, 
+        runValidators: true 
+      });
+    
+    res.status(200)
+    .json({status:true,message:"Deal Updated Successfully !!"});
+
+
 });
 
 export const getDeal = asyncErrorHandler(async (req, res, next) => {
@@ -63,12 +109,14 @@ export const getDeal = asyncErrorHandler(async (req, res, next) => {
       return next(new CustomError("Deal not found", 404));
     }
     let pizzaData;
-    if (resultantData?.pizzaData)
+    if (resultantData?.pizzaData &&resultantData?.pizzaData.length > 0 )
     {
-    pizzaData = await pizza.find({},"pizzaName priceSection banner sauceName cheeseName vegetarianToppingsName meatToppingsName baseName ").populate("priceSection.size").lean();
+      pizzaData = await pizza.find({ _id: { $nin: resultantData?.pizzaData } }, "pizzaName priceSection banner sauceName cheeseName vegetarianToppingsName meatToppingsName baseName").populate("priceSection.size").lean();
+
     }
     else {
-    pizzaData = await pizza.find({ _id: { $nin: resultantData?.pizzaData } }, "pizzaName priceSection banner sauceName cheeseName vegetarianToppingsName meatToppingsName baseName").populate("priceSection.size").lean();
+      pizzaData = await pizza.find({},"pizzaName priceSection banner sauceName cheeseName vegetarianToppingsName meatToppingsName baseName ").populate("priceSection.size").lean();
+
     }
     console.log(pizzaData, "pizza Data ");
     let drinksToInclude = [];
