@@ -12,17 +12,15 @@ const Success = ({transId}) =>{
     const router = useRouter()
     const [isLoading,setIsLoading] = useState(false)
     const [paymentStatus,setPaymentStatus] = useState(null)
-    const {isSuccess} = useSelector((state)=>state.orderDetails)
-    const dispatch = useDispatch()
-console.log(isSuccess,"isSuccess")
+    // const {isSuccess} = useSelector((state)=>state.orderDetails)
+    // const dispatch = useDispatch()
 
 const getData = async() =>{
   
 try {
     setIsLoading(true)
-    if(isSuccess)
-{   
-   const getOrderStatus = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/order/paymentStatus/${isSuccess}`,{
+
+   const getOrderStatus = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/order/checkTransaction/${transId}`,{
 method:"GET",
 headers:{"Content-Type": "application/json"}
     }
@@ -34,14 +32,13 @@ if (!getOrderStatus.ok) {
 }
 const response = await getOrderStatus.json()
 
-  const data = response.data
+
   // alert(data)
   // console.log(data,"hi")
-  setPaymentStatus(data?.paymentStatus)
-}
+  setPaymentStatus(response?.paymentStatus)
+
   setIsLoading(false)
 } catch (error) {
-    dispatch(successRedirectStatus(null))
     setIsLoading(false)
     toast.error("Error in payment verification", { position: "top-center" });
 }
@@ -54,7 +51,7 @@ const response = await getOrderStatus.json()
     // alert(paymentStatus,"hi this is the payment status")
 
         }
-    },[transId,isSuccess])
+    },[transId])
 
   //  alert(paymentStatus,"hi this is the payment status")
 
@@ -63,8 +60,8 @@ const response = await getOrderStatus.json()
         if (paymentStatus===true) {
           toast.success("Payment Successful");
           router.push("/order/tracker");
-        }ifelse(paymentStatus===false) {
-          router.push("/web2/fail");
+        }else if(paymentStatus===false) {
+        toast.error("Problem in payment please confirm from us.")
         }
       }
     }, [paymentStatus]);

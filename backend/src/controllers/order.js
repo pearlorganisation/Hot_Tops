@@ -238,11 +238,65 @@ const Password = process.env.VIVA_API_KEY;
   });
   
 
-  export const getOrderWithOrderCode = asyncErrorHandler(async (req, res, next) => {
+  // export const getOrderWithOrderCode = asyncErrorHandler(async (req, res, next) => {
+  //   console.log(req.params)
+  //   const {orderCode}= req?.params
+  //   const data = await order.findOne({orderCode:orderCode},{paymentStatus:1});
+  //   res.status(200).json({ status: true, message: "All Orders Found successfully", data });
+  // });
+
+  export const checkTransaction = asyncErrorHandler(async (req, res, next) => {
     console.log(req.params)
-    const {orderCode}= req?.params
-    const data = await order.findOne({orderCode:orderCode},{paymentStatus:1});
-    res.status(200).json({ status: true, message: "All Orders Found successfully", data });
+    const {transactionId}= req?.params
+  
+  
+    const generateToken = await fetch("https://accounts.vivapayments.com/connect/token", {
+      // const generateToken = await fetch("https://demo-accounts.vivapayments.com/connect/token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          grant_type: 'client_credentials',
+          client_id: process.env.VIVA_SMARTCHECKOUT_CLIENT_ID,  
+          client_secret: process.env.VIVA_SMARTCHECKOUT_SECRET_KEY, 
+          // client_id: 'wc37z4tch73nk3amxt162fy8nxa0301wndrxs680ach73.apps.vivapayments.com',  
+          // client_secret: 'tyd8a7GJZFQ5Zsb8s3QTJ8X087POaW', 
+          scope: 'urn:viva:payments:core:api:redirectcheckout', 
+        }),
+      });
+  
+      const response = await generateToken.json();
+  
+      if (!generateToken.ok) {
+        return next(new CustomError(response, 400));
+      }
+  
+    const accessToken = response.access_token; // Extract the OAuth2 access token
+  
+    // Step 2: Use the access token to call the transaction API
+    // const transactionResponse = await fetch(`https://demo-api.vivapayments.com/checkout/v2/transactions/${transactionId}`, {
+    const transactionResponse = await fetch(`https://api.vivapayments.com/checkout/v2/transactions/${transactionId}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      }
+    });
+  
+    const transactionData = await transactionResponse.json();
+  
+    if (!transactionResponse.ok) {
+      return next(new CustomError(transactionData, 400));
+    }
+  
+    console.log(transactionData); // Log the transaction data for debugging
+
+    if (transactionData?.statusId === "F") {
+       res.status(200).json({status:true, paymentStatus:true})
+    }else{
+      return next(new CustomError("Transaction is pending or failed", 400));
+    }
   });
   
 
