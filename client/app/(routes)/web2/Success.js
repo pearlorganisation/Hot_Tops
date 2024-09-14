@@ -1,74 +1,87 @@
 "use client"
+import { successRedirectStatus } from "@/app/lib/features/orderDetails/orderDetailsslice";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SiTicktick } from "react-icons/si";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
+import { ClockLoader } from "react-spinners";
+
 
 const Success = ({transId}) =>{
     const router = useRouter()
-    const order = useSelector((state) => state.orderDetails?.order);
-    const userData = useSelector((state) => state.auth.userData);
-    const cart = useSelector((state) => state.cart.cartData);
     const [isLoading,setIsLoading] = useState(false)
+    const [paymentStatus,setPaymentStatus] = useState(null)
+    const {isSuccess} = useSelector((state)=>state.orderDetails)
+    const dispatch = useDispatch()
+console.log(isSuccess,"isSuccess")
 
-    const deliveryCharge = 0.5;
-    const postData = async()=>{
-
-        const newData = {
-            orderType: order?.orderType,
-            email:userData?.email,
-            orderBy: userData?._id,
-            time: order?.time,
-            address: order?.orderType === 'collection' ? null : order?.address,
-            // comment: data?.comment,
-            totalAmount: {
-            //   total: totalPrice?.toFixed(2),
-              total: 50,
-              deliveryCharge: order.orderType === 'collection' ? 0 : deliveryCharge,
-            },
-            mobileNumber:userData?.mobileNumber,
-            paymentMethode: "Online Payment",
-            items: cart,
-          };
-
-          try {
-            setIsLoading(true)
-            const response = await fetch(
-              `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/order`,
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(newData),
-              }
-            );
-            const responsejson = await response.json();
-            if (responsejson?.status === true) {
-              // --------------clearing the cart after successfull order---------------
-              router.push("/order/tracker");
-            }
-            setIsLoading(false)
-          } catch (error) {
-            setIsLoading(false)
-            console.log(error);
-          }
+const getData = async() =>{
+  
+try {
+    setIsLoading(true)
+    if(isSuccess)
+{   
+   const getOrderStatus = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/order/paymentStatus/${isSuccess}`,{
+method:"GET",
+headers:{"Content-Type": "application/json"}
     }
-console.log(transId,"transId")
-    useEffect(()=>{
- 
-        
-        if(transId){
-            postData(); 
-        }
-    },[transId])
+) 
 
+
+if (!getOrderStatus.ok) {
+  throw new Error(response.message || 'Something went wrong while creating the Viva order');
+}
+const response = await getOrderStatus.json()
+
+  const data = response.data
+  // alert(data)
+  // console.log(data,"hi")
+  setPaymentStatus(data?.paymentStatus)
+}
+  setIsLoading(false)
+} catch (error) {
+    dispatch(successRedirectStatus(null))
+    setIsLoading(false)
+    toast.error("Error in payment verification", { position: "top-center" });
+}
+}
+
+
+    useEffect(()=>{
+  if(transId){
+    getData(); 
+    // alert(paymentStatus,"hi this is the payment status")
+
+        }
+    },[transId,isSuccess])
+
+  //  alert(paymentStatus,"hi this is the payment status")
+
+    useEffect(() => {
+      if (paymentStatus !== null) { // Ensure paymentStatus has been set (true or false)
+        if (paymentStatus===true) {
+          toast.success("Payment Successful");
+          router.push("/order/tracker");
+        }ifelse(paymentStatus===false) {
+          router.push("/web2/fail");
+        }
+      }
+    }, [paymentStatus]);
+
+    // useEffect(() => {
+    //   if (!isSuccess) {
+    //     router.push("/notFound");
+    //   }
+    // }, [isSuccess]);
 
     return (
-        <div className="mx-10 mb-10 flex flex-col gap-4 items-center bg-green-600 justify-center h-[60vh] rounded-lg" >
+        isLoading ? (<div className="flex justify-center pt-[25vh] h-[85vh] ">
+            <ClockLoader color="#991b1b" size={100} />
+          </div> ) : (<div className="mx-10 mb-10 flex flex-col gap-4 items-center bg-green-600 justify-center h-[60vh] rounded-lg" >
             <SiTicktick className=" text-white" size={100}/>
   <div className="text-4xl ms-2 text-white font-bold ">Thanks , Your Payment is Successfully Paid </div>
-        </div>
+        </div>)
     )
 }
 

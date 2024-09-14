@@ -67,34 +67,56 @@ const Pizzas = () => {
   return (
     <div className="my-4">
       <div>
-        <div className="flex gap-2 mx-4 md:mx-8 my-4 flex-wrap ">
-          <span className="font-bold">Filter :</span>
-          {filterData?.data?.map((data) => (
-            <div className="flex gap-2" key={data.filter}>
-              <input
-                type="radio"
-                name="type"
-                value={data.filter}
-                id={data.filter}
-                defaultChecked={data.filter === "All"}
-                onClick={() => setSelectedType(data.filter)}
-              />
-              <label htmlFor={data.filter}>{data.filter}</label>
+        <div className="flex   gap-3  justify-between items-center md:mx-8 lg:mx-12">
+          <div className="hidden md:flex gap-3">
+            {" "}
+            {/* <div className="cursor-pointer bg-red-800 hover:bg-red-700 px-3 py-2 text-white rounded-md">
+              Create Your Own Pizza
+            </div> */}
+            {/* <div className="cursor-pointer bg-green-800 hover:bg-green-700  px-3 py-2 text-white rounded-md">
+              Half & Half Pizza
+            </div> */}
+          </div>
+          <div className="w-[50%] ps-2 md:hidden space-y-5">
+            {" "}
+            {/* <div className="bg-red-800 px-3 py-2 text-white rounded-md">
+              Create Your Own Pizza
             </div>
-          ))}
+            <div className="bg-green-800 px-3 py-2 text-white rounded-md">
+              Half & Half Pizza
+            </div> */}
+          </div>
+
+          <div className="flex w-[50%] ps-5 md:w-auto  gap-2 md:mx-8 my-4 flex-wrap ">
+            <span className="font-bold">Filter :</span>
+            {filterData?.data?.map((data) => (
+              <div className="flex gap-2" key={data.filter}>
+                <input
+                  type="radio"
+                  name="type"
+                  value={data.filter}
+                  id={data.filter}
+                  defaultChecked={data.filter === "All"}
+                  onClick={() => setSelectedType(data.filter)}
+                />
+                <label htmlFor={data.filter}>{data.filter}</label>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <div className="container mx-auto">
         {!hasMatchingPizzas ? (
           <div className="text-center text-red-800 h-[80vh] pt-[25vh] font-bold text-3xl">
-           Sorry, No Pizza found
+            Sorry, No Pizza found
           </div>
         ) : (
           categories.map((category) => {
             const isCategoryMatched = data?.data?.some(
               (pizza) =>
                 pizza.category?.category === category &&
-                (selectedType === pizza?.filter?.filter || selectedType === "All")
+                (selectedType === pizza?.filter?.filter ||
+                  selectedType === "All")
             );
             return (
               <React.Fragment key={category}>

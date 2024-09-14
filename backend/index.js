@@ -4,8 +4,9 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { connectMongo } from "./src/configs/db/mongo/mongoConfig.js";
-import { corsConfig, envAccess } from "./src/utils/index.js";
+import { envAccess } from "./src/utils/index.js";
 import { CustomError } from "./src/utils/errors/customError.js";
+
 // -------------------------------------------------------------------------------------------------------------
 dotenv.config();
 
@@ -33,6 +34,8 @@ app.use(
             "http://localhost:4114",
             "https://hothousenorthwood.com",
             "https://admin.hothousenorthwood.com",
+            "https://www.hothousenorthwood.com",
+            "https://www.admin.hothousenorthwood.com",
           ],
           credentials: true,
         }
@@ -53,6 +56,8 @@ app.use(
             "http://localhost:4114",
             "https://hothousenorthwood.com",
             "https://admin.hothousenorthwood.com",
+            "https://www.hothousenorthwood.com",
+            "https://www.admin.hothousenorthwood.com",
           ],
           methods: ["GET", "PUT", "POST", "PATCH", "DELETE"],
           allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
@@ -99,8 +104,8 @@ import adminAuth from "./src/routes/admin/auth.js";
 import addressRoutes from "./src/routes/address.js";
 import orderRoutes from "./src/routes/order.js";
 import dealsRoutes from "./src/routes/deals/deals.js";
+import webhookRoutes from "./src/routes/webhook.js";
 import morgan from "morgan";
-// Route Middlewarespull origin gaurav-code
 
 app.use(morgan("dev"));
 app.all(["/", "/api", "/api/v1"], (req, res, next) => {
@@ -133,10 +138,12 @@ app.use("/api/v1/auth/adminSignUp", adminAuth);
 app.use("/api/v1/address", addressRoutes);
 app.use("/api/v1/order", orderRoutes);
 app.use("/api/v1/deals", dealsRoutes);
+app.use("/api/v1/webhook", webhookRoutes);
 
 // -------------------------------------------------------------------------------------------------------------
 
 // ------------------------------------------Global Error Handling----------------------------------------------
+
 app.all("*", (req, res, next) => {
   return next(
     new CustomError(`Can't find the ${req.originalUrl} on the server`, 404)

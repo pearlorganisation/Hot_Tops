@@ -50,31 +50,43 @@ const OrderDetails = () => {
       {Array.isArray(orderData) &&
         orderData.length > 0 ?
         orderData?.map((data) => {
+          const createdDate = new Date(data?.createdAt)
+          const formattedDate = createdDate.toLocaleDateString('en-GB', {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+          });
           return (
             <div className="pb-8 md:p-4">
               <div className="md:flex gap-3  justify-between">
                 <h1 className="">
                  <div className="flex justify-between">
-                   <span className="text-xl capitalize bg-red-800 rounded-md px-1 py-1 text-white">{`${data?.orderType}`}
+                   <span className="text-xl capitalize bg-red-800 rounded-t-md px-1 py-1 text-white">{`${data?.orderType}`}
                     </span>   
                     <a
                     href="/order/cart"
                     onClick={() => handleReorderData(data?.items)}
-                    className="md:hidden px-1 py-1  text-red-800 rounded-md shadow-lg flex items-center"
+                    className="md:hidden px-1 py-1  text-red-800 font-semibold rounded-md shadow-lg flex items-center"
                   >
                     Reorder Now
                   </a>
                   </div>
                     <h2 className={` md:hidden font-semibold  ${data?.orderStatus === "Completed" ? "text-green-800" : data?.orderStatus === "Pending" ? "text-yellow-600" : "text-red-800" } `}>{data?.orderStatus}</h2>
-                    <h1 className="hidden md:block">Order Id - {data?.count}</h1> 
+                   <div className="flex gap-3 text-slate-700  border">
+                   <h1 className="hidden md:block ">Requested For <span className="font-semibold">{data?.time}</span>, </h1> 
+                   <h1 className="hidden md:block">Order At <span className="font-semibold">{formattedDate}</span> </h1> 
+                   </div>
+             
 
                 </h1>
                 <h2 className={`hidden md:block font-semibold  ${data?.orderStatus === "Completed" ? "text-green-800" : data?.orderStatus === "Pending" ? "text-yellow-600" : "text-red-800"} `}>{data?.orderStatus}</h2>
               </div>
               <div className="flex justify-between items-center">
-                <div className="font-semibold">
-                <h1 className="md:hidden">Order Id - {data?.count}</h1> 
-                  <p>{data?.orderAt}</p>
+                <div className="">
+                <div className=" md:hidden text-slate-700">Requested For <span className="font-semibold">{data?.time}</span>, </div> 
+                <div className=" md:hidden text-slate-700">Order At <span className="font-semibold">{formattedDate}</span>, </div> 
+                  {/* <p>{data?.orderAt}</p> */}
                   <p className="font-semibold">
                     Order Amount - £{" "} 
                     {Number(data?.totalAmount?.total) +

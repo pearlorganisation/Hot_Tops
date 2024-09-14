@@ -309,7 +309,7 @@ const Delivery = ({ step }) => {
                             <h1 className="">And Select From The List :</h1>
                             {
                                 addressData?.map((item, index) => {
-                                    return <div onClick={() => { setSelectedAddress(item) }} className={`border p-4 rounded-md ${selectedAddress?.address === item?.address ? '  border-none bg-green-400/30' : "bg-transparent"} cursor-pointer flex justify-between items-center`}>{item?.address}
+                                    return <div onClick={() => { setSelectedAddress(item) }} className={`border p-4 rounded-md ${selectedAddress?._id === item?._id ? '  border-none bg-green-400/30' : "bg-transparent"} cursor-pointer flex justify-between items-center`}>{item?.address}
                                         <div className="flex gap-2 justify-start items-center"><MdModeEdit size={24} onClick={() => {
                                             setUpdateAddress(true)
                                         }} className="text-green-700 hover:text-green-800" />
@@ -366,7 +366,7 @@ const Delivery = ({ step }) => {
                         <p className="mb-2">Your order is being placed with:</p>
                         <p className="font-bold">91 Joel St, Pinner, Northwood HA6 1LW, UK
                             <br />
-                            info@hothousenorthwood.co.uk</p>
+                            info@hothousenorthwood.com</p>
                         <p className="flex items-center mt-2">
                             <PhoneIcon className="mr-2" />
                             + 441923510520

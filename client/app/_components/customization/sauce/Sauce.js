@@ -175,7 +175,7 @@ const Sauce = ({ sauceData }) => {
                   }`}
                   onClick={() => handleSelectionChange(sauce._id, "single")}
                 >
-                  £ {sauce.price[0].singlePrice}
+                  £ {sauce?.price[0]?.singlePrice}
                 </div>
               </td>
               <td className="px-2 md:px-4 py-2 whitespace-nowrap text-sm text-gray-500">
@@ -187,7 +187,7 @@ const Sauce = ({ sauceData }) => {
                   }`}
                   onClick={() => handleSelectionChange(sauce._id, "double")}
                 >
-                  £ {sauce.price[0].doublePrice}
+                  £ {sauce?.price[0]?.doublePrice}
                 </div>
               </td>
             </tr>

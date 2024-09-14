@@ -1,7 +1,11 @@
-import Link from "next/link";
-import React from "react";
+import Link from "next/link"
 
-const NotFound = () => {
+export const metadata = {
+  title: 'Not Found | Hot House Northwood',
+  description: 'Discover the best pizza takeaway in Northwood at Hot House Pizza, Convenient online ordering, quick service, and unbeatable taste. Order now',
+}
+
+const page = () => {
   return (
     <section class="bg-white ">
       <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
@@ -25,7 +29,7 @@ const NotFound = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default NotFound;
+export default page 

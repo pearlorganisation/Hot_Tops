@@ -8,6 +8,7 @@ import { RiEditCircleFill } from "react-icons/ri";
 import Delete from "../../../../../../components/delete";
 import { Stack,Skeleton } from '@mui/material';
 import SizeModal from "../../../../../../components/FoodCustomizationDialog/SizeModal";
+import EditSizeModal from "../../../../../../components/FoodCustomizationDialog/EditItemModel/EditSizeModal";
 
 
 const SizeContainer = () => {
@@ -54,7 +55,7 @@ const SizeContainer = () => {
   return (
     <>
       <SizeModal ref={modalRef} itemName="Size" />
-      <EditItem itemName={"Size"}ref={editRef} data = {editItemData} />
+      <EditSizeModal itemName="Size" ref={editRef} data = {editItemData} />
       {showDeleteModal && (
         <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
       )}

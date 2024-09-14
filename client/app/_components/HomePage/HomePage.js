@@ -1,6 +1,6 @@
 "use client";
 
-import { Navigation, Pagination } from "swiper/modules";
+import {  Pagination } from "swiper/modules";
 // import Swiper and modules styles
 import "swiper/css";
 import "swiper/css/navigation";
@@ -8,13 +8,15 @@ import "swiper/css/pagination";
 import React, { useEffect, useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-import pizza1 from "../../_assets/images/pizza1.jpg"
-import pizza2 from "../../_assets/images/pizza2.jpg"
+import pizza2 from "../../_assets/images/pizza1.jpg"
+import pizza1 from "../../_assets/images/pizza2.jpeg"
 import pizza3 from "../../_assets/images/pizza3.webp"
 import pizza4 from "../../_assets/images/pizza4.webp"
 import Image from "next/image";
 import DealsCards from "../Pages/DealsCards";
 import { ClockLoader } from "react-spinners";
+import { useDispatch } from "react-redux";
+import { trackerStatus } from "@/app/lib/features/orderDetails/orderDetailsslice";
   async function getData() {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/deals?isPopular=true`);
@@ -33,6 +35,7 @@ const HomePage = () => {
     pizza3,
     pizza4
   ];
+  const dispatch = useDispatch()
   
     const [popularDealData, setPopularDealData] = useState(null);
 
@@ -41,6 +44,7 @@ const HomePage = () => {
       const data = await getData();
       setPopularDealData(data);
     }
+    dispatch(trackerStatus(false))
     fetchData();
   }, []);
 
@@ -60,7 +64,7 @@ const HomePage = () => {
         {img.map((el, i) => {
             return (
               <SwiperSlide className="pb-8" key={i} >
-                <Image src={el} className="h-[20vh] mx-auto w-full lg:w-[70%] xl:w-[70%] sm:h-fit md:[30vh] md:h-fit xl:h-[65vh] 2xl:w-[60%] 2xl:h-[70vh]  object-cover" />
+                <Image src={el} className="h-full mx-auto w-full lg:w-[70%] xl:w-[70%] sm:h-fit md:[30vh] md:h-fit xl:h-[65vh] 2xl:w-[60%] 2xl:h-[70vh]  object-cover" />
               </SwiperSlide>
             );
           })}
@@ -86,7 +90,7 @@ const HomePage = () => {
       </div>
 
       {popularDealData ? (
-      <div className="flex gap-8 flex-wrap justify-center">
+      <div className="flex gap-8 mb-10 flex-wrap justify-center">
         {Array.isArray(popularDealData) &&
           popularDealData.map((el) => (
             <DealsCards key={el.id} path={"menu"} data={el} />

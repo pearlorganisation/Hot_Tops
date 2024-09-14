@@ -1,60 +1,16 @@
-"use client";
-import DealsCards from "@/app/_components/Pages/DealsCards";
-import { Router } from "next/router";
-import React, { useState, useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
-import Select from "react-select";
-import { ClockLoader } from "react-spinners";
+import Deals from "./Deals";
 
-
-
-async function getData() {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/deals`);
-    const data = await res.json();
-    return data.data; // Assuming `data` has a `data` property containing the actual deals
-  } catch (err) {
-    console.log("Error Occurred", err);
-    return null;
-  }
+export const metadata = {
+  title: 'Top Pizza Deals | Hot House pizza | Order online now',
+  description: 'Discover the best pizza takeaway in Northwood at Hot House Pizza, Convenient online ordering, quick service, and unbeatable taste. Order now',
 }
 
-const Page = () => {
-  const [dealData, setDealData] = useState(null);
-
-  useEffect(() => {
-    async function fetchData() {
-      const data = await getData();
-      setDealData(data);
-    }
-    fetchData();
-  }, []);
-
- 
-
-  if (!dealData) return <div className="flex justify-center pt-[25vh] h-[85vh] "><ClockLoader color="#991b1b" size={100}/></div>;
-  
+const page = () => {
   return (
-    <div className=" mx-auto container pb-10">
-      <div className=" px-10 pt-5 ">
-        <header class="text-center  bg-white">
-          <div className="flex items-center justify-center mb-2">
-            <div className="flex-grow border-t border-red-800"></div>
-            <h1 className="px-4 text-red-800 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
-              TOP HOT DEALS
-            </h1>
-            <div className="flex-grow border-t border-red-800"></div>
-          </div>
-        </header>
-      </div>
-
-      <div className="p-8 gap-10 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4   place-content-center">
-        {Array.isArray(dealData) &&
-          dealData.map((el, index) => <DealsCards data={el} key={index} />)}
-       
-      </div>
+    <div>
+      <Deals />
     </div>
   );
 };
 
-export default Page;
+export default page;

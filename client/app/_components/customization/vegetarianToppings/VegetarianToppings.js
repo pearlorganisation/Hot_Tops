@@ -62,8 +62,8 @@ const VegetarianToppings = ({ vegetarianTopData }) => {
         const veg = vegetarianTopData.find((s) => s._id === vegId);
         const price =
           size === "single"
-            ? veg.price[0].singlePrice
-            : veg.price[0].doublePrice;
+            ? veg?.price[0]?.singlePrice
+            : veg?.price[0]?.doublePrice;
         return {
           vegName: veg.name,
           _id: veg?._id,
@@ -112,7 +112,7 @@ const VegetarianToppings = ({ vegetarianTopData }) => {
                   }`}
                   onClick={() => handleSelectionChange(veg._id, "single")}
                 >
-                  £ {veg.price[0].singlePrice}
+                  £ {veg?.price[0]?.singlePrice}
                 </div>
               </td>
               <td className="px-2 md:px-4 py-2 whitespace-nowrap text-sm text-gray-500">
@@ -124,7 +124,7 @@ const VegetarianToppings = ({ vegetarianTopData }) => {
                   }`}
                   onClick={() => handleSelectionChange(veg._id, "double")}
                 >
-                  £ {veg.price[0].doublePrice}
+                  £ {veg?.price[0]?.doublePrice}
                 </div>
               </td>
             </tr>

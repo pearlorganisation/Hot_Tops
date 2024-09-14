@@ -62,8 +62,8 @@ const Cheese = ({ cheeseData }) => {
         const cheese = cheeseData.find((s) => s._id === cheeseId);
         const price =
           size === "single"
-            ? cheese.price[0].singlePrice
-            : cheese.price[0].doublePrice;
+            ? cheese?.price[0]?.singlePrice
+            : cheese?.price[0]?.doublePrice;
         return {
           cheeseName: cheese.name,
           _id: cheese?._id,
@@ -112,7 +112,7 @@ const Cheese = ({ cheeseData }) => {
                   }`}
                   onClick={() => handleSelectionChange(cheese._id, "single")}
                 >
-                  £ {cheese.price[0].singlePrice}
+                  £ {cheese?.price[0]?.singlePrice}
                 </div>
               </td>
               <td className="px-2 md:px-4 py-2 whitespace-nowrap text-sm text-gray-500">
@@ -124,7 +124,7 @@ const Cheese = ({ cheeseData }) => {
                   }`}
                   onClick={() => handleSelectionChange(cheese._id, "double")}
                 >
-                  £ {cheese.price[0].doublePrice}
+                  £ {cheese?.price[0]?.doublePrice}
                 </div>
               </td>
             </tr>

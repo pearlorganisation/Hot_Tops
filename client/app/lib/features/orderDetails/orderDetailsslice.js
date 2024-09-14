@@ -1,16 +1,25 @@
 const { createSlice } = require("@reduxjs/toolkit");
 const initialState = {
   order: null,
+  isSuccess:null,
   customizationData: null,
   TOTAL_DEFAUTL_TOPPINGS: 0,
   MAX_TOPPINGS: 8,
 };
 const orderDetailsSlice = createSlice({
   name: "orderDetails",
-  initialState,
+  initialState:{
+    isSuccess:null
+  },
   reducers: {
     getorderDetails: (state, action) => {
       state.order = action.payload;
+    },
+    successRedirectStatus:(state,action)=>{
+      state.isSuccess = action.payload
+    },
+    trackerStatus:(state,action)=>{
+      state.trackerStatus = action.payload
     },
     getCustomizationDetails: (state, action) => {
       const {
@@ -35,6 +44,6 @@ const orderDetailsSlice = createSlice({
   },
 });
 
-export const { getorderDetails, getCustomizationDetails } =
+export const { getorderDetails, getCustomizationDetails ,successRedirectStatus,trackerStatus} =
   orderDetailsSlice.actions;
 export default orderDetailsSlice.reducer;

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { ClipLoader } from "react-spinners";
 import { toast } from "sonner";
+import { successRedirectStatus, trackerStatus } from "@/app/lib/features/orderDetails/orderDetailsslice";
 
 
 const page = ({ searchParams }) => {
@@ -23,6 +24,8 @@ const page = ({ searchParams }) => {
 
  
   const onSubmit = async (data) => {
+
+    dispatch(trackerStatus(true))
     const newData = {
       orderType: order?.orderType,
       email:userData?.email,
@@ -95,12 +98,20 @@ else{
  
   try {
 
+    let onlinePrice 
+
+  if(order?.orderType === 'collection'){
+    onlinePrice = (Number(totalPrice) + 0).toFixed(2) 
+  }else
+   {onlinePrice =  (Number(totalPrice?.toFixed(2)) + Number(deliveryCharge))}
+
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/order/create-viva-order`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
+        newData:newData,
         amount: onlinePrice * 100,
         customer: {
           email: userData?.email,
@@ -112,22 +123,30 @@ else{
 
   const vivaResponse = await response.json();
 
-  if (!response.ok) {
-    return next(new CustomError(vivaResponse, 400));
+   // Check if the response is not okay (e.g., 4xx or 5xx status codes)
+   if (!response.ok) {
+    throw new Error(vivaResponse.message || 'Something went wrong while creating the Viva order');
   }
   const orderCode= vivaResponse.orderCode
-  // const checkoutUrl = `https://www.vivapayments.com/web/checkout?ref=${orderCode}`;
-  const checkoutUrl = `https://demo.vivapayments.com/web/checkout?ref=${orderCode}`;
+  dispatch(successRedirectStatus(orderCode))
+
+  const checkoutUrl = `https://www.vivapayments.com/web/checkout?ref=${orderCode}`;
+
+  setIsLoading(false)
+
+  // const checkoutUrl = `https://demo.vivapayments.com/web/checkout?ref=${orderCode}`;
 
     // Redirect to Viva Payments checkout page
     window.location.href = checkoutUrl;
+
 
     
 
 
 } catch (error) {
+  dispatch(successRedirectStatus(null))
     setIsLoading(false)
-    toast.error("Error verifying payment", { position: "top-center" });
+    toast.error("Error opening the payment checkout page", { position: "top-center" });
   }
 }
 
@@ -143,7 +162,8 @@ else{
 
     return acc + Number(item?.totalSum);
   }, 0);
-  const onlinePrice =  (Number(totalPrice?.toFixed(2)) + Number(deliveryCharge))
+
+
 
 const [mount, setMount] = useState(false)
   useEffect(()=>{
@@ -154,6 +174,11 @@ const [mount, setMount] = useState(false)
       }
   
   },[cart])
+
+  useEffect(()=>{
+    dispatch(trackerStatus(false))
+    setIsLoading(false)
+  },[])
 
   return (
     <div>
@@ -222,10 +247,10 @@ const [mount, setMount] = useState(false)
               </div>
             </div>
             <div className="space-y-1">
-              <p>Total: £{totalPrice?.toFixed(2)}</p>
-              {order?.orderType === 'collection' ? <p>Delivery charge: £0</p> : <p>Delivery charge: £{deliveryCharge}</p>}
+              <p>Total: £ {totalPrice?.toFixed(2)}</p>
+              {order?.orderType === 'collection' ? <p>Delivery charge: £ 0 (No charges for collection)</p> : <p>Delivery charge: £ {deliveryCharge}</p>}
               <p className="font-bold">
-                You pay: {order?.orderType === 'collection' ?  (Number(totalPrice) + 0).toFixed(2) : (Number(totalPrice) + 0.5).toFixed(2)}
+                You pay: £ {order?.orderType === 'collection' ?  (Number(totalPrice) + 0).toFixed(2) : (Number(totalPrice) + 0.5).toFixed(2)}
               </p>
             </div>
           </div>
@@ -292,6 +317,7 @@ const [mount, setMount] = useState(false)
             { errors.terms &&  <p className="text-red-500">Please accept the terms & conditions.</p>}
             <div className="flex space-x-4">
               <button
+              type="button"
                 className="px-4 py-2 border rounded-md"
                 onClick={() => router.push("/order/cart")}
               >

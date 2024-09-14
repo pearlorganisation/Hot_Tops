@@ -30,6 +30,14 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
       document.body.classList.remove("overflow-hidden");
     };
   }, [isReceiptVisible]);
+
+  const createdDate = new Date(orderData?.createdAt)
+  const formattedDate = createdDate.toLocaleDateString('en-GB', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
   
   return (
     <div
@@ -67,7 +75,7 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
           <div className="max-[100vh] h-full  md:h-[70vh] w-full overflow-auto bg-white ">
             <div className="text-center">
               <h1 className="text-3xl pt-10 md:pt-0 text-red-800 font-bold">HOT HOUSE PIZZA </h1>
-              <p>Order Id - {orderData?.count}</p>
+              <p>Order at {formattedDate}</p>
               <p>{orderData?.orderAt}</p>
               <h2 className="text-xl font-semibold my-5">
                Requested for {orderData?.time}
@@ -80,6 +88,10 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
               <p>Status : <span className="text-red-800">{orderData?.orderStatus}</span></p>
               <p>Mobile : {userData?.mobileNumber}</p>
               <p className="capitalize">Order type : {orderData?.orderType}</p>
+              <p className="capitalize">Order ID : {orderData?._id}</p>
+              <p className="capitalize">Payment Method : <span className={`${orderData?.paymentMethode === "Cash on delivery" ? "text-yellow-600":
+                "text-green-800"
+              }`}>{orderData?.paymentMethode}</span></p>
             </div>
             <div className="p-2 flex justify-between items-center">
               <h1 className="text-2xl font-bold">Your Order</h1>

@@ -4,28 +4,28 @@ import { IoAddCircleSharp } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { RiEditCircleFill } from "react-icons/ri";
 import { Stack,Skeleton } from '@mui/material';
-import EditItem from "../../../../../../components/FoodCustomizationDialog/EditItemModel/EditItem";
 import { deleteBasePizza } from "../../../../../../features/actions/pizza/deleteCustomization";
 import Delete from "../../../../../../components/delete";
 import BaseModal from "../../../../../../components/FoodCustomizationDialog/BaseModal";
+import EditBaseModal from "../../../../../../components/FoodCustomizationDialog/EditItemModel/EditBaseModal";
 
 
 const BaseContainer = () => {
   const { base,isBaseLoading} = useSelector((state) => state.pizza);
-  const [editItemData,setEditData] = useState({});
   const modalRef = useRef();
-  const editRef = useRef();
+
 
   const dispatch = useDispatch();
   function handleModalOpen() {
     modalRef.current.open();
   }
 
-  function handleEditItem(data) {
-    editRef.current.open();
-    setEditData(data);
+  const [showViewModal,setShowViewModal] = useState(false)
+  const [viewData,setViewData]= useState()
+  const handleViewModal=(itemData)=>{
+    setShowViewModal(true)
+    setViewData(itemData)
   }
-
     
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [id, setId] = useState();
@@ -45,7 +45,10 @@ const BaseContainer = () => {
   return (
     <>
       <BaseModal ref={modalRef} itemName="Base" />
-      <EditItem ref={editRef} data = {editItemData} itemName="Base"/>
+      {
+       showViewModal &&  <EditBaseModal setEditModal={setShowViewModal} data={viewData}/>
+      }
+      
       {showDeleteModal && (
         <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
       )}
@@ -88,7 +91,7 @@ const BaseContainer = () => {
                         <button
                           className="inline-flex items-center rounded-lg font-medium text-white bg-green-800 hover:bg-green-700
                            px-2 py-1 text-sm "
-                          onClick={()=>handleEditItem(item)}
+                          onClick={()=>handleViewModal(item)}
                         >
                          <RiEditCircleFill size={28}/>
                         </button>

@@ -1,13 +1,18 @@
 "use client"
 
 import { emptyCart } from "@/app/lib/features/cartSlice/cartSlice";
+import { successRedirectStatus } from "@/app/lib/features/orderDetails/orderDetailsslice";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { BsFillTelephoneOutboundFill } from "react-icons/bs";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const page = () => {
 
   const dispatch = useDispatch()
+  const router = useRouter()
+
+  const {trackerStatus} = useSelector((state)=>state.orderDetails)
   
   useEffect(() => {
     // Push a new state to the history stack
@@ -26,8 +31,15 @@ const page = () => {
   }, []);
 
   useEffect(()=>{
+    dispatch(successRedirectStatus(null))
     dispatch(emptyCart());
   },[])
+
+    useEffect(() => {
+      if (!trackerStatus) {
+        router.push("/notFound");
+      }
+    }, []);
 
   return (
     <section className=" py-4 md:py-0 md:pb-10 rounded-2xl">
@@ -87,7 +99,7 @@ const page = () => {
                 <p>
                 1 Joel St, Pinner, Northwood HA6 1LW, UK
 <br/>
-info@hothousenorthwood.co.uk</p>
+info@hothousenorthwood.com</p>
                 <p className=" flex items-center gap-3">
                   <BsFillTelephoneOutboundFill /> <p>+ 441923510520 </p>
                 </p>
