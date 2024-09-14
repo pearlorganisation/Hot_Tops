@@ -31,7 +31,7 @@ headers:{"Content-Type": "application/json"}
     throw new Error(response.message || 'Something went wrong while creating the Viva order');
   }
 
-  const data = response.data
+  const data = await response.data
   setPaymentStatus(data?.paymentStatus)
   setIsLoading(false)
 } catch (error) {
@@ -45,10 +45,12 @@ headers:{"Content-Type": "application/json"}
     useEffect(()=>{
   if(transId){
     getData(); 
-    console.log(paymentStatus)
+    alert(paymentStatus,"hi this is the payment status")
 
         }
     },[transId])
+
+   alert(paymentStatus,"hi this is the payment status")
 
     useEffect(() => {
       if (paymentStatus !== null) { // Ensure paymentStatus has been set (true or false)
