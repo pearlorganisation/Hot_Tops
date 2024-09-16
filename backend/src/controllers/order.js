@@ -5,7 +5,23 @@ import { CustomError } from "../utils/errors/customError.js";
 
 
 export const newOrder = asyncErrorHandler(async (req, res, next) => {
-  const newOrder = new order(req?.body);
+
+  const date = new Date();
+  const day = String(date.getDate()).padStart(2, '0'); // Ensure it's 2 digits
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Ensure it's 2 digits
+  const datePart = day + month; // e.g., "1607" for July 16
+
+  // Get the total number of documents in the collection
+  const countDocuments = await order.countDocuments();
+
+  // Increment the count and get the last two digits, padded with zeros if necessary
+  const incrementedCount = (countDocuments + 1).toString().padStart(2, '0').slice(-2); // Always take the last two digits
+
+  // Generate the final order number
+  const orderNumber = `${datePart}${incrementedCount}`;
+ 
+   // Add the order number to the new order object
+   const newOrder = new order({ ...req?.body, orderNumber });
 
   await newOrder.save();
 
@@ -85,9 +101,22 @@ export const updateCompleteOrder = asyncErrorHandler(async (req, res, next) => {
 
   export const onlineOrder = asyncErrorHandler(async (req, res, next) => {
 
+    const date = new Date();
+    const day = String(date.getDate()).padStart(2, '0'); // Ensure it's 2 digits
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Ensure it's 2 digits
+    const datePart = day + month; // e.g., "1607" for July 16
+  
+    // Get the total number of documents in the collection
+    const countDocuments = await order.countDocuments();
+  
+    // Increment the count and get the last two digits, padded with zeros if necessary
+    const incrementedCount = (countDocuments + 1).toString().padStart(2, '0').slice(-2); // Always take the last two digits
+  
+    // Generate the final order number
+    const orderNumber = `${datePart}${incrementedCount}`;
+
     const {amount,customer,newData} = req.body
 
-console.log(amount)
     const generateToken = await fetch("https://accounts.vivapayments.com/connect/token", {
     // const generateToken = await fetch("https://demo-accounts.vivapayments.com/connect/token", {
       method: "POST",
@@ -136,6 +165,7 @@ console.log(amount)
     }
 
     await order.create({...newData,
+      orderNumber:orderNumber,
       paymentStatus:false,
       orderCode:finalResult.orderCode
     })
