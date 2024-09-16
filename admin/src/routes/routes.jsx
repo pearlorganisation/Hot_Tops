@@ -36,6 +36,9 @@ import UpdatePizzaFilter from "../pages/Pizza/Filter/EditFilter"
 import UpdateSidesCategory from "../pages/Sides/Category/EditCategory"
 import UpdateSidesFilter from "../pages/Sides/Filter/EditFilter"
 import Order from "../pages/Order/Order";
+import CreateDealCard from "../pages/Deals/CreateDealCard";
+import DealsCustomization from "../pages/Deals/DealsCustomization/DealsCustomization";
+import EditDeals from "../pages/Deals/EditDeals";
 
 // ---------------------------------------------------------------------------------------------------
 
@@ -147,6 +150,18 @@ export const appRouter = createBrowserRouter([
       {
         path: "/pizzaCategory",
         element: <PizzaCategory />,
+      },
+      {
+        path:"/deal",
+        element:<DealsCustomization/>
+      },
+      {
+        path:"/createDeal",
+        element:<CreateDealCard/>
+      },
+      {
+        path:"/editDeal/:id",
+        element:<EditDeals/>
       },
       {
         path: "/createPizzaCategory",

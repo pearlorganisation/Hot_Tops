@@ -10,7 +10,7 @@ dealsRoutes.route('/')
 
 dealsRoutes.route('/:id')
     .get(getDeal)
-    .patch(updateDeal)
+    .patch(upload.single('banner'),updateDeal)
     .delete(deleteDeal);
 
 export default dealsRoutes;

@@ -1,5 +1,5 @@
 // ----------------------------------------------Imports-----------------------------------------
-import { MdSpaceDashboard } from "react-icons/md";
+import { MdOutlineDiscount, MdSpaceDashboard } from "react-icons/md";
 import { BiDish } from "react-icons/bi";
 import { FaPizzaSlice } from "react-icons/fa6";
 import SearchIcon from "@mui/icons-material/Search";
@@ -17,12 +17,7 @@ import logo from "/logo.png"
 
 export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
   const sideBarItems = [
-    // {
-    //   label: "Dashboard",
-    //   path: "/",
-    //   icon: <MdSpaceDashboard size={28} />,
-    //   isDropDown: false,
-    // },
+
     {
       label: "Orders",
       path: "/",
@@ -33,6 +28,12 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
       label: "Pizza Customization",
       path: "/food-customization",
       icon: <GiPizzaCutter size={28} />,
+      isDropDown: false,
+    },
+    {
+      label: "Deals Customization",
+      path: "/deal",
+      icon: <MdOutlineDiscount size={28}/>,
       isDropDown: false,
     },
     {
