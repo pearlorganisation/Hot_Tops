@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 const FoodModal = forwardRef((props, ref) => {
 
-  const {sauce,cheese,vegetarianToppings,meatToppings,size} = useSelector((state)=>state.pizza)
+  const {size} = useSelector((state)=>state.pizza)
   const dialogRef = useRef();
   const {
     register,

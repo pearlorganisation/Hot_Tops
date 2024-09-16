@@ -48,10 +48,10 @@ const DealsCustomization = () => {
       {modal && <DeleteModal setModal={setModal} onConfirm={handleConfirmDelete} />}
 
       {!isLoading && <div className="container mx-auto 2xl:p-15 lg:p-8">
-        <div className="text-center flex justify-between px-4 text-4xl py-5 text-white rounded-md font-semibold bg-red-500">
+        <div className="text-center flex items-center justify-between px-4 text-2xl py-5 text-white rounded-md font-semibold bg-red-500">
           <p>Manage Your Deals</p>
-          <Link to="/createDeal">
-            <IoIosAddCircleOutline />
+          <Link to="/createDeal" className="bg-green-700 text-xl px-2 rounded-lg ">
+     Add New Deal
           </Link>
         </div>
 
@@ -83,9 +83,9 @@ const DealsCustomization = () => {
                     </td>
                     <td className="px-2 py-4">
                       {el.sizes.length > 0 && el.sizes.map((size) => (
-                        <div key={size._id} className="border border-red-500 flex gap-2">
+                        <div key={size._id} className="flex gap-2">
                           <p>Size: {size.size}</p>
-                          <p>Price: {size.price} £</p>
+                          <p>Price:  £ {size.price}</p>
                         </div>
                       ))}
                     </td>

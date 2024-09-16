@@ -18,15 +18,15 @@ const CommonContainer = ({ itemName, items }) => {
 const {isMeatToppingeLoading,isVegToppingLoading,isSauceLoading,isCheeseLoading} =useSelector((state)=>state.pizza)
 
  const [editItemData , setEditItem] = useState();
+ const [modal, setModal] = useState(false);
 
 
   const modalRef = useRef();
-  const editItemRef = useRef();
 
   function handleEditItem(data)
   {
     setEditItem(data)
-    editItemRef.current.open();
+    setModal((prev) => !prev);
   }
 
 
@@ -69,7 +69,9 @@ const {isMeatToppingeLoading,isVegToppingLoading,isSauceLoading,isCheeseLoading}
   return (
     <>
     <FoodModal ref={modalRef} itemName={itemName} />
-    <EditItem ref={editItemRef} itemName = {itemName} data={editItemData}/>
+  {modal &&  <EditItem setModal={setModal}
+          data={editItemData}
+         itemName = {itemName}/>}
     {showDeleteModal && (
         <Delete setModal={setShowDeleteModal} handleDelete={handleDelete} />
       )}
