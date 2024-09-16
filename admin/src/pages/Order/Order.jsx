@@ -100,7 +100,7 @@ const Order = () => {
             ) : (
               Array.isArray(orderData) && orderData.length > 0 && orderData.map((item, idx) => (
                     <tr key={idx}>
-                      <td className="px-3 py-4 whitespace-nowrap">{item?._id}</td>
+                      <td className="px-3 py-4 whitespace-nowrap">{item?.orderNumber}</td>
                       <td className="px-3 py-4 whitespace-nowrap ">
                         {item?.orderBy?.firstName} {item?.orderBy?.lastName}
                       </td>

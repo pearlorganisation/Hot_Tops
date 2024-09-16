@@ -7,6 +7,9 @@ const orderSchema = new mongoose.Schema(
       enum: ["delivery", "collection"],
       required: [true, "orderType is required!"],
     },
+    orderNumber:{
+      type:String
+    },
     address: {
       type: {}
     },
