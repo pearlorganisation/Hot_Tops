@@ -3,6 +3,7 @@ import useSWR from "swr";
 
 import SidesCards from "./SidesCards/SidesCards";
 import { ClockLoader } from "react-spinners";
+import Image from "next/image";
 
 // -------------------data fetching function-----------------------
 const pizzaFetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -52,7 +53,8 @@ const Sides = () => {
   if (isLoading || filterLoading) {
     return (
       <div className="flex justify-center pt-[25vh] h-[85vh]">
-        <ClockLoader color="#991b1b" size={100} />
+        {/* <ClockLoader color="#991b1b" size={100} /> */}
+        <Image src="/HOTPIZZALOGO.jpg" alt="Pizza Logo"  width={300} height={300} className="h-[10vh] w-[30vw]  object-contain" />
       </div>
     );
   }

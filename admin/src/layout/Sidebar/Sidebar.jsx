@@ -80,6 +80,12 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
       icon: <TbBowlFilled size={28} />,
       isDropDown: false,
     },
+    // {
+    //   label: "Upload DealBanner",
+    //   path: "/dip",
+    //   icon: <TbBowlFilled size={28} />,
+    //   isDropDown: false,
+    // },
   ];
 
   return (

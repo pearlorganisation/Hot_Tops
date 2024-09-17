@@ -105,7 +105,7 @@ const Order = () => {
                         {item?.orderBy?.firstName} {item?.orderBy?.lastName}
                       </td>
                       <td className="px-3 py-4 whitespace-nowrap font-semibold ">
-                      £ {Number(item?.totalAmount?.total) + Number(item?.totalAmount?.deliveryCharge)}
+                      £ {Number(item?.totalAmount?.total) + Number(item?.totalAmount?.deliveryCharge)- Number(item?.totalAmount?.discountPrice)} 
                       </td>
                       <td className="px-3 py-4 whitespace-nowrap ">
                         {item?.time}

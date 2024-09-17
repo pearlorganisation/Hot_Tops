@@ -1,12 +1,8 @@
 "use client";
-
-import AddedToCartModel from "@/app/_components/Modals/AddedToCartModel";
 import ReceiptModal from "@/app/_components/Modals/ReceiptModal";
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import { getSelectedReceipt } from "@/app/lib/features/orderDetails/selectedRecipt";
-import { Router } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { MdReceiptLong } from "react-icons/md";
 import { BiReceipt } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -90,7 +86,7 @@ const OrderDetails = () => {
                   <p className="font-semibold">
                     Order Amount - £{" "} 
                     {Number(data?.totalAmount?.total) +
-                      Number(data?.totalAmount?.deliveryCharge)}
+                      Number(data?.totalAmount?.deliveryCharge)- Number(data?.totalAmount?.discountPrice)}
                   </p>
                 </div>
                 <div className="md:flex items-center gap-2 ">

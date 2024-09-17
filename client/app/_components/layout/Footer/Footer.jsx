@@ -93,17 +93,19 @@ const Footer = () => {
           </p>
           </div>
                <div className="mt-4 flex flex-col justify-center items-center">
-                <p className="flex items-center justify-center mt-2">
+                <p className="flex justify-center  mt-2 mx-3 ">
                   <FaStore  className="mr-2" size={20} />
-                  <span>Store : 91 Joel St, Pinner, Northwood HA6 1LW, UK</span>
+                 <span className=" text-center">Store : 91 Joel St, Pinner, Northwood HA6 1LW, UK</span> 
                 </p>
                 <p className="flex items-center mt-2">
                   <IoMdMail  className="mr-2" size={20} />
-                  Email : info@hothousenorthwood.com
+                  <span className="text-center">Email : info@hothousenorthwood.com</span>
+                  
                 </p>
                 <p className="flex items-center mt-2">
                   <FaPhone className="mr-2" size={20} />
-                Contact Us :  + 441923510520
+                  <span className="text-center">  Contact Us :  + 441923510520</span>
+              
                 </p>
         
      

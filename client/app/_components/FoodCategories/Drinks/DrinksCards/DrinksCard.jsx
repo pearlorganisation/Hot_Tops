@@ -191,14 +191,14 @@ export default function DrinksCard({ data }) {
 
   return (
     <>
-      <div className="bg-white shadow-md rounded-md max-w-[15rem] w-full newshadow">
+      <div className="bg-white shadow-md rounded-md max-w-[15rem] w-full newshadow flex flex-col justify-between">
         <img
           src={data.banner}
           alt="Card Image"
           className="rounded-t-md object-cover w-full h-44"
         />
 
-        <h2 className="text-xl font-semibold mb-2 p-4">{data.drink}</h2>
+        <h2 className="text-xl font-semibold mb-2 p-3">{data.drink}</h2>
         <div>
           {data.price?.length === 1 ? (
             <div className="w-full p-2 border border-gray-300 rounded-lg bg-gray-200 text-gray-500">
