@@ -10,6 +10,7 @@ import { MdEditSquare } from "react-icons/md";
 import PizzaCustomizationModal from "@/app/_components/Modals/PizzaCutomizationModal";
 import { ClockLoader } from "react-spinners";
 import DealPriceCard from "@/app/_components/TotalPriceCard/DealPriceCard";
+import Image from "next/image";
 
 async function getData(id) {
   try {
@@ -379,7 +380,10 @@ console.log("deal data pizza")
         { !viewButton ? <DealPriceCard  dealPrice={sizeDetailRef?.current?.price || 0} extraPrice={extraPrice} />: ""}
         </div>
       ) : (
-        <div className="flex justify-center pt-[25vh] h-[85vh] "><ClockLoader color="#991b1b" size={100}/></div>
+        <div className="flex justify-center pt-[25vh] h-[85vh] ">
+          {/* <ClockLoader color="#991b1b" size={100}/> */}
+          <Image src="/HOTPIZZALOGO.jpg" alt="Pizza Logo"  width={300} height={300} className="h-[10vh] w-[30vw]  object-contain" />
+          </div>
       )}
     </div>
     </>

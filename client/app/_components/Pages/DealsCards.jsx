@@ -47,10 +47,9 @@ const DealsCards = ({ data, path }) => {
           <div className="mt-3">
             {" "}
             <h2 className="text-xl font-semibold mb-1">
-              {data.title}
-              &nbsp;
-              {data?.sizes.length === 1 ? data.sizes[0].size : null}
+              {data.title} 
             </h2>
+            {/* <p>{data?.sizes.length === 1 ? data.sizes[0].size </p> */}
             <p className="text-sm font-semibold text-gray-500 mb-1">
               {combineItems()}
               {data?.defaultItems.length > 0 && ", "}
@@ -70,14 +69,14 @@ const DealsCards = ({ data, path }) => {
         <div className="max-w-sm mx-2 flex gap-1">
           {data.sizes?.length === 1 ? (
             <div className="w-full p-2 border border-gray-300 rounded-lg bg-gray-200 text-gray-500">
-              {`£ ${data.sizes[0].price}`}
+              {`Pizza Size ${data.sizes[0].size} - £ ${data.sizes[0].price}`}
             </div>
           ) : (
             <Select
               className="w-full"
-              placeholder={`${data.sizes[0].size} £${data.sizes[0].price}`}
+              placeholder={`Pizza Size ${data.sizes[0].size} - £ ${data.sizes[0].price}`}
               options={data.sizes.map((size) => ({
-                label: `${size.size} £${size.price}`,
+                label: `Pizza Size ${size.size} - £ ${size.price}`,
                 value: size._id,
               }))}
               onChange={(option) => setSelectedOption(option)}

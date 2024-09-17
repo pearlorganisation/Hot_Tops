@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
-import AddedToCartModel from "@/app/_components/Modals/AddedToCartModel";
 
 const dipssCard = ({ data }) => {
   const dispatch = useDispatch();
@@ -13,7 +12,6 @@ const dipssCard = ({ data }) => {
 
   // Function to handle adding to cart
   const handleAddToCart = () => {
-    const [dipsType, price, dipsName] = selecteddips.split("-");
     dispatch(
       addToCart({
         name: data?.dips,
@@ -28,20 +26,20 @@ const dipssCard = ({ data }) => {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-md max-w-[15rem] w-full newshadow ">
+    <div className="bg-white shadow-md rounded-md max-w-[15rem] w-full newshadow flex flex-col justify-between">
       <img
         src={data.banner}
         alt="Card Image"
         className="rounded-t-md object-cover w-full h-44"
       />
  
-        <h2 className="text-xl font-semibold p-4">{data.dips}</h2>
+        <h2 className="text-lg text-gray-800 font-semibold p-3">{data.dips}</h2>
         <div >
         
             <select
               value={selecteddips}
               onChange={(event) => setSelecteddips(event.target.value)}
-              className="border-2 p-2 w-full my-2"
+              className="border  p-2 w-full rounded-t-md text-gray-500" 
              
             >
               {data.price.map((dips) => (

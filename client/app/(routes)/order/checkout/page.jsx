@@ -22,6 +22,15 @@ const page = ({ searchParams }) => {
     formState: { errors },
   } = useForm();
 
+  const totalPrice = cart?.reduce((acc, item) => {
+
+    return acc + Number(item?.totalSum);
+  }, 0);
+
+  let discountPrice = 0
+  if(order?.orderType === 'collection')
+ { discountPrice = (totalPrice * 0.2).toFixed(2)}
+
  
   const onSubmit = async (data) => {
 
@@ -36,6 +45,7 @@ const page = ({ searchParams }) => {
       totalAmount: {
         total: totalPrice?.toFixed(2),
         deliveryCharge: order.orderType === 'collection' ? 0 : deliveryCharge,
+        discountPrice: discountPrice || 0
       },
       mobileNumber:userData?.mobileNumber,
       paymentMethode: data?.paymentMethode,
@@ -101,7 +111,7 @@ else{
     let onlinePrice 
 
   if(order?.orderType === 'collection'){
-    onlinePrice = (Number(totalPrice) + 0).toFixed(2) 
+    onlinePrice = (Number(totalPrice) + 0 - discountPrice).toFixed(2) 
   }else
    {onlinePrice =  (Number(totalPrice?.toFixed(2)) + Number(deliveryCharge))}
 
@@ -158,11 +168,7 @@ else{
 
   useEffect(() => { }, [order?.address, order?.time]);
 
-  const totalPrice = cart?.reduce((acc, item) => {
-
-    return acc + Number(item?.totalSum);
-  }, 0);
-
+ 
 
 
 const [mount, setMount] = useState(false)
@@ -249,8 +255,9 @@ const [mount, setMount] = useState(false)
             <div className="space-y-1">
               <p>Total: £ {totalPrice?.toFixed(2)}</p>
               {order?.orderType === 'collection' ? <p>Delivery charge: £ 0 (No charges for collection)</p> : <p>Delivery charge: £ {deliveryCharge}</p>}
+              {order?.orderType === 'collection' && <p>Discount : £ {discountPrice} (20% off on Collection)</p>}
               <p className="font-bold">
-                You pay: £ {order?.orderType === 'collection' ?  (Number(totalPrice) + 0).toFixed(2) : (Number(totalPrice) + 0.5).toFixed(2)}
+                You pay: £ {order?.orderType === 'collection' ?  (Number(totalPrice) + 0 - Number(discountPrice)).toFixed(2) : (Number(totalPrice) + 0.5).toFixed(2)}
               </p>
             </div>
           </div>

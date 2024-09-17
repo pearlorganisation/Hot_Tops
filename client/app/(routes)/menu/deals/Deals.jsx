@@ -1,5 +1,6 @@
 "use client";
 import DealsCards from "@/app/_components/Pages/DealsCards";
+import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
 import { ClockLoader } from "react-spinners";
 
@@ -30,7 +31,8 @@ const Deals = () => {
   if (!dealData)
     return (
       <div className="flex justify-center pt-[25vh] h-[85vh] ">
-        <ClockLoader color="#991b1b" size={100} />
+        {/* <ClockLoader color="#991b1b" size={100} /> */}
+        <Image src="/HOTPIZZALOGO.jpg" alt="Pizza Logo"  width={300} height={300} className="h-[10vh] w-[30vw]  object-contain" />
       </div>
     );
 

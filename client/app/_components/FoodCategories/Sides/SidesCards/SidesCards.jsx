@@ -13,7 +13,7 @@ const SidesCards = ({ data, dummyData, idx }) => {
   const [isAddClicked, setIsAddClicked] = useState(false);
   return (
     <div
-      className=" bg-white shadow-md rounded-md max-w-[15rem] 2xl:max-w-xs w-full newshadow mb-10"
+      className=" bg-white shadow-md rounded-md max-w-[15rem] 2xl:max-w-xs w-full newshadow mb-10 flex flex-col justify-between"
       key={idx}
     >
       <img
@@ -21,7 +21,7 @@ const SidesCards = ({ data, dummyData, idx }) => {
         alt="Card Image"
         className="rounded-t-md w-full h-44 object-cover"
       />
-        <h2 className="text-xl font-semibold px-2 py-4">{data?.sideName}</h2>
+        <h2 className="text-lg font-semibold text-gray-800 px-2 py-3">{data?.sideName}</h2>
         <div>
           <select
             onChange={(Event) => {
@@ -30,20 +30,11 @@ const SidesCards = ({ data, dummyData, idx }) => {
             }}
             name="pizzas"
             id="pizzas"
-            className="border-2 p-2 w-full my-2"
+            className="border p-2 w-full rounded-t-md text-gray-500"
           >
             <option>£ {data?.price}</option>
           </select>
-        </div>
-        {/* <p
-          className={`text-red-600 font-bold ${
-            isAddClicked && !selectedData ? "block" : "hidden"
-          } `}
-        >
-          please select size first
-        </p> */}
-  
-          <div className="bg-green-600 hover:bg-green-700 flex gap-2 items-center justify-center w-full">
+          <div className="bg-green-600 hover:bg-green-700 flex gap-2  justify-center w-full">
             <button
               onClick={() => {
                 dispatch(
@@ -67,6 +58,16 @@ const SidesCards = ({ data, dummyData, idx }) => {
               Add
             </button>
           </div>
+        </div>
+        {/* <p
+          className={`text-red-600 font-bold ${
+            isAddClicked && !selectedData ? "block" : "hidden"
+          } `}
+        >
+          please select size first
+        </p> */}
+  
+      
         </div>
  
 

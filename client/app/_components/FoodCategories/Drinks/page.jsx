@@ -4,6 +4,7 @@ import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import AddedToCartModel from "../../Modals/AddedToCartModel";
 import DrinksCard from "./DrinksCards/DrinksCard";
 import { ClockLoader } from "react-spinners";
+import Image from "next/image";
 
 async function getDrinks() {
   try {
@@ -42,7 +43,10 @@ const Drinks = () => {
   }, []);
 
   if (error) return <div className="h-screen text-red-800 text-center text-3xl md:text-5xl font-bold">Sorry , Failed to load ... </div>;
-  if (isLoading) return <div className="flex justify-center pt-[25vh] h-[85vh] "><ClockLoader color="#991b1b" size={100}/></div>;
+  if (isLoading) return <div className="flex justify-center pt-[25vh] h-[85vh] ">
+    {/* <ClockLoader color="#991b1b" size={100}/> */}
+    <Image src="/HOTPIZZALOGO.jpg" alt="Pizza Logo"  width={300} height={300} className="h-[10vh] w-[30vw]  object-contain" />
+    </div>;
 
   return (
     <>

@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import useSWR from "swr";
-import { useDispatch } from "react-redux";
-import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
-import AddedToCartModel from "../../Modals/AddedToCartModel";
 import DipsCard from "./DipsCard/DipsCard.jsx";
 import { ClockLoader } from "react-spinners";
+import Image from "next/image";
 
 const Dips = () => {
 
@@ -22,11 +20,14 @@ const Dips = () => {
   } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/dips`, dipsfetcher);
 
   if (error) return <div className="h-screen text-red-800 text-center text-3xl md:text-5xl font-bold">Sorry , Failed to load ... </div>;
-  if (isLoading) return <div className="flex justify-center pt-[25vh] h-[85vh] "><ClockLoader color="#991b1b" size={100}/></div>;
+  if (isLoading) return <div className="flex justify-center pt-[25vh] h-[85vh] ">
+    {/* <ClockLoader color="#991b1b" size={100}/> */}
+    <Image src="/HOTPIZZALOGO.jpg" alt="Pizza Logo"  width={300} height={300} className="h-[10vh] w-[30vw]  object-contain" />
+    </div>;
 
   return (
     <>
-      <div className="container mx-auto max-w-7xl gap-10 grid sm:grid-cols-2 md:grid-cols-4 place-content-center p-10">
+      <div className="container mx-auto max-w-7xl gap-12 grid sm:grid-cols-2 md:grid-cols-4 place-content-center p-4">
         {dipsData?.data.map((item, idx) => (
           <DipsCard data={item} idx={idx} />
         ))}

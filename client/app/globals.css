@@ -15,7 +15,7 @@
   font-family: "Questrial-Regular";
   src: local("Questrial-Regular"),
     url("/Questrial-Regular.ttf") format("opentype");
-  /* font-weight: normal; */
+  font-weight: normal;
 }
 
 * {

@@ -12,7 +12,7 @@ const DessertCards = ({ data, dummyData, idx }) => {
   const [selectedData, setSelectedData] = useState(null);
   return (
     <div
-      className=" bg-white shadow-md rounded-lg max-w-[15rem] 2xl:max-w-xs w-full newshadow"
+      className=" bg-white shadow-md rounded-lg max-w-[15rem] 2xl:max-w-xs w-full newshadow flex flex-col justify-between"
       key={idx}
     >
       <img
@@ -21,7 +21,7 @@ const DessertCards = ({ data, dummyData, idx }) => {
         className="rounded-t-lg w-full object-cover h-44"
       />
      
-        <h2 className="text-xl font-semibold px-2 py-4">{data?.dessertName}</h2>
+        <h2 className="text-lg text-gray-800 font-semibold px-2 py-3">{data?.dessertName}</h2>
         <div>
           <select
             onChange={(Event) => {
@@ -30,19 +30,11 @@ const DessertCards = ({ data, dummyData, idx }) => {
             }}
             name="pizzas"
             id="pizzas"
-            className="border-2 p-2 w-full my-2"
+            className="border p-2 w-full rounded-t-md text-gray-500"
           >
             <option>£ {data?.price}</option>
           </select>
-        </div>
-        {/* <p
-          className={`text-red-600 font-bold ${
-            isAddClicked && !selectedData ? "block" : "hidden"
-          } `}
-        >
-          please select size first
-        </p> */}
-        <div className="relative flex items-center ">
+          <div className="relative flex items-center ">
             <button
               onClick={() => {
                 dispatch(
@@ -66,6 +58,15 @@ const DessertCards = ({ data, dummyData, idx }) => {
               Add
             </button>
           </div>
+        </div>
+        {/* <p
+          className={`text-red-600 font-bold ${
+            isAddClicked && !selectedData ? "block" : "hidden"
+          } `}
+        >
+          please select size first
+        </p> */}
+ 
  
       </div>
 

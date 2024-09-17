@@ -141,14 +141,18 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
 
             <div className="px-2 flex justify-between items-center">
               <h1>Delivery charge :</h1>
-              <h1>£{orderData?.totalAmount?.deliveryCharge} </h1>
+              <h1>£ {orderData?.totalAmount?.deliveryCharge} </h1>
             </div>
             <div className="px-2 flex justify-between items-center">
-              <h1 className="font-semibold">Total :</h1>
+              <h1>Discounted Amount :</h1>
+              <h1>£ {orderData?.totalAmount?.discountPrice} </h1>
+            </div>
+            <div className="px-2 flex justify-between items-center">
+              <h1 className="font-semibold">Pay Amount :</h1>
               <h1>
                 £
                 {Number(orderData?.totalAmount?.deliveryCharge) +
-                  Number(orderData?.totalAmount?.total)}{" "}
+                  Number(orderData?.totalAmount?.total) - Number(orderData?.totalAmount?.discountPrice)}{" "}
               </h1>
             </div>
             <p className="my-2 text-sm px-2 mb-3">

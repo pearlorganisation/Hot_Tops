@@ -6,6 +6,7 @@ import { SiTicktick } from "react-icons/si";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { ClockLoader } from "react-spinners";
+import Image from "next/image";
 
 
 const Success = ({transId}) =>{
@@ -74,7 +75,8 @@ const response = await getOrderStatus.json()
 
     return (
         isLoading ? (<div className="flex justify-center pt-[25vh] h-[85vh] ">
-            <ClockLoader color="#991b1b" size={100} />
+           <Image src="/HOTPIZZALOGO.jpg" alt="Pizza Logo"  width={300} height={300} className="h-[10vh] w-[30vw]  object-contain" />
+            {/* <ClockLoader color="#991b1b" size={100} /> */}
           </div> ) : (<div className="mx-10 mb-10 flex flex-col gap-4 items-center bg-green-600 justify-center h-[60vh] rounded-lg" >
             <SiTicktick className=" text-white" size={100}/>
   <div className="text-4xl ms-2 text-white font-bold ">Thanks , Your Payment is Successfully Paid </div>
