@@ -14,6 +14,7 @@ const Success = ({transId}) =>{
     const [isLoading,setIsLoading] = useState(false)
     const [orderData,setOrderData] = useState(null)
     const userData = useSelector((state) => state.auth.userData);
+    const [dataOrderCode, setDataOrderCode] = useState(null)
     // const {isSuccess} = useSelector((state)=>state.orderDetails)
     // const dispatch = useDispatch()
 
@@ -47,13 +48,25 @@ const response = await getOrderStatus.json()
 }
 
 const handlePayment = async() =>{
+   const orderResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/getFromOrderCode/${orderData?.data?.orderCode}`,
+      {
+        method:"GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      }
+    )
+    const orderResponseJson = await orderResponse.json();
+
+    setDataOrderCode(orderResponseJson)
+
    const mailResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/mail`,
       {
         method:"POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({...orderData?.data,email:userData.email}),
+        body: JSON.stringify({...dataOrderCode?.data,email:userData.email}),
       }
     )
     const mailResponseJson = await mailResponse.json();
