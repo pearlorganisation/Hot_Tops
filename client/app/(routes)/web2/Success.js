@@ -48,7 +48,7 @@ const response = await getOrderStatus.json()
 }
 
 const handlePayment = async() =>{
-   const orderResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/getFromOrderCode/${orderData?.data?.orderCode}`,
+   const orderResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/order/getFromOrderCode/${orderData?.data?.orderCode}`,
       {
         method:"GET",
         headers: {
