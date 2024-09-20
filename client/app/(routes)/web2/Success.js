@@ -12,7 +12,8 @@ import Image from "next/image";
 const Success = ({transId}) =>{
     const router = useRouter()
     const [isLoading,setIsLoading] = useState(false)
-    const [paymentStatus,setPaymentStatus] = useState(null)
+    const [orderData,setOrderData] = useState(null)
+    const userData = useSelector((state) => state.auth.userData);
     // const {isSuccess} = useSelector((state)=>state.orderDetails)
     // const dispatch = useDispatch()
 
@@ -36,13 +37,29 @@ const response = await getOrderStatus.json()
 
   // alert(data)
   // console.log(data,"hi")
-  setPaymentStatus(response?.paymentStatus)
+  setOrderData(response)
 
   setIsLoading(false)
 } catch (error) {
     setIsLoading(false)
     toast.error("Error in payment verification", { position: "top-center" });
 }
+}
+
+const handlePayment = async() =>{
+   const mailResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/mail`,
+      {
+        method:"POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({...orderData?.data,email:userData.email}),
+      }
+    )
+    const mailResponseJson = await mailResponse.json();
+    if(mailResponseJson?.status === true){
+      toast.success("Order Confirmation Mail Sent Successfully")
+    }
 }
 
 
@@ -57,15 +74,17 @@ const response = await getOrderStatus.json()
   //  alert(paymentStatus,"hi this is the payment status")
 
     useEffect(() => {
-      if (paymentStatus !== null) { // Ensure paymentStatus has been set (true or false)
-        if (paymentStatus===true) {
+      if (orderData?.paymentStatus !== null) { // Ensure paymentStatus has been set (true or false)
+        if (orderData?.paymentStatus===true) {
+          handlePayment()
           toast.success("Payment Successful");
+          
           router.push("/order/tracker");
         }else if(paymentStatus===false) {
         toast.error("Problem in payment please confirm from us.")
         }
       }
-    }, [paymentStatus]);
+    }, [orderData]);
 
     // useEffect(() => {
     //   if (!isSuccess) {

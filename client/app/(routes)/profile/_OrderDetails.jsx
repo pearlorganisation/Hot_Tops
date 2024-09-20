@@ -85,8 +85,8 @@ const OrderDetails = () => {
                   {/* <p>{data?.orderAt}</p> */}
                   <p className="font-semibold">
                     Order Amount - £{" "} 
-                    {Number(data?.totalAmount?.total) +
-                      Number(data?.totalAmount?.deliveryCharge)- Number(data?.totalAmount?.discountPrice)}
+                    {(Number(data?.totalAmount?.total) +
+                      Number(data?.totalAmount?.deliveryCharge)- Number(data?.totalAmount?.discountPrice)).toFixed(2)}
                   </p>
                 </div>
                 <div className="md:flex items-center gap-2 ">

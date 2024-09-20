@@ -106,6 +106,9 @@ import addressRoutes from "./src/routes/address.js";
 import orderRoutes from "./src/routes/order.js";
 import dealsRoutes from "./src/routes/deals/deals.js";
 import webhookRoutes from "./src/routes/webhook.js";
+import mailRoutes from "./src/routes/mail.js";
+
+
 import morgan from "morgan";
 
 app.use(morgan("dev"));
@@ -140,6 +143,7 @@ app.use("/api/v1/address", addressRoutes);
 app.use("/api/v1/order", orderRoutes);
 app.use("/api/v1/deals", dealsRoutes);
 app.use("/api/v1/webhook", webhookRoutes);
+app.use("/api/v1/mail", mailRoutes);
 
 // -------------------------------------------------------------------------------------------------------------
 
