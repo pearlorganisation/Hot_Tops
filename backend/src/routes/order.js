@@ -16,7 +16,7 @@ router.route("/").post(newOrder).get(getAllOrders);
 router.route("/:id").patch(updateCompleteOrder);
 router.route("/create-viva-order").post(onlineOrder);
 router.route("/checkTransaction/:transactionId").get(checkTransaction);
-router.route("getFromOrderCode/:orderCode").get(getOrderFromOrderCode);
+router.route("/getFromOrderCode/:orderCode").get(getOrderFromOrderCode);
 
 
 export default router;
