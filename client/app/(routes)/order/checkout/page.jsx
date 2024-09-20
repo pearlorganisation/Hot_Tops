@@ -15,6 +15,8 @@ const page = ({ searchParams }) => {
   const order = useSelector((state) => state.orderDetails?.order);
   const userData = useSelector((state) => state.auth.userData);
   const [isLoading,setIsLoading] = useState(false)
+  const [codData, setCodData] = useState();
+  const [onlineData, setOnlineData] = useState();
   const deliveryCharge = 0.5;
   const {
     register,
@@ -68,7 +70,22 @@ const page = ({ searchParams }) => {
     }
   );
   const responsejson = await response.json();
+  setCodData(responsejson);
   if (responsejson?.status === true) {
+    const mailResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/mail`,
+      {
+        method:"POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({...responsejson,email:userData.email}),
+      }
+    )
+    const mailResponseJson = await mailResponse.json();
+    if(mailResponseJson?.status === true){
+      toast.success("Order Confirmation Mail Sent Successfully")
+    }
+ 
     // --------------clearing the cart after successfull order---------------
     router.push("/order/tracker");
   }
@@ -185,6 +202,8 @@ const [mount, setMount] = useState(false)
     dispatch(trackerStatus(false))
     setIsLoading(false)
   },[])
+
+
 
   return (
     <div>

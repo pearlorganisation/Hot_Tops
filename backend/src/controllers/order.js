@@ -27,7 +27,7 @@ export const newOrder = asyncErrorHandler(async (req, res, next) => {
 
   res
     .status(201)
-    .json({ status: true, message: "New Order created successfully" });
+    .json({ status: true, message: "New Order created successfully",data:newOrder });
 });
 
 export const getAllOrders = asyncErrorHandler(async (req, res, next) => {
@@ -323,7 +323,7 @@ const Password = process.env.VIVA_API_KEY;
     console.log(transactionData); // Log the transaction data for debugging
 
     if (transactionData?.statusId === "F") {
-       res.status(200).json({status:true, paymentStatus:true})
+       res.status(200).json({status:true, paymentStatus:true, data:transactionData})
     }else{
       return next(new CustomError("Transaction is pending or failed", 400));
     }

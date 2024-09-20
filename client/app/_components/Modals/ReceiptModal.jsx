@@ -151,8 +151,8 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
               <h1 className="font-semibold">Pay Amount :</h1>
               <h1>
                 £
-                {Number(orderData?.totalAmount?.deliveryCharge) +
-                  Number(orderData?.totalAmount?.total) - Number(orderData?.totalAmount?.discountPrice)}{" "}
+                {(Number(orderData?.totalAmount?.deliveryCharge) +
+                  Number(orderData?.totalAmount?.total) - Number(orderData?.totalAmount?.discountPrice)).toFixed(2)}{" "}
               </h1>
             </div>
             <p className="my-2 text-sm px-2 mb-3">
