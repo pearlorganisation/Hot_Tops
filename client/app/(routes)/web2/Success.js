@@ -80,7 +80,7 @@ const handlePayment = async() =>{
           toast.success("Payment Successful");
           
           router.push("/order/tracker");
-        }else if(paymentStatus===false) {
+        }else if(orderData?.paymentStatus===false) {
         toast.error("Problem in payment please confirm from us.")
         }
       }
