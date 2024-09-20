@@ -329,6 +329,15 @@ const Password = process.env.VIVA_API_KEY;
     }
   });
   
+  export const getOrderFromOrderCode= asyncErrorHandler(async(req,res,next)=>{
+
+    const {orderCode}= req.params;
+    const data = order.findOne({orderCode:orderCode})
+if(!data){
+  return next(new CustomError("This Order Code is not exist",400))
+}
+    res.status(200).json({status:true, message:"Order code data" ,data})
+  })
 
 
 
