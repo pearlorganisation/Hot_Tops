@@ -36,7 +36,9 @@ app.use(
             "https://hothousenorthwood.com",
             "https://admin.hothousenorthwood.com",
             "https://www.hothousenorthwood.com",
-            "https://www.admin.hothousenorthwood.com",
+            "https://hothousenorthwood.co.uk",
+            "https://admin.hothousenorthwood.co.uk",
+            "https://www.hothousenorthwood.co.uk",
           ],
           credentials: true,
         }
@@ -58,7 +60,10 @@ app.use(
             "https://hothousenorthwood.com",
             "https://admin.hothousenorthwood.com",
             "https://www.hothousenorthwood.com",
-            "https://www.admin.hothousenorthwood.com",
+            "https://hothousenorthwood.co.uk",
+            "https://admin.hothousenorthwood.co.uk",
+            "https://www.hothousenorthwood.co.uk",
+
           ],
           methods: ["GET", "PUT", "POST", "PATCH", "DELETE"],
           allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
