@@ -116,7 +116,7 @@ const Collections = ({ step }) => {
                 <p className="mb-2">Your order is being placed with:</p>
                 <p className="font-bold">91 Joel St, Pinner, Northwood HA6 1LW, UK
 <br/>
-info@hothousenorthwood.com</p>
+Hothousenorthwood@gmail.com</p>
                 <p className="flex items-center mt-2">
                   <PhoneIcon className="mr-2" />
                   + 441923510520
