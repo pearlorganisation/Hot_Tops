@@ -105,7 +105,7 @@ const Order = () => {
                         {item?.orderBy?.firstName} {item?.orderBy?.lastName}
                       </td>
                       <td className="px-3 py-4 whitespace-nowrap font-semibold ">
-                      £ {(Number(item?.totalAmount?.total) + Number(item?.totalAmount?.deliveryCharge)- Number(item?.totalAmount?.discountPrice)).toFixed(2)}
+                      £ {(Number(item?.totalAmount?.total) + Number(item?.totalAmount?.deliveryCharge)).toFixed(2)}
                       </td>
                       <td className="px-3 py-4 whitespace-nowrap ">
                         {item?.time}
@@ -115,7 +115,7 @@ const Order = () => {
                        
                       </td>
                       <td className=" py-4 whitespace-nowrap ">
-                      <span className={`rounded-md py-1 px-3 font-bold capitalize ${item?.paymentMethode === 'Online Payment' ? "text-emerald-600" : "text-yellow-600" }`}>{item?.paymentMethode}</span>
+                      <span className={`rounded-md py-1 px-3 font-bold capitalize ${item?.paymentMethode === 'Online Payment' ? "text-emerald-600" : "text-yellow-600" }`}>{item?.orderType === "collection" && item?.paymentMethode === "Cash on delivery" ? "Cash on Collection" : item?.paymentMethode}</span>
                       </td>
                       <td className="px-3 py-4 whitespace-nowrap ">
                       <form onSubmit={(e) => handleSubmit(e, item._id)} className="flex items-center">

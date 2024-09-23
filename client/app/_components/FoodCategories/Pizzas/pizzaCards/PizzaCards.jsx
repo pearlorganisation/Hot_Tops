@@ -149,6 +149,7 @@ const PizzaCards = ({ data, idx }) => {
                       quantity: 1,
                       price: Number(selectedLabel.split("-")[1]),
                       totalSum: Number(selectedLabel.split("-")[1]),
+                      discount: (Number(selectedLabel.split("-")[1]) * 0.2).toFixed(2),
                     })
                   );
               }}
