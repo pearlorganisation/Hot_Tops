@@ -91,11 +91,11 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
               <p className="capitalize">Order ID : {orderData?.orderNumber}</p>
               <p className="capitalize">Payment Method : <span className={`${orderData?.paymentMethode === "Cash on delivery" ? "text-yellow-600":
                 "text-green-800"
-              }`}>{orderData?.paymentMethode}</span></p>
+              }`}>{orderData?.orderType === "collection" && orderData?.paymentMethode === "Cash on delivery" ? "Cash on Collection" : orderData?.paymentMethode}</span></p>
             </div>
             <div className="p-2 flex justify-between items-center">
               <h1 className="text-2xl font-bold">Your Order</h1>
-              <p className="font-bold">£{orderData?.totalAmount?.total}</p>
+              <p className="font-bold">£ {orderData?.totalAmount?.total}</p>
             </div>
             <div>
               <div className="">
@@ -129,8 +129,14 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
 
                         <div className="font-semibold md:col-span-3">
   <div> <p className="text-sm text-green-800 pb-2">{mergedToppings}</p> </div>
+  <div className="flex justify-between">
                         <div className=" text-right  md:text-left">
-                          £ {data?.price} <span className="text-sm">x {data?.quantity}</span>
+                        {orderData?.orderType === 'collection' && data?.discount ? <>£ {data?.price - data?.discount} <span className="line-through text-sm text-slate-600">{data?.price}</span></> : `£ ${data?.price}`}
+                         
+                          <span className="text-sm"> x {data?.quantity}</span>
+                        </div>
+                        {orderData?.orderType === 'collection' && data?.discount &&   <div className="text-green-800">20% Discount on Collection</div>}
+                      
                         </div>
                         </div>
                       </div>
@@ -143,16 +149,15 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
               <h1>Delivery charge :</h1>
               <h1>£ {orderData?.totalAmount?.deliveryCharge} </h1>
             </div>
-            <div className="px-2 flex justify-between items-center">
+            {/* <div className="px-2 flex justify-between items-center">
               <h1>Discounted Amount :</h1>
               <h1>£ {orderData?.totalAmount?.discountPrice} </h1>
-            </div>
+            </div> */}
             <div className="px-2 flex justify-between items-center">
               <h1 className="font-semibold">Pay Amount :</h1>
-              <h1>
-                £
-                {(Number(orderData?.totalAmount?.deliveryCharge) +
-                  Number(orderData?.totalAmount?.total) - Number(orderData?.totalAmount?.discountPrice)).toFixed(2)}{" "}
+              <h1 className="font-semibold">
+                £ {(Number(orderData?.totalAmount?.deliveryCharge) +
+                  Number(orderData?.totalAmount?.total)).toFixed(2)}{" "}
               </h1>
             </div>
             <p className="my-2 text-sm px-2 mb-3">

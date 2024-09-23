@@ -24,21 +24,31 @@ const page = ({ searchParams }) => {
     formState: { errors },
   } = useForm();
 
-  const totalPrice = cart?.reduce((acc, item) => {
-
-    return acc + Number(item?.totalSum);
+  let totalPrice=0;
+  if(order?.orderType === 'collection') 
+{  
+  totalPrice = cart?.reduce((acc, item) => {
+    const totalSum = Number(item?.totalSum);
+    const discount = item?.discount ? Number(item?.discount) : 0;
+    return acc + (totalSum - discount);
   }, 0);
+}
+  else{
+    totalPrice = cart?.reduce((acc, item) => {
+      return acc + Number(item?.totalSum);
+    }, 0);
+  }
 
-  let discountPrice = 0
-  if(order?.orderType === 'collection')
- { discountPrice = (totalPrice * 0.2).toFixed(2)}
+//   let discountPrice = 0
+//   if(order?.orderType === 'collection')
+//  { discountPrice = (totalPrice ).toFixed(2)}
 
  
   const onSubmit = async (data) => {
 
     dispatch(trackerStatus(true))
     const newData = {
-      orderType: order?.orderType,
+      orderType: order?.orderType,  
       email:userData?.email,
       orderBy: userData?._id,
       time: order?.time,
@@ -47,7 +57,7 @@ const page = ({ searchParams }) => {
       totalAmount: {
         total: totalPrice?.toFixed(2),
         deliveryCharge: order.orderType === 'collection' ? 0 : deliveryCharge,
-        discountPrice: discountPrice || 0
+        // discountPrice: discountPrice || 0
       },
       mobileNumber:userData?.mobileNumber,
       paymentMethode: data?.paymentMethode,
@@ -128,7 +138,7 @@ else{
     let onlinePrice 
 
   if(order?.orderType === 'collection'){
-    onlinePrice = (Number(totalPrice) + 0 - discountPrice).toFixed(2) 
+    onlinePrice = (Number(totalPrice) + 0 ).toFixed(2) 
   }else
    {onlinePrice =  (Number(totalPrice?.toFixed(2)) + Number(deliveryCharge))}
 
@@ -241,7 +251,7 @@ const [mount, setMount] = useState(false)
                     {data?.name}
                     {" "}
                     {size ? `(${price[0]})` : (data?.dealsData ? `(${data?.size})` : data?.allToppings?.size?.name ? `(${data?.allToppings?.size?.name})` : "" ) }
-                          {data?.allToppings && <span className="text-sm bg-red-800 text-white rounded-md px-2"> Customized </span>}
+                          {data?.allToppings && <>{" "}<span className="text-sm bg-red-800 text-white rounded-md px-2"> Customized </span></>}
                     <br/>
                     {/* <p className="hidden md:block text-green-800">{mergedToppings}</p> */}
                     {data?.dealsData && ( <div className="text-sm text-gray-600"> {data?.dealsData?.map((item,idx) =>
@@ -251,8 +261,14 @@ const [mount, setMount] = useState(false)
                         </div>
 <div className="font-semibold md:col-span-3">
   <div> <p className="text-sm text-green-800 pb-2">{mergedToppings}</p> </div>
+                       <div className="flex justify-between">
                         <div className=" text-right  md:text-left">
-                          £ {data?.price} <span className="text-sm">x {data?.quantity}</span>
+                        {order?.orderType === 'collection' && data?.discount ? <>£ {data?.price - data?.discount} <span className="line-through text-sm text-slate-600">{data?.price}</span></> : `£ ${data?.price}`}
+                         
+                          <span className="text-sm"> x {data?.quantity}</span>
+                        </div>
+                        {order?.orderType === 'collection' && data?.discount &&   <div className="text-green-800">20% Discount on Collection</div>}
+                      
                         </div>
                         </div>
                       </div>
@@ -274,9 +290,8 @@ const [mount, setMount] = useState(false)
             <div className="space-y-1">
               <p>Total: £ {totalPrice?.toFixed(2)}</p>
               {order?.orderType === 'collection' ? <p>Delivery charge: £ 0 (No charges for collection)</p> : <p>Delivery charge: £ {deliveryCharge}</p>}
-              {order?.orderType === 'collection' && <p>Discount : £ {discountPrice} (20% off on Collection)</p>}
               <p className="font-bold">
-                You pay: £ {order?.orderType === 'collection' ?  (Number(totalPrice) + 0 - Number(discountPrice)).toFixed(2) : (Number(totalPrice) + 0.5).toFixed(2)}
+                You pay: £ {order?.orderType === 'collection' ?  (Number(totalPrice) + 0).toFixed(2) : (Number(totalPrice) + 0.5).toFixed(2)}
               </p>
             </div>
           </div>

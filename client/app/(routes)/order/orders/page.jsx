@@ -18,7 +18,19 @@ const page = () => {
   const { userData, isUserLoggedIn } = useSelector((state) => state.auth);
   const [dayTimeIntervals, setDayTimeIntervals] = useState([]);
   const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart.cartData);
+
   const { previousPath } = useSelector((state) => state.path);
+
+  
+  const totalPrice = cart?.reduce((acc, item) => acc + Number(item?.totalSum), 0);
+  const orderTypeArray = [
+    { name: `Collection`, no: 1 },
+    { name: `Delivery`, no: 2 },
+  ]
+  if(totalPrice < 20){
+    orderTypeArray.pop()
+  }
 
   useEffect(() => {
     if (previousPath !== "/order/cart") {
@@ -31,6 +43,7 @@ const page = () => {
     watch,
     formState: { errors },
   } = useForm();
+
 
   // const { previousRoute } = router.query;
   // console.log(previousRoute);
@@ -130,6 +143,7 @@ const page = () => {
 
     setPostCodeAddress(response?.data?.suggestions)
   }
+
   useEffect(() => {
     getPostalAddress()
 
@@ -137,11 +151,8 @@ const page = () => {
 
   return (
     <div className="min-h-screen space-y-5 container mx-auto p-4">
-      <div className=" flex gap-2">
-        {[
-          { name: `Collection`, no: 1 },
-          { name: `Delivery`, no: 2 },
-        ].map((item) => {
+      <div className=" flex items-center gap-2">
+        {orderTypeArray.map((item) => {
           return (
             <button
               onClick={() => {
@@ -155,6 +166,7 @@ const page = () => {
             </button>
           );
         })}
+      {totalPrice < 20 && <div className="text-red-800 ">No delivery in order less than 20 Pounds</div>}
       </div>
       <div>
         {step === 1 && (

@@ -83,10 +83,10 @@ const OrderDetails = () => {
                 <div className=" md:hidden text-slate-700">Requested For <span className="font-semibold">{data?.time}</span>, </div> 
                 <div className=" md:hidden text-slate-700">Order At <span className="font-semibold">{formattedDate}</span>, </div> 
                   {/* <p>{data?.orderAt}</p> */}
-                  <p className="font-semibold">
+                  <p className="font-semibold text-green-800">
                     Order Amount - £{" "} 
                     {(Number(data?.totalAmount?.total) +
-                      Number(data?.totalAmount?.deliveryCharge)- Number(data?.totalAmount?.discountPrice)).toFixed(2)}
+                      Number(data?.totalAmount?.deliveryCharge)).toFixed(2)}
                   </p>
                 </div>
                 <div className="md:flex items-center gap-2 ">
