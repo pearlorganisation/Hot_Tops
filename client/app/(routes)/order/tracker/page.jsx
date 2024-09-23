@@ -98,7 +98,7 @@ const page = () => {
                 <p>
                 1 Joel St, Pinner, Northwood HA6 1LW, UK
 <br/>
-info@hothousenorthwood.com</p>
+Hothousenorthwood@gmail.com</p>
                 <p className=" flex items-center gap-3">
                   <BsFillTelephoneOutboundFill /> <p>+ 441923510520 </p>
                 </p>
