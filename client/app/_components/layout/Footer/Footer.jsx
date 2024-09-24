@@ -68,7 +68,7 @@ const Footer = () => {
             <a href="https://www.instagram.com/hothousepizzanorthwood" target="_blank" rel="noopener noreferrer"  className="hover:text-yellow-500">
               <SlSocialInstagram size={24} />
             </a>
-            <a href="https://wa.me/+447769108542" target="_blank" rel="noopener noreferrer"  className="hover:text-yellow-500">
+            <a href="https://wa.me/+447469367116" target="_blank" rel="noopener noreferrer"  className="hover:text-yellow-500">
               <SiWhatsapp size={24} />
             </a>
            
@@ -104,7 +104,7 @@ const Footer = () => {
                 </p>
                 <p className="flex items-center mt-2">
                   <FaPhone className="mr-2" size={20} />
-                  <span className="text-center">  Contact Us :  + 441923510520</span>
+                  <span className="text-center">  Contact Us : +44 7469367116</span>
               
                 </p>
         

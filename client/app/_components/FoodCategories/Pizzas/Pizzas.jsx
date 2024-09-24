@@ -120,15 +120,16 @@ const Pizzas = () => {
                 (selectedType === pizza?.filter?.filter ||
                   selectedType === "All")
             );
+            console.log(category)
             return (
               <React.Fragment key={category}>
                 {isCategoryMatched && (
                   <div className="flex items-center justify-center mb-2 p-5">
-                    <div className="flex-grow border-t border-red-800"></div>
-                    <h1 className="px-4 text-red-800 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
+                        <div className={`flex-grow border-t ${category === "VEGETARIAN" || "Vegetarian" ? "border-green-800": "border-red-800"} `}></div>
+                    <h1 className={`px-4 ${category === "VEGETARIAN" || "Vegetarian" ? "text-green-800": "text-red-800"}  font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl`}>
                       {category}
                     </h1>
-                    <div className="flex-grow border-t border-red-800"></div>
+                    <div className={`flex-grow border-t ${category === "VEGETARIAN" || "Vegetarian" ? "border-green-800": "border-red-800"} `}></div>
                   </div>
                 )}
 
