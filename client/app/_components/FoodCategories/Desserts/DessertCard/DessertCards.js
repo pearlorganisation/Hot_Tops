@@ -18,7 +18,7 @@ const DessertCards = ({ data, dummyData, idx }) => {
       <img
         src={data?.banner}
         alt="Card Image"
-        className="rounded-t-lg w-full object-cover h-44"
+        className="rounded-t-lg w-full object-contain h-52"
       />
      
         <h2 className="text-lg text-gray-800 font-semibold px-2 py-3">{data?.dessertName}</h2>
