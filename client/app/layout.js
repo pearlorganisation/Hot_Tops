@@ -22,20 +22,47 @@ export default function RootLayout({ children }) {
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="google-site-verification" content="9T3E5ht2epp1i_b1cSLxMbiP1yN7Jcc-_G1IIHlmiSk" />
+    <meta name="google-site-verification" content="KNX-3vWjShPJyzrqVlhnyfiZYNUxUOWcaupO2aREIcE" />
     <meta name="msvalidate.01" content="23983C217832B5C4AAC786882981CDA6" />
 
   </head>
-  <Script
+
+   {/* Google Analytics Script */}
+   <Script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-7NN5GJS7SP"
+      />
+      <Script id="google-analytics">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-7NN5GJS7SP');
+        `}
+      </Script>
+
+      {/* Google Ads Conversion Script */}
+      <Script
         async
         src="https://www.googletagmanager.com/gtag/js?id=AW-16577048939"
-      ></Script>
+      />
       <Script id="google-ads">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', 'AW-16577048939');
+        `}
+      </Script>
+
+      {/* Conversion Event Tracking */}
+      <Script id="conversion-event">
+        {`
+          gtag('event', 'conversion', {
+            'send_to': 'AW-16577048939/5D_5CNrMy9UZEOvixuA9',
+            'value': 1.0,
+            'currency': 'GBP'
+          });
         `}
       </Script>
 
