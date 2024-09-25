@@ -75,14 +75,14 @@ const CreateDealCard = () => {
   function handleSubmittion(data) {
     console.log("sgjsagdjsha",data);
     const formData = new FormData();
-
-    const defaultDrinkType = data?.drinkType.value;
+    const defaultDrinkType = data?.drinkType?.value || "can";
     const chooseItems = {
       pizzas: data?.numberOfPizzas,
       drinks: data?.numberOfDrinks
     };
-
-    const defaultItems = data.extraLoading.map(el => el.extra) || [];
+    let defaultItems = []
+if(data.extraLoading[0].extra != "")
+   { defaultItems = data.extraLoading.map(el => el.extra) || [];}
     console.log("defaultItems",defaultItems);
     const priceSectionFilter = data.priceSection.map(item => ({
       size: item?.size?.label || '',
@@ -356,7 +356,7 @@ const CreateDealCard = () => {
                 {extraFields.map((item, index) => (
                   <li key={item.id}>
                     <input
-                      {...register(`extraLoading.${index}.extra`, { required: 'Extra field is required' })}
+                      {...register(`extraLoading.${index}.extra`)}
                       className="w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
                       placeholder="Enter extra loading"
                     />
@@ -370,11 +370,11 @@ const CreateDealCard = () => {
                   </li>
                 ))}
               </ul>
-              {errors.extraLoading && (
+              {/* {errors.extraLoading && (
                 <span className="text-sm font-medium text-red-500">
                   {errors.extraLoading.message}
                 </span>
-              )}
+              )} */}
             </div>
 
             <div>

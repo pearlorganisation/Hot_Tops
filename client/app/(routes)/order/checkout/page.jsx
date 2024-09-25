@@ -336,7 +336,7 @@ const [mount, setMount] = useState(false)
                   {...register("paymentMethode")}
                   defaultChecked
                 />
-                <label htmlFor="cash">Cash on delivery</label>
+                <label htmlFor="cash">{order?.orderType === 'collection' ? "Cash on collection" : "Cash on delivery"}</label>
                 <input
                   {...register("paymentMethode")}
                   name="paymentMethode"
