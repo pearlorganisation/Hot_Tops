@@ -70,6 +70,10 @@ export default function OrderViewModal ({viewData,setModal}) {
         <td className="py-2 px-4 border border-gray-300">{viewData ? `${viewData?.orderBy?.firstName} ${viewData?.orderBy?.lastName}` : ''}</td>
       </tr>
       <tr>
+        <td className="py-2 px-4 border border-gray-300">Email</td>
+        <td className="py-2 px-4 border border-gray-300">{viewData ? `${viewData?.orderBy?.email}` : ''}</td>
+      </tr>
+      <tr>
         <td className="py-2 px-4 border border-gray-300">Order Items </td>
         <td className="py-2 px-4 border border-gray-300">
           {viewData && viewData.items ? (

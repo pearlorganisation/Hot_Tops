@@ -36,7 +36,7 @@ const page = () => {
 
     useEffect(() => {
       if (!trackerStatus) {
-        router.push("/notFound");
+        router.push("/");
       }
     }, []);
 

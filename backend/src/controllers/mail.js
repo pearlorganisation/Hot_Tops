@@ -6,8 +6,8 @@ import { sendOrderMail } from "../utils/sendOrderMail.js";
 export const OrderMail = asyncErrorHandler(async (req, res, next) => {
   const {email} = req?.body
   console.log(req?.body)
-   console.log(req?.body?.data?.items)
-    const { paymentMethode, time, totalAmount,orderNumber,orderType } = req?.body?.data;
+
+    const { paymentMethode, time,items, totalAmount,orderNumber,orderType } = req?.body?.data;
     const amount= Number(totalAmount.total + totalAmount.deliveryCharge).toFixed(2)
 
     let paymentMode = ""
@@ -17,7 +17,7 @@ paymentMode= "Cash on Collection"
     else{
       paymentMode= paymentMethode
     }
-
+// return null
   
     sendOrderMail(email, orderNumber, amount, time, paymentMode,orderType).then(() => {
           return res
