@@ -88,7 +88,7 @@ const page = ({ searchParams }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({...responsejson,email:userData.email}),
+        body: JSON.stringify({...responsejson,email:userData.email,name:userData.firstName}),
       }
     )
     const mailResponseJson = await mailResponse.json();
@@ -189,11 +189,7 @@ else{
 
 
 }
-    
 
-  // -----------------------------------useeffects-------------------------------------------
-
-  useEffect(() => { }, [order?.address, order?.time]);
 
  
 

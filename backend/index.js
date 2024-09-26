@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import { connectMongo } from "./src/configs/db/mongo/mongoConfig.js";
 import { envAccess } from "./src/utils/index.js";
 import { CustomError } from "./src/utils/errors/customError.js";
+import path from "path"
 
 // -------------------------------------------------------------------------------------------------------------
 dotenv.config();
@@ -153,6 +154,186 @@ app.use("/api/v1/mail", mailRoutes);
 // -------------------------------------------------------------------------------------------------------------
 
 // ------------------------------------------Global Error Handling----------------------------------------------
+// // Set EJS as the view engine
+// app.set("view engine", "ejs");
+
+// // Define the directory for views
+// app.set("views", path.join(path.resolve(), "src/views"));
+
+// // Define a route to render EJS pages
+// app.get("/", (req, res) => {
+//   res.render("orderMail", { title: "HI", message: "Hello from EJS!" , 
+//       orderType: "collection",
+//       name:"Avnish",
+//       orderId: "250920",
+//       time: "Wednesday-17:15",
+//       amount: 24,
+//       date:"24-10-23",
+//       items: [
+//         {
+//           name: "Vegetarian Pizza",
+//           img: "https://res.cloudinary.com/dnixhctcf/image/upload/v1724995846/zhsrnki0ikspv8gjqegc.jpg",
+
+//           id: "6683c957888a970ed1e083416692254400cad24da6ad3291",
+//           quantity: 1,
+//           price: 4.99,
+//           totalSum: 4.99,
+//           discount: "1.00"
+//         },
+//         {
+//           name: "Vegetarian Hot Pizza",
+//           img: "https://res.cloudinary.com/dnixhctcf/image/upload/v1724995867/wsdlxobq8dggnrqta0az.jpg",
+//           id: "66ed47a345ced5c6a7f985c9a54fdo66ed47a345ced5c6a7f985c99cbbsi66ed47a345ced5c6a7f985c978d5do66ed47a345ced5c6a7f985c99a4asi66ed47a345ced5c6a7f985c911f4si66ed47a345ced5c6a7f985c911f5si66ed47a345ced5c6a7f985c911f8si66ed47a345ced5c6a7f985c9838dundefined66ed47a345ced5c6a7f985c98341undefined",
+//           quantity: 1,
+//           price: "5.29",
+//           totalSum: "5.29",
+//           discount: "1.06",
+      
+//         },
+//         {
+//           name: "The Big Eater Deal",
+//           img: "https://res.cloudinary.com/durqwvafr/image/upload/v1722341719/fzcgachlfs4fkltzekem.webp",
+//           id: "669f77aeaed590855e1a589b66921e5000cad24da6ad2829",
+//           quantity: 1,
+//           price: "17.99",
+//           totalSum: "17.99",
+     
+//         },
+//         {
+//           name: "Curly Deal",
+//           img: "https://res.cloudinary.com/durqwvafr/image/upload/v1722487678/ykrjalwsgvue6ndmsahl.webp",
+//           id: "66a0aaaa7046a6fabdd0906f6692254400cad24da6ad3291a54fdo9cbbsi78b5do9a4asi11f4si11f6si11f7si838dundefined834aundefined",
+//           quantity: 1,
+//           price: "20.99",
+//           totalSum: "20.99",
+//           dealsData: [
+//             {
+//               label: "Vegetarian Pizza",
+//               value: "6692254400cad24da6ad3291",
+//               id: "6692254400cad24da6ad3291a54fdo9cbbsi78b5do9a4asi11f4si11f6si11f7si838dundefined834aundefined",
+//               banner: "https://res.cloudinary.com/dnixhctcf/image/upload/v1724995846/zhsrnki0ikspv8gjqegc.jpg",
+         
+//               sauceName: [
+//                 {
+//                   sauceName: "Tomato Sauce",
+//                   _id: "66e93f8eb9a673a1527c9cbb",
+//                   size: "single",
+//                   price: 0
+//                 },
+//                 {
+//                   sauceName: "Manchurian Sauce",
+//                   _id: "6692599000cad24da6ad78b5",
+//                   size: "double",
+//                   price: 0
+//                 }
+//               ],
+//               cheeseName: [
+//                 {
+//                   cheeseName: "Less Cheese",
+//                   _id: "66a8d37ff16f0b33c535a54f",
+//                   size: "double",
+//                   price: 1
+//                 }
+//               ],
+//               vegetarianToppingsName: [
+//                 {
+//                   vegName: "Onions",
+//                   _id: "6683d840f4fd704f5fe69a4a",
+//                   size: "single",
+//                   price: 1
+//                 },
+//                 {
+//                   vegName: "Green Peppers",
+//                   _id: "6683d8714d967210ce8111f4",
+//                   size: "single",
+//                   price: 1
+//                 },
+//                 {
+//                   vegName: "Mushrooms",
+//                   _id: "6683d8a14d967210ce8111f6",
+//                   size: "single",
+//                   price: 1
+//                 },
+//                 {
+//                   vegName: "Sweet Corns",
+//                   _id: "6683d8ac4d967210ce8111f7",
+//                   size: "single",
+//                   price: 1
+//                 }
+//               ],
+//               meatToppingsName: [],
+//               baseName: {
+//                 _id: "6683cefc888a970ed1e0838d",
+//                 name: "Deep Pan",
+//                 price: [
+//                   {
+//                     size: "6683c971888a970ed1e0834a",
+//                     price: 0,
+//                     _id: "66e7f14827032f47a5a3bb65"
+//                   }
+//                 ],
+//                 __v: 0
+//               },
+//               name: "Vegetarian Pizza",
+//               pizzaPrice: 15.99,
+//               pizzaExtraToppingPrice: 1
+//             },
+//             {
+//               label: "Pepsi",
+//               value: "667027753a3495a561c3e324"
+//             },
+//             {
+//               label: "Pepsi Max",
+//               value: "66ebe2c19f1b22e164ed47e5"
+//             },
+//             {
+//               label: "1 Large Curly Fries"
+//             }
+//           ]
+//         },
+//         {
+//           name: "Garlic Bread With Cheese 4 pcs",
+//           img: "https://res.cloudinary.com/dnixhctcf/image/upload/v1726585921/rfjigo9ub6a065zqng5p.jpg",
+//           size: 3,
+//           id: "66e7e96eeaadc8e16fa5e570",
+//           quantity: 1,
+//           price: 3,
+//           totalSum: 3
+//         },
+//         {
+//           id: "66ebe2c19f1b22e164ed47e566ebe2c19f1b22e164ed47e6",
+//           name: "Pepsi Max",
+//           img: "https://res.cloudinary.com/dnixhctcf/image/upload/v1726735041/hynpe6u5ae2bwktrexeq.png",
+//           size: "Bottle-3.5",
+//           quantity: 1,
+//           price: "3.50",
+//           totalSum: "3.50"
+//         },
+//         {
+//           name: "Ben & Jerry's 500ml",
+//           img: "https://res.cloudinary.com/dnixhctcf/image/upload/v1726735299/hm09elrtnsvotfcelouv.jpg",
+//           size: 8.35,
+//           id: "6672a29588588b02dd7e46fa",
+//           quantity: 1,
+//           price: 8.35,
+//           totalSum: 8.35
+//         },
+//         {
+//           name: "Garlic & Herb",
+//           img: "https://res.cloudinary.com/dnixhctcf/image/upload/v1726720602/oii1oi699tqamrhsf9ut.jpg",
+//           size: "Small-0.3",
+//           id: "66e811e3eaadc8e16fa64f07",
+//           quantity: 1,
+//           price: 0.3,
+//           totalSum: 0.3
+//         }
+//       ],
+//       paymentType: "Cash on delivery"
+//     ,
+    
+//     email: "avnish@pearlorganisation.com"
+//    });
+// });
 
 app.all("*", (req, res, next) => {
   return next(

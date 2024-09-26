@@ -4,7 +4,7 @@ import { sendOrderMail } from "../utils/sendOrderMail.js";
 
 
 export const OrderMail = asyncErrorHandler(async (req, res, next) => {
-  const {email} = req?.body
+  const {email,name} = req?.body
   console.log(req?.body)
 
     const { paymentMethode, time,items, totalAmount,orderNumber,orderType } = req?.body?.data;
@@ -17,9 +17,8 @@ paymentMode= "Cash on Collection"
     else{
       paymentMode= paymentMethode
     }
-// return null
   
-    sendOrderMail(email, orderNumber, amount, time, paymentMode,orderType).then(() => {
+    sendOrderMail(email, orderNumber, amount, time, paymentMode,orderType,items,name).then(() => {
           return res
             .status(200)
             .json({ success: true, message: "OTP sent successfully" });
