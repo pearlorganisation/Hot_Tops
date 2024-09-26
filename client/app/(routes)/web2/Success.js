@@ -64,7 +64,7 @@ const handlePayment = async() =>{
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ data:{...orderResponseJson?.data},email:userData.email}),
+        body: JSON.stringify({ data:{...orderResponseJson?.data},email:userData.email,name:userData.firstName}),
       }
     )
     const mailResponseJson = await mailResponse.json();

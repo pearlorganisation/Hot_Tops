@@ -26,8 +26,6 @@
         }
 
         .container {
-  
-           
             max-width: 900px;
             margin: 0 auto;
             text-align: left;
@@ -73,7 +71,6 @@
         .info-message {
             color: #555555;
             font-size: 17px;
-
         }
 
         .footer {
@@ -83,7 +80,33 @@
             background-color: #f8f8f8;
             border-radius: 0 0 12px 12px;
             font-size: 18px;
+        }
 
+        /* Flexbox for aligning image and item details */
+        .item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .item img {
+            margin-left: 20px;
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .item-details {
+            flex-grow: 1;
+        }
+
+        .item-details p {
+            margin: 0;
+        }
+
+        .item-details .quantity {
+            color: green;
         }
     </style>
 </head>
@@ -101,20 +124,32 @@
                     <tr>
                         <td class="content">
                             <div style="color: #333333; text-align: left;">
-                                <h1 style="color:green">Order Created Successfully</h1>
-                                <p class="info-message">Thank you for placing an order with Hot House Northwood Pizza. We are pleased to confirm that we have received your order number is <strong>
-                                    <%= orderId%>
-                                </strong>  with a total amount of <strong>
-                                    £ <%= amount%>
-                                </strong>, placed for <strong>
-                                    <%= date%>
-                                </strong>. Your order type is <strong> <%= orderType%> </strong> and is now being processed and we will ensure its prompt dispatch.</p>
+                                <h2 style="color:green">Hi ! <%= name %> Your Order Placed Successfully</h2>
+                                <p class="info-message">Thank you for placing an order with Hot House Northwood Pizza. We are pleased to confirm that we have received your order number is <strong style="color:rgb(153, 27, 27)">
+                                    <%= orderId %>
+                                </strong> with a total amount of <strong style="color:rgb(153, 27, 27)">
+                                    £ <%= amount %>
+                                </strong>, placed for <strong style="color:rgb(153, 27, 27)">
+                                    <%= date %>
+                                </strong>. Your order type is <strong style="color:rgb(153, 27, 27)"><%= orderType %></strong> and is now being processed and we will ensure its prompt dispatch.</p>
 
-                                <p class="info-message">Payment Mode: <strong><%= paymentType%></strong></p>
+                                <p class="info-message">Payment Mode : <strong style="color:green"><%= paymentType %></strong></p>
                                 
+                                <p class="info-message">Ordered Items : </p>
+                                <ul>
+                                    <% items.forEach(function(item) { %>
+                                        <li class="item">
+                                            <div class="item-details">
+                                                <strong style="color:green"><%= item.name %></strong>
+                                                <p class="quantity">Quantity: <%= item.quantity %></p>
+                                            </div>
+                                            <img src="<%= item.img %>" alt="<%= item.name %> image">
+                                        </li>
+                                    <% }) %>
+                                </ul>
+
                                 <p class="info-message">We appreciate your business and are committed to providing you with the best service possible. If you have any questions or need further assistance, please do not hesitate to contact us.</p>
-                               
-                              
+
                                 <p>Thanks,<br>The Hot House team</p>
                             </div>
                         </td>

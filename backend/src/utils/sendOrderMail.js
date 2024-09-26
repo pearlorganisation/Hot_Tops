@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 console.log(__dirname,"dirname")
 
-export const sendOrderMail = async (email, orderId ,amount, date, paymentType,orderType) => {
+export const sendOrderMail = async (email, orderId ,amount, date, paymentType,orderType,items,name) => {
     // transporter - configuration of admin/user to send mail from
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
@@ -34,7 +34,7 @@ export const sendOrderMail = async (email, orderId ,amount, date, paymentType,or
 
     // console.log(templatePath,"templatePath")
 
-    let data = await ejs.renderFile(templatePath, { email, orderId, amount, date ,paymentType,orderType});
+    let data = await ejs.renderFile(templatePath, { email, orderId, amount, date ,paymentType,orderType,items,name});
 
 
     let mailOptions = {
