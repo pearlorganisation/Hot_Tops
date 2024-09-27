@@ -8,11 +8,14 @@ export const OrderMail = asyncErrorHandler(async (req, res, next) => {
   console.log(req?.body)
 
     const { paymentMethode, time,items, totalAmount,orderNumber,orderType } = req?.body?.data;
-    const amount= Number(totalAmount.total + totalAmount.deliveryCharge).toFixed(2)
+    const amount= (Number(totalAmount?.total) + Number(totalAmount?.deliveryCharge) - Number(totalAmount?.discountPrice || 0)).toFixed(2)
 
     let paymentMode = ""
     if(paymentMethode==="Cash on delivery" && orderType==="collection"){
-paymentMode= "Cash on Collection"
+paymentMode= "Pay on Collection"
+    }
+    else if(paymentMethode==="Cash on delivery" && orderType==="delivery"){
+      paymentMode= "Pay on Delivery"
     }
     else{
       paymentMode= paymentMethode

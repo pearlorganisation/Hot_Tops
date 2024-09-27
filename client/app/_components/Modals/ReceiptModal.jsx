@@ -91,11 +91,12 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
               <p className="capitalize">Order ID : {orderData?.orderNumber}</p>
               <p className="capitalize">Payment Method : <span className={`${orderData?.paymentMethode === "Cash on delivery" ? "text-yellow-600":
                 "text-green-800"
-              }`}>{orderData?.orderType === "collection" && orderData?.paymentMethode === "Cash on delivery" ? "Cash on Collection" : orderData?.paymentMethode}</span></p>
+              }`}>{orderData?.orderType === "collection" && orderData?.paymentMethode === "Cash on delivery" ? "Pay on Collection" : "Pay on Delivery"}</span></p>
             </div>
             <div className="p-2 flex justify-between items-center">
               <h1 className="text-2xl font-bold">Your Order</h1>
-              <p className="font-bold">£ {orderData?.totalAmount?.total}</p>
+              <p className="font-bold">£ {(Number(orderData?.totalAmount?.deliveryCharge) +
+                  Number(orderData?.totalAmount?.total)- Number(orderData?.totalAmount?.discountPrice || 0)).toFixed(2)}</p>
             </div>
             <div>
               <div className="">
@@ -146,18 +147,22 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
             </div>
 
             <div className="px-2 flex justify-between items-center">
+              <h1>Total Amount :</h1>
+              <h1>£ {orderData?.totalAmount?.total} </h1>
+            </div>
+            <div className="px-2 flex justify-between items-center">
               <h1>Delivery charge :</h1>
               <h1>£ {orderData?.totalAmount?.deliveryCharge} </h1>
             </div>
-            {/* <div className="px-2 flex justify-between items-center">
-              <h1>Discounted Amount :</h1>
-              <h1>£ {orderData?.totalAmount?.discountPrice} </h1>
-            </div> */}
+            <div className="px-2 flex justify-between items-center">
+              <h1>Discount :</h1>
+              <h1>£ {orderData?.totalAmount?.discountPrice || 0} </h1>
+            </div>
             <div className="px-2 flex justify-between items-center">
               <h1 className="font-semibold">Pay Amount :</h1>
               <h1 className="font-semibold">
                 £ {(Number(orderData?.totalAmount?.deliveryCharge) +
-                  Number(orderData?.totalAmount?.total)).toFixed(2)}{" "}
+                  Number(orderData?.totalAmount?.total)- Number(orderData?.totalAmount?.discountPrice || 0)).toFixed(2)}{" "}
               </h1>
             </div>
             <p className="my-2 text-sm px-2 mb-3">
