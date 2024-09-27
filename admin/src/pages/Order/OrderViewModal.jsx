@@ -74,7 +74,7 @@ export default function OrderViewModal ({viewData,setModal}) {
         <td className="py-2 px-4 border border-gray-300">{viewData ? `${viewData?.orderBy?.email}` : ''}</td>
       </tr>
       <tr>
-        <td className="py-2 px-4 border border-gray-300">Order Items </td>
+        <td className="py-2 px-4 border border-gray-300">Ordered Items </td>
         <td className="py-2 px-4 border border-gray-300">
           {viewData && viewData.items ? (
             viewData.items.map((item, idx) => 
@@ -136,12 +136,12 @@ export default function OrderViewModal ({viewData,setModal}) {
         </td>
       </tr>
       <tr>
-        <td className="py-2 px-4 border border-gray-300">Total amount</td>
+        <td className="py-2 px-4 border border-gray-300">Amount Details</td>
         <td className="py-2  px-4 border border-gray-300 font-semibold">       <div className='p-2 bg-slate-100 w-fit rounded-md'>
           <div>Total Amount :  <span className='bg-white mb-2 rounded-md px-2 '> £ {viewData?.totalAmount?.total}</span></div>
-          <div>Delivery Charges : <span className='bg-white mb-2 rounded-md px-2 '> £ {viewData?.totalAmount?.deliveryCharge}</span></div>
-          {/* <div>Discounted Amount : <span className='bg-white mb-2 rounded-md px-2 '> {viewData?.totalAmount?.discountPrice ? `£ ${viewData?.totalAmount?.discountPrice}` : "There is no discount"} </span></div> */}
-          <div>Pay Amount : <span className='bg-white mb-2 rounded-md px-2 '> £ {Number(viewData?.totalAmount?.total) + Number(viewData?.totalAmount?.deliveryCharge)} </span></div>
+          <div>Delivery Charge : <span className='bg-white mb-2 rounded-md px-2 '> £ {viewData?.totalAmount?.deliveryCharge}</span></div>
+          <div>Discount : <span className='bg-white mb-2 rounded-md px-2 '> {viewData?.totalAmount?.discountPrice ? `£ ${viewData?.totalAmount?.discountPrice}` : "There is no discount"} </span></div>
+          <div>Pay Amount : <span className='bg-white mb-2 rounded-md px-2 '> £ {Number(viewData?.totalAmount?.total) + Number(viewData?.totalAmount?.deliveryCharge)- Number(viewData?.totalAmount?.discountPrice || 0)} </span></div>
       
         
            </div>
@@ -169,7 +169,7 @@ export default function OrderViewModal ({viewData,setModal}) {
         <td className="py-2 px-4 border border-gray-300">Payment method</td>
         <td className="py-2 px-4 border border-gray-300 font-semibold">
         
-        {viewData ?  <span className='bg-slate-100 mb-2 rounded-md px-2 capitalize'>{viewData?.orderType === "collection" && viewData?.paymentMethode === "Cash on delivery" ? "Cash on Collection" : viewData?.paymentMethode}</span> : 'No data'}
+        {viewData ?  <span className='bg-slate-100 mb-2 rounded-md px-2 capitalize'>{viewData?.orderType === "collection" && viewData?.paymentMethode === "Cash on delivery" ? "Pay on Collection" : viewData?.orderType === "delivery" && viewData?.paymentMethode === "Cash on delivery"? "Pay on delivery" : viewData?.paymentMethode}</span> : 'No data'}
           
         </td>
       </tr>

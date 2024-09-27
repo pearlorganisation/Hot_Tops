@@ -16,28 +16,27 @@ const page = ({ searchParams }) => {
   const userData = useSelector((state) => state.auth.userData);
   const [isLoading,setIsLoading] = useState(false)
   const [codData, setCodData] = useState();
-  const [onlineData, setOnlineData] = useState();
-  const deliveryCharge = 0.5;
+  const [deliveryCharge, setDeliveryCharge] = useState(0.5);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  
+  let discount= 0
+  if(order?.orderType === 'collection') {
+discount= cart?.reduce((acc, item) => {
+  const calDiscount = Number(item?.discount) || 0;
+  return acc + calDiscount;
+}, 0);
+  }
 
-  let totalPrice=0;
-  if(order?.orderType === 'collection') 
-{  
-  totalPrice = cart?.reduce((acc, item) => {
-    const totalSum = Number(item?.totalSum);
-    const discount = item?.discount ? Number(item?.discount) : 0;
-    return acc + (totalSum - discount);
-  }, 0);
-}
-  else{
-    totalPrice = cart?.reduce((acc, item) => {
+
+   const totalPrice = cart?.reduce((acc, item) => {
       return acc + Number(item?.totalSum);
     }, 0);
-  }
+
 
 //   let discountPrice = 0
 //   if(order?.orderType === 'collection')
@@ -57,7 +56,7 @@ const page = ({ searchParams }) => {
       totalAmount: {
         total: totalPrice?.toFixed(2),
         deliveryCharge: order.orderType === 'collection' ? 0 : deliveryCharge,
-        // discountPrice: discountPrice || 0
+        discountPrice: discount || 0
       },
       mobileNumber:userData?.mobileNumber,
       paymentMethode: data?.paymentMethode,
@@ -209,6 +208,14 @@ const [mount, setMount] = useState(false)
     setIsLoading(false)
   },[])
 
+  useEffect(()=>{
+if(totalPrice <20 && totalPrice >=10 ){
+  setDeliveryCharge(2.99)
+}
+if (totalPrice > 20){
+  setDeliveryCharge(0.5)
+}
+  },[totalPrice])
 
 
   return (
@@ -285,9 +292,10 @@ const [mount, setMount] = useState(false)
             </div>
             <div className="space-y-1">
               <p>Total: £ {totalPrice?.toFixed(2)}</p>
-              {order?.orderType === 'collection' ? <p>Delivery charge: £ 0 (No charges for collection)</p> : <p>Delivery charge: £ {deliveryCharge}</p>}
+              {order?.orderType === 'collection' ? <p>Discount: £ {discount}</p> : <p>Discount: £ 0</p>}
+              {order?.orderType === 'collection' ? <p>Delivery Charge: £ 0 (No charges for collection)</p> : <p>Delivery charge: £ {deliveryCharge}</p>}
               <p className="font-bold">
-                You pay: £ {order?.orderType === 'collection' ?  (Number(totalPrice) + 0).toFixed(2) : (Number(totalPrice) + 0.5).toFixed(2)}
+                You pay: £ {order?.orderType === 'collection' ?  (Number(totalPrice) + 0 - discount).toFixed(2) : (Number(totalPrice) + deliveryCharge - 0).toFixed(2)}
               </p>
             </div>
           </div>
@@ -332,7 +340,7 @@ const [mount, setMount] = useState(false)
                   {...register("paymentMethode")}
                   defaultChecked
                 />
-                <label htmlFor="cash">{order?.orderType === 'collection' ? "Cash on collection" : "Cash on delivery"}</label>
+                <label htmlFor="cash">{order?.orderType === 'collection' ? "Pay on collection" : "Pay on delivery"}</label>
                 <input
                   {...register("paymentMethode")}
                   name="paymentMethode"
