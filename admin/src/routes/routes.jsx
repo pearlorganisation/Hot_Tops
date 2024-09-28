@@ -39,13 +39,17 @@ import Order from "../pages/Order/Order";
 import CreateDealCard from "../pages/Deals/CreateDealCard";
 import DealsCustomization from "../pages/Deals/DealsCustomization/DealsCustomization";
 import EditDeals from "../pages/Deals/EditDeals";
+import { useSelector } from "react-redux";
+import Login from "../pages/Auth/Login";
 
 // ---------------------------------------------------------------------------------------------------
+
+const isUserLoggedIn = localStorage.getItem('hothouseLoggedIn');
 
 export const appRouter = createBrowserRouter([
   {
     path: "/",
-    element: <DefaultLayout />,
+    element: isUserLoggedIn ?  <DefaultLayout /> : <Login />,
     children: [
       {
         path: "/food-customization",
