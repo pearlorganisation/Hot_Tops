@@ -186,6 +186,10 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
                     <button
                       type="button"
                       className="flex w-full hover:text-base  flex-1 flex-col items-start justify-center gap-0 overflow-hidden truncate text-sm font-medium"
+                      onClick={() => {
+                        localStorage.clear()
+                        window.location.href = '/'
+                      }}
                     >
                       Logout
                     </button>
