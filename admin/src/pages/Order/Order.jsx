@@ -74,7 +74,7 @@ const Order = () => {
                 <tr>
                   <th className="py-3 px-3">Order Id</th>
                   <th className="py-3 px-3">Name </th>
-                  <th className="py-3 px-3">Total Amount </th>
+                  <th className="py-3 px-3">Pay Amount </th>
                   <th className="py-3 px-3">Time </th>
                   <th className="py-3 px-3">Order Type </th>
                   <th className="py-3 px-3">Payment Method </th>
@@ -105,7 +105,7 @@ const Order = () => {
                         {item?.orderBy?.firstName} {item?.orderBy?.lastName}
                       </td>
                       <td className="px-3 py-4 whitespace-nowrap font-semibold ">
-                      £ {(Number(item?.totalAmount?.total) + Number(item?.totalAmount?.deliveryCharge)).toFixed(2)}
+                      £ {(Number(item?.totalAmount?.total) + Number(item?.totalAmount?.deliveryCharge)- Number(item?.totalAmount?.discountPrice || 0)).toFixed(2)}
                       </td>
                       <td className="px-3 py-4 whitespace-nowrap ">
                         {item?.time}

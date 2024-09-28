@@ -56,24 +56,23 @@ export default function RootLayout({ children }) {
         </Script>
 
         {/* gtag_report_conversion Function */}
-        <Script id="gtag-report-conversion">
-          {`
-            function gtag_report_conversion(url) {
-              var callback = function () {
-                if (typeof(url) != 'undefined') {
-                  window.location = url;
-                }
-              };
-              gtag('event', 'conversion', {
-                'send_to': 'AW-16577048939/5D_5CNrMy9UZEOvixuA9',
-                'value': 1.0,
-                'currency': 'GBP',
-                'event_callback': callback
-              });
-              return false;
-            }
-          `}
-        </Script>
+<Script id="gtag-report-conversion">
+{`function gtag_report_conversion(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') {
+      window.location = url;
+    }
+  };
+  gtag('event', 'conversion', {
+      'send_to': 'AW-16577048939/GJvjCLe7h9cZEOvixuA9',
+      'value': 1.0,
+      'currency': 'GBP',
+      'transaction_id': '',
+      'event_callback': callback
+  });
+  return false;
+}`}
+</Script>
 
       <body className={inter.className}>
         <StoreProvider>

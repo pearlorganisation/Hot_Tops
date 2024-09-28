@@ -168,7 +168,7 @@ app.use("/api/v1/mail", mailRoutes);
 //       orderId: "250920",
 //       time: "Wednesday-17:15",
 //       amount: 24,
-//       date:"24-10-23",
+//       date:"24-10-24",
 //       items: [
 //         {
 //           name: "Vegetarian Pizza",
@@ -178,7 +178,72 @@ app.use("/api/v1/mail", mailRoutes);
 //           quantity: 1,
 //           price: 4.99,
 //           totalSum: 4.99,
-//           discount: "1.00"
+//           discount: "1.00",
+//           allToppings: {
+//             sauce: [
+//               {
+//                 sauceName: "Tomato Sauce",
+//                 _id: "66e93f8eb9a673a1527c9cbb",
+//                 size: "single",
+//                 price: 0
+//               },
+//               {
+//                 sauceName: "Garlic Sauce",
+//                 _id: "66925a4900cad24da6ad78fe",
+//                 size: "double",
+//                 price: 0
+//               }
+//             ],
+//             extraPrice: "1.50",
+//             totalPrice: "5.29",
+//             cheese: [],
+//             veg: [
+//               {
+//                 vegName: "Onions",
+//                 _id: "6683d840f4fd704f5fe69a4a",
+//                 size: "double",
+//                 price: 0.6
+//               },
+//               {
+//                 vegName: "Green Peppers",
+//                 _id: "6683d8714d967210ce8111f4",
+//                 size: "single",
+//                 price: 0.3
+//               },
+//               {
+//                 vegName: "Mushrooms",
+//                 _id: "6683d8a14d967210ce8111f6",
+//                 size: "single",
+//                 price: 0.3
+//               },
+//               {
+//                 vegName: "Sweet Corns",
+//                 _id: "6683d8ac4d967210ce8111f7",
+//                 size: "single",
+//                 price: 0.3
+//               }
+//             ],
+//             meat: [],
+//             price: 4.99,
+//             size: {
+//               _id: "6683c957888a970ed1e08341",
+//             name: "7\"",
+//               __v: 0
+//             },
+//             _id: "66ed479045ced5c6a7f983a7",
+//             base: {
+//               _id: "6683cefc888a970ed1e0838d",
+//               name: "Deep Pan",
+//               price: [
+//                 {
+//                   size: "6683c957888a970ed1e08341",
+//                   price: 0,
+//                   _id: "66e7f14827032f47a5a3bb62"
+//                 }
+//               ],
+//               __v: 0
+//             }
+//           }
 //         },
 //         {
 //           name: "Vegetarian Hot Pizza",
@@ -203,6 +268,7 @@ app.use("/api/v1/mail", mailRoutes);
 //           name: "Curly Deal",
 //           img: "https://res.cloudinary.com/durqwvafr/image/upload/v1722487678/ykrjalwsgvue6ndmsahl.webp",
 //           id: "66a0aaaa7046a6fabdd0906f6692254400cad24da6ad3291a54fdo9cbbsi78b5do9a4asi11f4si11f6si11f7si838dundefined834aundefined",
+//           size:"7\"",
 //           quantity: 1,
 //           price: "20.99",
 //           totalSum: "20.99",

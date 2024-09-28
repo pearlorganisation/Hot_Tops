@@ -21,7 +21,7 @@ export default function OrderViewModal ({viewData,setModal}) {
   >
     {/*    <!-- Modal --> */}
     <div
-      className="flex w-[80%] sm:w-[70%] h-full  flex-col gap-6  rounded bg-white p-6 pb-14 shadow-xl "
+      className="flex w-full sm:w-[80%] xl:w-[70%] h-full  flex-col gap-6  rounded bg-white p-6 pb-14 shadow-xl "
       id="modal"
       role="document"
     >
@@ -93,12 +93,12 @@ export default function OrderViewModal ({viewData,setModal}) {
                 ].join(', ');
 
                 const mergedDealToppingsArray = item?.dealsData && Array.isArray(item.dealsData)
-                ? item.dealsData.map((item) => [
-                    item?.baseName?.name,
-                    ...(Array.isArray(item?.cheeseName) ? item?.cheeseName.map(cheese => `${cheese.cheeseName} - ${cheese?.size === "double" ? "2️⃣ " : "1️⃣ "}`) : []),
-                    ...(Array.isArray(item?.vegetarianToppingsName) ? item?.vegetarianToppingsName.map(veg => `${veg.vegName} - ${veg?.size === "double" ? "2️⃣ " : "1️⃣ "}`) : []),
-                    ...(Array.isArray(item?.meatToppingsName) ? item?.meatToppingsName.map(meat => `${meat.meatName} - ${meat?.size === "double" ? "2️⃣ " : "1️⃣ "}`) : []),
-                    ...(Array.isArray(item?.sauceName) ? item?.sauceName.map(sauce => `${sauce.sauceName} - ${sauce?.size === "double" ? "2️⃣ " : "1️⃣ "}`) : [])
+                ? item.dealsData.map((item2) => [
+                    item2?.baseName?.name,
+                    ...(Array.isArray(item2?.cheeseName) ? item2?.cheeseName.map(cheese => `${cheese.cheeseName} - ${cheese?.size === "double" ? "2️⃣ " : "1️⃣ "}`) : []),
+                    ...(Array.isArray(item2?.vegetarianToppingsName) ? item2?.vegetarianToppingsName.map(veg => `${veg.vegName} - ${veg?.size === "double" ? "2️⃣ " : "1️⃣ "}`) : []),
+                    ...(Array.isArray(item2?.meatToppingsName) ? item2?.meatToppingsName.map(meat => `${meat.meatName} - ${meat?.size === "double" ? "2️⃣ " : "1️⃣ "}`) : []),
+                    ...(Array.isArray(item2?.sauceName) ? item2?.sauceName.map(sauce => `${sauce.sauceName} - ${sauce?.size === "double" ? "2️⃣ " : "1️⃣ "}`) : [])
                   ].join(', '))
                 : [];
          
@@ -106,22 +106,37 @@ export default function OrderViewModal ({viewData,setModal}) {
               <div className='border border-slate-300 flex mb-2 rounded-md px-2 gap-2' key={idx}>
                  <div className='flex items-center '><span className=''>{idx+1}:</span> </div>
                  <div className='p-2 space-x-2'>
-              <span className=' mb-2 rounded-md px-2 '>   <p className="text-lg"> {item?.name}
+              <div className=' rounded-md px-2 '>  
+                 <p className="text-lg pb-2"> {item?.name}
                     {" "}
                     {size ? `(${price[0]})` : (item?.dealsData ? `(${item?.size})` : item?.allToppings?.size?.name ? `(${item?.allToppings?.size?.name})` : "" ) }<br/>
                     {item?.allToppings && <span className="text-sm bg-red-800 text-white rounded-md px-2"> Customized </span>}
-                    </p></span>
-                    <p className=" text-green-800">{mergedToppings}</p>
-                    {item?.dealsData && ( <div className="text-base  text-gray-600"> {
+                    </p></div>
+                  { mergedToppings && <p className=" text-green-800 pb-2 border p-1 px-2 mb-2 rounded-md">{mergedToppings}</p>}
+                    <div className="flex justify-between gap-5">
+                        <div className="font-semibold text-green-800 text-right  md:text-left">
+                        {viewData?.orderType === 'collection' && item?.discount ? <>Price : £ {item?.price - item?.discount} <span className="line-through text-sm text-slate-600">{item?.price}</span></> : `Price : £ ${item?.price}`}
+                          <span className="text-sm"> x {item?.quantity}</span>
+                          <div className="text-sm text-red-800"> Quantity : {item?.quantity}</div>
+                         
+                        </div>
+                        {viewData?.orderType === 'collection' && item?.discount &&   <div className="text-green-800 font-semibold">20% Discount on Collection</div>}
+                      
+                        </div>
+                    {item?.dealsData && ( <div className="text-base border rounded-md px-2 py-2 mt-2 text-gray-600"> {
                     item?.dealsData?.map((item,idx) =>
-                  item?.name && 
+                  item?.name ? 
                   (<> <div key={idx} className=" ">
                     <div className="min-w-[10rem] max-w-[10rem] md:min-w-[30rem]">{item?.name} <span className="text-sm bg-red-800 text-white rounded-md px-2"> Customized </span></div>
                     <div className="text-green-900 text-sm">{mergedDealToppingsArray[idx]}</div>
                   </div>
                   <div className="border-b py-1"></div>
                   </>
-                  )
+                  ) : <><div key={idx} className=" ">
+                  <div className="min-w-[10rem] max-w-[10rem] md:min-w-[30rem]">{item?.label}</div>
+              
+                </div>
+                <div className="border-b py-1"></div></>
                   )} 
                     </div>)
                     }
@@ -138,10 +153,10 @@ export default function OrderViewModal ({viewData,setModal}) {
       <tr>
         <td className="py-2 px-4 border border-gray-300">Amount Details</td>
         <td className="py-2  px-4 border border-gray-300 font-semibold">       <div className='p-2 bg-slate-100 w-fit rounded-md'>
-          <div>Total Amount :  <span className='bg-white mb-2 rounded-md px-2 '> £ {viewData?.totalAmount?.total}</span></div>
-          <div>Delivery Charge : <span className='bg-white mb-2 rounded-md px-2 '> £ {viewData?.totalAmount?.deliveryCharge}</span></div>
-          <div>Discount : <span className='bg-white mb-2 rounded-md px-2 '> {viewData?.totalAmount?.discountPrice ? `£ ${viewData?.totalAmount?.discountPrice}` : "There is no discount"} </span></div>
-          <div>Pay Amount : <span className='bg-white mb-2 rounded-md px-2 '> £ {Number(viewData?.totalAmount?.total) + Number(viewData?.totalAmount?.deliveryCharge)- Number(viewData?.totalAmount?.discountPrice || 0)} </span></div>
+          <div>Total Amount :  <span className='text-yellow-600 bg-white mb-2 rounded-md px-2 '> £ {viewData?.totalAmount?.total}</span></div>
+          <div>Delivery Charge : <span className='text-yellow-600 bg-white mb-2 rounded-md px-2 '> £ {viewData?.totalAmount?.deliveryCharge}</span></div>
+          <div>Discount : <span className='text-yellow-600 bg-white mb-2 rounded-md px-2 '> {viewData?.totalAmount?.discountPrice ? `£ ${viewData?.totalAmount?.discountPrice}` : "There is no discount"} </span></div>
+          <div>Pay Amount : <span className='text-green-800 bg-white mb-2 rounded-md px-2 '> £ {(Number(viewData?.totalAmount?.total) + Number(viewData?.totalAmount?.deliveryCharge)- Number(viewData?.totalAmount?.discountPrice || 0)).toFixed(2)} </span></div>
       
         
            </div>
