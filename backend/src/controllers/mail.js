@@ -5,7 +5,8 @@ import { sendOrderMail } from "../utils/sendOrderMail.js";
 
 export const OrderMail = asyncErrorHandler(async (req, res, next) => {
   const {email,name} = req?.body
-  console.log(req?.body)
+  console.log(req?.body?.data)
+  console.log(req?.body?.data?.items)
 
     const { paymentMethode, time,items, totalAmount,orderNumber,orderType } = req?.body?.data;
     const amount= (Number(totalAmount?.total) + Number(totalAmount?.deliveryCharge) - Number(totalAmount?.discountPrice || 0)).toFixed(2)

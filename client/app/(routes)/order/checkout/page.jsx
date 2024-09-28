@@ -137,9 +137,9 @@ else{
     let onlinePrice 
 
   if(order?.orderType === 'collection'){
-    onlinePrice = (Number(totalPrice) + 0 ).toFixed(2) 
+    onlinePrice = (Number(totalPrice) + 0 - Number(discount || 0) ).toFixed(2) 
   }else
-   {onlinePrice =  (Number(totalPrice?.toFixed(2)) + Number(deliveryCharge))}
+   {onlinePrice =  (Number(totalPrice?.toFixed(2)) + Number(deliveryCharge)) - Number(discount || 0)}
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/order/create-viva-order`, {
       method: "POST",
@@ -253,7 +253,7 @@ if (totalPrice > 20){
                           <p className="font-semibold">
                     {data?.name}
                     {" "}
-                    {size ? `(${price[0]})` : (data?.dealsData ? `(${data?.size})` : data?.allToppings?.size?.name ? `(${data?.allToppings?.size?.name})` : "" ) }
+                    {size ? `(${price[0]})` : (data?.dealsData ? `(${data?.size})` : data?.allToppings?.size?.name ? `(${data?.allToppings?.size?.name} 15)` : "" ) }
                           {data?.allToppings && <>{" "}<span className="text-sm bg-red-800 text-white rounded-md px-2"> Customized </span></>}
                     <br/>
                     {/* <p className="hidden md:block text-green-800">{mergedToppings}</p> */}
@@ -264,7 +264,7 @@ if (totalPrice > 20){
                         </div>
 <div className="font-semibold md:col-span-3">
   <div> <p className="text-sm text-green-800 pb-2">{mergedToppings}</p> </div>
-                       <div className="flex justify-between">
+  <div className="flex justify-between">
                         <div className=" text-right  md:text-left">
                         {order?.orderType === 'collection' && data?.discount ? <>£ {data?.price - data?.discount} <span className="line-through text-sm text-slate-600">{data?.price}</span></> : `£ ${data?.price}`}
                          
