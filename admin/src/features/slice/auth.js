@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { logIn, logout } from "../actions/auth";
+import { getAllUsers, logIn, logout } from "../actions/auth";
 import { toast } from "sonner";
 
 // -------------------------------------------------------------------------------------------
@@ -70,6 +70,23 @@ const authSlice = createSlice({
     });
   })
   .addCase(logout.rejected, (state, action) => {
+    state.isLoading = false;
+    state.isSuccess = false;
+    state.errorMessage = action.payload;
+    toast.error(state?.errorMessage, {
+      position: "top-right",
+    });
+  })
+  .addCase(getAllUsers.pending, (state, action) => {
+    state.isLoading = true;
+    state.errorMessage = "";
+  })
+  .addCase(getAllUsers.fulfilled, (state, action) => {
+    state.isLoading = false;
+    state.errorMessage = "";
+    state.userData =action.payload
+  })
+  .addCase(getAllUsers.rejected, (state, action) => {
     state.isLoading = false;
     state.isSuccess = false;
     state.errorMessage = action.payload;

@@ -39,3 +39,20 @@ export const logout = createAsyncThunk(
     }
   }
 );
+
+export const getAllUsers = createAsyncThunk(
+  "auth/getAllUsers",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const {data} = await instance.get("/auth/", payload, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return data?.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);

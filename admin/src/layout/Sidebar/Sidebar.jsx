@@ -13,6 +13,7 @@ import { LuCakeSlice } from "react-icons/lu";
 import { MdOutlinePayment } from "react-icons/md";
 import { Link } from "react-router-dom";
 import logo from "/logo.png"
+import { BsFillPeopleFill } from "react-icons/bs";
 // -----------------------------------------------------------------------------------------------
 
 export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
@@ -80,12 +81,12 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
       icon: <TbBowlFilled size={28} />,
       isDropDown: false,
     },
-    // {
-    //   label: "Upload DealBanner",
-    //   path: "/dip",
-    //   icon: <TbBowlFilled size={28} />,
-    //   isDropDown: false,
-    // },
+    {
+      label: "Users",
+      path: "/user",
+      icon: <BsFillPeopleFill size={28} />,
+      isDropDown: false,
+    },
   ];
 
   return (

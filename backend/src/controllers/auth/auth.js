@@ -481,4 +481,9 @@ export const newPassword = asyncErrorHandler(async (req, res) => {
   });
 });
 
+export const getAllUsers= asyncErrorHandler(async(req,res)=>{
+ const data = await auth.find().sort({createdAt:-1})
+
+ res.status(200).json({status:true,message:"All User found Successfully",data})
+})
 
