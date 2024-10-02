@@ -68,7 +68,8 @@ const OrderDetails = () => {
                     Reorder Now
                   </a>
                   </div>
-                    <h2 className={` md:hidden font-semibold  ${data?.orderStatus === "Completed" ? "text-green-800" : data?.orderStatus === "Pending" ? "text-yellow-600" : "text-red-800" } `}>{data?.orderStatus}</h2>
+                    {/* <h2 className={` md:hidden font-semibold  ${data?.orderStatus === "Completed" ? "text-green-800" : data?.orderStatus === "Pending" ? "text-yellow-600" : "text-red-800" } `}>{data?.orderStatus}</h2> */}
+                    <h2 className={` md:hidden font-semibold text-green-800 } `}>Accepted</h2>
                    <div className="flex gap-3 text-slate-700  border">
                    <h1 className="hidden md:block ">Requested For <span className="font-semibold">{data?.time}</span>, </h1> 
                    <h1 className="hidden md:block">Order At <span className="font-semibold">{formattedDate}</span> </h1> 
@@ -76,7 +77,8 @@ const OrderDetails = () => {
              
 
                 </h1>
-                <h2 className={`hidden md:block font-semibold  ${data?.orderStatus === "Completed" ? "text-green-800" : data?.orderStatus === "Pending" ? "text-yellow-600" : "text-red-800"} `}>{data?.orderStatus}</h2>
+                {/* <h2 className={`hidden md:block font-semibold  ${data?.orderStatus === "Completed" ? "text-green-800" : data?.orderStatus === "Pending" ? "text-yellow-600" : "text-red-800"} `}>{data?.orderStatus}</h2> */}
+                <h2 className={`hidden  md:block font-semibold text-green-800 } `}>Accepted</h2>
               </div>
               <div className="flex justify-between items-center">
                 <div className="">

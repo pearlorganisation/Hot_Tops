@@ -85,7 +85,8 @@ const ReceiptModal = ({ isReceiptVisible, setIsReceiptVisible }) => {
               <h2 className="text-xl">
                 {userData?.firstName} {userData?.lastName}
               </h2>
-              <p>Status : <span className="text-red-800">{orderData?.orderStatus}</span></p>
+              {/* <p>Status : <span className="text-red-800">{orderData?.orderStatus}</span></p> */}
+              <p>Status : <span className="text-green-800">Accepted</span></p>
               <p>Mobile : {userData?.mobileNumber}</p>
               <p className="capitalize">Order type : {orderData?.orderType}</p>
               <p className="capitalize">Order ID : {orderData?.orderNumber}</p>
