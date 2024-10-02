@@ -85,7 +85,7 @@ const Cheese = ({ cheeseData }) => {
       <h1 className="text-lg font-bold my-10">
         CHEESES{" "}
         <span className="text-gray-500 font-normal">
-          (You can deselect the cheese if not required)
+          (Select only one option)
         </span>
       </h1>
       <table className="min-w-full divide-y divide-gray-200 shadow-lg">

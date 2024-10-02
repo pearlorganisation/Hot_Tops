@@ -43,7 +43,7 @@ const MeatToppings = ({ meatTopData }) => {
         const { [meatId]: _, ...rest } = prevSelected;
         return rest;
       } else {
-        if (MAX_TOPPINGS < 6) {
+        if (MAX_TOPPINGS < 11) {
           return {
             ...prevSelected,
             [meatId]: size,
@@ -92,7 +92,7 @@ const MeatToppings = ({ meatTopData }) => {
         <thead className="bg-gray-50">
           <tr>
             <th className="px-2 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
-              Sauce
+            MEAT TOPPING
             </th>
             <th className="px-2 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
               Single

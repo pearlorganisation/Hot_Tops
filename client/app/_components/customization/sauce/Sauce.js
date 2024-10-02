@@ -146,7 +146,7 @@ const Sauce = ({ sauceData }) => {
       <h1 className="text-lg font-bold my-8">
         SAUCES{" "}
         <span className="text-gray-500 font-normal">
-          (Select only one sauce)
+          (Select only one option)
         </span>
       </h1>
       <table className="min-w-full divide-y divide-gray-200 shadow-lg">
