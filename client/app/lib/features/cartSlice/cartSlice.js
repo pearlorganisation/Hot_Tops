@@ -7,7 +7,7 @@ const cartSlice = createSlice({
   initialState: {
     cartData: [],
     allToppings: {},
-
+    MAX_TOPPINGS: 0,
     defaultPrice: 0,
 
     isOrderCheckout: false,
@@ -36,11 +36,13 @@ const cartSlice = createSlice({
           return item;
         });
         state.cartData = temp;
-        toast.success("Added",  {
-          position: 'top-center',duration:300});
+        toast.success("Added", {
+          position: "top-center",
+          duration: 300,
+        });
       } else {
         state.cartData = [...state.cartData, action.payload];
-        toast.success("Item Added Successfully",{position:"top-center"});
+        toast.success("Item Added Successfully", { position: "top-center" });
       }
     },
     increaseQuantity: (state, action) => {
@@ -113,17 +115,25 @@ const cartSlice = createSlice({
     },
 
     setToppings: (state, action) => {
+      // alert("heloo");
+      console.log("hello bhosdk");
       const temp = {
         ...current(state.allToppings),
         ...action?.payload,
       };
 
       const { sauce, cheese, veg, meat, base, price } = temp;
+
       const flatArray = [sauce, cheese, veg, meat].flat();
+
+      state.MAX_TOPPINGS = flatArray.length;
+      console.log("flatArray", flatArray.length);
+
       const extraPrice =
         flatArray.reduce((acc, cur) => {
           return acc + cur?.price;
         }, 0) + base?.price[0]?.price || 0;
+
       const prices = {
         ...temp,
         extraPrice: Math.max(0, extraPrice).toFixed(2),
@@ -134,8 +144,8 @@ const cartSlice = createSlice({
       };
       state.allToppings = prices;
     },
-    resetToppings:(state)=>{
-      state.allToppings = {}
+    resetToppings: (state) => {
+      state.allToppings = {};
     },
 
     deletefromCart: (state, action) => {
@@ -162,6 +172,6 @@ export const {
   setPrice,
   setToppings,
   setDefaultPrice,
-  resetToppings
+  resetToppings,
 } = cartSlice.actions;
 export default cartSlice.reducer;
