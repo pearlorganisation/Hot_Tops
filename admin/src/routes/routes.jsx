@@ -41,6 +41,7 @@ import DealsCustomization from "../pages/Deals/DealsCustomization/DealsCustomiza
 import EditDeals from "../pages/Deals/EditDeals";
 import { useSelector } from "react-redux";
 import Login from "../pages/Auth/Login";
+import ViewUser from "../pages/User/ViewUser";
 
 // ---------------------------------------------------------------------------------------------------
 
@@ -202,6 +203,10 @@ export const appRouter = createBrowserRouter([
       {
         path: "/",
         element: <Order />,
+      },
+      {
+        path: "/user",
+        element: <ViewUser />,
       },
     ],
   },

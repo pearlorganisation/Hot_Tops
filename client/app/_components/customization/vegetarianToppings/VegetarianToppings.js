@@ -6,9 +6,8 @@ import { toast } from "sonner";
 
 const VegetarianToppings = ({ vegetarianTopData }) => {
   // console.log(vegetarianTopData, "vegetarianTopData");
-  const { customizationData, MAX_TOPPINGS } = useSelector(
-    (state) => state.orderDetails
-  );
+  const { customizationData } = useSelector((state) => state.orderDetails);
+  const { MAX_TOPPINGS } = useSelector((state) => state.cart);
 
   const [defaultVegDetails, setDefaultVegDetails] = useState([]);
   const dispatch = useDispatch();
@@ -44,10 +43,17 @@ const VegetarianToppings = ({ vegetarianTopData }) => {
         const { [vegId]: _, ...rest } = prevSelected;
         return rest;
       } else {
-        return {
-          ...prevSelected,
-          [vegId]: size,
-        };
+        if (MAX_TOPPINGS < 11) {
+          return {
+            ...prevSelected,
+            [vegId]: size,
+          };
+        } else {
+          toast.info("You Can Add Upto 10 Toppings");
+          return {
+            ...prevSelected,
+          };
+        }
       }
     });
   };
@@ -87,7 +93,7 @@ const VegetarianToppings = ({ vegetarianTopData }) => {
         <thead className="bg-gray-50">
           <tr>
             <th className="px-2 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
-              Sauce
+            VEGETARIAN TOPPING
             </th>
             <th className="px-2 md:px-6 py-2 md:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">
               Single

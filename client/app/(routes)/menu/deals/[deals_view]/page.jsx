@@ -101,7 +101,7 @@ useEffect(()=>{
 
     if (
       dealViewData &&
-      submitData.every((item) => item !== null && item !== undefined)
+      submitData.every((item) => item !== null && item !== undefined) && (dealDataPizza.length === dealViewData?.chooseItems?.pizza)
     ) {
       console.log(submitData,"submitted data from pizzqaDeals");
 

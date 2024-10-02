@@ -100,14 +100,12 @@ const Sauce = ({ sauceData }) => {
         return rest;
       } else {
         return {
-          ...prevSelected,
+          // ...prevSelected, // if you want to multiselect kindly un comment it
           [sauceId]: size,
         };
       }
     });
   };
-
- 
 
   // useEffect(() => {
   //   dispatch(setDefaultPrice(sauceData));
@@ -145,7 +143,12 @@ const Sauce = ({ sauceData }) => {
 
   return (
     <div className="">
-      <h1 className="text-lg font-bold my-8">SAUCES <span className="text-gray-500 font-normal">(Select only one sauce)</span></h1>
+      <h1 className="text-lg font-bold my-8">
+        SAUCES{" "}
+        <span className="text-gray-500 font-normal">
+          (Select only one option)
+        </span>
+      </h1>
       <table className="min-w-full divide-y divide-gray-200 shadow-lg">
         <thead className="bg-gray-50">
           <tr>
