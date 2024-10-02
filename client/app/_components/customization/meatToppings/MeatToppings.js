@@ -6,9 +6,8 @@ import { toast } from "sonner";
 
 const MeatToppings = ({ meatTopData }) => {
   // console.log(meatTopData, "meatTopData");
-  const { customizationData, MAX_TOPPINGS } = useSelector(
-    (state) => state.orderDetails
-  );
+  const { customizationData } = useSelector((state) => state.orderDetails);
+  const { MAX_TOPPINGS } = useSelector((state) => state.cart);
 
   const [defaultMeatDetails, setDefaultMeatDetails] = useState([]);
   const dispatch = useDispatch();
@@ -44,10 +43,17 @@ const MeatToppings = ({ meatTopData }) => {
         const { [meatId]: _, ...rest } = prevSelected;
         return rest;
       } else {
-        return {
-          ...prevSelected,
-          [meatId]: size,
-        };
+        if (MAX_TOPPINGS < 6) {
+          return {
+            ...prevSelected,
+            [meatId]: size,
+          };
+        } else {
+          toast.info("You Can Add Only 6");
+          return {
+            ...prevSelected,
+          };
+        }
       }
     });
   };
