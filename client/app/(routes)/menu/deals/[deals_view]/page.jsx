@@ -98,10 +98,12 @@ useEffect(()=>{
         };
       }),
     ];
+     
+
 
     if (
       dealViewData &&
-      submitData.every((item) => item !== null && item !== undefined) && (dealDataPizza.length === dealViewData?.chooseItems?.pizza)
+      submitData.every((item) => item !== null && item !== undefined) && (dealDataPizza.length === dealViewData.chooseItems.pizzas)
     ) {
       console.log(submitData,"submitted data from pizzqaDeals");
 
@@ -131,9 +133,7 @@ useEffect(()=>{
     }
   }
 
-  useEffect(()=>{
-console.log("deal data pizza")
-  },[dealDataPizza]);
+
 
 
   useEffect(() => {
@@ -154,9 +154,7 @@ console.log("deal data pizza")
     return acc + (currVal?.pizzaExtraToppingPrice !== undefined ? currVal?.pizzaExtraToppingPrice : 0);
   }, 0);
 
-       console.log(
-        extraPrice
-       )
+  
 
   return (
     <>
