@@ -22,6 +22,7 @@ const orderDetailsSlice = createSlice({
       state.trackerStatus = action.payload
     },
     getCustomizationDetails: (state, action) => {
+
       const {
         sauceName,
         cheeseName,

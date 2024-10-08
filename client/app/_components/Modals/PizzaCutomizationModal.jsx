@@ -11,6 +11,9 @@ import { toast } from 'sonner';
 
 const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataPizza,setViewButton }, ref) => {
   const modalRef = useRef(null);
+ 
+
+  console.log("pizzaIndex hey boi",pizzaIndex)
 
   const disableScroll = () => {
     document.body.classList.add("no-scroll");
@@ -62,9 +65,7 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
   };
 
 
-  useEffect(()=>{
 
-  },[])
 
   const [basePrices, setBasePrices] = useState([]);
   const [cheesePrices, setCheesePrices] = useState([]);
