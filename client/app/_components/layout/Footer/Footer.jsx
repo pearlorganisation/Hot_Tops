@@ -104,7 +104,7 @@ const Footer = () => {
                 </p>
                 <p className="flex items-center mt-2">
                   <FaPhone className="mr-2" size={20} />
-                  <span className="text-center">  Contact Us : +44 7469367116</span>
+                  <span className="text-center">  Contact Us : 01923510520</span>
               
                 </p>
         

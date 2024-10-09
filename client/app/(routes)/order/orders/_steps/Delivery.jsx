@@ -369,7 +369,7 @@ const Delivery = ({ step }) => {
                             Hothousenorthwood@gmail.com</p>
                         <p className="flex items-center mt-2">
                             <PhoneIcon className="mr-2" />
-                            +44 7469367116
+                            01923510520
                         </p>
                     </div>
                     <button

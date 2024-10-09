@@ -14,7 +14,6 @@ const page = () => {
   let currentPizzaDetails;
   const halfAndHalfDataRef = useRef(new Array(2));
   const [pizzaData, setPizzaData] = useState(new Array(2));
-  const pizzaDataRef = useRef(null);
   const [pizzaDataForSelect,setPizzaDataForSelect] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const modalRef = useRef();
@@ -25,6 +24,8 @@ const page = () => {
   const dispatch = useDispatch();
   const [viewButton, setViewButton] = useState(false);
   const [sizeData, setSizeData] = useState(null);
+
+  const [isTrue,setIsTrue] = useState(false);
 
 
   async function getPizzas() {
@@ -127,7 +128,9 @@ const page = () => {
     delete pizzaTwo?.createdAt;
     delete pizzaTwo?.updatedAt;
     delete pizzaTwo?.filter;
-
+     
+    pizzaOne.label = pizzaOne.pizzaName
+    pizzaTwo.label = pizzaTwo.pizzaName
     const submitData = [pizzaOne, pizzaTwo];
 
     let extraPrice =
@@ -198,21 +201,22 @@ const page = () => {
       />
       <div className="p-10 h-screen">
         <div>
-          <h1 className="text-4xl font-bold text-green-600">
+          <h1 className="text-4xl font-bold text-green-800">
             Half And Half Pizza
           </h1>
         </div>
 
-        <div>
+        <div className="mt-5">
           <h1>Select Pizza Size</h1>
-          {pizzaData && <Select options={sizeData} onChange={(e)=>{pizzaCurrentSize.current = e}} />}
+          {pizzaData && <Select options={sizeData} onChange={(e)=>{pizzaCurrentSize.current = e ; setIsTrue(true) ;}} />}
         </div>
 
-        <div className="grid grid-cols-2 gap-8 p-10">
+        {isTrue && 
+          <div className="grid grid-cols-2 gap-8 p-10">
           <div className="p-2">
-            <p className="text-2xl text-red-600 font-bold ">Pizza First Half</p>
+            <p className="text-2xl text-red-800 font-bold ">Pizza First Half</p>
 
-            <div className="grid grid-cols-[10%_auto]  items-center">
+            <div className="grid grid-cols-[10%_auto] pt-2 items-center">
               {
                 <button
                   onClick={() => {
@@ -243,11 +247,12 @@ const page = () => {
               </div>
             </div>
           </div>
+         
           <div className="p-2">
-            <p className="text-2xl text-red-600 font-bold ">
+            <p className="text-2xl text-red-800 font-bold ">
               Pizza Second Half
             </p>
-            <div className="grid grid-cols-[10%_auto]  items-center">
+            <div className="grid grid-cols-[10%_auto] pt-2  items-center">
               <button
                 onClick={() => {
                   currentIndex.current = 1;
@@ -276,16 +281,16 @@ const page = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div>}
 
-        <div className="flex justify-center items-center py-2">
+      {isTrue && <div className="flex justify-center items-center py-2">
           <button
             onClick={handleAddToCart}
-            className="text-2xl bg-green-500 rounded-md p-4 font-bold text-white"
+            className="text-xl bg-green-700 hover:bg-green-600 rounded-md px-6 py-3 font-bold text-white"
           >
             Add to Cart
           </button>
-        </div>
+        </div>}
       </div>
     </>
   );
