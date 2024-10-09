@@ -14,7 +14,9 @@ const cheeseCustomizationSchema = new mongoose.Schema({
         ref:"size_Customization"
       },
       singlePrice:Number,
-      doublePrice:Number
+      doublePrice:Number,
+      singlePriceCYOP:Number,
+      doublePriceCYOP:Number
     }],
     }
 );

@@ -1,75 +1,19 @@
 "use client";
-import { setPrice, setToppings } from "@/app/lib/features/cartSlice/cartSlice";
-import { setDefaultPrice } from "@/app/lib/features/orderDetails/orderDetailsslice";
-import { Stalemate } from "next/font/google";
+import {setToppings, setToppingsCYOP } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
-const saucesData = [
-  {
-    _id: "6692599000cad24da6ad78b5",
-    name: "Manchurian Sauce",
-    price: [
-      {
-        size: "6683c965888a970ed1e08347",
-        singlePrice: 0.5,
-        doublePrice: 1.0,
-        _id: "6692599000cad24da6ad78b8",
-      },
-    ],
-    __v: 0,
-  },
-  {
-    _id: "66925a1400cad24da6ad78d5",
-    name: "Piri Piri Sauce",
-    price: [
-      {
-        size: "6683c965888a970ed1e08347",
-        singlePrice: 0.5,
-        doublePrice: 1.0,
-        _id: "66925a1400cad24da6ad78d8",
-      },
-    ],
-    __v: 0,
-  },
-  {
-    _id: "66925a4900cad24da6ad78fe",
-    name: "Garlic Sauce",
-    price: [
-      {
-        size: "6683c965888a970ed1e08347",
-        singlePrice: 0.5,
-        doublePrice: 1.0,
-        _id: "66925a4900cad24da6ad7901",
-      },
-    ],
-    __v: 0,
-  },
-  {
-    _id: "66925acb00cad24da6ad796f",
-    name: "Tikka Sauce",
-    price: [
-      {
-        size: "6683c965888a970ed1e08347",
-        singlePrice: 0.5,
-        doublePrice: 1.0,
-        _id: "66925acb00cad24da6ad7972",
-      },
-    ],
-    __v: 0,
-  },
-];
+
 
 const Sauce = ({ sauceData }) => {
-  // console.log(sauceData, "sauceData");
-  const { customizationData } = useSelector((state) => state.orderDetails);
 
+  const { customizationData } = useSelector((state) => state.orderDetails);
+  const { MAX_TOPPINGS, CYOP_MAX_TOPPINGS } = useSelector((state) => state.cart);
   const [defaultSauceDetails, setDefaultSauceDetails] = useState([]);
   const [selectedSauces, setSelectedSauces] = useState({});
-
   const dispatch = useDispatch();
-  const defaultSelectedSauces = customizationData?.sauceName;
+
 
   useEffect(() => {
     setDefaultSauceDetails(customizationData?.sauceName);
@@ -78,22 +22,44 @@ const Sauce = ({ sauceData }) => {
   useEffect(() => {
     setSelectedSauces(() => {
       const defaultSelected = {};
-      // console.log(defaultSelectedSauces, "defaultSelectedSauces");
       defaultSauceDetails?.forEach((sauceName) => {
-        // console.log(sauceName, "sauceName");
         const sauce = sauceData.find((s) => s.name === sauceName);
-        // console.log(sauceData, "sauceData");
         if (sauce) {
           defaultSelected[sauce._id] = "single";
         }
       });
-      // console.log(defaultSelected, "defaultSelected");
       return defaultSelected;
     });
   }, [defaultSauceDetails, customizationData, sauceData]);
 
   const handleSelectionChange = (sauceId, size) => {
-    setSelectedSauces((prevSelected) => {
+    if(customizationData.id==="6703be55176d2099698929c1" ){
+      setSelectedSauces((prevSelected) => {
+        // Toggle the selection
+        if (prevSelected[sauceId] === size) {
+          const { [sauceId]: _, ...rest } = prevSelected;
+          return rest;
+        } else {
+          console.log(CYOP_MAX_TOPPINGS)
+          if ( CYOP_MAX_TOPPINGS < 6) {
+            return {
+              // ...prevSelected,
+              [sauceId]: size,
+            };
+          }
+         
+          else {
+            toast.info("You Can Add Only 6 Toppings");
+            return {
+              ...prevSelected,
+            };
+          }
+        }
+      });
+
+    }
+    else 
+{    setSelectedSauces((prevSelected) => {
       // Toggle the selection
       if (prevSelected[sauceId] === size) {
         const { [sauceId]: _, ...rest } = prevSelected;
@@ -104,7 +70,7 @@ const Sauce = ({ sauceData }) => {
           [sauceId]: size,
         };
       }
-    });
+    });}
   };
 
   // useEffect(() => {
@@ -133,7 +99,14 @@ const Sauce = ({ sauceData }) => {
         };
       }
     );
-    dispatch(setToppings({ sauce: selectedSaucesData }));
+    
+    if(customizationData?.id==="6703be55176d2099698929c1" ){
+      dispatch(setToppingsCYOP({ sauce: selectedSaucesData}));
+    }else{
+      dispatch(setToppings({ sauce: selectedSaucesData }));
+    }
+ 
+  
     // console.log(selectedSaucesData, "selectedSaucesData");
   };
 
