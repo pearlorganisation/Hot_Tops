@@ -14,6 +14,7 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
  
 
   console.log("pizzaIndex hey boi",pizzaIndex)
+  console.log(pizzaIndex.current === 0)
 
   const disableScroll = () => {
     document.body.classList.add("no-scroll");

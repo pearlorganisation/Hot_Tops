@@ -8,6 +8,7 @@ import PizzaCustomizationModal from "@/app/_components/Modals/PizzaCutomizationM
 import { toast } from "sonner";
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import { useRouter } from "next/navigation";
+import DealPriceCard from "@/app/_components/TotalPriceCard/DealPriceCard";
 
 const page = () => {
   const router = useRouter();
@@ -111,7 +112,7 @@ const page = () => {
   }
 
   function handleAddToCart() {
-    if (!pizzaData.every((item) => item !== null && item !== undefined)) {
+    if (pizzaData.every((item) => item !== null && item !== undefined) && (pizzaData.length !== 2) ){
       toast.error("Please Fill All Fields !!");
       return;
     }
@@ -119,6 +120,7 @@ const page = () => {
     console.log("pizzaData", pizzaData);
     const pizzaOne = pizzaData[0];
     const pizzaTwo = pizzaData[1];
+
 
     delete pizzaOne?.priceSection;
     delete pizzaOne?.filter;
@@ -201,22 +203,22 @@ const page = () => {
       />
       <div className="p-10 h-screen">
         <div>
-          <h1 className="text-4xl font-bold text-green-800">
+          <h1 className="text-3xl md:text-4xl font-bold text-green-800">
             Half And Half Pizza
           </h1>
         </div>
 
         <div className="mt-5">
           <h1>Select Pizza Size</h1>
-          {pizzaData && <Select options={sizeData} onChange={(e)=>{pizzaCurrentSize.current = e ; setIsTrue(true) ;}} />}
+          {pizzaData && <Select placeholder="Select Size" options={sizeData} onChange={(e)=>{pizzaCurrentSize.current = e ; setIsTrue(true) ;}} />}
         </div>
 
         {isTrue && 
-          <div className="grid grid-cols-2 gap-8 p-10">
-          <div className="p-2">
-            <p className="text-2xl text-red-800 font-bold ">Pizza First Half</p>
+          <div className="md:grid grid-cols-2  gap-8 md:p-10">
+          <div className="pt-10 md:pt-0 md:p-2">
+            <p className="text-xl md:text-2xl text-red-800 font-bold ">Pizza First Half</p>
 
-            <div className="grid grid-cols-[10%_auto] pt-2 items-center">
+            <div className="grid grid-cols-[20%_auto] md:grid-cols-[10%_auto] pt-2 items-center">
               {
                 <button
                   onClick={() => {
@@ -236,6 +238,7 @@ const page = () => {
                   <Select
                     options={pizzaDataForSelect}
                     name="pizzaOne"
+                    placeholder="Choose First Pizza"
                     onChange={(e) => {
                       console.log(e);
                       halfAndHalfDataRef.current[0] = e;
@@ -248,11 +251,11 @@ const page = () => {
             </div>
           </div>
          
-          <div className="p-2">
-            <p className="text-2xl text-red-800 font-bold ">
+          <div className="pt-5 md:pt-0 md:p-2">
+            <p className="text-xl md:text-2xl text-red-800 font-bold ">
               Pizza Second Half
             </p>
-            <div className="grid grid-cols-[10%_auto] pt-2  items-center">
+            <div className="grid grid-cols-[20%_auto] md:grid-cols-[10%_auto] pt-2  items-center">
               <button
                 onClick={() => {
                   currentIndex.current = 1;
@@ -269,6 +272,7 @@ const page = () => {
                 {pizzaDataForSelect && pizzaDataMapRef.current && (
                   <Select
                     options={pizzaDataForSelect}
+                    placeholder="Choose Second Pizza"
                     onChange={(e) => {
                       console.log(e);
                       halfAndHalfDataRef.current[1] = e;
@@ -283,7 +287,7 @@ const page = () => {
           </div>
         </div>}
 
-      {isTrue && <div className="flex justify-center items-center py-2">
+      {isTrue  && <div className="flex justify-center items-center pt-10 md:py-2">
           <button
             onClick={handleAddToCart}
             className="text-xl bg-green-700 hover:bg-green-600 rounded-md px-6 py-3 font-bold text-white"
@@ -291,6 +295,8 @@ const page = () => {
             Add to Cart
           </button>
         </div>}
+
+         {/* <DealPriceCard  dealPrice={sizeDetailRef?.current?.price || 0} extraPrice={extraPrice} /> */}
       </div>
     </>
   );
