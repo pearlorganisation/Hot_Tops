@@ -44,14 +44,14 @@ export default function RootLayout({ children }) {
         {/* Google Ads Conversion Script */}
         <Script
           async
-          src="https://www.googletagmanager.com/gtag/js?id=AW-16577048939"
+          src="https://www.googletagmanager.com/gtag/js?id=AW-16455767404"
         />
         <Script id="google-ads">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'AW-16577048939');
+            gtag('config', 'AW-16455767404');
           `}
         </Script>
 
@@ -72,6 +72,15 @@ export default function RootLayout({ children }) {
   });
   return false;
 }`}
+</Script>
+
+{/* Google Tag event */}
+<Script id="google-tag-event">
+  {`
+    gtag('event', 'conversion_event_default', {
+      // Add event parameters here if needed
+    });
+  `}
 </Script>
 
       <body className={inter.className}>

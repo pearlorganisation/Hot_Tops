@@ -3,6 +3,7 @@ import useSWR from "swr";
 import PizzaCards from "./pizzaCards/PizzaCards";
 import { ClockLoader } from "react-spinners";
 import Image from "next/image";
+import Link from "next/link";
 
 // -------------------data fetching function-----------------------
 const pizzaFetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -75,18 +76,18 @@ const Pizzas = () => {
             {/* <div className="cursor-pointer bg-red-800 hover:bg-red-700 px-3 py-2 text-white rounded-md">
               Create Your Own Pizza
             </div> */}
-            {/* <div className="cursor-pointer bg-green-800 hover:bg-green-700  px-3 py-2 text-white rounded-md">
+            <Link href={"halfAndHalfPizza"} className="bg-green-800 px-3 py-2 text-white rounded-md">
               Half & Half Pizza
-            </div> */}
+            </Link>
           </div>
           <div className="w-[50%] ps-2 md:hidden space-y-5">
             {" "}
             {/* <div className="bg-red-800 px-3 py-2 text-white rounded-md">
               Create Your Own Pizza
-            </div>
-            <div className="bg-green-800 px-3 py-2 text-white rounded-md">
-              Half & Half Pizza
             </div> */}
+            <Link href={"halfAndHalfPizza"} className="bg-green-800 px-3 py-2 text-white rounded-md">
+              Half & Half Pizza
+            </Link>
           </div>
 
           <div className="flex w-[50%] ps-5 md:w-auto  gap-2 md:mx-8 my-4 flex-wrap ">
