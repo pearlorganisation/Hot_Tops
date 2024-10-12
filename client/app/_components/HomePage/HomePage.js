@@ -17,7 +17,9 @@ import DealsCards from "../Pages/DealsCards";
 import { ClockLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
 import { trackerStatus } from "@/app/lib/features/orderDetails/orderDetailsslice";
-  async function getData() {
+import Link from "next/link";
+
+async function getData() {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/deals?isPopular=true`);
     const data = await res.json();
@@ -27,6 +29,17 @@ import { trackerStatus } from "@/app/lib/features/orderDetails/orderDetailsslice
     return null;
   }
 }
+async function getBanners(){
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/banner`)
+    const data = await res.json();
+    return data.data
+  } catch (error) {
+    console.log("Error Occurred in banner api", err);
+    return null;
+  }
+}
+
 const HomePage = () => {
 
   const img = [
@@ -38,14 +51,20 @@ const HomePage = () => {
   const dispatch = useDispatch()
   
     const [popularDealData, setPopularDealData] = useState(null);
+    const [banner, setBanner] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       const data = await getData();
       setPopularDealData(data);
     }
+    async function bannerData(){
+      const data = await getBanners();
+      setBanner(data)
+    }
     dispatch(trackerStatus(false))
     fetchData();
+    bannerData()
   }, []);
 
 
@@ -61,10 +80,16 @@ const HomePage = () => {
         
         modules={[Pagination]}
       >
-        {img.map((el, i) => {
+        {banner?.map((el, i) => {
             return (
               <SwiperSlide className="pb-8" key={i} >
-                <Image src={el} className="h-full mx-auto w-full lg:w-[70%] xl:w-[70%] sm:h-fit md:[30vh] md:h-fit xl:h-[65vh] 2xl:w-[60%] 2xl:h-[70vh]  object-cover" />
+                <Link href={{
+              pathname: `menu/deals/deals_view`,
+              query: { card_id: el?._id,size_id: el?.deal?.sizes[0]?._id  },
+            }}>
+                <Image width={2000} height={1000}  src={el?.banner} alt="Deals Banner" className="h-full mx-auto w-full lg:w-[70%] xl:w-[70%] sm:h-fit md:[30vh] md:h-fit xl:h-[65vh] 2xl:w-[60%] 2xl:h-[70vh]  object-cover" />
+                </Link>
+       
               </SwiperSlide>
             );
           })}
