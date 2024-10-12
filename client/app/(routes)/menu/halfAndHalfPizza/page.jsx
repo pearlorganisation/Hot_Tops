@@ -8,6 +8,8 @@ import PizzaCustomizationModal from "@/app/_components/Modals/PizzaCutomizationM
 import { toast } from "sonner";
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import { useRouter } from "next/navigation";
+import DealPriceCard from "@/app/_components/TotalPriceCard/DealPriceCard";
+import { SlControlPause } from "react-icons/sl";
 
 const page = () => {
   const router = useRouter();
@@ -25,6 +27,7 @@ const page = () => {
   const [viewButton, setViewButton] = useState(false);
   const [sizeData, setSizeData] = useState(null);
 
+  const [isTrue,setIsTrue] = useState(false);
 
   async function getPizzas() {
     setIsLoading(true);
@@ -111,14 +114,15 @@ const page = () => {
   }
 
   function handleAddToCart() {
-    if (!pizzaData.every((item) => item !== null && item !== undefined)) {
+    console.log(pizzaData.every((item) =>  item === undefined), pizzaData);
+    if (pizzaData[0] === undefined || pizzaData[1] === undefined){
+     
       toast.error("Please Fill All Fields !!");
       return;
     }
-
-    console.log("pizzaData", pizzaData);
     const pizzaOne = pizzaData[0];
     const pizzaTwo = pizzaData[1];
+
 
     delete pizzaOne?.priceSection;
     delete pizzaOne?.filter;
@@ -128,9 +132,13 @@ const page = () => {
     delete pizzaTwo?.createdAt;
     delete pizzaTwo?.updatedAt;
     delete pizzaTwo?.filter;
-
+     
+    pizzaOne.label = pizzaOne.pizzaName
+    pizzaTwo.label = pizzaTwo.pizzaName
     const submitData = [pizzaOne, pizzaTwo];
-
+    
+    submitData.id = pizzaOne.id + pizzaTwo.id;
+    
     let extraPrice =
       Number(
         submitData
@@ -158,18 +166,29 @@ const page = () => {
         img: submitData[0].banner,
         size:pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value).size.name||"Check Size Issue in add to cart reducer",
         id:
-          submitData?._id +
+          (submitData?.id||"half") + pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value).size.name+
           submitData.reduce((acc, currEle) => acc + currEle.id, ""),
         quantity: 1,
         price: Number(extraPrice + basePriceForPizza).toFixed(2),
         totalSum: Number(extraPrice + basePriceForPizza).toFixed(2),
         dealsData: submitData,
-      })
+      } )
     );
 
     router.push("/order/cart");
     console.log(submitData, "submitData");
-    console.log(extraPrice, "submitData");
+    console.log({
+      name: "Half N Half Pizza",
+      img: submitData[0].banner,
+      size:pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value).size.name||"Check Size Issue in add to cart reducer",
+      id:
+        (submitData?._id||"half") + pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value).size.name+
+        submitData.reduce((acc, currEle) => acc + currEle.id, ""),
+      quantity: 1,
+      price: Number(extraPrice + basePriceForPizza).toFixed(2),
+      totalSum: Number(extraPrice + basePriceForPizza).toFixed(2),
+      dealsData: submitData,
+    }, "submitData");
   }
 
   const handleOpeningModal = () => {
@@ -189,6 +208,7 @@ const page = () => {
   return (
     <>
       <PizzaCustomizationModal
+        calledBy="half"
         ref={modalRef}
         pizzaIndex={currentIndex}
         pizzaData={pizzaData}
@@ -197,27 +217,37 @@ const page = () => {
       />
       <div className="p-10 h-screen">
         <div>
-          <h1 className="text-4xl font-bold text-green-600">
+          <h1 className="text-3xl md:text-4xl font-bold text-green-800">
             Half And Half Pizza
           </h1>
         </div>
 
-        <div>
+        <div className="mt-5">
           <h1>Select Pizza Size</h1>
-          {pizzaData && <Select options={sizeData} onChange={(e)=>{pizzaCurrentSize.current = e}} /> }
+          {pizzaData && <Select placeholder="Select Size" options={sizeData} onChange={(e)=>{pizzaCurrentSize.current = e ; setIsTrue(true) ;}} />}
         </div>
 
-        <div className="grid grid-cols-2 gap-8 p-10">
-          <div className="p-2">
-            <p className="text-2xl text-red-600 font-bold ">Pizza First Half</p>
+        {isTrue && 
+          <div className="md:grid grid-cols-2  gap-8 md:p-10">
+          <div className="pt-10 md:pt-0 md:p-2">
+            <p className="text-xl md:text-2xl text-red-800 font-bold ">Pizza First Half</p>
 
-            <div className="grid grid-cols-[10%_auto]  items-center">
+            <div className="grid grid-cols-[20%_auto] md:grid-cols-[10%_auto] pt-2 items-center">
               {
+                
                 <button
                   onClick={() => {
-                    currentIndex.current = 0;
-                    handlePizzaDataSubmissionToRedux(0);
-                    handleOpeningModal();
+
+                    if(pizzaData[0])
+                    {
+                      currentIndex.current = 0;
+                      handlePizzaDataSubmissionToRedux(0);
+                      handleOpeningModal();
+                    }
+                    else{
+                      toast.error("Please Select First Half Pizza !!")
+                    }
+                    
                   }}
                 >
                   <MdEditSquare
@@ -231,6 +261,7 @@ const page = () => {
                   <Select
                     options={pizzaDataForSelect}
                     name="pizzaOne"
+                    placeholder="Choose First Pizza"
                     onChange={(e) => {
                       console.log(e);
                       halfAndHalfDataRef.current[0] = e;
@@ -242,16 +273,24 @@ const page = () => {
               </div>
             </div>
           </div>
-          <div className="p-2">
-            <p className="text-2xl text-red-600 font-bold ">
+         
+          <div className="pt-5 md:pt-0 md:p-2">
+            <p className="text-xl md:text-2xl text-red-800 font-bold ">
               Pizza Second Half
             </p>
-            <div className="grid grid-cols-[10%_auto]  items-center">
+            <div className="grid grid-cols-[20%_auto] md:grid-cols-[10%_auto] pt-2  items-center">
               <button
                 onClick={() => {
-                  currentIndex.current = 1;
-                  handlePizzaDataSubmissionToRedux(1);
-                  handleOpeningModal();
+                  if(pizzaData[1])
+                    {
+                      currentIndex.current = 1;
+                      handlePizzaDataSubmissionToRedux(1);
+                      handleOpeningModal();
+                    }
+                    else{
+                      toast.error("Please Select Second Half Pizza !!")
+                    }
+                    
                 }}
               >
                 <MdEditSquare
@@ -263,6 +302,7 @@ const page = () => {
                 {pizzaDataForSelect && pizzaDataMapRef.current && (
                   <Select
                     options={pizzaDataForSelect}
+                    placeholder="Choose Second Pizza"
                     onChange={(e) => {
                       console.log(e);
                       halfAndHalfDataRef.current[1] = e;
@@ -275,16 +315,28 @@ const page = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div>}
 
-        <div className="flex justify-center items-center py-2">
+      {isTrue  && <div className="flex justify-center items-center pt-10 md:py-2">
           <button
             onClick={handleAddToCart}
-            className="text-2xl bg-green-500 rounded-md p-4 font-bold text-white"
+            className="text-xl bg-green-700 hover:bg-green-600 rounded-md px-6 py-3 font-bold text-white"
           >
             Add to Cart
           </button>
-        </div>
+        </div>}
+
+         {pizzaData && pizzaSizeMapRef.current && pizzaCurrentSize.current &&
+      <DealPriceCard  calledBy="half"  dealPrice={pizzaSizeMapRef.current.get(pizzaCurrentSize.current.value).price || 0} extraPrice={pizzaData.length > 0 ? Number(
+        pizzaData
+          ? pizzaData.reduce(
+              (acc, currPizza) => acc + (currPizza.pizzaExtraToppingPrice || 0),
+              0
+            )
+          : 0
+      ):0 } />
+      }
+      
       </div>
     </>
   );

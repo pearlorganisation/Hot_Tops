@@ -100,7 +100,7 @@ const page = () => {
 <br/>
 Hothousenorthwood@gmail.com</p>
                 <p className=" flex items-center gap-3">
-                  <BsFillTelephoneOutboundFill /> <p>+44 7469367116 </p>
+                  <BsFillTelephoneOutboundFill /> <p>01923510520</p>
                 </p>
               </div>
             </div>

@@ -30,6 +30,8 @@ const EditItem = ({ data, setModal, itemName }) => {
           return {
             singlePrice: priceItem.singlePrice,
             doublePrice: priceItem.doublePrice,
+            singlePriceCYOP:priceItem.singlePriceCYOP,
+            doublePriceCYOP:priceItem.doublePriceCYOP,
             size:sizeHashMap.get(priceItem.size)
             // size:sizeHashMap.get(priceItem.size)
           };
@@ -65,9 +67,13 @@ const EditItem = ({ data, setModal, itemName }) => {
   const onSubmit = (submissionData2) => {
     const {price,...rest}= submissionData2
     console.log(data)
-    const submissionSizeWithPrice= price.map((price)=> {return {singlePrice:price.singlePrice,
+    const submissionSizeWithPrice= price.map((price)=> {return {
+      singlePrice:price.singlePrice,
       doublePrice:price.doublePrice,
-      size:price.size.value}})
+      singlePriceCYOP:price.singlePriceCYOP,
+      doublePriceCYOP:price.doublePriceCYOP,
+      size:price.size.value
+    }})
       const submissionData = {...rest,price:submissionSizeWithPrice}
       console.log("sdgf",submissionData)
 
@@ -135,7 +141,7 @@ const EditItem = ({ data, setModal, itemName }) => {
 
   return ReactDOM.createPortal(
     <dialog
-      className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center rounded-2xl w-[500px] md:inset-0 max-h-full"
+      className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center rounded-2xl w-[600px] md:inset-0 max-h-full"
       open
       style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
     >
@@ -171,7 +177,7 @@ const EditItem = ({ data, setModal, itemName }) => {
           <form onSubmit={handleSubmit((data) => {
             onSubmit(data);
             })}>
-            <div className="p-4 md:p-5 space-y-4">
+            <div className=" space-y-4">
               <div className="mb-2 space-y-1">
                 <label htmlFor="name" className="block font-medium text-gray-700">
                   Name
@@ -194,8 +200,102 @@ onClick={() => appendPrice({ price: ""})}
 >
 +
 </button>
-
+<div className="flex ">
+  <div className="w-[20%] text-center font-semibold text-sm">Size</div>
+  <div className="w-[40%] text-center font-semibold text-sm">Normal Price</div>
+  <div className="w-[40%] text-center font-semibold text-sm">Create Your Own Pizza Price</div>
+</div>
+{itemName === "CHEESE" ?
 <ul>
+{priceFields.map((item, index) => (
+<li key={item.id}>
+
+<div className="sm:flex gap-5 ">
+<div className="w-[20%] mb-4 ">
+
+    <Controller 
+                                      control={control}
+                                      name={`price.${index}.size`}
+                                      render={({ field }) => (
+                                          <Select
+                                              value={field.value}
+                                              options={sizeOptions(size)}
+                                              onChange={(selectedOption) => 
+                                               { field.onChange(selectedOption)
+                                                setSelectedSizes([...selectedSizes, selectedOption.value]);
+                                              }}
+                                              className="mt-2 "
+                                              placeholder="Choose Pizza Size "
+                                              styles={{
+                                                control: (provided) => ({
+                                                    ...provided,
+                                                    border: '1px solid #CBD5E1', // Set custom border style
+                                                    borderRadius: '0.400rem', // Set custom border radius
+                                                    height: '40px', // Add height here
+                                                }),
+                                                placeholder: (provided) => ({
+                                                    ...provided,
+                                                    color: '#9CA3AF', // Set custom placeholder color
+                                                }),
+                                            }}
+
+                                              
+ 
+                                          />
+                                     )}
+                                      rules={{ required: true }}
+                                      
+                                  />
+
+</div>
+<div className="w-[20%] ">
+<input
+{...register(`price.${index}.singlePrice`, { required: true })}
+  type="text"
+  placeholder="Single Price "
+  className="w-full mt-2 px-5 py-[7px] text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+/>
+
+</div>
+<div className="w-[20%] ">
+
+<input
+{...register(`price.${index}.doublePrice`, { required: true })}
+  type="text"
+  placeholder="Double Price "
+  className="w-full mt-2 px-5 py-[7px] text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+/>
+
+</div>
+<div className="w-[20%] ">
+
+<input
+{...register(`price.${index}.singlePriceCYOP`, { required: true })}
+  type="text"
+  placeholder="Single Price CYOP"
+  className="w-full mt-2 px-5 py-[7px] text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+/>
+
+</div>
+<div className="w-[20%] ">
+
+<input
+{...register(`price.${index}.doublePriceCYOP`, { required: true })}
+  type="text"
+  placeholder="Double Price CYOP"
+  className="w-full mt-2 px-5 py-[7px] text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
+/>
+
+</div>
+
+</div>
+{ index>0 && (
+<button className=" border rounded-md bg-red-500 font-semibold text-white text-sm px-2  hover:bg-red-600" type="button" onClick={() => removePrice(index)}>Remove</button>)
+}
+</li>
+
+))}
+</ul> : <ul>
 {priceFields.map((item, index) => (
 <li key={item.id}>
 
@@ -265,7 +365,7 @@ onClick={() => appendPrice({ price: ""})}
 </li>
 
 ))}
-</ul>
+</ul> }
 {errors.priceSection && (
 <span className="text-sm font-medium text-red-500">
   Both Fields are required

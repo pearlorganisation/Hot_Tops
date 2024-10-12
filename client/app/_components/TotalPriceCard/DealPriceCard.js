@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-const DealPriceCard = ({dealPrice,extraPrice}) => {
+const DealPriceCard = ({dealPrice,extraPrice ,calledBy}) => {
   const { price, allToppings, defaultPrice } = useSelector(
     (state) => state.cart
   );
@@ -13,9 +13,9 @@ const DealPriceCard = ({dealPrice,extraPrice}) => {
             <div>Deal Price : {dealPrice}</div>
             <div>
               Extra Price :{" "}
-              {Math.max(0, extraPrice?.toFixed(2))}
+              {calledBy ==="half" ? Number(Math.max(0, extraPrice?.toFixed(2))/2) :Math.max(0, extraPrice?.toFixed(2))}
             </div>
-            <div>Total Deal Price : {Number(Math.max(0, extraPrice)+ dealPrice)?.toFixed(2)}</div>
+            <div>Total Deal Price : {Number(Math.max(0, (extraPrice/2))+ dealPrice)?.toFixed(2)}</div>
           </div>
 
   );

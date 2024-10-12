@@ -113,6 +113,7 @@ import orderRoutes from "./src/routes/order.js";
 import dealsRoutes from "./src/routes/deals/deals.js";
 import webhookRoutes from "./src/routes/webhook.js";
 import mailRoutes from "./src/routes/mail.js";
+import bannerRoutes from "./src/routes/banner.js";
 
 
 import morgan from "morgan";
@@ -150,6 +151,7 @@ app.use("/api/v1/order", orderRoutes);
 app.use("/api/v1/deals", dealsRoutes);
 app.use("/api/v1/webhook", webhookRoutes);
 app.use("/api/v1/mail", mailRoutes);
+app.use("/api/v1/banner", bannerRoutes);
 
 // -------------------------------------------------------------------------------------------------------------
 

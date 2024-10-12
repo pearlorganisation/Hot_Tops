@@ -1,17 +1,17 @@
 "use client";
-import { setPrice, setToppings } from "@/app/lib/features/cartSlice/cartSlice";
+import { setPrice, setToppings, setToppingsCYOP } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
-const MeatToppings = ({ meatTopData }) => {
+const MeatToppings = ({ meatTopData ,calledBy }) => {
   // console.log(meatTopData, "meatTopData");
   const { customizationData } = useSelector((state) => state.orderDetails);
-  const { MAX_TOPPINGS } = useSelector((state) => state.cart);
+  
+  const { MAX_TOPPINGS , CYOP_MAX_TOPPINGS} = useSelector((state) => state.cart);
 
   const [defaultMeatDetails, setDefaultMeatDetails] = useState([]);
   const dispatch = useDispatch();
-  const defaultSelectedMeat = customizationData?.meatToppingsName;
 
   useEffect(() => {
     setDefaultMeatDetails(customizationData?.meatToppingsName);
@@ -37,25 +37,53 @@ const MeatToppings = ({ meatTopData }) => {
   const [selectedMeat, setSelectedMeat] = useState({});
 
   const handleSelectionChange = (meatId, size) => {
-    setSelectedMeat((prevSelected) => {
-      // Toggle the selection
-      if (prevSelected[meatId] === size) {
-        const { [meatId]: _, ...rest } = prevSelected;
-        return rest;
-      } else {
-        if (MAX_TOPPINGS < 11) {
-          return {
-            ...prevSelected,
-            [meatId]: size,
-          };
+    console.log(customizationData.id==="6703be55176d2099698929c1" )
+    console.log(CYOP_MAX_TOPPINGS,"CYOP_FREE_TOPPINGS")
+    if(customizationData.id==="6703be55176d2099698929c1" ){
+      setSelectedMeat((prevSelected) => {
+        // Toggle the selection
+        if (prevSelected[meatId] === size) {
+          const { [meatId]: _, ...rest } = prevSelected;
+          return rest;
         } else {
-          toast.info("You Can Add Only 6");
-          return {
-            ...prevSelected,
-          };
+          if ( CYOP_MAX_TOPPINGS < 6) {
+            return {
+              ...prevSelected,
+              [meatId]: size,
+            };
+          }
+         
+          else {
+            toast.info("You Can Add Only 6 Toppings");
+            return {
+              ...prevSelected,
+            };
+          }
         }
-      }
-    });
+      });
+
+    }else{
+      setSelectedMeat((prevSelected) => {
+        // Toggle the selection
+        if (prevSelected[meatId] === size) {
+          const { [meatId]: _, ...rest } = prevSelected;
+          return rest;
+        } else {
+          if (MAX_TOPPINGS < 11) {
+            return {
+              ...prevSelected,
+              [meatId]: size,
+            };
+          } else {
+            toast.info("You Can Add Only 6");
+            return {
+              ...prevSelected,
+            };
+          }
+        }
+      });
+    }
+    
   };
 
   useEffect(() => {
@@ -78,7 +106,12 @@ const MeatToppings = ({ meatTopData }) => {
         };
       }
     );
-    dispatch(setToppings({ meat: selectedMeatData }));
+    if(customizationData?.id==="6703be55176d2099698929c1" ){
+      dispatch(setToppingsCYOP({ meat: selectedMeatData }));
+    }else{
+      dispatch(setToppings({ meat: selectedMeatData }));
+    }
+    
     // console.log(selectedMeatData, "selectedVegetarianData");
   };
   useEffect(() => {
@@ -117,7 +150,7 @@ const MeatToppings = ({ meatTopData }) => {
                   }`}
                   onClick={() => handleSelectionChange(meat._id, "single")}
                 >
-                  £ {meat?.price[0]?.singlePrice}
+                  £ {calledBy === "half" ? (meat?.price[0]?.singlePrice)/2 : meat?.price[0]?.singlePrice}
                 </div>
               </td>
               <td className="px-2 md:px-4 py-2 whitespace-nowrap text-sm text-gray-500">
@@ -129,7 +162,7 @@ const MeatToppings = ({ meatTopData }) => {
                   }`}
                   onClick={() => handleSelectionChange(meat._id, "double")}
                 >
-                  £ {meat?.price[0]?.doublePrice}
+                  £ {calledBy === "half" ? (meat?.price[0]?.doublePrice)/2:meat?.price[0]?.doublePrice}
                 </div>
               </td>
             </tr>

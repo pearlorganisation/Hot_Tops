@@ -1,14 +1,15 @@
 "use client";
-import { setPrice, setToppings } from "@/app/lib/features/cartSlice/cartSlice";
+import { setPrice, setToppings, setToppingsCYOP } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
-const Cheese = ({ cheeseData }) => {
+const Cheese = ({ cheeseData ,calledBy }) => {
   // console.log(cheeseData, "cheeseData");
-  const { customizationData, MAX_TOPPINGS } = useSelector(
+  const { customizationData } = useSelector(
     (state) => state.orderDetails
   );
+  const { MAX_TOPPINGS, CYOP_MAX_TOPPINGS } = useSelector((state) => state.cart);
 
   const [defaultCheeseDetails, setDefaultCheeseDetails] = useState([]);
   const dispatch = useDispatch();
@@ -38,7 +39,34 @@ const Cheese = ({ cheeseData }) => {
   const [selectedCheese, setSelectedChees] = useState({});
 
   const handleSelectionChange = (cheeseId, size) => {
+    if(customizationData.id==="6703be55176d2099698929c1" ){
+      setSelectedChees((prevSelected) => {
+        // Toggle the selection
+        if (prevSelected[cheeseId] === size) {
+          const { [cheeseId]: _, ...rest } = prevSelected;
+          return rest;
+        } else {
+          console.log(CYOP_MAX_TOPPINGS)
+          if ( CYOP_MAX_TOPPINGS < 6) {
+            return {
+              // ...prevSelected,
+              [cheeseId]: size,
+            };
+          }
+         
+          else {
+            toast.info("You Can Add Only 6 Toppings");
+            return {
+              ...prevSelected,
+            };
+          }
+        }
+      });
+
+    }
+    else {
     setSelectedChees((prevSelected) => {
+      console.log(prevSelected[cheeseId] )
       // Toggle the selection
       if (prevSelected[cheeseId] === size) {
         const { [cheeseId]: _, ...rest } = prevSelected;
@@ -49,7 +77,7 @@ const Cheese = ({ cheeseData }) => {
           [cheeseId]: size,
         };
       }
-    });
+    });}
   };
 
   useEffect(() => {
@@ -62,8 +90,8 @@ const Cheese = ({ cheeseData }) => {
         const cheese = cheeseData.find((s) => s._id === cheeseId);
         const price =
           size === "single"
-            ? cheese?.price[0]?.singlePrice
-            : cheese?.price[0]?.doublePrice;
+            ? cheese?.price[0]?.singlePriceCYOP
+            : cheese?.price[0]?.doublePriceCYOP;
         return {
           cheeseName: cheese.name,
           _id: cheese?._id,
@@ -72,7 +100,13 @@ const Cheese = ({ cheeseData }) => {
         };
       }
     );
-    dispatch(setToppings({ cheese: selectedCheeseData }));
+    if(customizationData?.id==="6703be55176d2099698929c1" ){
+      dispatch(setToppingsCYOP({ cheese: selectedCheeseData }));
+    }else{
+      dispatch(setToppings({ cheese: selectedCheeseData }));
+    }
+ 
+  
     // console.log(selectedCheeseData, "selectedCheeseData");
   };
 
@@ -117,7 +151,7 @@ const Cheese = ({ cheeseData }) => {
                   }`}
                   onClick={() => handleSelectionChange(cheese._id, "single")}
                 >
-                  £ {cheese?.price[0]?.singlePrice}
+                  £ {customizationData.id==="6703be55176d2099698929c1" ? cheese?.price[0]?.singlePriceCYOP :calledBy === "half" ? (cheese?.price[0]?.singlePrice)/2 :cheese?.price[0]?.singlePrice}
                 </div>
               </td>
               <td className="px-2 md:px-4 py-2 whitespace-nowrap text-sm text-gray-500">
@@ -129,7 +163,7 @@ const Cheese = ({ cheeseData }) => {
                   }`}
                   onClick={() => handleSelectionChange(cheese._id, "double")}
                 >
-                  £ {cheese?.price[0]?.doublePrice}
+                  £ {customizationData.id==="6703be55176d2099698929c1" ? cheese?.price[0]?.doublePriceCYOP : calledBy === "half" ? (cheese?.price[0]?.doublePrice)/2 : cheese?.price[0]?.doublePrice}
                 </div>
               </td>
             </tr>

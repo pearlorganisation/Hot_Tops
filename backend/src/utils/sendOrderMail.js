@@ -5,7 +5,6 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-console.log(__dirname,"dirname")
 
 export const sendOrderMail = async (email, orderId ,amount, date, paymentType,orderType,items,name) => {
     // transporter - configuration of admin/user to send mail from

@@ -9,6 +9,8 @@ const cartSlice = createSlice({
     allToppings: {},
     MAX_TOPPINGS: 0,
     defaultPrice: 0,
+    CYOP_MAX_TOPPINGS:0,
+    CYOP_FREE_TOPPINGS:0,
 
     isOrderCheckout: false,
   },
@@ -113,7 +115,6 @@ const cartSlice = createSlice({
     },
 
     setToppings: (state, action) => {
-
       const temp = {
         ...current(state.allToppings),
         ...action?.payload,
@@ -122,7 +123,6 @@ const cartSlice = createSlice({
       const { sauce, cheese, veg, meat, base, price } = temp;
 
       const flatArray = [sauce, cheese, veg, meat].flat();
-
       state.MAX_TOPPINGS = flatArray.length;
 
       const extraPrice =
@@ -155,6 +155,41 @@ const cartSlice = createSlice({
     emptyCart: (state, action) => {
       state.cartData = [];
     },
+
+    setToppingsCYOP:(state,action)=>{
+      const temp = {
+        ...current(state.allToppings),
+        ...action?.payload,
+      };
+
+      const { sauce, cheese, veg, meat, base, price } = temp;
+      const [a,b,c,d,...rest] = [veg,meat].flat()
+      const freeToppings = [a,b,c,d].filter(Boolean);
+      const paidToppings = [cheese,sauce,...rest].flat()
+      console.log("freeToppings",freeToppings)
+
+ 
+      state.CYOP_MAX_TOPPINGS = Number(paidToppings.length + freeToppings.length)
+      
+     
+
+      const extraPrice = paidToppings.reduce((acc, cur) => {
+          return acc + cur?.price;
+        }, 0) + base?.price[0]?.price || 0 + freeToppings.reduce((acc, cur) => {
+          return 0;
+        }, 0);
+      
+
+      const prices = {
+        ...temp,
+        extraPrice: Math.max(0, extraPrice).toFixed(2),
+        totalPrice: Math.max(
+          state.allToppings.price,
+          extraPrice + price - Number(state.defaultPrice)
+        ).toFixed(2),
+      };
+      state.allToppings = prices;
+    }
   },
 });
 
@@ -169,5 +204,6 @@ export const {
   setToppings,
   setDefaultPrice,
   resetToppings,
+  setToppingsCYOP,
 } = cartSlice.actions;
 export default cartSlice.reducer;

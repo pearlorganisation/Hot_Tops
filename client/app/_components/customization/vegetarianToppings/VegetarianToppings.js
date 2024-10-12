@@ -1,17 +1,16 @@
 "use client";
-import { setPrice, setToppings } from "@/app/lib/features/cartSlice/cartSlice";
+import { setPrice, setToppings, setToppingsCYOP } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
-const VegetarianToppings = ({ vegetarianTopData }) => {
+const VegetarianToppings = ({ vegetarianTopData ,calledBy }) => {
   // console.log(vegetarianTopData, "vegetarianTopData");
   const { customizationData } = useSelector((state) => state.orderDetails);
-  const { MAX_TOPPINGS } = useSelector((state) => state.cart);
+  const { MAX_TOPPINGS, CYOP_MAX_TOPPINGS } = useSelector((state) => state.cart);
 
   const [defaultVegDetails, setDefaultVegDetails] = useState([]);
   const dispatch = useDispatch();
-  const defaultSelectedVeg = customizationData?.vegetarianToppingsName;
 
   useEffect(() => {
     setDefaultVegDetails(customizationData?.vegetarianToppingsName);
@@ -37,6 +36,31 @@ const VegetarianToppings = ({ vegetarianTopData }) => {
   const [selectedVeg, setSelectedVeg] = useState({});
 
   const handleSelectionChange = (vegId, size) => {
+    if(customizationData.id==="6703be55176d2099698929c1" ){
+      setSelectedVeg((prevSelected) => {
+        // Toggle the selection
+        if (prevSelected[vegId] === size) {
+          const { [vegId]: _, ...rest } = prevSelected;
+          return rest;
+        } else {
+          if ( CYOP_MAX_TOPPINGS < 6) {
+            return {
+              ...prevSelected,
+              [vegId]: size,
+            };
+          }
+         
+          else {
+            toast.info("You Can Add Only 6 Toppings");
+            return {
+              ...prevSelected,
+            };
+          }
+        }
+      });
+
+    }
+    else {
     setSelectedVeg((prevSelected) => {
       // Toggle the selection
       if (prevSelected[vegId] === size) {
@@ -55,7 +79,7 @@ const VegetarianToppings = ({ vegetarianTopData }) => {
           };
         }
       }
-    });
+    });}
   };
 
   useEffect(() => {
@@ -78,7 +102,12 @@ const VegetarianToppings = ({ vegetarianTopData }) => {
         };
       }
     );
-    dispatch(setToppings({ veg: selectedVegetarianData }));
+    if(customizationData?.id==="6703be55176d2099698929c1" ){
+      dispatch(setToppingsCYOP({ veg: selectedVegetarianData }));
+    }else{
+      dispatch(setToppings({ veg: selectedVegetarianData }));
+    }
+ 
     // console.log(selectedVegetarianData, "selectedVegetarianData");
   };
 
@@ -118,7 +147,7 @@ const VegetarianToppings = ({ vegetarianTopData }) => {
                   }`}
                   onClick={() => handleSelectionChange(veg._id, "single")}
                 >
-                  £ {veg?.price[0]?.singlePrice}
+                  £ {calledBy === "half" ? (veg?.price[0]?.singlePrice)/2 : veg?.price[0]?.singlePrice}
                 </div>
               </td>
               <td className="px-2 md:px-4 py-2 whitespace-nowrap text-sm text-gray-500">
@@ -130,7 +159,7 @@ const VegetarianToppings = ({ vegetarianTopData }) => {
                   }`}
                   onClick={() => handleSelectionChange(veg._id, "double")}
                 >
-                  £ {veg?.price[0]?.doublePrice}
+                  £ {calledBy === "half" ? (veg?.price[0]?.doublePrice)/2 :veg?.price[0]?.doublePrice}
                 </div>
               </td>
             </tr>
