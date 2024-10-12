@@ -26,9 +26,7 @@ const page = () => {
   const dispatch = useDispatch();
   const [viewButton, setViewButton] = useState(false);
   const [sizeData, setSizeData] = useState(null);
-
   const [isTrue,setIsTrue] = useState(false);
-
   async function getPizzas() {
     setIsLoading(true);
 
@@ -299,7 +297,7 @@ const page = () => {
                 />
               </button>
               <div>
-                {pizzaDataForSelect && pizzaDataMapRef.current && (
+                {pizzaDataForSelect && pizzaDataMapRef.current  && (
                   <Select
                     options={pizzaDataForSelect}
                     placeholder="Choose Second Pizza"
@@ -327,7 +325,7 @@ const page = () => {
         </div>}
 
          {pizzaData && pizzaSizeMapRef.current && pizzaCurrentSize.current &&
-      <DealPriceCard  calledBy="half"  dealPrice={pizzaSizeMapRef.current.get(pizzaCurrentSize.current.value).price || 0} extraPrice={pizzaData.length > 0 ? Number(
+      <DealPriceCard  calledBy="half"  dealPrice={pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value)?.price || 0} extraPrice={pizzaData?.length > 0 ? Number(
         pizzaData
           ? pizzaData.reduce(
               (acc, currPizza) => acc + (currPizza.pizzaExtraToppingPrice || 0),
