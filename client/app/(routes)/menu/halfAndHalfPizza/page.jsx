@@ -1,6 +1,6 @@
 "use client";
 import Select from "react-select";
-import React, { useEffect, useReducer, useRef, useState } from "react";
+import React, { memo, useEffect, useReducer, useRef, useState } from "react";
 import { MdEditSquare } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { getCustomizationDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
@@ -14,7 +14,6 @@ const page = () => {
   let currentPizzaDetails;
   const halfAndHalfDataRef = useRef(new Array(2));
   const [pizzaData, setPizzaData] = useState(new Array(2));
-  const pizzaDataRef = useRef(null);
   const [pizzaDataForSelect,setPizzaDataForSelect] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const modalRef = useRef();
@@ -80,6 +79,8 @@ const page = () => {
 
     setSizeData(sizeOptions);
   }
+  
+  
 
   function handlePizzaDataSubmissionToRedux(index) {
     currentPizzaDetails = pizzaDataMapRef.current.get(
@@ -183,9 +184,7 @@ const page = () => {
     getSizes();
   }, []);
 
-  useEffect(() => {
-    console.log("pizzaData this is an state", pizzaData, "sizeData", sizeData);
-  }, [pizzaData, sizeData]);
+
 
   return (
     <>
@@ -205,7 +204,7 @@ const page = () => {
 
         <div>
           <h1>Select Pizza Size</h1>
-          {pizzaData && <Select options={sizeData} onChange={(e)=>{pizzaCurrentSize.current = e}} />}
+          {pizzaData && <Select options={sizeData} onChange={(e)=>{pizzaCurrentSize.current = e}} /> }
         </div>
 
         <div className="grid grid-cols-2 gap-8 p-10">
