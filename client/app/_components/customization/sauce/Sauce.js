@@ -5,8 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
 
-
-const Sauce = ({ sauceData }) => {
+//calledBy component is used for telling this component that from which componen this sauce component is being called on 
+// like from deals customization modal or maybe from half and half
+const Sauce = ({ sauceData ,calledBy }) => {
 
   const { customizationData } = useSelector((state) => state.orderDetails);
   const { MAX_TOPPINGS, CYOP_MAX_TOPPINGS } = useSelector((state) => state.cart);
@@ -151,7 +152,7 @@ const Sauce = ({ sauceData }) => {
                   }`}
                   onClick={() => handleSelectionChange(sauce._id, "single")}
                 >
-                  £ {sauce?.price[0]?.singlePrice}
+                  £ {calledBy === "half" ? ((sauce?.price[0]?.singlePrice)/2): sauce?.price[0]?.singlePrice}
                 </div>
               </td>
               <td className="px-2 md:px-4 py-2 whitespace-nowrap text-sm text-gray-500">
@@ -163,7 +164,7 @@ const Sauce = ({ sauceData }) => {
                   }`}
                   onClick={() => handleSelectionChange(sauce._id, "double")}
                 >
-                  £ {sauce?.price[0]?.doublePrice}
+                  £ {calledBy === "half" ?((sauce?.price[0]?.doublePrice)/2) :sauce?.price[0]?.doublePrice}
                 </div>
               </td>
             </tr>

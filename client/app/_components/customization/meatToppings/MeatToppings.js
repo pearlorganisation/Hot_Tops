@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
-const MeatToppings = ({ meatTopData }) => {
+const MeatToppings = ({ meatTopData ,calledBy }) => {
   // console.log(meatTopData, "meatTopData");
   const { customizationData } = useSelector((state) => state.orderDetails);
   
@@ -150,7 +150,7 @@ const MeatToppings = ({ meatTopData }) => {
                   }`}
                   onClick={() => handleSelectionChange(meat._id, "single")}
                 >
-                  £ {meat?.price[0]?.singlePrice}
+                  £ {calledBy === "half" ? (meat?.price[0]?.singlePrice)/2 : meat?.price[0]?.singlePrice}
                 </div>
               </td>
               <td className="px-2 md:px-4 py-2 whitespace-nowrap text-sm text-gray-500">
@@ -162,7 +162,7 @@ const MeatToppings = ({ meatTopData }) => {
                   }`}
                   onClick={() => handleSelectionChange(meat._id, "double")}
                 >
-                  £ {meat?.price[0]?.doublePrice}
+                  £ {calledBy === "half" ? (meat?.price[0]?.doublePrice)/2:meat?.price[0]?.doublePrice}
                 </div>
               </td>
             </tr>

@@ -88,9 +88,7 @@ const cartSlice = createSlice({
     },
 
     setDefaultPrice: (state, action) => {
-      console.log(action.payload, "action.payload");
       const { arr, customizationData } = action.payload;
-      console.log(customizationData, "customiza");
       // Filter the items based on the sauce names and calculate the default price
       const {
         sauceName,
@@ -126,7 +124,6 @@ const cartSlice = createSlice({
 
       const flatArray = [sauce, cheese, veg, meat].flat();
       state.MAX_TOPPINGS = flatArray.length;
-      console.log("flatArray", flatArray.length);
 
       const extraPrice =
         flatArray.reduce((acc, cur) => {

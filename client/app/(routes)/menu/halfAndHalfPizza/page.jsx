@@ -1,6 +1,6 @@
 "use client";
 import Select from "react-select";
-import React, { useEffect, useReducer, useRef, useState } from "react";
+import React, { memo, useEffect, useReducer, useRef, useState } from "react";
 import { MdEditSquare } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { getCustomizationDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
 import { useRouter } from "next/navigation";
 import DealPriceCard from "@/app/_components/TotalPriceCard/DealPriceCard";
+import { SlControlPause } from "react-icons/sl";
 
 const page = () => {
   const router = useRouter();
@@ -27,7 +28,6 @@ const page = () => {
   const [sizeData, setSizeData] = useState(null);
 
   const [isTrue,setIsTrue] = useState(false);
-
 
   async function getPizzas() {
     setIsLoading(true);
@@ -82,6 +82,8 @@ const page = () => {
 
     setSizeData(sizeOptions);
   }
+  
+  
 
   function handlePizzaDataSubmissionToRedux(index) {
     currentPizzaDetails = pizzaDataMapRef.current.get(
@@ -112,12 +114,12 @@ const page = () => {
   }
 
   function handleAddToCart() {
-    if (pizzaData.every((item) => item !== null && item !== undefined) && (pizzaData.length !== 2) ){
+    console.log(pizzaData.every((item) =>  item === undefined), pizzaData);
+    if (pizzaData[0] === undefined || pizzaData[1] === undefined){
+     
       toast.error("Please Fill All Fields !!");
       return;
     }
-
-    console.log("pizzaData", pizzaData);
     const pizzaOne = pizzaData[0];
     const pizzaTwo = pizzaData[1];
 
@@ -135,7 +137,7 @@ const page = () => {
     pizzaTwo.label = pizzaTwo.pizzaName
     const submitData = [pizzaOne, pizzaTwo];
     
-    submitData._id = pizzaOne._id + pizzaTwo._id;
+    submitData.id = pizzaOne.id + pizzaTwo.id;
     
     let extraPrice =
       Number(
@@ -164,8 +166,8 @@ const page = () => {
         img: submitData[0].banner,
         size:pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value).size.name||"Check Size Issue in add to cart reducer",
         id:
-          (submitData?._id||"half") + pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value).size.name+
-          submitData.reduce((acc, currEle) => acc + currEle._id, ""),
+          (submitData?.id||"half") + pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value).size.name+
+          submitData.reduce((acc, currEle) => acc + currEle.id, ""),
         quantity: 1,
         price: Number(extraPrice + basePriceForPizza).toFixed(2),
         totalSum: Number(extraPrice + basePriceForPizza).toFixed(2),
@@ -181,7 +183,7 @@ const page = () => {
       size:pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value).size.name||"Check Size Issue in add to cart reducer",
       id:
         (submitData?._id||"half") + pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value).size.name+
-        submitData.reduce((acc, currEle) => acc + currEle._id, ""),
+        submitData.reduce((acc, currEle) => acc + currEle.id, ""),
       quantity: 1,
       price: Number(extraPrice + basePriceForPizza).toFixed(2),
       totalSum: Number(extraPrice + basePriceForPizza).toFixed(2),
@@ -201,13 +203,12 @@ const page = () => {
     getSizes();
   }, []);
 
-  useEffect(() => {
-    console.log("pizzaData this is an state", pizzaData, "sizeData", sizeData);
-  }, [pizzaData, sizeData]);
+
 
   return (
     <>
       <PizzaCustomizationModal
+        calledBy="half"
         ref={modalRef}
         pizzaIndex={currentIndex}
         pizzaData={pizzaData}
@@ -233,11 +234,20 @@ const page = () => {
 
             <div className="grid grid-cols-[20%_auto] md:grid-cols-[10%_auto] pt-2 items-center">
               {
+                
                 <button
                   onClick={() => {
-                    currentIndex.current = 0;
-                    handlePizzaDataSubmissionToRedux(0);
-                    handleOpeningModal();
+
+                    if(pizzaData[0])
+                    {
+                      currentIndex.current = 0;
+                      handlePizzaDataSubmissionToRedux(0);
+                      handleOpeningModal();
+                    }
+                    else{
+                      toast.error("Please Select First Half Pizza !!")
+                    }
+                    
                   }}
                 >
                   <MdEditSquare
@@ -271,9 +281,16 @@ const page = () => {
             <div className="grid grid-cols-[20%_auto] md:grid-cols-[10%_auto] pt-2  items-center">
               <button
                 onClick={() => {
-                  currentIndex.current = 1;
-                  handlePizzaDataSubmissionToRedux(1);
-                  handleOpeningModal();
+                  if(pizzaData[1])
+                    {
+                      currentIndex.current = 1;
+                      handlePizzaDataSubmissionToRedux(1);
+                      handleOpeningModal();
+                    }
+                    else{
+                      toast.error("Please Select Second Half Pizza !!")
+                    }
+                    
                 }}
               >
                 <MdEditSquare
@@ -309,7 +326,17 @@ const page = () => {
           </button>
         </div>}
 
-         {/* <DealPriceCard  dealPrice={sizeDetailRef?.current?.price || 0} extraPrice={extraPrice} /> */}
+         {pizzaData && pizzaSizeMapRef.current && pizzaCurrentSize.current &&
+      <DealPriceCard  calledBy="half"  dealPrice={pizzaSizeMapRef.current.get(pizzaCurrentSize.current.value).price || 0} extraPrice={pizzaData.length > 0 ? Number(
+        pizzaData
+          ? pizzaData.reduce(
+              (acc, currPizza) => acc + (currPizza.pizzaExtraToppingPrice || 0),
+              0
+            )
+          : 0
+      ):0 } />
+      }
+      
       </div>
     </>
   );
