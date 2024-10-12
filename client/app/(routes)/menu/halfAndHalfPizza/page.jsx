@@ -134,7 +134,9 @@ const page = () => {
     pizzaOne.label = pizzaOne.pizzaName
     pizzaTwo.label = pizzaTwo.pizzaName
     const submitData = [pizzaOne, pizzaTwo];
-
+    
+    submitData._id = pizzaOne._id + pizzaTwo._id;
+    
     let extraPrice =
       Number(
         submitData
@@ -162,18 +164,29 @@ const page = () => {
         img: submitData[0].banner,
         size:pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value).size.name||"Check Size Issue in add to cart reducer",
         id:
-          submitData?._id +
-          submitData.reduce((acc, currEle) => acc + currEle.id, ""),
+          (submitData?._id||"half") + pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value).size.name+
+          submitData.reduce((acc, currEle) => acc + currEle._id, ""),
         quantity: 1,
         price: Number(extraPrice + basePriceForPizza).toFixed(2),
         totalSum: Number(extraPrice + basePriceForPizza).toFixed(2),
         dealsData: submitData,
-      })
+      } )
     );
 
     router.push("/order/cart");
     console.log(submitData, "submitData");
-    console.log(extraPrice, "submitData");
+    console.log({
+      name: "Half N Half Pizza",
+      img: submitData[0].banner,
+      size:pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value).size.name||"Check Size Issue in add to cart reducer",
+      id:
+        (submitData?._id||"half") + pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value).size.name+
+        submitData.reduce((acc, currEle) => acc + currEle._id, ""),
+      quantity: 1,
+      price: Number(extraPrice + basePriceForPizza).toFixed(2),
+      totalSum: Number(extraPrice + basePriceForPizza).toFixed(2),
+      dealsData: submitData,
+    }, "submitData");
   }
 
   const handleOpeningModal = () => {
