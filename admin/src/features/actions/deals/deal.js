@@ -5,6 +5,7 @@ import { instance } from "../../../services/axiosInterceptor";
 export const getDeal = createAsyncThunk(
   "getDeal",
   async (payload, { rejectWithValue }) => {
+    console.log("pay",payload)
     try {
       const response = await instance.get(`/deals`, {
         withCredentials: true,

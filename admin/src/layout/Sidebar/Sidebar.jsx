@@ -87,6 +87,13 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
       icon: <BsFillPeopleFill size={28} />,
       isDropDown: false,
     },
+    {
+      label: "Banner",
+      icon: <BiDish size={28} />,
+      isDropDown: false,
+      path:"/banner"
+    },
+
   ];
 
   return (

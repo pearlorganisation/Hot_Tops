@@ -4,7 +4,7 @@ import { CustomError } from "../utils/errors/customError.js";
 
 export const newbanner = asyncErrorHandler(async (req, res, next) => {
   const { deal } = req?.body;
-  
+
   await banner.create({
     banner: req?.file?.path,
     deal
