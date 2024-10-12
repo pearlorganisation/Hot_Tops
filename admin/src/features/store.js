@@ -20,6 +20,7 @@ import dip from "./slice/dip/dip";
 import order from "./slice/order/order";
 import deals from "./slice/deals/deals";
 import auth from "./slice/auth";
+import banner from "./slice/banner/bannerSlice"
 const rootReducer = combineReducers({
   // pizza: pizzaReducer,
   sidesCategory,
@@ -37,6 +38,7 @@ const rootReducer = combineReducers({
   order,
   deals,
   auth,
+  banner ,
   
   });
 

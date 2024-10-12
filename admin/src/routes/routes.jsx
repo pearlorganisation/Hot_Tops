@@ -42,6 +42,9 @@ import EditDeals from "../pages/Deals/EditDeals";
 import { useSelector } from "react-redux";
 import Login from "../pages/Auth/Login";
 import ViewUser from "../pages/User/ViewUser";
+import Banner from "../pages/Banner/Banners";
+import ViewBanner from "../pages/Banner/ViewBanner";
+import UpdateBanner from "../pages/Banner/EditBanner";
 
 // ---------------------------------------------------------------------------------------------------
 
@@ -208,6 +211,18 @@ export const appRouter = createBrowserRouter([
         path: "/user",
         element: <ViewUser />,
       },
+      {
+        path: "/banner",
+        element: <Banner />,
+      },
+      {
+        path:"/viewBanner",
+        element:<ViewBanner/>
+      }
+      ,{
+        path:"/updateBanner/:id",
+        element:<UpdateBanner/>
+      }
     ],
   },
 ]);
