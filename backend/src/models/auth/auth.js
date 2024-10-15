@@ -18,6 +18,10 @@ const authSchema = new mongoose.Schema(
       type: String,
       required: [true, "password is required"],
     },
+    role: {
+      type: String,
+      enum: ["Admin"],
+    },
     mobileNumber: {
       type: String,
       required:[ true,"Mobile Number is required"]

@@ -1,9 +1,9 @@
 import React, { useState,useEffect } from "react";
-// import { useDispatch, useSelector, } from "react-redux";
+import { useDispatch } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { ClipLoader } from "react-spinners";
-// import { logIn } from "../../features/action/auth";
+import { logIn } from "../../features/actions/auth";
 import {toast} from 'sonner'
 
 
@@ -11,7 +11,7 @@ import {toast} from 'sonner'
 // ----------------------------------------------------------------------------------
 const Login = () => {
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   // const navigate = useNavigate();
 
   // const {isLoading}=useSelector((state)=>state.auth)
@@ -28,16 +28,20 @@ const Login = () => {
  
   const {register,handleSubmit,formState: { errors },} =useForm()
 
-  const onSubmit = data=>{
-    // const newData = {...data}
-    if(data.userName === 'admin' && data.password === 'Admin@123'){
-      localStorage.setItem('hothouseLoggedIn', true)
-      window.location.href = '/'
-    } else {
-      toast.error('Incorrect USERNAME/PASSWORD')
-    }
-    // dispatch(logIn(newData))}
-  }
+  const onSubmit = (data) => {
+    // if(data.userName === 'admin' && data.password === 'Admin@123'){
+    //   localStorage.setItem('hothouseLoggedIn', true)
+    //   window.location.href = '/'
+    // } else {
+    //   toast.error('Incorrect USERNAME/PASSWORD')
+    // }
+    const newData = {
+      email: data.userName,
+      password: data.password,
+      role: "Admin",
+    };
+    dispatch(logIn(newData));
+  };
 
 const handleResetNavigate = ()=>{
     navigate("/auth/reset")

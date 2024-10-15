@@ -87,7 +87,7 @@ export const signUp = asyncErrorHandler(async (req, res) => {
 
 // --------------verifyOtp for signup-----------------------
 export const verifyOtp = asyncErrorHandler(async (req, res) => {
-  const { email, password, otp, firstName, lastName,mobileNumber } = req?.body;
+  const { email, password, otp, firstName, lastName, mobileNumber, role } = req?.body;
   console.log(mobileNumber)
 
   // --finding otp in otp model
@@ -95,47 +95,72 @@ export const verifyOtp = asyncErrorHandler(async (req, res) => {
   if (!isOtpValid) {
     return res.status(400).json({
       status: false,
-      message: "otp is incorrect",
+      message: "OTP is incorrect",
     });
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const newData = new auth({
+  
+  // Create an object for new user data
+  const userData = {
     firstName,
     lastName,
     email,
     password: hashedPassword,
-    mobileNumber
-  });
+    mobileNumber,
+  };
+
+  // Add role if it is not null or empty
+  if (role) {
+    userData['role'] = role;
+  }
+
+  const newData = new auth(userData);
   await newData.save();
 
   res.status(200).json({
     status: true,
-    message: "Otp verified",
+    message: "OTP verified",
   });
 });
 // --------------login controller--------------------
 export const login = asyncErrorHandler(async (req, res) => {
-  const { email, password } = req?.body;
+  const { email, password, role } = req.body;
+  console.log(email, password, role)
+
   const isUserExist = await auth.findOne({ email });
   if (!isUserExist) {
-    return res.status(404).json({
+    return res.status(401).json({
       status: false,
       message: "No user found with this email",
     });
   }
-  const isPasswordValid = await bcrypt.compare(password, isUserExist?.password);
+  console.log(email)
+
+  // If the login request is for an Admin, ensure the user has the Admin role
+  if (role === "Admin") {
+    if (!isUserExist.role || isUserExist.role !== "Admin") {
+      return res.status(403).json({
+        status: false,
+        message: "You are not authorized to login as Admin",
+      });
+    }
+  }
+
+  const isPasswordValid = await bcrypt.compare(password, isUserExist.password);
   if (!isPasswordValid) {
     return res.status(404).json({
       status: false,
-      message: "wrong password",
+      message: "Wrong password",
     });
   }
-  // access token
+
+  // Generate access token
   const accessToken = jwt.sign(
     {
-      id: isUserExist?._id,
-      email: isUserExist?.email,
+      id: isUserExist._id,
+      email: isUserExist.email,
+      role: isUserExist.role || "User", // Default to "User" if no role
     },
     "hgy79hfg",
     { expiresIn: "15m" }

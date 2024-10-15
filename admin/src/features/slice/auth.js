@@ -37,10 +37,12 @@ const authSlice = createSlice({
 
         state.isUserLoggedIn = true;
         state.isLogInSuccess = true;
-        state.userData= action.payload.data
-        toast.success("Login Successfully", {
+        state.userData= action.payload.data;
+        localStorage.setItem('hothouseLoggedIn', true)
+        toast.success("Logged In Successfully", {
           position: "top-center",
         });
+        window.location.href = '/';
       })
       .addCase(logIn.rejected, (state, action) => {
         state.isLoading = false;
@@ -48,7 +50,7 @@ const authSlice = createSlice({
         state.isLogInSuccess = false;
         state.isUserLoggedIn = false;
         state.errorMessage = action.payload;
-        toast.error(state?.errorMessage, {
+        toast.error(state?.errorMessage || "Incorrect Password", {
           position: "top-right",
         });
       })
