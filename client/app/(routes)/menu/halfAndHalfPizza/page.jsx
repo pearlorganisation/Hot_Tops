@@ -160,7 +160,7 @@ const page = () => {
     }
     dispatch(
       addToCart({
-        name: "Half N Half Pizza",
+        name: "Half & Half Pizza",
         img: submitData[0].banner,
         size:pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value).size.name||"Check Size Issue in add to cart reducer",
         id:
@@ -176,7 +176,7 @@ const page = () => {
     router.push("/order/cart");
     console.log(submitData, "submitData");
     console.log({
-      name: "Half N Half Pizza",
+      name: "Half & Half Pizza",
       img: submitData[0].banner,
       size:pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value).size.name||"Check Size Issue in add to cart reducer",
       id:

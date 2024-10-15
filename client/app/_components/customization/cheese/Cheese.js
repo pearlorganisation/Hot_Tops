@@ -88,10 +88,20 @@ const Cheese = ({ cheeseData ,calledBy }) => {
     const selectedCheeseData = Object.entries(selectedCheese).map(
       ([cheeseId, size]) => {
         const cheese = cheeseData.find((s) => s._id === cheeseId);
-        const price =
+      let price
+      if(customizationData.id==="6703be55176d2099698929c1" )
+    {     price =
           size === "single"
             ? cheese?.price[0]?.singlePriceCYOP
             : cheese?.price[0]?.doublePriceCYOP;
+          }
+          else
+     {   
+          price =
+          size === "single"
+            ? cheese?.price[0]?.singlePrice
+            : cheese?.price[0]?.doublePrice;
+}
         return {
           cheeseName: cheese.name,
           _id: cheese?._id,

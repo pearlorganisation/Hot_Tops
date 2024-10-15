@@ -132,7 +132,7 @@ const PizzaCards = ({ data, idx }) => {
                   })
                 );
             }}
-            href={`/menu/product/${data?.pizzaName}`}
+            href={`/menu/product/customisePizza`}
           >
             <TbEdit size={30} className="text-slate-800 hover:text-red-800" />
           </Link>
