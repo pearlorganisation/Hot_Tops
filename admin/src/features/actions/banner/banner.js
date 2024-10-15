@@ -50,6 +50,7 @@ export const createBanner = createAsyncThunk(
 export const updateBanner = createAsyncThunk(
   "banner/updateBanner",
   async ({ id, formData }, { rejectWithValue }) => {
+    console.log(formData)
     try {
       const response = await instance.patch(`/banner/${id}`, formData, {
         headers: {
