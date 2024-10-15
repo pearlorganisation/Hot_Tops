@@ -60,7 +60,7 @@ const ViewBanner = () => {
     return (
         <div className="max-w-4xl mx-auto my-5 overflow-hidden rounded-2xl bg-white shadow-lg ">
             <div className="bg-[#EF4444] px-10 py-4 text-center text-white font-semibold">
-                Select Deals
+                Create Banner
             </div>
             <form className="space-y-5 my-4 mx-8 sm:mx-2" onSubmit={handleSubmit(onSubmit)}  >
 

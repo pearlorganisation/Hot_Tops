@@ -4,6 +4,7 @@ import pizza from "../../models/pizza/pizza.js";
 import dips from "../../models/dips.js";
 import dessert from "../../models/dessert/dessert.js";
 import drinks from "../../models/drinks.js";
+import { CustomError } from "../../utils/errors/customError.js";
 
 // Helper function to create an array with repeated data
 

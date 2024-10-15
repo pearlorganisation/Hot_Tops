@@ -14,6 +14,7 @@ import { MdOutlinePayment } from "react-icons/md";
 import { Link } from "react-router-dom";
 import logo from "/logo.png"
 import { BsFillPeopleFill } from "react-icons/bs";
+import { FaImages } from "react-icons/fa";
 // -----------------------------------------------------------------------------------------------
 
 export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
@@ -89,7 +90,7 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
     },
     {
       label: "Banner",
-      icon: <BiDish size={28} />,
+      icon: <FaImages size={28} />,
       isDropDown: false,
       path:"/banner"
     },

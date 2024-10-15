@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
-const Cheese = ({ cheeseData }) => {
+const Cheese = ({ cheeseData ,calledBy }) => {
   // console.log(cheeseData, "cheeseData");
   const { customizationData } = useSelector(
     (state) => state.orderDetails
@@ -88,10 +88,20 @@ const Cheese = ({ cheeseData }) => {
     const selectedCheeseData = Object.entries(selectedCheese).map(
       ([cheeseId, size]) => {
         const cheese = cheeseData.find((s) => s._id === cheeseId);
-        const price =
+      let price
+      if(customizationData.id==="6703be55176d2099698929c1" )
+    {     price =
           size === "single"
             ? cheese?.price[0]?.singlePriceCYOP
             : cheese?.price[0]?.doublePriceCYOP;
+          }
+          else
+     {   
+          price =
+          size === "single"
+            ? cheese?.price[0]?.singlePrice
+            : cheese?.price[0]?.doublePrice;
+}
         return {
           cheeseName: cheese.name,
           _id: cheese?._id,
@@ -151,7 +161,7 @@ const Cheese = ({ cheeseData }) => {
                   }`}
                   onClick={() => handleSelectionChange(cheese._id, "single")}
                 >
-                  £ {customizationData.id==="6703be55176d2099698929c1" ? cheese?.price[0]?.singlePriceCYOP :cheese?.price[0]?.singlePrice}
+                  £ {customizationData.id==="6703be55176d2099698929c1" ? cheese?.price[0]?.singlePriceCYOP :calledBy === "half" ? (cheese?.price[0]?.singlePrice)/2 :cheese?.price[0]?.singlePrice}
                 </div>
               </td>
               <td className="px-2 md:px-4 py-2 whitespace-nowrap text-sm text-gray-500">
@@ -163,7 +173,7 @@ const Cheese = ({ cheeseData }) => {
                   }`}
                   onClick={() => handleSelectionChange(cheese._id, "double")}
                 >
-                  £ {customizationData.id==="6703be55176d2099698929c1" ? cheese?.price[0]?.doublePriceCYOP :cheese?.price[0]?.doublePrice}
+                  £ {customizationData.id==="6703be55176d2099698929c1" ? cheese?.price[0]?.doublePriceCYOP : calledBy === "half" ? (cheese?.price[0]?.doublePrice)/2 : cheese?.price[0]?.doublePrice}
                 </div>
               </td>
             </tr>

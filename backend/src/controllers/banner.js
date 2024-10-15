@@ -1,6 +1,7 @@
 import banner from "../models/banner.js";
 import { asyncErrorHandler } from "../utils/errors/asyncErrorHandler.js";
 import { CustomError } from "../utils/errors/customError.js";
+import mongoose from "mongoose"
 
 export const newbanner = asyncErrorHandler(async (req, res, next) => {
   const { deal } = req?.body;
@@ -14,22 +15,33 @@ export const newbanner = asyncErrorHandler(async (req, res, next) => {
     .json({ status: true, message: "New Banner created successfully!!" });
 });
 
-export const updateBanner = asyncErrorHandler(async(req,res,next)=>{
-  const {id}= req?.params;
-  const { deal } = req?.body;
-const existingData = await banner.find();
 
-  const data = await banner.findByIdAndUpdate(id,{
-      banner: req?.file?.path || existingData?.banner,
-      deal
+export const updateBanner = asyncErrorHandler(async (req, res, next) => {
+    const { id } = req.params;
+    const { deal } = req.body;
 
-  })
-  if(!data){
-return next ( new CustomError("This Id Doesn't exist",400) )
-  }
+    console.log(id)
+    // Validate the ID format
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      console.log(id)
+        return next(new CustomError("Invalid ID format", 400));
+    }
 
-  res.status(200).json({status:true,message:"Banner Updated Successfully"})
-})
+    // Find existing data
+    const existingData = await banner.findById(id); // Find the document to check if it exists
+    if (!existingData) {
+        return next(new CustomError("This Id Doesn't exist", 400));
+    }
+
+    // Update the banner
+    const updatedData = await banner.findByIdAndUpdate(id, {
+        banner: req.file?.path || existingData.banner, // Use existing banner if no new file uploaded
+        deal,
+    }, { new: true }); // { new: true } returns the updated document
+
+    res.status(200).json({ success: true, message: "Banner Updated Successfully", data: updatedData });
+});
+
 
 export const deleteBanner = asyncErrorHandler(async(req,res,next)=>{
   const {id}= req?.params;

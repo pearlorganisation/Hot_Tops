@@ -9,7 +9,7 @@ import { FaWindowClose } from 'react-icons/fa';
 import ToppingsPriceCard from '../TotalPriceCard/ToppingsPriceCard';
 import { toast } from 'sonner';
 
-const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataPizza,setViewButton }, ref) => {
+const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataPizza,setViewButton ,calledBy }, ref) => {
   const modalRef = useRef(null);
  
 
@@ -244,7 +244,7 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
             </div> 
 
                 <div className="mt-4">
-                  <h2 className="text-lg font-semibold text-gray-800">SIZES</h2>
+                  <h2 className="text-lg font-semibold text-gray-800">SIZESs</h2>
                   <div className="mt-2 space-y-2">
                     {Array.isArray(customizationData?.priceSection) &&
                       customizationData?.priceSection.map((data, idx) => (
@@ -295,7 +295,7 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
                                 {" "}
                                 {base?.price[0]?.price > 0 && (
                                   <span className="bg-red-800 text-white rounded-lg px-1">
-                                    + £ {base?.price[0]?.price}
+                                    + £ {calledBy === "half" ? (base?.price[0]?.price)/2 : base?.price[0]?.price}
                                   </span>
                                 )}
                               </>
@@ -310,20 +310,20 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
 
                 {/* SAUCE STARTS */}
                 <div>
-                  <Sauce sauceData={saucePrices} />
+                  <Sauce sauceData={saucePrices} calledBy={calledBy}  />
                 </div>
                 {/* SAUCE ENDS */}
 
                 {/* CHEESE: STARTS */}
-                <Cheese cheeseData={cheesePrices}  />
+                <Cheese cheeseData={cheesePrices}  calledBy={calledBy}  />
                 {/* CHEESE: ENDS */}
 
                 {/* VEGETARIAN TOPPINGS: STARTS */}
-                <VegetarianToppings vegetarianTopData={vegetarianToppingsPrices} />
+                <VegetarianToppings vegetarianTopData={vegetarianToppingsPrices} calledBy={calledBy}/>
                 {/* VEGETARIAN TOPPINGS: ENDS */}
 
                 {/* MEAT TOPPINGS: STARTS */}
-                <MeatToppings meatTopData={meatToppingsPrices} />
+                <MeatToppings meatTopData={meatToppingsPrices} calledBy={calledBy} />
                 {/* MEAT TOPPINGS: ENDS */}
 
 
@@ -346,7 +346,7 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
             </div>
           </div>
         </div>
-          <ToppingsPriceCard />
+          <ToppingsPriceCard calledBy="half" />
       </dialog>
     </div>
   );

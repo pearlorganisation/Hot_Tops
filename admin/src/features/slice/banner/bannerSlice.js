@@ -98,16 +98,10 @@ export const bannerSlice = createSlice({
       })
       .addCase(updateBanner.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isError = false;
         state.isSuccess = true;
-        state.errorMessage = "";
-        // Update the banner in bannerData
-        const index = state.bannerData.findIndex(banner => banner._id === action.payload.data._id);
-        if (index !== -1) {
-          state.bannerData[index] = action.payload.data;
-        }
-        toast.success("Banner Updated Successfully...", {
-          position: "top-center",
-        });
+        state.isUpdated = true
+        state.scheme = action.payload;
       })
       .addCase(updateBanner.rejected, (state, action) => {
         state.isLoading = false;

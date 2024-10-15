@@ -266,7 +266,7 @@ if (totalPrice > 20){
   <div> <p className="text-sm text-green-800 pb-2">{mergedToppings}</p> </div>
   <div className="flex justify-between">
                         <div className=" text-right  md:text-left">
-                        {order?.orderType === 'collection' && data?.discount ? <>£ {data?.price - data?.discount} <span className="line-through text-sm text-slate-600">{data?.price}</span></> : `£ ${data?.price}`}
+                        {order?.orderType === 'collection' && data?.discount ? <>£ {(data?.price - data?.discount).toFixed(2)} <span className="line-through text-sm text-slate-600">{data?.price}</span></> : `£ ${data?.price}`}
                          
                           <span className="text-sm"> x {data?.quantity}</span>
                         </div>
