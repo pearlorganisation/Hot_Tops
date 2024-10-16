@@ -2,6 +2,12 @@ import { toast } from "sonner";
 
 const { createSlice, current } = require("@reduxjs/toolkit");
 
+ const toppingsPriceTrackerSet = new Set();
+
+  console.log = () => {
+
+  }
+ 
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
@@ -9,13 +15,44 @@ const cartSlice = createSlice({
     allToppings: {},
     MAX_TOPPINGS: 0,
     defaultPrice: 0,
-    CYOP_MAX_TOPPINGS:0,
+    createYourOwnPizzaMAX_TOPPINGS:0,
     CYOP_FREE_TOPPINGS:0,
-
     isOrderCheckout: false,
   },
 
   reducers: {
+
+    updateSet: (state,action) => {
+      
+      console.log(state.createYourOwnPizzaMAX_TOPPINGS,"state.createYourOwnPizzaMAX_TOPPINGS");
+
+      if(toppingsPriceTrackerSet.size > 0)
+      {
+        if(toppingsPriceTrackerSet.has(action.payload))
+        {
+          state.createYourOwnPizzaMAX_TOPPINGS = state.createYourOwnPizzaMAX_TOPPINGS - 1;
+          toppingsPriceTrackerSet.delete(action.payload);
+
+        }
+        else{
+          state.createYourOwnPizzaMAX_TOPPINGS = state.createYourOwnPizzaMAX_TOPPINGS + 1;
+
+          toppingsPriceTrackerSet.add(action.payload);
+        }
+        
+      }
+      else
+      {
+        state.createYourOwnPizzaMAX_TOPPINGS = state.createYourOwnPizzaMAX_TOPPINGS+1;
+        toppingsPriceTrackerSet.add(action.payload);
+      }
+
+
+    },
+    clearSet:(state) =>{
+      state.createYourOwnPizzaMAX_TOPPINGS = 0;
+      toppingsPriceTrackerSet.clear();
+    },
     addToCart: (state, action) => {
       const isExist = state.cartData?.some((item) => {
         return item?.id === action?.payload?.id;
@@ -120,10 +157,27 @@ const cartSlice = createSlice({
         ...action?.payload,
       };
 
+
       const { sauce, cheese, veg, meat, base, price } = temp;
 
-      const flatArray = [sauce, cheese, veg, meat].flat();
-      state.MAX_TOPPINGS = flatArray.length;
+      let flatArray = [sauce, cheese, veg, meat].flat();
+
+
+      if (toppingsPriceTrackerSet.size > 0) {
+
+        const priceDeductionArray = Array.from(toppingsPriceTrackerSet); 
+        for(let i = 0;i<4;i++){
+          const currIndex = flatArray.findIndex((items) => items._id === priceDeductionArray[i]);
+      
+          if (currIndex !== -1) { // Check if item is found
+            flatArray[currIndex] = {
+              ...flatArray[currIndex],
+              price: 0, // Update price to 0
+            };
+          }
+        }
+
+      }
 
       const extraPrice =
         flatArray.reduce((acc, cur) => {
@@ -205,5 +259,8 @@ export const {
   setDefaultPrice,
   resetToppings,
   setToppingsCYOP,
+  clearSet, 
+  updateSet
 } = cartSlice.actions;
 export default cartSlice.reducer;
+export const selectToppingsSet = () => toppingsPriceTrackerSet;
