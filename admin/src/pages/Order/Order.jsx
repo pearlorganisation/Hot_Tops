@@ -36,6 +36,12 @@ const Order = () => {
     };
 
     useEffect(() => {
+      
+          dispatch(getAllOrders());
+          console.log("avnish2")
+
+      }, [])
+    useEffect(() => {
       if (Array.isArray(orderData) && orderData.length > 0) {
         const initialApproval = {};
         orderData?.forEach((item) => { console.log(item.orderStatus)
@@ -43,15 +49,12 @@ const Order = () => {
         });
         console.log(initialApproval)
         setApproval(initialApproval);
-      
+        console.log("avnish1")
       }
+
     }, [orderData]);
 
 
-    useEffect(() => {
-      
-          dispatch(getAllOrders())
-      }, [])
 
         
     return (
