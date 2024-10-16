@@ -41,6 +41,7 @@ async function getBanners(){
 }
 
 const HomePage = () => {
+  
 
   const img = [
     pizza1,

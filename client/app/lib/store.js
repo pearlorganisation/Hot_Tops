@@ -11,6 +11,7 @@ import storage from "redux-persist/lib/storage";
 
 const persistConfig = {
   key: "persist",
+  blacklist:['cart.createYourOwnPizzaMAX_TOPPINGS'],
   storage,
 };
 

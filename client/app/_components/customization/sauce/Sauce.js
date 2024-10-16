@@ -34,33 +34,34 @@ const Sauce = ({ sauceData ,calledBy }) => {
   }, [defaultSauceDetails, customizationData, sauceData]);
 
   const handleSelectionChange = (sauceId, size) => {
-    if(customizationData.id==="6703be55176d2099698929c1" ){
-      setSelectedSauces((prevSelected) => {
-        // Toggle the selection
-        if (prevSelected[sauceId] === size) {
-          const { [sauceId]: _, ...rest } = prevSelected;
-          return rest;
-        } else {
-          console.log(CYOP_MAX_TOPPINGS)
-          if ( CYOP_MAX_TOPPINGS < 6) {
-            return {
-              // ...prevSelected,
-              [sauceId]: size,
-            };
-          }
+    // if(customizationData.id==="6703be55176d2099698929c1" ){
+    //   setSelectedSauces((prevSelected) => {
+    //     // Toggle the selection
+    //     if (prevSelected[sauceId] === size) {
+    //       const { [sauceId]: _, ...rest } = prevSelected;
+    //       return rest;
+    //     } else {
+    //       console.log(CYOP_MAX_TOPPINGS)
+    //       if ( CYOP_MAX_TOPPINGS < 6) {
+    //         return {
+    //           // ...prevSelected,
+    //           [sauceId]: size,
+    //         };
+    //       }
          
-          else {
-            toast.info("You Can Add Only 6 Toppings");
-            return {
-              ...prevSelected,
-            };
-          }
-        }
-      });
+    //       else {
+    //         toast.info("You Can Add Only 6 Toppings");
+    //         return {
+    //           ...prevSelected,
+    //         };
+    //       }
+    //     }
+    //   });
 
-    }
-    else 
-{    setSelectedSauces((prevSelected) => {
+    // }
+    // else 
+// { 
+     setSelectedSauces((prevSelected) => {
       // Toggle the selection
       if (prevSelected[sauceId] === size) {
         const { [sauceId]: _, ...rest } = prevSelected;
@@ -71,7 +72,8 @@ const Sauce = ({ sauceData ,calledBy }) => {
           [sauceId]: size,
         };
       }
-    });}
+    });
+  // }
   };
 
   // useEffect(() => {

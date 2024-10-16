@@ -4,9 +4,11 @@ import MeatToppings from "@/app/_components/customization/meatToppings/MeatToppi
 import Sauce from "@/app/_components/customization/sauce/Sauce";
 import VegetarianToppings from "@/app/_components/customization/vegetarianToppings/VegetarianToppings";
 import TotalPriceCard from "@/app/_components/TotalPriceCard/TotalPriceCard";
-import { addToCart, setDefaultPrice, setToppings } from "@/app/lib/features/cartSlice/cartSlice";
+import { addToCart, clearSet, setDefaultPrice, setToppings } from "@/app/lib/features/cartSlice/cartSlice";
+import { useSearchParams  } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 import useSWR from "swr";
 // import { useParams } from 'next/navigation';
 
@@ -14,9 +16,13 @@ const Product = () => {
   // const params = useParams();
   // const pizzaName= params?.productName
 
-  const { customizationData } = useSelector((state) => state.orderDetails);
-  const { allToppings } = useSelector(state => state.cart)
-  const dispatch = useDispatch()
+  const { customizationData  } = useSelector((state) => state.orderDetails);
+  const { allToppings ,createYourOwnPizzaMAX_TOPPINGS } = useSelector(state => state.cart)
+  const dispatch = useDispatch();
+  const searchParams = useSearchParams();
+  // const params = Object.fromEntries(searchParams.entries());
+  const customizationPizzaOpenedBy =  searchParams.get('calledBy');
+  console.log("calledBy", searchParams.get('calledBy'));
 
   const combineNames = () => {
     const items = [
@@ -96,6 +102,11 @@ const Product = () => {
     setSelectedSizeId(customizationData?.selectedData);
   }, [customizationData]);
 
+  useEffect(()=>{
+    dispatch(clearSet())
+
+  },[])
+
 
 
 
@@ -142,12 +153,23 @@ const Product = () => {
 
 
   const handleCustomization = () => {
+    console.log("createYourOwnPizzaMAX_TOPPINGS",createYourOwnPizzaMAX_TOPPINGS);
+    if(createYourOwnPizzaMAX_TOPPINGS > 6)
+      {
+        toast.error("Maximum Toppings For Create Your Own Pizza !!");
+        return;
+      }
     const { cheese, sauce, meat, veg, size, base,_id } = allToppings
     const temp = [...[cheese, sauce, meat, veg].flat(), base, size]
-    const uniqueId = temp.map(item => {
+    let uniqueId = temp.map(item => {
       return _id + item._id.slice(-4) + item?.size?.slice(0, 2)
     }).join('')
     console.log(uniqueId, "uniqueId")
+
+    if(customizationPizzaOpenedBy === "createYourOwnPizza")
+    {
+      uniqueId+= customizationData.id;
+    }
 
     dispatch(addToCart({
       name: customizationData?.name, img: customizationData?.img, id: uniqueId, quantity: 1, price: allToppings?.totalPrice, totalSum: allToppings?.totalPrice,
@@ -172,6 +194,7 @@ const Product = () => {
           <div className="flex-1">
             <h1 className="text-4xl  text-gray-800">
               {customizationData?.name}
+              
             </h1>
             <p className="mt-2 text-gray-600">{combineNames()}</p>
             <div className="mt-4">
@@ -249,15 +272,15 @@ const Product = () => {
             {/* SAUCE ENDS */}
 
             {/* CHEESE: STARTS */}
-            <Cheese cheeseData={cheesePrices} />
+            <Cheese cheeseData={cheesePrices} calledBy={customizationPizzaOpenedBy ?? ""}/>
             {/* CHEESE: ENDS */}
 
             {/* VEGETARIAN TOPPINGS: STARTS */}
-            <VegetarianToppings vegetarianTopData={vegetarianToppingsPrices} />
+            <VegetarianToppings calledBy={customizationPizzaOpenedBy} vegetarianTopData={vegetarianToppingsPrices} />
             {/* VEGETARIAN TOPPINGS: ENDS */}
 
             {/* MEAT TOPPINGS: STARTS */}
-            <MeatToppings meatTopData={meatToppingsPrices} />
+            <MeatToppings meatTopData={meatToppingsPrices} calledBy={customizationPizzaOpenedBy} />
             {/* MEAT TOPPINGS: ENDS */}
 
 

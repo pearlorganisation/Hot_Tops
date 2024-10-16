@@ -1,5 +1,5 @@
 "use client";
-import { setPrice, setToppings, setToppingsCYOP } from "@/app/lib/features/cartSlice/cartSlice";
+import { setPrice, setToppings, setToppingsCYOP, updateSet } from "@/app/lib/features/cartSlice/cartSlice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
@@ -8,7 +8,7 @@ const MeatToppings = ({ meatTopData ,calledBy }) => {
   // console.log(meatTopData, "meatTopData");
   const { customizationData } = useSelector((state) => state.orderDetails);
   
-  const { MAX_TOPPINGS , CYOP_MAX_TOPPINGS} = useSelector((state) => state.cart);
+  const { MAX_TOPPINGS ,createYourOwnPizzaMAX_TOPPINGS} = useSelector((state) => state.cart);
 
   const [defaultMeatDetails, setDefaultMeatDetails] = useState([]);
   const dispatch = useDispatch();
@@ -16,6 +16,10 @@ const MeatToppings = ({ meatTopData ,calledBy }) => {
   useEffect(() => {
     setDefaultMeatDetails(customizationData?.meatToppingsName);
   }, [customizationData]);
+
+  useEffect(()=>{
+   console.log("createYourOwnPizzaMAX_TOPPINGS",createYourOwnPizzaMAX_TOPPINGS);
+  },[createYourOwnPizzaMAX_TOPPINGS]);
 
   useEffect(() => {
     setSelectedMeat(() => {
@@ -37,32 +41,38 @@ const MeatToppings = ({ meatTopData ,calledBy }) => {
   const [selectedMeat, setSelectedMeat] = useState({});
 
   const handleSelectionChange = (meatId, size) => {
-    console.log(customizationData.id==="6703be55176d2099698929c1" )
-    console.log(CYOP_MAX_TOPPINGS,"CYOP_FREE_TOPPINGS")
-    if(customizationData.id==="6703be55176d2099698929c1" ){
-      setSelectedMeat((prevSelected) => {
-        // Toggle the selection
-        if (prevSelected[meatId] === size) {
-          const { [meatId]: _, ...rest } = prevSelected;
-          return rest;
-        } else {
-          if ( CYOP_MAX_TOPPINGS < 6) {
-            return {
-              ...prevSelected,
-              [meatId]: size,
-            };
-          }
-         
-          else {
-            toast.info("You Can Add Only 6 Toppings");
-            return {
-              ...prevSelected,
-            };
-          }
-        }
-      });
 
-    }else{
+    console.log("calledBy",calledBy);
+    if(calledBy === "createYourOwnPizza")
+    {
+      dispatch(updateSet(meatId));
+    }
+    // console.log(customizationData.id==="6703be55176d2099698929c1" )
+    // console.log(CYOP_MAX_TOPPINGS,"CYOP_FREE_TOPPINGS")
+    // if(customizationData.id==="6703be55176d2099698929c1" ){
+    //   setSelectedMeat((prevSelected) => {
+    //     // Toggle the selection
+    //     if (prevSelected[meatId] === size) {
+    //       const { [meatId]: _, ...rest } = prevSelected;
+    //       return rest;
+    //     } else {
+    //       if ( CYOP_MAX_TOPPINGS < 6) {
+    //         return {
+    //           ...prevSelected,
+    //           [meatId]: size,
+    //         };
+    //       }
+         
+    //       else {
+    //         toast.info("You Can Add Only 6 Toppings");
+    //         return {
+    //           ...prevSelected,
+    //         };
+    //       }
+    //     }
+    //   });
+
+    // }else{
       setSelectedMeat((prevSelected) => {
         // Toggle the selection
         if (prevSelected[meatId] === size) {
@@ -82,7 +92,7 @@ const MeatToppings = ({ meatTopData ,calledBy }) => {
           }
         }
       });
-    }
+    // }
     
   };
 
@@ -106,11 +116,11 @@ const MeatToppings = ({ meatTopData ,calledBy }) => {
         };
       }
     );
-    if(customizationData?.id==="6703be55176d2099698929c1" ){
-      dispatch(setToppingsCYOP({ meat: selectedMeatData }));
-    }else{
+    // if(customizationData?.id==="6703be55176d2099698929c1" ){
+    //   dispatch(setToppingsCYOP({ meat: selectedMeatData }));
+    // }else{
       dispatch(setToppings({ meat: selectedMeatData }));
-    }
+    // }
     
     // console.log(selectedMeatData, "selectedVegetarianData");
   };

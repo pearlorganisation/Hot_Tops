@@ -1,6 +1,6 @@
 "use client";
-import { setPrice, setToppings, setToppingsCYOP } from "@/app/lib/features/cartSlice/cartSlice";
-import React, { useEffect, useState } from "react";
+import { selectToppingsSet, setPrice, setToppings, setToppingsCYOP, updateSet } from "@/app/lib/features/cartSlice/cartSlice";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
@@ -8,7 +8,6 @@ const VegetarianToppings = ({ vegetarianTopData ,calledBy }) => {
   // console.log(vegetarianTopData, "vegetarianTopData");
   const { customizationData } = useSelector((state) => state.orderDetails);
   const { MAX_TOPPINGS, CYOP_MAX_TOPPINGS } = useSelector((state) => state.cart);
-
   const [defaultVegDetails, setDefaultVegDetails] = useState([]);
   const dispatch = useDispatch();
 
@@ -36,31 +35,38 @@ const VegetarianToppings = ({ vegetarianTopData ,calledBy }) => {
   const [selectedVeg, setSelectedVeg] = useState({});
 
   const handleSelectionChange = (vegId, size) => {
-    if(customizationData.id==="6703be55176d2099698929c1" ){
-      setSelectedVeg((prevSelected) => {
-        // Toggle the selection
-        if (prevSelected[vegId] === size) {
-          const { [vegId]: _, ...rest } = prevSelected;
-          return rest;
-        } else {
-          if ( CYOP_MAX_TOPPINGS < 6) {
-            return {
-              ...prevSelected,
-              [vegId]: size,
-            };
-          }
-         
-          else {
-            toast.info("You Can Add Only 6 Toppings");
-            return {
-              ...prevSelected,
-            };
-          }
-        }
-      });
+    
+    if(calledBy === "createYourOwnPizza")
+    {
+      console.log("calledBy",calledBy);
 
+      dispatch(updateSet(vegId));
     }
-    else {
+    // if(customizationData.id==="6703be55176d2099698929c1" ){
+    //   setSelectedVeg((prevSelected) => {
+    //     // Toggle the selection
+    //     if (prevSelected[vegId] === size) {
+    //       const { [vegId]: _, ...rest } = prevSelected;
+    //       return rest;
+    //     } else {
+    //       if ( CYOP_MAX_TOPPINGS < 6) {
+    //         return {
+    //           ...prevSelected,
+    //           [vegId]: size,
+    //         };
+    //       }
+         
+    //       else {
+    //         toast.info("You Can Add Only 6 Toppings");
+    //         return {
+    //           ...prevSelected,
+    //         };
+    //       }
+    //     }
+    //   });
+
+    // }
+    // else {
     setSelectedVeg((prevSelected) => {
       // Toggle the selection
       if (prevSelected[vegId] === size) {
@@ -79,7 +85,8 @@ const VegetarianToppings = ({ vegetarianTopData ,calledBy }) => {
           };
         }
       }
-    });}
+    });
+  // }
   };
 
   useEffect(() => {
@@ -102,11 +109,11 @@ const VegetarianToppings = ({ vegetarianTopData ,calledBy }) => {
         };
       }
     );
-    if(customizationData?.id==="6703be55176d2099698929c1" ){
-      dispatch(setToppingsCYOP({ veg: selectedVegetarianData }));
-    }else{
+    // if(customizationData?.id==="6703be55176d2099698929c1" ){
+    //   dispatch(setToppingsCYOP({ veg: selectedVegetarianData }));
+    // }else{
       dispatch(setToppings({ veg: selectedVegetarianData }));
-    }
+    // }
  
     // console.log(selectedVegetarianData, "selectedVegetarianData");
   };
