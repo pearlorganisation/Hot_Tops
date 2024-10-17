@@ -76,7 +76,7 @@ const Pizzas = () => {
   return (
     <div className="my-4">
       <div>
-        <div className="flex   gap-3  justify-between items-center md:mx-8 lg:mx-12">
+        <div className="flex   gap-2  items-center md:mx-8 lg:mx-12">
           <div className="hidden md:flex gap-3">
             {" "}
             <Link onClick={()=>
@@ -101,17 +101,17 @@ const Pizzas = () => {
               Half & Half Pizza
             </Link>
           </div>
-          <div className="w-[50%] ps-2 md:hidden space-y-5">
+          <div className="w-[55%]  ps-2 md:hidden  flex flex-col gap-0 ">
             {" "}
-            <Link href={"product/customisePizza?calledBy=createYourOwnPizza"} className="bg-red-800 px-3 py-2 text-white rounded-md">
+            <Link href={"product/customisePizza?calledBy=createYourOwnPizza"} className="text-center bg-red-800 px-1 py-2 text-white rounded-md">
               Create Your Own Pizza
-            </Link>
-            <Link href={"halfAndHalfPizza?calledBy=half"} className="bg-green-800 px-3 py-2 text-white rounded-md">
+            </Link><br/>
+            <Link href={"halfAndHalfPizza?calledBy=half"} className="text-center bg-green-800 px-3 py-2 text-white rounded-md">
               Half & Half Pizza
             </Link>
           </div>
 
-          <div className="flex w-[50%] ps-5 md:w-auto  gap-2 md:mx-8 my-4 flex-wrap ">
+          <div className="flex w-[45%] ps-5 md:w-auto  gap-2 md:mx-8 my-4 flex-wrap ">
             <span className="font-bold">Filter :</span>
             {filterData?.data?.map((data) => (
               <div className="flex gap-2" key={data.filter}>
