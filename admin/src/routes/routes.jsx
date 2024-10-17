@@ -39,12 +39,11 @@ import Order from "../pages/Order/Order";
 import CreateDealCard from "../pages/Deals/CreateDealCard";
 import DealsCustomization from "../pages/Deals/DealsCustomization/DealsCustomization";
 import EditDeals from "../pages/Deals/EditDeals";
-import { useSelector } from "react-redux";
 import Login from "../pages/Auth/Login";
 import ViewUser from "../pages/User/ViewUser";
 import Banner from "../pages/Banner/Banners";
-import ViewBanner from "../pages/Banner/ViewBanner";
 import UpdateBanner from "../pages/Banner/EditBanner";
+import CreateBanner from "../pages/Banner/CreateBanner";
 
 // ---------------------------------------------------------------------------------------------------
 
@@ -216,8 +215,8 @@ export const appRouter = createBrowserRouter([
         element: <Banner />,
       },
       {
-        path:"/viewBanner",
-        element:<ViewBanner/>
+        path:"/addBanner",
+        element:<CreateBanner/>
       }
       ,{
         path:"/updateBanner/:id",

@@ -46,9 +46,6 @@ const PizzaCards = ({ data, idx }) => {
     return items.map((item) => item.replace(/ /g, "\u00A0")).join(", ");
   };
 
-  useEffect(() => {
-    console.log(uniquePizzaId);
-  }, [uniquePizzaId]);
 
   return (
     <div
@@ -83,7 +80,7 @@ const PizzaCards = ({ data, idx }) => {
       </div>
       <div className=" h-full px-2">
         <div className="mt-3">
-          <h2 className="text-xl font-semibold mb-1 ">{data?.pizzaName}</h2>
+          <h2 className="text-xl font-semibold mb-1 ">{data?.pizzaName} (20% Off on Collection)</h2>
           <p className="text-sm font-semibold text-gray-500 mb-4 whitespace-wrap overflow-hidden ">
             {combineNames()}
           </p>
@@ -131,6 +128,7 @@ const PizzaCards = ({ data, idx }) => {
                     selectedData: selectedData,
                   })
                 );
+
             }}
             href={`/menu/product/customisePizza`}
           >

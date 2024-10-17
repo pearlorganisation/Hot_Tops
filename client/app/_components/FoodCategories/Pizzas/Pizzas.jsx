@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, {  useId, useState } from "react";
 import useSWR from "swr";
 import PizzaCards from "./pizzaCards/PizzaCards";
 import { ClockLoader } from "react-spinners";
 import Image from "next/image";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { clearSet } from "@/app/lib/features/cartSlice/cartSlice";
+import { getCustomizationDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
 
 // -------------------data fetching function-----------------------
 const pizzaFetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const Pizzas = () => {
+
+  const randomId = useId()
+  const dispatch = useDispatch();
   // -------------------------------------------useState--------------------------------------------
   const [selectedType, setSelectedType] = useState("All");
 
@@ -73,19 +79,34 @@ const Pizzas = () => {
         <div className="flex   gap-3  justify-between items-center md:mx-8 lg:mx-12">
           <div className="hidden md:flex gap-3">
             {" "}
-            {/* <div className="cursor-pointer bg-red-800 hover:bg-red-700 px-3 py-2 text-white rounded-md">
+            <Link onClick={()=>
+                   {    dispatch(
+                        getCustomizationDetails({
+                          name: "Create Your Own Pizza",
+                          img: "https://res.cloudinary.com/dnixhctcf/image/upload/v1728298580/egnskniwajhlos4u7mu4.png",
+                          priceSection: data?.data[0]?.priceSection,
+                          id: randomId,
+                          sauceName: [],
+                          cheeseName: [],
+                          vegetarianToppingsName: [],
+                          meatToppingsName: [],
+                          baseName: data?.data[0]?.baseName,
+                          selectedData: data?.data[0]?.priceSection[0]?.size?._id,
+                        })
+                      );}
+            }  href={"product/customisePizza?calledBy=createYourOwnPizza"} className="cursor-pointer bg-red-800 hover:bg-red-700 px-3 py-2 text-white rounded-md">
               Create Your Own Pizza
-            </div> */}
-            <Link href={"halfAndHalfPizza"} className="bg-green-800 px-3 py-2 text-white rounded-md">
+            </Link>
+            <Link href={"halfAndHalfPizza?calledBy=half"} className="bg-green-800 px-3 py-2 text-white rounded-md">
               Half & Half Pizza
             </Link>
           </div>
           <div className="w-[50%] ps-2 md:hidden space-y-5">
             {" "}
-            {/* <div className="bg-red-800 px-3 py-2 text-white rounded-md">
+            <Link href={"product/customisePizza?calledBy=createYourOwnPizza"} className="bg-red-800 px-3 py-2 text-white rounded-md">
               Create Your Own Pizza
-            </div> */}
-            <Link href={"halfAndHalfPizza"} className="bg-green-800 px-3 py-2 text-white rounded-md">
+            </Link>
+            <Link href={"halfAndHalfPizza?calledBy=half"} className="bg-green-800 px-3 py-2 text-white rounded-md">
               Half & Half Pizza
             </Link>
           </div>
@@ -121,7 +142,7 @@ const Pizzas = () => {
                 (selectedType === pizza?.filter?.filter ||
                   selectedType === "All")
             );
-            console.log(category)
+      
             return (
               <React.Fragment key={category}>
                 {isCategoryMatched && (

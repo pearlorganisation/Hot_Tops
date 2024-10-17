@@ -41,7 +41,7 @@ const page = () => {
     const newData = await data.json();
     // pizzaDataForSelect = ;
     setPizzaDataForSelect(newData?.data?.map((el) => {
-      if (pizzaDataMapRef) pizzaDataMapRef.current.set(el._id, el);
+      if (pizzaDataMapRef) pizzaDataMapRef?.current.set(el._id, el);
       return {
         label: el.pizzaName,
         value: el._id,
@@ -170,6 +170,7 @@ const page = () => {
         price: Number(extraPrice + basePriceForPizza).toFixed(2),
         totalSum: Number(extraPrice + basePriceForPizza).toFixed(2),
         dealsData: submitData,
+        discount: Number((extraPrice + basePriceForPizza)* 0.2).toFixed(2)
       } )
     );
 

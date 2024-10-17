@@ -41,6 +41,7 @@ async function getBanners(){
 }
 
 const HomePage = () => {
+  
 
   const img = [
     pizza1,
@@ -84,12 +85,14 @@ const HomePage = () => {
         {banner?.map((el, i) => {
             return (
               <SwiperSlide className="pb-8" key={i} >
-                <Link href={{
+             { el?.deal?._id ? <Link href={{
               pathname: `menu/deals/deals_view`,
               query: { card_id: el?.deal?._id, size_id: el?.deal?.sizes[0]?._id  },
             }}>
                 <Image width={2500} height={1000}  src={el?.banner} alt="Deals Banner" className="h-full mx-auto w-full lg:w-[70%] xl:w-[70%] sm:h-fit md:[30vh] md:h-fit xl:h-[65vh] 2xl:w-[60%] 2xl:h-[70vh]  object-cover" />
                 </Link>
+                :
+                <Image width={2500} height={1000}  src={el?.banner} alt="Deals Banner" className="h-full mx-auto w-full lg:w-[70%] xl:w-[70%] sm:h-fit md:[30vh] md:h-fit xl:h-[65vh] 2xl:w-[60%] 2xl:h-[70vh]  object-cover" />}
        
               </SwiperSlide>
             );

@@ -23,7 +23,7 @@ const Banner = () => {
 
   // Handler to navigate to the create banner page
   const handleAddBanner = () => {
-    navigate("/viewBanner"); // Ensure this route exists in your routing setup
+    navigate("/addBanner"); // Ensure this route exists in your routing setup
   };
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);

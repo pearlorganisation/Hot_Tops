@@ -253,7 +253,7 @@ if (totalPrice > 20){
                           <p className="font-semibold">
                     {data?.name}
                     {" "}
-                    {size ? `(${price[0]})` : (data?.dealsData ? `(${data?.size})` : data?.allToppings?.size?.name ? `(${data?.allToppings?.size?.name} 15)` : "" ) }
+                    {size ? `(${price[0]})` : (data?.dealsData ? `(${data?.size})` : data?.allToppings?.size?.name ? `(${data?.allToppings?.size?.name})` : "" ) }
                           {data?.allToppings && <>{" "}<span className="text-sm bg-red-800 text-white rounded-md px-2"> Customized </span></>}
                     <br/>
                     {/* <p className="hidden md:block text-green-800">{mergedToppings}</p> */}
@@ -266,11 +266,12 @@ if (totalPrice > 20){
   <div> <p className="text-sm text-green-800 pb-2">{mergedToppings}</p> </div>
   <div className="flex justify-between">
                         <div className=" text-right  md:text-left">
-                        {order?.orderType === 'collection' && data?.discount ? <>£ {(data?.price - data?.discount).toFixed(2)} <span className="line-through text-sm text-slate-600">{data?.price}</span></> : `£ ${data?.price}`}
+                        {order?.orderType === 'collection' && data?.discount ? <>£ {(data?.price - data?.discount).toFixed(2)} 
+                        <span className="ps-2 line-through text-sm text-slate-600">{data?.price}</span></> :  `£ ${data?.price}`}
                          
                           <span className="text-sm"> x {data?.quantity}</span>
                         </div>
-                        {order?.orderType === 'collection' && data?.discount &&   <div className="text-green-800">20% Discount on Collection</div>}
+                        {order?.orderType === 'collection' && data?.discount  &&   <div className="text-green-800">20% Discount on Collection</div>}
                       
                         </div>
                         </div>

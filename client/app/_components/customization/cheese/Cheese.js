@@ -39,34 +39,34 @@ const Cheese = ({ cheeseData ,calledBy }) => {
   const [selectedCheese, setSelectedChees] = useState({});
 
   const handleSelectionChange = (cheeseId, size) => {
-    if(customizationData.id==="6703be55176d2099698929c1" ){
-      setSelectedChees((prevSelected) => {
-        // Toggle the selection
-        if (prevSelected[cheeseId] === size) {
-          const { [cheeseId]: _, ...rest } = prevSelected;
-          return rest;
-        } else {
-          console.log(CYOP_MAX_TOPPINGS)
-          if ( CYOP_MAX_TOPPINGS < 6) {
-            return {
-              // ...prevSelected,
-              [cheeseId]: size,
-            };
-          }
+    // if(customizationData.id==="6703be55176d2099698929c1" ){
+    //   setSelectedChees((prevSelected) => {
+    //     // Toggle the selection
+    //     if (prevSelected[cheeseId] === size) {
+    //       const { [cheeseId]: _, ...rest } = prevSelected;
+    //       return rest;
+    //     } else {
+    //       console.log(CYOP_MAX_TOPPINGS)
+    //       if ( CYOP_MAX_TOPPINGS < 6) {
+    //         return {
+    //           // ...prevSelected,
+    //           [cheeseId]: size,
+    //         };
+    //       }
          
-          else {
-            toast.info("You Can Add Only 6 Toppings");
-            return {
-              ...prevSelected,
-            };
-          }
-        }
-      });
+    //       else {
+    //         toast.info("You Can Add Only 6 Toppings");
+    //         return {
+    //           ...prevSelected,
+    //         };
+    //       }
+    //     }
+    //   });
 
-    }
-    else {
+    // }
+    // else {
     setSelectedChees((prevSelected) => {
-      console.log(prevSelected[cheeseId] )
+      // console.log(prevSelected[cheeseId] )
       // Toggle the selection
       if (prevSelected[cheeseId] === size) {
         const { [cheeseId]: _, ...rest } = prevSelected;
@@ -77,7 +77,7 @@ const Cheese = ({ cheeseData ,calledBy }) => {
           [cheeseId]: size,
         };
       }
-    });}
+    });
   };
 
   useEffect(() => {
@@ -89,7 +89,7 @@ const Cheese = ({ cheeseData ,calledBy }) => {
       ([cheeseId, size]) => {
         const cheese = cheeseData.find((s) => s._id === cheeseId);
       let price
-      if(customizationData.id==="6703be55176d2099698929c1" )
+      if(calledBy === "createYourOwnPizza")
     {     price =
           size === "single"
             ? cheese?.price[0]?.singlePriceCYOP
@@ -110,11 +110,9 @@ const Cheese = ({ cheeseData ,calledBy }) => {
         };
       }
     );
-    if(customizationData?.id==="6703be55176d2099698929c1" ){
-      dispatch(setToppingsCYOP({ cheese: selectedCheeseData }));
-    }else{
+
       dispatch(setToppings({ cheese: selectedCheeseData }));
-    }
+
  
   
     // console.log(selectedCheeseData, "selectedCheeseData");
@@ -124,6 +122,7 @@ const Cheese = ({ cheeseData ,calledBy }) => {
     handleSave();
   }, [selectedCheese]);
 
+  console.log(calledBy === "createYourOwnPizza")
   return (
     <div className="">
       <h1 className="text-lg font-bold my-10">
@@ -147,7 +146,9 @@ const Cheese = ({ cheeseData ,calledBy }) => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {cheeseData.map((cheese) => (
+          {cheeseData.map((cheese) => 
+     { console.log(cheese?.price[0]?.singlePriceCYOP) 
+      return    (
             <tr key={cheese._id} className="hover:bg-gray-100">
               <td className="px-2 md:px-6 py-2 md:py-4 whitespace-wrap text-sm font-medium text-gray-900">
                 {cheese.name}
@@ -161,7 +162,7 @@ const Cheese = ({ cheeseData ,calledBy }) => {
                   }`}
                   onClick={() => handleSelectionChange(cheese._id, "single")}
                 >
-                  £ {customizationData.id==="6703be55176d2099698929c1" ? cheese?.price[0]?.singlePriceCYOP :calledBy === "half" ? (cheese?.price[0]?.singlePrice)/2 :cheese?.price[0]?.singlePrice}
+                  £ {calledBy === "createYourOwnPizza" ? cheese?.price[0]?.singlePriceCYOP :calledBy === "half" ? (cheese?.price[0]?.singlePrice)/2 :cheese?.price[0]?.singlePrice}
                 </div>
               </td>
               <td className="px-2 md:px-4 py-2 whitespace-nowrap text-sm text-gray-500">
@@ -173,11 +174,13 @@ const Cheese = ({ cheeseData ,calledBy }) => {
                   }`}
                   onClick={() => handleSelectionChange(cheese._id, "double")}
                 >
-                  £ {customizationData.id==="6703be55176d2099698929c1" ? cheese?.price[0]?.doublePriceCYOP : calledBy === "half" ? (cheese?.price[0]?.doublePrice)/2 : cheese?.price[0]?.doublePrice}
+                  £ {calledBy === "createYourOwnPizza" ? cheese?.price[0]?.doublePriceCYOP : calledBy === "half" ? (cheese?.price[0]?.doublePrice)/2 : cheese?.price[0]?.doublePrice}
                 </div>
               </td>
             </tr>
-          ))}
+          )}
+          
+          )}
         </tbody>
       </table>
     </div>

@@ -9,13 +9,11 @@ import { MdInsertPhoto } from "react-icons/md";
 import Select from "react-select"
 import { createBanner } from '../../features/actions/banner/banner'
 
-const ViewBanner = () => {
+const CreateBanner = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const { bannerData, isLoading } = useSelector((state) => state.banner)
-    const { filterData } = useSelector((state) => state.sidesFilter)
-    const { categoryData } = useSelector((state) => state.sidesCategory)
     const { dealData } = useSelector((state) => state.deals)
 
     const {
@@ -25,10 +23,11 @@ const ViewBanner = () => {
         control
     } = useForm()
     const onSubmit = (data) => {
-        const { deal } = data
+       if(data?.deal)
+       { const { deal } = data
 
+        formData.append("deal", deal?.value)}
         const formData = new FormData()
-        formData.append("deal", deal?.value)
         Array.from(data?.banner).forEach((img) => {
             formData?.append("banner", img)
         })
@@ -94,14 +93,10 @@ const ViewBanner = () => {
 
                                 />
                             )}
-                            rules={{ required: true }}
+                            // rules={{ required: true }}
 
                         />
-                        {errors.deal && (
-                            <span className=" text-sm font-medium text-red-500">
-                                Deal is required
-                            </span>
-                        )}
+                     
                     </div>
         
 
@@ -143,4 +138,4 @@ const ViewBanner = () => {
 
 
 
-export default ViewBanner
+export default CreateBanner
