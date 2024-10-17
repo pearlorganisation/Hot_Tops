@@ -11,10 +11,6 @@ const DealsCards = ({ data, path }) => {
     });
   }, []);
 
-  useEffect(() => {
-    console.log("selected options ", selectedOption);
-  }, [selectedOption]);
-
   const combineItems = () => {
     const { chooseItems } = data;
     const items = Object.keys(chooseItems)

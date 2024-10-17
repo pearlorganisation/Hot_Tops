@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { PiNotePencilFill } from "react-icons/pi";
+
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/lib/features/cartSlice/cartSlice";
-import Link from "next/link";
-import AddedToCartModel from "@/app/_components/Modals/AddedToCartModel";
 
-const DessertCards = ({ data, dummyData, idx }) => {
-  console.log("dataa", data);
+
+const DessertCards = ({ data, idx }) => {
   // =-----------------------hooks--------------------------------
   const dispatch = useDispatch();
   const [selectedData, setSelectedData] = useState(null);

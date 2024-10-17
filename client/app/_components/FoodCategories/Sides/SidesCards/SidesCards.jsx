@@ -6,7 +6,6 @@ import Link from "next/link";
 import AddedToCartModel from "@/app/_components/Modals/AddedToCartModel";
 
 const SidesCards = ({ data, dummyData, idx }) => {
-  console.log("dataa", data);
   // =-----------------------hooks--------------------------------
   const dispatch = useDispatch();
   const [selectedData, setSelectedData] = useState(null);
