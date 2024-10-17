@@ -73,8 +73,6 @@ const Pizzas = () => {
     );
   });
 
-  console.log(data?.data,data?.data[0]?.priceSection[0]?.size?._id,"adsdd")
-
   return (
     <div className="my-4">
       <div>
@@ -144,7 +142,7 @@ const Pizzas = () => {
                 (selectedType === pizza?.filter?.filter ||
                   selectedType === "All")
             );
-            console.log(category)
+      
             return (
               <React.Fragment key={category}>
                 {isCategoryMatched && (

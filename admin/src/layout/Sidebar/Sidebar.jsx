@@ -106,7 +106,7 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
         <aside
           id="nav-menu-4"
           aria-label="Side navigation"
-          className={` top-0 bottom-0 left-0 lg:static  z-40 flex w-72 flex-col border-r font-medium bg-red-800 transition-transform lg:translate-x-0 ${isSideNavOpen ? "translate-x-0" : " -translate-x-full"
+          className={` top-0 bottom-0 left-0 lg:static  z-40 flex w-72 flex-col  font-medium bg-red-800 transition-transform lg:translate-x-0 ${isSideNavOpen ? "translate-x-0" : " -translate-x-full"
             }`}
         >
           <div className=" items-center border-b   ">
@@ -117,10 +117,13 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
 
           <nav
             aria-label="side navigation"
-            className="flex-1   overflow-hidden"
+            className="flex-1 "
           >
             <div>
-              <ul className="flex flex-1 flex-col gap-1 py-3">
+              <ul className="flex  border-y-4 border-white flex-1 flex-col gap-1 py-3"
+              
+            style={{ height: "80vh", overflowY: "auto" ,   scrollbarWidth: "none",
+              msOverflowStyle: "none" }}>
                 <div className="flex items-center lg:hidden m-3 p-2">
                   {/* Search bar for mobile */}
                   <div className="flex justify-center">

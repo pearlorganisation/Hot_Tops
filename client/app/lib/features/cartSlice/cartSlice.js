@@ -4,9 +4,9 @@ const { createSlice, current } = require("@reduxjs/toolkit");
 
  const toppingsPriceTrackerSet = new Set();
 
-  console.log = () => {
+  // console.log = () => {
 
-  }
+  // }
  
 const cartSlice = createSlice({
   name: "cart",

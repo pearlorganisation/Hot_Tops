@@ -5,22 +5,20 @@ import Sauce from "@/app/_components/customization/sauce/Sauce";
 import VegetarianToppings from "@/app/_components/customization/vegetarianToppings/VegetarianToppings";
 import TotalPriceCard from "@/app/_components/TotalPriceCard/TotalPriceCard";
 import { addToCart, clearSet, setDefaultPrice, setToppings } from "@/app/lib/features/cartSlice/cartSlice";
-import { useSearchParams  } from "next/navigation";
+import { useRouter, useSearchParams  } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
-import useSWR from "swr";
-// import { useParams } from 'next/navigation';
+
 
 const Product = () => {
-  // const params = useParams();
-  // const pizzaName= params?.productName
+
 
   const { customizationData  } = useSelector((state) => state.orderDetails);
   const { allToppings ,createYourOwnPizzaMAX_TOPPINGS } = useSelector(state => state.cart)
   const dispatch = useDispatch();
+  const router = useRouter();
   const searchParams = useSearchParams();
-  // const params = Object.fromEntries(searchParams.entries());
   const customizationPizzaOpenedBy =  searchParams.get('calledBy');
   console.log("calledBy", searchParams.get('calledBy'));
 
@@ -52,18 +50,6 @@ const Product = () => {
 
   const [selectedBase, setSelectedBase] = useState(
     customizationData?.baseName || ""
-  );
-  const [selectedCheese, setSelectedCheese] = useState(
-    customizationData?.cheeseName || ""
-  );
-  const [selectedSauce, setSelectedSauce] = useState(
-    customizationData?.sauceName || ""
-  );
-  const [selectedMeatToppings, setSelectedMeatToppings] = useState(
-    customizationData?.meatToppingsName || ""
-  );
-  const [selectedVegetarianToppings, setSelectedVegetarianToppings] = useState(
-    customizationData?.vegetarianToppingsName || ""
   );
 
   useEffect(() => {
@@ -104,7 +90,6 @@ const Product = () => {
 
   useEffect(()=>{
     dispatch(clearSet())
-
   },[])
 
 
@@ -156,26 +141,39 @@ const Product = () => {
     console.log("createYourOwnPizzaMAX_TOPPINGS",createYourOwnPizzaMAX_TOPPINGS);
     if(createYourOwnPizzaMAX_TOPPINGS > 6)
       {
-        toast.error("Maximum Toppings For Create Your Own Pizza !!");
+        toast.error("You can only add upto maximum 6 Toppings !!");
         return;
       }
+    
     const { cheese, sauce, meat, veg, size, base,_id } = allToppings
     const temp = [...[cheese, sauce, meat, veg].flat(), base, size]
     let uniqueId = temp.map(item => {
       return _id + item._id.slice(-4) + item?.size?.slice(0, 2)
     }).join('')
     console.log(uniqueId, "uniqueId")
+    console.log("meat.length + veg.length",((meat.length + veg.length) > 5 )&&(customizationPizzaOpenedBy === "createYourOwnPizza"));
 
     if(customizationPizzaOpenedBy === "createYourOwnPizza")
     {
+ 
       uniqueId+= customizationData.id;
     }
+
+    
+    if(((meat.length + veg.length) < 4 )&&(customizationPizzaOpenedBy === "createYourOwnPizza"))
+    {
+      toast.error("Select At Least any 4 Topping !!");
+      return;
+    }
+
 
     dispatch(addToCart({
       name: customizationData?.name, img: customizationData?.img, id: uniqueId, quantity: 1, price: allToppings?.totalPrice, totalSum: allToppings?.totalPrice,
       discount:(allToppings?.totalPrice * 0.2).toFixed(2),
       allToppings: allToppings
     }))
+
+    router.push("/order/cart");
 
   }
   useEffect(() => {

@@ -26,6 +26,15 @@ export default function RootLayout({ children }) {
     <meta name="google-site-verification" content="KNX-3vWjShPJyzrqVlhnyfiZYNUxUOWcaupO2aREIcE" />
     <meta name="msvalidate.01" content="23983C217832B5C4AAC786882981CDA6" />
 
+{/* Adding noscript using dangerouslySetInnerHTML */}
+<noscript
+  dangerouslySetInnerHTML={{
+    __html: `
+      <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=406823858532963&ev=PageView&noscript=1" />
+    `,
+  }}
+/>
   </head>
 
       {/* Google Analytics Script */}
@@ -83,6 +92,29 @@ export default function RootLayout({ children }) {
     });
   `}
 </Script>
+
+{/* Meta Pixel Code */}
+<Script id="meta-pixel">
+  {`
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '406823858532963');
+    fbq('track', 'PageView');
+  `}
+</Script>
+
+{/* 
+<noscript>
+  <img height="1" width="1" style={{ display: 'none' }}
+    src="https://www.facebook.com/tr?id=406823858532963&ev=PageView&noscript=1" 
+  />
+</noscript> */}
 
       <body className={inter.className}>
         <StoreProvider>
