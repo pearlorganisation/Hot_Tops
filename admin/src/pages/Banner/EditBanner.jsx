@@ -36,10 +36,9 @@ const UpdateBanner = () => {
 
   const onSubmit = (data) => {
     const formData = new FormData();
-    const { deal } = data;
-    const dealValue = deal?.value;
-    formData.append("deal", dealValue);
-
+    if(data?.deal)
+      { const { deal } = data
+       formData.append("deal", deal?.value)}
     if (data.banner && data.banner.length > 0) {
       formData.append("banner", data.banner[0]);
     }
@@ -97,6 +96,7 @@ if(res.payload.success){
                   onChange={(selectedOption) => field.onChange(selectedOption)}
                   className="mt-2 "
                   placeholder="Choose Deal "
+                  isClearable
                   styles={{
                     control: (provided) => ({
                       ...provided,
@@ -111,13 +111,9 @@ if(res.payload.success){
                   }}
                 />
               )}
-              rules={{ required: true }}
+              // rules={{ required: true }}
             />
-            {errors.deal && (
-              <span className=" text-sm font-medium text-red-500">
-                Deal is required
-              </span>
-            )}
+
           </div>
         </div>
 

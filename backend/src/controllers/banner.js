@@ -18,9 +18,9 @@ export const newbanner = asyncErrorHandler(async (req, res, next) => {
 
 export const updateBanner = asyncErrorHandler(async (req, res, next) => {
     const { id } = req.params;
-    const { deal } = req.body;
+    let { deal } = req.body;
 
-    console.log(id)
+console.log(deal)
     // Validate the ID format
     if (!mongoose.Types.ObjectId.isValid(id)) {
       console.log(id)
@@ -33,6 +33,10 @@ export const updateBanner = asyncErrorHandler(async (req, res, next) => {
         return next(new CustomError("This Id Doesn't exist", 400));
     }
 
+    if (deal === undefined || deal === null) {
+   await banner.findByIdAndUpdate(id, { $unset: { deal: 1 } });
+
+  }
     // Update the banner
     const updatedData = await banner.findByIdAndUpdate(id, {
         banner: req.file?.path || existingData.banner, // Use existing banner if no new file uploaded

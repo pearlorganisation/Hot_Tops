@@ -76,7 +76,7 @@ const Pizzas = () => {
   return (
     <div className="my-4">
       <div>
-        <div className="flex   gap-2  items-center md:mx-8 lg:mx-12">
+        <div className="flex md:justify-between   gap-2  items-center md:mx-8 lg:mx-12">
           <div className="hidden md:flex gap-3">
             {" "}
             <Link onClick={()=>
@@ -103,7 +103,22 @@ const Pizzas = () => {
           </div>
           <div className="w-[55%]  ps-2 md:hidden  flex flex-col gap-0 ">
             {" "}
-            <Link href={"product/customisePizza?calledBy=createYourOwnPizza"} className="text-center bg-red-800 px-1 py-2 text-white rounded-md">
+            <Link onClick={()=>
+                   {    dispatch(
+                        getCustomizationDetails({
+                          name: "Create Your Own Pizza",
+                          img: "https://res.cloudinary.com/dnixhctcf/image/upload/v1728298580/egnskniwajhlos4u7mu4.png",
+                          priceSection: data?.data[0]?.priceSection,
+                          id: randomId,
+                          sauceName: [],
+                          cheeseName: [],
+                          vegetarianToppingsName: [],
+                          meatToppingsName: [],
+                          baseName: data?.data[0]?.baseName,
+                          selectedData: data?.data[0]?.priceSection[0]?.size?._id,
+                        })
+                      );}
+            }  href={"product/customisePizza?calledBy=createYourOwnPizza"} className="text-center bg-red-800 px-1 py-2 text-white rounded-md">
               Create Your Own Pizza
             </Link><br/>
             <Link href={"halfAndHalfPizza?calledBy=half"} className="text-center bg-green-800 px-3 py-2 text-white rounded-md">

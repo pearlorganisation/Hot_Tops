@@ -61,7 +61,8 @@ discount= cart?.reduce((acc, item) => {
       mobileNumber:userData?.mobileNumber,
       paymentMethode: data?.paymentMethode,
       items: cart,
-      terms: data?.terms
+      terms: data?.terms,
+      name:userData?.firstName
     };
 
     if(data?.paymentMethode==="Cash on delivery")
@@ -81,22 +82,25 @@ discount= cart?.reduce((acc, item) => {
   const responsejson = await response.json();
   setCodData(responsejson);
   if (responsejson?.status === true) {
-    const mailResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/mail`,
-      {
-        method:"POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({...responsejson,email:userData.email,name:userData.firstName}),
-      }
-    )
-    const mailResponseJson = await mailResponse.json();
-    if(mailResponseJson?.status === true){
-      toast.success("Order Confirmation Mail Sent Successfully")
-    }
+  //   const mailResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/mail`,
+  //     {
+  //       method:"POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({...responsejson,email:userData.email,name:userData.firstName}),
+  //     }
+  //   )
+  //   const mailResponseJson = await mailResponse.json();
+  //   if(mailResponseJson?.status === true){
+  //     toast.success("Order Confirmation Mail Sent Successfully")
+  //   }
  
-    // --------------clearing the cart after successfull order---------------
+  //   // --------------clearing the cart after successfull order---------------
     router.push("/order/tracker");
+  }
+  else{
+    toast.error("Something Wrong Happened")
   }
   setIsLoading(false)
 } catch (error) {

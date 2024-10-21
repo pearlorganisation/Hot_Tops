@@ -15,7 +15,7 @@ router.route("/:userId").get(getParticularUserOrders);
 router.route("/").post(newOrder).get(getAllOrders);
 router.route("/:id").patch(updateCompleteOrder);
 router.route("/create-viva-order").post(onlineOrder);
-router.route("/checkTransaction/:transactionId").get(checkTransaction);
+router.route("/checkTransaction/:transactionId").post(checkTransaction);
 router.route("/getFromOrderCode/:orderCode").get(getOrderFromOrderCode);
 
 

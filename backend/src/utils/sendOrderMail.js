@@ -8,6 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export const sendOrderMail = async (email, orderId ,amount, date, paymentType,orderType,items,name) => {
     // transporter - configuration of admin/user to send mail from
+    console.log(email,"Inside the sendOrderMail Controller")
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 465,
@@ -46,11 +47,11 @@ export const sendOrderMail = async (email, orderId ,amount, date, paymentType,or
 
       return new Promise((resolve, reject) => {
         transporter.sendMail(mailOptions, (error, info) => {
-          if (error) {
-            return reject(error);
-          } else {
+          // if (error) {
+          //   return reject(error);
+          // } else {
             return resolve("Order Mail Sent Successfully" + info.response);
-          }
+          // }
         });
       });
 }
