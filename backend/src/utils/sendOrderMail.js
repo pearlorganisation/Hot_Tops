@@ -44,14 +44,15 @@ export const sendOrderMail = async (email, orderId ,amount, date, paymentType,or
         html: data,
       };
 
-
       return new Promise((resolve, reject) => {
         transporter.sendMail(mailOptions, (error, info) => {
-          // if (error) {
-          //   return reject(error);
-          // } else {
-            return resolve("Order Mail Sent Successfully" + info.response);
-          // }
+          if (error) {
+            console.error("Error sending mail:", error);
+            return reject(error);  // Reject on error
+          } else {
+            console.log("Email sent:", info.response);
+            return resolve("Order Mail Sent Successfully: " + info.response);  // Resolve with success message
+          }
         });
       });
 }
