@@ -22,20 +22,20 @@ const getData = async() =>{
   
 try {
     setIsLoading(true)
-    const orderResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/order/getFromOrderCode/${orderData?.data?.orderCode}`,
-      {
-        method:"GET",
-        headers: {
-          "Content-Type": "application/json",
-        }
-      }
-    )
-    const orderResponseJson = await orderResponse.json();
+    // const orderResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/order/getFromOrderCode/${orderData?.data?.orderCode}`,
+    //   {
+    //     method:"GET",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     }
+    //   }
+    // )
+    // const orderResponseJson = await orderResponse.json();
 
    const getOrderStatus = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/order/checkTransaction/${transId}`,{
 method:"POST",
 headers:{"Content-Type": "application/json"},
-body: JSON.stringify({ ...orderResponseJson?.data,email:userData.email,name:userData.firstName}),
+body: JSON.stringify({ email:userData.email,name:userData.firstName}),
     }
 ) 
 
@@ -47,7 +47,7 @@ const response = await getOrderStatus.json()
 
 
   // alert(data)
-  // console.log(data,"hi")
+  console.log(data,"hi")
   setOrderData(response)
 
   setIsLoading(false)
@@ -57,23 +57,23 @@ const response = await getOrderStatus.json()
 }
 }
 
-const handlePayment = async() =>{
+// const handlePayment = async() =>{
  
 
-  //  const mailResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/mail`,
-  //     {
-  //       method:"POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ data:{...orderResponseJson?.data},email:userData.email,name:userData.firstName}),
-  //     }
-  //   )
-  //   const mailResponseJson = await mailResponse.json();
-  //   if(mailResponseJson?.status === true){
-  //     toast.success("Order Confirmation Mail Sent Successfully")
-  //   }
-}
+//   //  const mailResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/mail`,
+//   //     {
+//   //       method:"POST",
+//   //       headers: {
+//   //         "Content-Type": "application/json",
+//   //       },
+//   //       body: JSON.stringify({ data:{...orderResponseJson?.data},email:userData.email,name:userData.firstName}),
+//   //     }
+//   //   )
+//   //   const mailResponseJson = await mailResponse.json();
+//   //   if(mailResponseJson?.status === true){
+//   //     toast.success("Order Confirmation Mail Sent Successfully")
+//   //   }
+// }
 
 
     useEffect(()=>{

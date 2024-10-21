@@ -282,7 +282,7 @@ const Password = process.env.VIVA_API_KEY;
   export const checkTransaction = asyncErrorHandler(async (req, res, next) => {
     console.log(req.params)
     console.log(req?.body)
-    const { paymentMethode, time,items, totalAmount,orderNumber,orderType ,email,name} = req?.body
+    const { email,name} = req?.body
 
     const {transactionId}= req?.params
   
@@ -329,6 +329,9 @@ const Password = process.env.VIVA_API_KEY;
   
     console.log(transactionData); // Log the transaction data for debugging
 
+    const {paymentMethode, time,items, totalAmount,orderNumber,orderType} = await order.findOne({orderCode:transactionData.orderCode})
+
+    const amount= (Number(totalAmount?.total) + Number(totalAmount?.deliveryCharge) - Number(totalAmount?.discountPrice || 0)).toFixed(2)
     if (transactionData?.statusId === "F") {
       let paymentMode = ""
       if(paymentMethode==="Cash on delivery" && orderType==="collection"){
