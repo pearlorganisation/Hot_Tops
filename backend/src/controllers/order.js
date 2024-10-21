@@ -2,9 +2,13 @@ import order from "../models/order.js";
 // import Stripe from "stripe"
 import { asyncErrorHandler } from "../utils/errors/asyncErrorHandler.js";
 import { CustomError } from "../utils/errors/customError.js";
+import { sendOrderMail } from "../utils/sendOrderMail.js";
 
 
 export const newOrder = asyncErrorHandler(async (req, res, next) => {
+const { email,paymentMethode, time,items, totalAmount,orderType,name } = req?.body;
+console.log(req?.body)
+const amount= (Number(totalAmount?.total) + Number(totalAmount?.deliveryCharge) - Number(totalAmount?.discountPrice || 0)).toFixed(2)
 
   const date = new Date();
   const day = String(date.getDate()).padStart(2, '0'); // Ensure it's 2 digits
@@ -24,6 +28,34 @@ export const newOrder = asyncErrorHandler(async (req, res, next) => {
    const newOrder = new order({ ...req?.body, orderNumber });
 
   await newOrder.save();
+
+  // mail API
+
+let paymentMode = ""
+if(paymentMethode==="Cash on delivery" && orderType==="collection"){
+paymentMode= "Pay on Collection"
+}
+else if(paymentMethode==="Cash on delivery" && orderType==="delivery"){
+  paymentMode= "Pay on Delivery"
+}
+else{
+  paymentMode= paymentMethode
+}
+  
+sendOrderMail(email, orderNumber, amount, time, paymentMode,orderType,items,name)
+// .then(() => {
+
+//   return res
+//     .status(200)
+//     .json({ success: true, message: "OTP sent successfully" });
+// }
+// ).catch((error) => {
+// return res.status(400).json({
+//   success: false,
+//   message: `Unable to send mail! ${error.message}`,
+// });
+// });
+
 
   res
     .status(201)
@@ -69,35 +101,6 @@ export const updateCompleteOrder = asyncErrorHandler(async (req, res, next) => {
       message:"Order completed successfully!" ,
     });
   });
-
-//   export const onlineOrder = asyncErrorHandler(async (req, res, next) => {
-
-//     const {items,email}= req?.body
-
-//     const lineItems = items?.map((item)=>({
-//       price_data:{
-//         currency:"GBP",
-//         product_data:{
-//           name:item.name
-//         },
-//         unit_amount:Math.round(item.totalSum*100)    
-//       },
-//       quantity:item.quantity
-//     }))
-
-//     const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY)
-
-//    const session = await stripe.checkout.sessions.create({
-//     payment_method_types:["card"],
-//     line_items:lineItems,
-//     customer_email: email,
-//     mode:"payment",
-//     success_url:process.env.STRIPE_SUCCESS_URL,
-//     cancel_url:process.env.STRIPE_CANCEL_URL,
-//    })
-
-// res.json({id:session.id})
-//   })
 
   export const onlineOrder = asyncErrorHandler(async (req, res, next) => {
 
@@ -259,6 +262,7 @@ const Password = process.env.VIVA_API_KEY;
         { orderCode: transactionData.orderCode }, // Filter to match the document
         { $set: { paymentStatus: true } } // Update operation
       );
+      
     }
   
     // Return the transaction data in response
@@ -277,6 +281,9 @@ const Password = process.env.VIVA_API_KEY;
 
   export const checkTransaction = asyncErrorHandler(async (req, res, next) => {
     console.log(req.params)
+    console.log(req?.body)
+    const { paymentMethode, time,items, totalAmount,orderNumber,orderType ,email,name} = req?.body
+
     const {transactionId}= req?.params
   
   
@@ -323,6 +330,19 @@ const Password = process.env.VIVA_API_KEY;
     console.log(transactionData); // Log the transaction data for debugging
 
     if (transactionData?.statusId === "F") {
+      let paymentMode = ""
+      if(paymentMethode==="Cash on delivery" && orderType==="collection"){
+      paymentMode= "Pay on Collection"
+      }
+      else if(paymentMethode==="Cash on delivery" && orderType==="delivery"){
+        paymentMode= "Pay on Delivery"
+      }
+      else{
+        paymentMode= paymentMethode
+      }
+        
+      sendOrderMail(email, orderNumber, amount, time, paymentMode,orderType,items,name)
+
        res.status(200).json({status:true, paymentStatus:true, data:transactionData})
     }else{
       return next(new CustomError("Transaction is pending or failed", 400));
