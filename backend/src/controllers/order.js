@@ -280,7 +280,7 @@ const Password = process.env.VIVA_API_KEY;
   // });
 
   export const checkTransaction = asyncErrorHandler(async (req, res, next) => {
-    console.log(req.params)
+    // console.log(req.params)
     console.log(req?.body)
     const { email,name} = req?.body
 
@@ -326,10 +326,10 @@ const Password = process.env.VIVA_API_KEY;
     if (!transactionResponse.ok) {
       return next(new CustomError(transactionData, 400));
     }
-  
-    console.log(transactionData); // Log the transaction data for debugging
-
+ 
     const {paymentMethode, time,items, totalAmount,orderNumber,orderType} = await order.findOne({orderCode:transactionData.orderCode})
+
+    console.log(paymentMethode, time,items, totalAmount,orderNumber,orderType)
 
     const amount= (Number(totalAmount?.total) + Number(totalAmount?.deliveryCharge) - Number(totalAmount?.discountPrice || 0)).toFixed(2)
     
