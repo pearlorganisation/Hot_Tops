@@ -332,6 +332,7 @@ const Password = process.env.VIVA_API_KEY;
     const {paymentMethode, time,items, totalAmount,orderNumber,orderType} = await order.findOne({orderCode:transactionData.orderCode})
 
     const amount= (Number(totalAmount?.total) + Number(totalAmount?.deliveryCharge) - Number(totalAmount?.discountPrice || 0)).toFixed(2)
+    
     if (transactionData?.statusId === "F") {
       let paymentMode = ""
       if(paymentMethode==="Cash on delivery" && orderType==="collection"){
@@ -344,7 +345,7 @@ const Password = process.env.VIVA_API_KEY;
         paymentMode= paymentMethode
       }
         
-      sendOrderMail(email, orderNumber, amount, time, paymentMode,orderType,items,name)
+     await sendOrderMail(email, orderNumber, amount, time, paymentMode,orderType,items,name)
 
        res.status(200).json({status:true, paymentStatus:true, data:transactionData})
     }else{
