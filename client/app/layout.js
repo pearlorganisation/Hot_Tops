@@ -109,12 +109,13 @@ export default function RootLayout({ children }) {
   `}
 </Script>
 
-{/* 
-<noscript>
-  <img height="1" width="1" style={{ display: 'none' }}
-    src="https://www.facebook.com/tr?id=406823858532963&ev=PageView&noscript=1" 
-  />
-</noscript> */}
+<Script>
+{ ` 
+gtag('event', 'conversion_event_phone_call_lead', {
+    // <event_parameters>
+  });
+  `}
+</Script>
 
       <body className={inter.className}>
         <StoreProvider>
