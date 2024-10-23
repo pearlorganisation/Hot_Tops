@@ -42,20 +42,12 @@ else{
   paymentMode= paymentMethode
 }
   
-sendOrderMail(email, orderNumber, amount, time, paymentMode,orderType,items,name)
-// .then(() => {
-
-//   return res
-//     .status(200)
-//     .json({ success: true, message: "OTP sent successfully" });
-// }
-// ).catch((error) => {
-// return res.status(400).json({
-//   success: false,
-//   message: `Unable to send mail! ${error.message}`,
-// });
-// });
-
+try {
+  await sendOrderMail(email, orderNumber, amount, time, paymentMode, orderType, items, name);
+} catch (error) {
+  console.error("Error sending email: ", error.message); // Log the error
+  // You can choose to handle the error here (e.g., notify admin, log to an error monitoring service, etc.)
+}
 
   res
     .status(201)
@@ -345,7 +337,12 @@ const Password = process.env.VIVA_API_KEY;
         paymentMode= paymentMethode
       }
         
-     await sendOrderMail(email, orderNumber, amount, time, paymentMode,orderType,items,name)
+      try {
+        await sendOrderMail(email, orderNumber, amount, time, paymentMode, orderType, items, name);
+      } catch (error) {
+        console.error("Error sending email: ", error.message); // Log the error
+        // You can choose to handle the error here (e.g., notify admin, log to an error monitoring service, etc.)
+      }
 
        res.status(200).json({status:true, paymentStatus:true, data:transactionData})
     }else{

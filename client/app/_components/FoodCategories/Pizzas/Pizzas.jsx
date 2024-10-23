@@ -76,32 +76,35 @@ const Pizzas = () => {
   return (
     <div className="my-4">
       <div>
-        <div className="flex md:justify-between   gap-2  items-center md:mx-8 lg:mx-12">
-          <div className="hidden md:flex gap-3">
+        <div className="flex  md:justify-between   gap-2  items-center md:mx-8 lg:mx-12">
+        <div className="hidden w-[50%]  md:flex px-2 gap-4 lg:gap-10 ">
             {" "}
             <Link onClick={()=>
-                   {    dispatch(
-                        getCustomizationDetails({
-                          name: "Create Your Own Pizza",
-                          img: "https://res.cloudinary.com/dnixhctcf/image/upload/v1728298580/egnskniwajhlos4u7mu4.png",
-                          priceSection: data?.data[0]?.priceSection,
-                          id: randomId,
-                          sauceName: [],
-                          cheeseName: [],
-                          vegetarianToppingsName: [],
-                          meatToppingsName: [],
-                          baseName: data?.data[0]?.baseName,
-                          selectedData: data?.data[0]?.priceSection[0]?.size?._id,
-                        })
-                      );}
-            }  href={"product/customisePizza?calledBy=createYourOwnPizza"} className="cursor-pointer bg-red-800 hover:bg-red-700 px-3 py-2 text-white rounded-md">
-              Create Your Own Pizza
+                    {    dispatch(
+                      getCustomizationDetails({
+                        name: "Create Your Own Pizza",
+                        img: "https://res.cloudinary.com/dnixhctcf/image/upload/v1728298580/egnskniwajhlos4u7mu4.png",
+                        priceSection: data?.data[0]?.priceSection,
+                        id: randomId,
+                        sauceName: [],
+                        cheeseName: [],
+                        vegetarianToppingsName: [],
+                        meatToppingsName: [],
+                        baseName: data?.data[0]?.baseName,
+                        selectedData: data?.data[0]?.priceSection[0]?.size?._id,
+                      })
+                    );}
+            }  href={"product/customisePizza?calledBy=createYourOwnPizza"} className="text-center  cursor-pointer bg-red-800 hover:bg-red-700 px-3 py-2 lg:p-4  sm:text-lg font-semibold text-white rounded-md w-[50%] lg:w-auto">
+
+             <span className="hidden sm:block"> Create Your Own Pizza</span>
             </Link>
-            <Link href={"halfAndHalfPizza?calledBy=half"} className="bg-green-800 px-3 py-2 text-white rounded-md">
-              Half & Half Pizza
+            <Link href={"halfAndHalfPizza?calledBy=half"} className="text-center bg-green-800 hover:bg-green-700  px-3 py-2  lg:p-4 sm:text-lg font-semibold text-white rounded-md w-[50%] lg:w-auto">
+
+            <span  className="hidden sm:block"> Half & Half Pizza</span>
+             
             </Link>
           </div>
-          <div className="w-[55%]  ps-2 md:hidden  flex flex-col gap-0 ">
+          <div className="w-[50%]  ps-2 md:hidden  flex flex-col gap-0 ">
             {" "}
             <Link onClick={()=>
                    {    dispatch(
@@ -118,15 +121,15 @@ const Pizzas = () => {
                           selectedData: data?.data[0]?.priceSection[0]?.size?._id,
                         })
                       );}
-            }  href={"product/customisePizza?calledBy=createYourOwnPizza"} className="text-center bg-red-800 px-1 py-2 text-white rounded-md">
+            }  href={"product/customisePizza?calledBy=createYourOwnPizza"} className="text-center bg-red-800 px-1 py-2 font-bold text-white rounded-md">
               Create Your Own Pizza
             </Link><br/>
-            <Link href={"halfAndHalfPizza?calledBy=half"} className="text-center bg-green-800 px-3 py-2 text-white rounded-md">
+            <Link href={"halfAndHalfPizza?calledBy=half"} className="text-center bg-green-800 px-3 py-2 font-bold text-white rounded-md">
               Half & Half Pizza
             </Link>
           </div>
 
-          <div className="flex w-[45%] ps-5 md:w-auto  gap-2 md:mx-8 my-4 flex-wrap ">
+          <div className="flex w-[50%] ps-5 md:w-auto  gap-2 md:mx-8  flex-wrap ">
             <span className="font-bold">Filter :</span>
             {filterData?.data?.map((data) => (
               <div className="flex gap-2" key={data.filter}>
