@@ -1,5 +1,4 @@
 import order from "../models/order.js";
-// import Stripe from "stripe"
 import { asyncErrorHandler } from "../utils/errors/asyncErrorHandler.js";
 import { CustomError } from "../utils/errors/customError.js";
 import { sendOrderMail } from "../utils/sendOrderMail.js";
@@ -7,7 +6,7 @@ import { sendOrderMail } from "../utils/sendOrderMail.js";
 
 export const newOrder = asyncErrorHandler(async (req, res, next) => {
 const { email,paymentMethode, time,items, totalAmount,orderType,name } = req?.body;
-console.log(req?.body)
+console.log(req?.body,"Offline ORDER!!!!")
 const amount= (Number(totalAmount?.total) + Number(totalAmount?.deliveryCharge) - Number(totalAmount?.discountPrice || 0)).toFixed(2)
 
   const date = new Date();
@@ -111,6 +110,7 @@ export const updateCompleteOrder = asyncErrorHandler(async (req, res, next) => {
     const orderNumber = `${datePart}${incrementedCount}`;
 
     const {amount,customer,newData} = req.body
+    console.log(req?.body,"ONLINE ORDER NOT PAYMENT SUCCESSFUL!!!!")
 
     const generateToken = await fetch("https://accounts.vivapayments.com/connect/token", {
     // const generateToken = await fetch("https://demo-accounts.vivapayments.com/connect/token", {
@@ -247,19 +247,40 @@ const Password = process.env.VIVA_API_KEY;
       return next(new CustomError(transactionData, 400));
     }
   
-    console.log(transactionData); // Log the transaction data for debugging
+    console.log(transactionData,"TRANSACTION DATA WEBHOOK"); // Log the transaction data for debugging
 
     if (transactionData?.statusId === "F") {
-      await order.updateOne(
-        { orderCode: transactionData.orderCode }, // Filter to match the document
-        { $set: { paymentStatus: true } } // Update operation
-      );
-      
-    }
+      const {paymentMethode, time,items, totalAmount,orderNumber,orderType,orderBy} = await order.findOneAndUpdate(
+        { orderCode: transactionData.orderCode },       // Filter to match the document
+        { $set: { paymentStatus: true } },              // Update operation
+        { returnDocument: "after" }                     // Returns the updated document
+      ).populate("orderBy");                    // Populate specific field(s)
+
+      console.log(paymentMethode, time,items, totalAmount,orderNumber,orderType,orderBy, "CONSOLELOG FOR DETAILS FOR MAIL IN ONLINE PAYMENT")
   
+      const amount= (Number(totalAmount?.total) + Number(totalAmount?.deliveryCharge) - Number(totalAmount?.discountPrice || 0)).toFixed(2)
+
+      let paymentMode = ""
+      if(paymentMethode==="Cash on delivery" && orderType==="collection"){
+      paymentMode= "Pay on Collection"
+      }
+      else if(paymentMethode==="Cash on delivery" && orderType==="delivery"){
+        paymentMode= "Pay on Delivery"
+      }
+      else{
+        paymentMode= paymentMethode
+      }
+        
+      try {
+        await sendOrderMail(orderBy?.email, orderNumber, amount, time, paymentMode, orderType, items, orderBy?.firstName);
+      } catch (error) {
+        console.error("Error sending email: ", error.message); 
+      }
+
+    }
+
     // Return the transaction data in response
     res.status(200).json({ status: true});
-
 
   });
   
@@ -272,10 +293,6 @@ const Password = process.env.VIVA_API_KEY;
   // });
 
   export const checkTransaction = asyncErrorHandler(async (req, res, next) => {
-    // console.log(req.params)
-    console.log(req?.body)
-    const { email,name} = req?.body
-
     const {transactionId}= req?.params
   
   
@@ -318,32 +335,9 @@ const Password = process.env.VIVA_API_KEY;
     if (!transactionResponse.ok) {
       return next(new CustomError(transactionData, 400));
     }
- 
-    const {paymentMethode, time,items, totalAmount,orderNumber,orderType} = await order.findOne({orderCode:transactionData.orderCode})
 
-    console.log(paymentMethode, time,items, totalAmount,orderNumber,orderType)
-
-    const amount= (Number(totalAmount?.total) + Number(totalAmount?.deliveryCharge) - Number(totalAmount?.discountPrice || 0)).toFixed(2)
     
     if (transactionData?.statusId === "F") {
-      let paymentMode = ""
-      if(paymentMethode==="Cash on delivery" && orderType==="collection"){
-      paymentMode= "Pay on Collection"
-      }
-      else if(paymentMethode==="Cash on delivery" && orderType==="delivery"){
-        paymentMode= "Pay on Delivery"
-      }
-      else{
-        paymentMode= paymentMethode
-      }
-        
-      try {
-        await sendOrderMail(email, orderNumber, amount, time, paymentMode, orderType, items, name);
-      } catch (error) {
-        console.error("Error sending email: ", error.message); // Log the error
-        // You can choose to handle the error here (e.g., notify admin, log to an error monitoring service, etc.)
-      }
-
        res.status(200).json({status:true, paymentStatus:true, data:transactionData})
     }else{
       return next(new CustomError("Transaction is pending or failed", 400));
