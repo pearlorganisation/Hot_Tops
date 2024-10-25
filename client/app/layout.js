@@ -6,7 +6,6 @@ import StoreProvider from "./StoreProvider";
 import { Toaster } from "sonner";
 import Script from "next/script";
 
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: 'Hot House pizza | Best Pizza in Northwood | Order online now',
@@ -117,7 +116,7 @@ gtag('event', 'conversion_event_phone_call_lead', {
   `}
 </Script>
 
-      <body className={inter.className}>
+      <body>
         <StoreProvider>
           <Header />
           <div className="pt-36">{children}</div>
