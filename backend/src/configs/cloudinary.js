@@ -21,6 +21,9 @@ cloudinary.config({
 // Setting up the storage with Cloudinary
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
+  params: {
+    folder: 'HotHouse after 25 OCT'
+  },
 });
 
 // Creating the multer upload instance
