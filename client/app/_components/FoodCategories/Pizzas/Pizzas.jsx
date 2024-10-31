@@ -76,7 +76,7 @@ const Pizzas = () => {
   return (
     <div className="my-4">
       <div>
-        <div className="flex  md:justify-between   gap-2  items-center md:mx-8 lg:mx-12">
+        {/* <div className="flex  md:justify-between   gap-2  items-center md:mx-8 lg:mx-12">
         <div className="hidden w-[50%]  md:flex px-2 gap-4 lg:gap-10 ">
             {" "}
             <Link onClick={()=>
@@ -129,7 +129,9 @@ const Pizzas = () => {
             </Link>
           </div>
 
-          <div className="flex w-[50%] ps-5 md:w-auto  gap-2 md:mx-8  flex-wrap ">
+          
+        </div> */}
+        <div className="flex mx-2 md:w-auto  gap-2 md:mx-8  flex-wrap ">
             <span className="font-bold">Filter :</span>
             {filterData?.data?.map((data) => (
               <div className="flex gap-2" key={data.filter}>
@@ -145,7 +147,6 @@ const Pizzas = () => {
               </div>
             ))}
           </div>
-        </div>
       </div>
       <div className="container mx-auto">
         {!hasMatchingPizzas ? (

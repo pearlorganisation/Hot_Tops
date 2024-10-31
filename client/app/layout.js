@@ -117,10 +117,10 @@ gtag('event', 'conversion_event_phone_call_lead', {
   `}
 </Script>
 
-      <body>
+      <body className="flex flex-col">
         <StoreProvider>
           <Header />
-          <div className="pt-36">{children}</div>
+          <div className="pt-44">{children}</div>
           <Toaster position="top-right" richColors duration={1000} />
           <Footer />
         </StoreProvider>

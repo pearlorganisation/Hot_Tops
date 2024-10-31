@@ -18,32 +18,31 @@ async function getData() {
     return null;
   }
 }
-async function getPizzaData() {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/pizza`);
-    const data = await res.json();
-    return data.data; // Assuming `data` has a `data` property containing the actual deals
-  } catch (err) {
-    console.log("Error Occurred", err);
-    return null;
-  }
-}
+// async function getPizzaData() {
+//   try {
+//     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/pizza`);
+//     const data = await res.json();
+//     return data.data; // Assuming `data` has a `data` property containing the actual deals
+//   } catch (err) {
+//     console.log("Error Occurred", err);
+//     return null;
+//   }
+// }
 
 const Deals = () => {
-  const randomId = useId()
+  // const randomId = useId()
   const [dealData, setDealData] = useState(null);
-  const [pizzaData, setPizzaData] = useState(null);
+  // const [pizzaData, setPizzaData] = useState(null);
   const dispatch=useDispatch()
 
   useEffect(() => {
     async function fetchData() {
       const data = await getData();
-      const pizzaData= await getPizzaData()
-      setPizzaData(pizzaData)
+      // const pizzaData= await getPizzaData()
+      // setPizzaData(pizzaData)
       setDealData(data);
     }
     fetchData();
-    console.log(pizzaData)
   }, []);
 
   if (!dealData)
@@ -56,7 +55,7 @@ const Deals = () => {
   return (
     <>
       <div className=" mx-auto container pb-10">
-          <div className="flex px-2 gap-4 lg:gap-10 ">
+          {/* <div className="flex px-2 gap-4 lg:gap-10 ">
             {" "}
             <Link onClick={()=>
                    {    dispatch(
@@ -82,7 +81,7 @@ const Deals = () => {
             <span  className="hidden sm:block"> Half & Half Pizza</span>
              
             </Link>
-          </div>
+          </div> */}
         <div className=" px-6 pt-5 ">
           <header class="text-center  bg-white">
             <div className="flex justify-between   gap-2  items-center ">

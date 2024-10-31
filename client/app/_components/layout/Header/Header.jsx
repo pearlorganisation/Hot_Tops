@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useId, useState } from "react";
 import { FaBagShopping } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa6";
 import { CiUser } from "react-icons/ci";
@@ -12,14 +12,36 @@ import logo from "../../../_assets/images/HOTPIZZALOGO.jpg";
 import { categoryEnum } from "@/app/utils/utils";
 import { useAppSelector } from "@/app/lib/hooks";
 import { SiWhatsapp } from "react-icons/si";
+import { BiSolidPizza } from "react-icons/bi";
+import { useDispatch } from "react-redux";
+import { getCustomizationDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
 
+async function getPizzaData() {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/pizza`);
+    const data = await res.json();
+    return data.data; // Assuming `data` has a `data` property containing the actual deals
+  } catch (err) {
+    console.log("Error Occurred", err);
+    return null;
+  }
+}
 const Header = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [isMounted, setIsMounted] = useState(false);
   const cart = useAppSelector((state) => state.cart.cartData);
   const { userData, isUserLoggedIn } = useAppSelector((state) => state.auth);
 
+  const [pizzaData, setPizzaData] = useState(null);
+  const dispatch = useDispatch()
+  const randomId = useId()
+
   useEffect(() => {
+    async function fetchData() {
+      const pizzaData= await getPizzaData()
+      setPizzaData(pizzaData)
+    }
+    fetchData();
     setIsMounted(true);
   }, []);
 
@@ -30,7 +52,7 @@ const Header = () => {
   }
 
   return (
-    <div className="bg-white z-10 shadow-lg fixed top-0 w-full pt-2 md:pt-4 md:py-4">
+    <div className="bg-white  z-10 shadow-lg fixed top-0 w-full pt-2  md:pt-4 md:py-4">
       {/* Mobile */}
       <div className="flex justify-between items-center mx-1 md:mx-4">
         <Link href="/" className="flex justify-center">
@@ -117,25 +139,87 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="hidden w-full  md:flex absolute top-full right-0 md:justify-end gap-[2px] md:gap-1 p-2 md:p-0">
-  <a
+{/* Desktop */}
+      <div className="hidden w-full  md:flex absolute top-full right-0 justify-between">
+<div className="flex gap-2"> 
+<Link onClick={()=>
+                   {    dispatch(
+                        getCustomizationDetails({
+                          name: "Create Your Own Pizza",
+                          img: "https://res.cloudinary.com/dx550y313/image/upload/v1729863237/HotHouse%20after%2025%20OCT/ngo69j5nii68d36x0n0x.png",
+                          priceSection: pizzaData[0]?.priceSection,
+                          id: randomId,
+                          sauceName: [],
+                          cheeseName: [],
+                          vegetarianToppingsName: [],
+                          meatToppingsName: [],
+                          baseName: pizzaData[0]?.baseName,
+                          selectedData: pizzaData[0]?.priceSection[0]?.size?._id,
+                        })
+                      );}
+            }  href={"/menu/product/customisePizza?calledBy=createYourOwnPizza"}
+    className="flex items-center bg-green-800  text-white py-2 px-4 text-base rounded-b-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-green-800"
+  >
+    <BiSolidPizza size={30}/>
+    <span className="ml-2">Create Your Own Pizza</span>
+  </Link>
+  <Link href={"/menu/halfAndHalfPizza?calledBy=half"}
+    className="flex items-center bg-red-800  text-white py-2 px-4 text-base rounded-b-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
+  >
+    <BiSolidPizza size={30} />
+    <span className="ml-2">Half & Half Pizza</span>
+  </Link>
+  </div>
+  <div className="flex gap-2"> 
+   <a
     href="https://wa.me/+447469367116" target="_blank" rel="noopener noreferrer"
-    className="inline-flex items-center bg-green-800 border-white text-white py-2 px-4 text-base rounded-b-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-green-800"
+    className="flex items-center bg-green-800  text-white py-2 px-4 text-base rounded-b-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-green-800"
   >
     <SiWhatsapp size={25}/>
     <span className="ml-2">Whatsapp</span>
   </a>
   <a
     href="/profile?tab=3"
-    className="inline-flex items-center bg-red-800 border-white text-white py-2 px-4 text-base rounded-b-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
+    className="flex items-center bg-red-800  text-white py-2 px-4 text-base rounded-b-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
   >
     <RiRefreshFill size={30} />
     <span className="ml-2">Reorder Now</span>
   </a>
+  </div>
 </div>
 
 
+   {/* Mobile */}
+<div className="md:hidden flex justify-center">
+<Link onClick={()=>
+                   {    dispatch(
+                        getCustomizationDetails({
+                          name: "Create Your Own Pizza",
+                          img: "https://res.cloudinary.com/dx550y313/image/upload/v1729863237/HotHouse%20after%2025%20OCT/ngo69j5nii68d36x0n0x.png",
+                          priceSection: pizzaData[0]?.priceSection,
+                          id: randomId,
+                          sauceName: [],
+                          cheeseName: [],
+                          vegetarianToppingsName: [],
+                          meatToppingsName: [],
+                          baseName: pizzaData[0]?.baseName,
+                          selectedData: pizzaData[0]?.priceSection[0]?.size?._id,
+                        })
+                      );}
+            }  href={"/menu/product/customisePizza?calledBy=createYourOwnPizza"}
+          className="w-full border-r border-r-white justify-center inline-flex items-center bg-green-800 text-white py-2  shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-green-800"
+        >
+
+          <span className="text-sm">Create Your Own Pizza</span>
+        </Link>
+        <Link href={"/menu/halfAndHalfPizza?calledBy=half"}
+          className="w-full border-r border-r-white justify-center inline-flex items-center bg-red-800 text-white py-2 shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
+        >
+          <span className="pl-2 text-sm">Half & Half Pizza</span>
+        </Link>
+      </div>
       <div className="md:hidden flex justify-center">
+        
         <a
           href="https://wa.me/+447469367116" target="_blank" rel="noopener noreferrer"
           className="w-full border-r border-r-white justify-center inline-flex items-center bg-green-800 text-white py-2 px-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
@@ -151,6 +235,7 @@ const Header = () => {
           <span className="pl-2 text-sm">Reorder Now</span>
         </a>
       </div>
+
     </div>
   );
 };
