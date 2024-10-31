@@ -147,8 +147,9 @@ export const updateCompleteOrder = asyncErrorHandler(async (req, res, next) => {
         "customer" : {
           email : customer.email,
           fullName : customer.fullName,
-          phone: customer.phone
-        }
+          phone: customer.phone,
+        },
+        "sourceCode": "2691",
       
       }),
     });
