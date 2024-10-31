@@ -3,7 +3,12 @@ import DropdownNotification from "./DropDownNotification/DropDownNotification";
 import DropdownUser from "./DropDownUser/DropDownUser";
 import SearchIcon from "@mui/icons-material/Search";
 
+
+
 const Header = ({ isSideNavOpen, setIsSideNavOpen }) => {
+
+
+
   return (
     <header className=" border sticky top-0 z-10 h-[10vh] hidden lg:flex w-full bg-[#ffffff] drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
       

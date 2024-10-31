@@ -56,7 +56,7 @@ const Deals = () => {
   return (
     <>
       <div className=" mx-auto container pb-10">
-          <div className="flex px-2 gap-4 lg:gap-10 ">
+          {/* <div className="flex px-2 gap-4 lg:gap-10 ">
             {" "}
             <Link onClick={()=>
                    {    dispatch(
@@ -82,7 +82,7 @@ const Deals = () => {
             <span  className="hidden sm:block"> Half & Half Pizza</span>
              
             </Link>
-          </div>
+          </div> */}
         <div className=" px-6 pt-5 ">
           <header class="text-center  bg-white">
             <div className="flex justify-between   gap-2  items-center ">
