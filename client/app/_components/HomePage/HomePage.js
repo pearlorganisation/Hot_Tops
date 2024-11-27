@@ -1,20 +1,15 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import {  Pagination } from "swiper/modules";
 // import Swiper and modules styles
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import React, { useEffect, useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-import pizza2 from "../../_assets/images/pizza1.jpg"
-import pizza1 from "../../_assets/images/pizza2.jpeg"
-import pizza3 from "../../_assets/images/pizza3.webp"
-import pizza4 from "../../_assets/images/pizza4.webp"
 import Image from "next/image";
 import DealsCards from "../Pages/DealsCards";
-import { ClockLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
 import { trackerStatus } from "@/app/lib/features/orderDetails/orderDetailsslice";
 import Link from "next/link";
@@ -42,13 +37,6 @@ async function getBanners(){
 
 const HomePage = () => {
   
-
-  const img = [
-    pizza1,
-    pizza2,
-    pizza3,
-    pizza4
-  ];
   const dispatch = useDispatch()
   
     const [popularDealData, setPopularDealData] = useState(null);
@@ -68,7 +56,6 @@ const HomePage = () => {
     bannerData()
   }, []);
 
-  console.log(banner)
 
   return (
     <>

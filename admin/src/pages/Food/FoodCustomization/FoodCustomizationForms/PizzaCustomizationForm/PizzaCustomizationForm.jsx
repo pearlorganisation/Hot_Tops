@@ -52,7 +52,7 @@ const PizzaCustomizationForm = () => {
 
 
   return (
-    <div className="categoryCustomizationFormContainer p-5 m-3 grid grid-cols-2 gap-10">
+    <div className="categoryCustomizationFormContainer lg:p-5 mt-16 lg:m-3 grid grid-cols-1 lg:grid-cols-2 gap-10">
       {/* <SizeContainer size={size} /> */}
       <BaseContainer  />
       <SizeContainer />

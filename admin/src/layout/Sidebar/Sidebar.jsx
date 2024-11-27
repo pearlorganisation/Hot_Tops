@@ -102,14 +102,14 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
 
       {/*  <!-- Side Navigation --> */}
 
-      <div className="flex h-screen fixed">
+      <div className="flex  h-screen fixed">
         <aside
           id="nav-menu-4"
           aria-label="Side navigation"
-          className={` top-0 bottom-0 left-0 lg:static  z-40 flex w-72 flex-col  font-medium bg-red-800 transition-transform lg:translate-x-0 ${isSideNavOpen ? "translate-x-0" : " -translate-x-full"
+          className={` top-0 bottom-0 left-0 lg:static  z-500 flex w-screen sm:w-72 flex-col  font-medium bg-red-800 transition-transform lg:translate-x-0 ${isSideNavOpen ? "translate-x-0 " : " -translate-x-full"
             }`}
         >
-          <div className=" items-center border-b   ">
+          <div className="hidden md:block items-center border-b   ">
             <div className="min-h-[32px] h-[10vh] w-full min-w-0 flex flex-col  justify-center items-center gap-0 ">
               <img className="h-16 rounded-xl " src={logo} />
             </div>
@@ -120,41 +120,18 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
             className="flex-1 "
           >
             <div>
-              <ul className="flex  border-y-4 border-white flex-1 flex-col gap-1 py-3"
+              <ul className="flex  border-b-4  md:border-y-4 border-white flex-1 flex-col gap-1 py-3"
               
             style={{ height: "80vh", overflowY: "auto" ,   scrollbarWidth: "none",
               msOverflowStyle: "none" }}>
-                <div className="flex items-center lg:hidden m-3 p-2">
-                  {/* Search bar for mobile */}
-                  <div className="flex justify-center">
-                    <form action="submit">
-                      <div className="relative">
-                        <button className="absolute left-0 top-1/2 -translate-y-1/2">
-                          <SearchIcon className="hover:text-gray-200" />
-                        </button>
-
-                        <input
-                          type="text"
-                          placeholder="Type to search..."
-                          className="w-full bg-transparent pl-9 pr-4 text-black focus:outline-none dark:text-white xl:w-125 placeholder:text-white"
-                        />
-                      </div>
-                    </form>
-                  </div>
-
-                  {/* dark to light theme custom component button */}
-                  <div className="flex justify-center">
-                    <DarkModeSwitcher
-                      className={{ bgHeight: "h-6 w-10", buttonD: "h-4 w-4" }}
-                    />
-                  </div>
-                </div>
+          
                 {sideBarItems?.map((item, index) => {
                   return item.isDropDown ? (
-                    <DropDown sideBarOption={item} />
+                    <DropDown sideBarOption={item} setIsSideNavOpen={setIsSideNavOpen} />
                   ) : (
                     <li className="px-3 cursor-pointer" key={index}>
                       <Link
+                         onClick={() => setIsSideNavOpen(false)}
                         to={item?.path}
                         className="flex items-center gap-3 rounded p-3  transition-colors hover:bg-red-700 hover:font-bold focus:text-black  text-white focus:font-bold  aria-[current=page]:bg-emerald-50 aria-[current=page]:text-emerald-500 "
                       >
@@ -172,7 +149,7 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
             </div>
             <div>
               <ul className="flex flex-1 flex-col gap-1 py-3">
-                <li className="px-3">
+                <li className="px-3 ">
                   <a
                     href="#"
                     className="flex items-center gap-3 rounded p-3 text-white transition-colors  "
@@ -211,17 +188,10 @@ export default function Sidebar({ isSideNavOpen, setIsSideNavOpen }) {
             </div>
           </nav>
 
-          <footer className="border-t border-slate-200 p-3"></footer>
         </aside>
       </div>
 
-      {/*  <!-- Backdrop --> */}
-      <div
-        className={`fixed top-0 bottom-0 left-0 right-0 z-30 bg-slate-900/20 transition-colors sm:hidden ${isSideNavOpen ? "block" : "hidden"
-          }`}
-        onClick={() => setIsSideNavOpen(false)}
-      ></div>
-      {/*  <!-- End Side navigation menu with user profile and alert message --> */}
+
     </>
   );
 }

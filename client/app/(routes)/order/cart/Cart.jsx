@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useId } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
 import { MdDelete } from "react-icons/md";
@@ -19,15 +19,12 @@ const Cart = () => {
 
   const pathname = usePathname();
   const dispatch = useDispatch();
-  const uniqueId = useId();
 
   useEffect(() => {
     dispatch(orderCheckedout(false));
   }, []);
 
   const router = useRouter();
-  console.log(pathname);
-  const data = { previousRoute: pathname.toString() };
 
   return (
     <>

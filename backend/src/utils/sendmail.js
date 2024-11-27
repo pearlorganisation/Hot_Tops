@@ -18,7 +18,8 @@ export const sendMail = async (email, otp) => {
     },
   });
 
-
+  console.log("sdsa",JSON.stringify({user:process.env.NODEMAILER_EMAIL,
+    pass: process.env.NODEMAILER_PASSWORD}))
 // const transporter = nodemailer.createTransport({
 //   host:  'server57.hostingraja.org', // Your mail server's host
 //   port: 465,                      // Typically 587 for secure transmission with STARTTLS, or 465 for SSL
