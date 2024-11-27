@@ -76,6 +76,19 @@ export const getAllOrders = asyncErrorHandler(async (req, res, next) => {
   res.status(200).json({ status: true, message: "All Orders Found successfully", data });
 });
 
+export const deleteFailedPayment= asyncErrorHandler(async (req, res, next) => {
+   // Calculate the timestamp for 1 day ago
+   const oneDayAgo = new Date();
+   oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+ 
+   // Delete orders with paymentStatus: false and createdAt older than 1 day
+   await order.deleteMany({
+     paymentStatus: false,
+     createdAt: { $lt: oneDayAgo },
+   });
+  res.status(200).json({ status: true, message: "Delete Failed Order Successfully" });
+})
+
 export const getParticularUserOrders = asyncErrorHandler(
   async (req, res, next) => {
     const { userId } = req?.params;
@@ -313,13 +326,6 @@ else{
 
   });
   
-
-  // export const getOrderWithOrderCode = asyncErrorHandler(async (req, res, next) => {
-  //   console.log(req.params)
-  //   const {orderCode}= req?.params
-  //   const data = await order.findOne({orderCode:orderCode},{paymentStatus:1});
-  //   res.status(200).json({ status: true, message: "All Orders Found successfully", data });
-  // });
 
   export const checkTransaction = asyncErrorHandler(async (req, res, next) => {
     const {transactionId}= req?.params

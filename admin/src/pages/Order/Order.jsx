@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Stack,Skeleton } from '@mui/material';
-import { getAllOrders, updateOrder } from '../../features/actions/order/order';
+import { deleteFailedOrder, getAllOrders, updateOrder } from '../../features/actions/order/order';
 import OrderViewModal from './OrderViewModal';
 
 
@@ -36,20 +36,17 @@ const Order = () => {
     };
 
     useEffect(() => {
-      
           dispatch(getAllOrders());
-          console.log("avnish2")
-
+          dispatch(deleteFailedOrder())
       }, [])
+      
     useEffect(() => {
       if (Array.isArray(orderData) && orderData.length > 0) {
         const initialApproval = {};
         orderData?.forEach((item) => { console.log(item.orderStatus)
           return initialApproval[item._id] = item.orderStatus == "Pending" ? "Pending" : item.orderStatus ;
         });
-        console.log(initialApproval)
         setApproval(initialApproval);
-        console.log("avnish1")
       }
 
     }, [orderData]);
