@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { IoIosArrowDropdown } from "react-icons/io";
 // -------------------------------------------------------------------------------------------------
 
-const DropDown = ({ sideBarOption }) => {
+const DropDown = ({ sideBarOption,setIsSideNavOpen }) => {
   // -------------------------------------------------States-----------------------------------------
   const [dropDown, setDropDown] = useState(false);
   // -------------------------------------------------------------------------------------------------
@@ -42,6 +42,7 @@ const DropDown = ({ sideBarOption }) => {
                   return (
                     <li key={index}>
                       <Link
+                        onClick={() => setIsSideNavOpen(false)}
                         to={item.path}
                         class="block px-4 py-2 hover:text-base"
                       >

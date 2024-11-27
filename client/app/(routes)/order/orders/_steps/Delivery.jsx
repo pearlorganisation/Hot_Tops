@@ -16,18 +16,18 @@ import { MdDelete } from "react-icons/md";
 const Delivery = ({ step }) => {
     const router = useRouter();
     const [addressData, setAddressData] = useState(null);
-    const { userData, isUserLoggedIn } = useSelector((state) => state.auth);
+    const { userData, isUserLoggedIn ,isGuestLoggedIn} = useSelector((state) => state.auth);
     const [dayTimeIntervals, setDayTimeIntervals] = useState([]);
     const dispatch = useDispatch();
     const { previousPath } = useSelector((state) => state.path);
 
     async function fetchAddress(userId) {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/address/${userId}`)
-        console.log(response?.data?.data, "response")
         setAddressData(response?.data?.data)
     }
     useEffect(() => {
-        fetchAddress(userData?._id)
+        if(!isGuestLoggedIn)
+       { fetchAddress(userData?._id)}
     }, [userData])
 
 
@@ -44,23 +44,11 @@ const Delivery = ({ step }) => {
     } = useForm();
 
 
-
-
-
     useEffect(() => {
         const intervals = generateDayTimeIntervals();
         setDayTimeIntervals(intervals);
     }, []);
-
-    useEffect(() => {
-        if (!isUserLoggedIn) {
-            toast.error("Please Login...")
-            router.push("/login");
-        }
-    }, [isUserLoggedIn]);
-
-
-    const generateDayTimeIntervals = () => {
+const generateDayTimeIntervals = () => {
         const intervals = [];
         const currentTime = new Date();
         const daysOfWeek = [
@@ -99,6 +87,8 @@ const Delivery = ({ step }) => {
 
         return intervals;
     };
+
+
     const [postCodeAddresses, setPostCodeAddresses] = useState([])
     const [postalCode, setPostalCode] = useState('')
     const [savedOrSelectedAddress, setSavedOrSelectedAddress] = useState([])
@@ -111,6 +101,7 @@ const Delivery = ({ step }) => {
 
         setPostCodeAddresses(response?.data?.suggestions)
     }, 500);
+
     useEffect(() => {
         handleSearchDebounce(postalCode)
 
@@ -155,8 +146,7 @@ const Delivery = ({ step }) => {
     }
 
     const onSubmit = async (data) => {
-        console.log(data);
-        if (selectedAddress?.address)
+        if (selectedAddress?.address || (selectedAddress && isGuestLoggedIn))
      {   dispatch(
             getorderDetails({
                 address: selectedAddress,
@@ -199,8 +189,6 @@ const Delivery = ({ step }) => {
                 toast.success("Updated")
                 setUpdateAddress(false)
                 fetchAddress(userData?._id)
-                const newData = await response?.json();
-                // setAddressData(newData);
             }
 
 
@@ -209,10 +197,11 @@ const Delivery = ({ step }) => {
         }
         console.log("submitted")
     }
+
     useEffect(() => {
-        console.log(addressData, "")
+   
         console.log(selectedAddress, "")
-    }, [addressData, selectedAddress])
+    }, [ selectedAddress])
 
 
     return (
@@ -222,29 +211,142 @@ const Delivery = ({ step }) => {
                 <div className="space-y-2">
                     <label htmlFor="address">Please Enter Your Postal Code</label>{" "}
                     <div className="relative">
-                        <input
-                            className="border-2 border-gray-300 rounded-md px-4 py-2 outline-none w-full  focus:border-red-800"
-                            type="text"
-                            name="address"
-                            id=""
-                            placeholder="Enter Your Postal Code"
-                            onChange={(e) => { setPostalCode(e.target.value) }}
-                        />
+                    <input
+    className="border-2 border-gray-300 rounded-md px-4 py-2 outline-none w-full focus:border-red-800"
+    type="text"
+    name="address"
+    id="postalCode"
+    placeholder="Enter Your Postal Code"
+    value={isGuestLoggedIn ? selectedAddress || postalCode : null } // Display selectedAddress or postalCode
+    onFocus={() => {
+        setPostalCode(''); // Clear the postal code
+        setSelectedAddress(''); // Clear the selected address
+    }}
+    onChange={(e) => {
+        setPostalCode(e.target.value); // Update postalCode
+        setSelectedAddress(''); // Clear selectedAddress if the user starts typing
+    }}
+/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         {
                             Array.isArray(postCodeAddresses) && postCodeAddresses.length > 0 && <div className="absolute w-full bg-white top-12 border max-h-[20rem] overflow-y-auto">
                                 {
                                     postCodeAddresses?.map(item => {
                                         return <div
                                             onClick={() => {
-                                                postAddress(item?.address)
-                                                // setAddressData(prev => {
-                                                //     setPostCodeAddresses([])
-                                                //     // setPostalCode('')
-                                                //     const temp = prev?.filter(ad => ad?.address != item?.address) || []
-                                                //     return [...temp, { address: item?.address, postCode: postalCode }]
-
-                                                // })
-                                                setSavedOrSelectedAddress([item.address])
+                                               
+                                                if(isGuestLoggedIn){
+                                                    setSelectedAddress(item.address)
+                                                    setPostCodeAddresses([])
+                                                }else
+                                                { 
+                                                    postAddress(item?.address)
+                                                setSavedOrSelectedAddress([item.address])}
                                             }}
                                             className="px-6 py-2 hover:bg-black/10 cursor-pointer">{item?.address}</div>
                                     })
@@ -253,10 +355,9 @@ const Delivery = ({ step }) => {
                         }
                     </div>
                     {
-                        isUpdateAdress ? <form action={handleAddress} className="w-full mx-auto p-4 space-y-6 bg-white shadow-lg rounded-lg">
-
-
-                            <div>
+                        isUpdateAdress && !isGuestLoggedIn ?
+                         <form action={handleAddress} className="w-full mx-auto p-4 space-y-6 bg-white shadow-lg rounded-lg">
+  <div>
                                 <label className="block text-sm font-medium text-gray-700">Address</label>
                                 <input
                                     type="text"
@@ -305,7 +406,10 @@ const Delivery = ({ step }) => {
                                     Save
                                 </button>
                             </div>
-                        </form> : Array.isArray(addressData) && addressData.length > 0 && <div className="space-y-3">
+                        </form>
+                         :
+                         isGuestLoggedIn ? <></> :
+                           Array.isArray(addressData) && addressData.length > 0 && <div className="space-y-3">
                             <h1 className="">And Select From The List :</h1>
                             {
                                 addressData?.map((item, index) => {

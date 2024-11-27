@@ -1,20 +1,14 @@
 import React, {  useId, useState } from "react";
 import useSWR from "swr";
 import PizzaCards from "./pizzaCards/PizzaCards";
-import { ClockLoader } from "react-spinners";
 import Image from "next/image";
-import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { clearSet } from "@/app/lib/features/cartSlice/cartSlice";
-import { getCustomizationDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
+
 
 // -------------------data fetching function-----------------------
 const pizzaFetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const Pizzas = () => {
-
-  const randomId = useId()
-  const dispatch = useDispatch();
   // -------------------------------------------useState--------------------------------------------
   const [selectedType, setSelectedType] = useState("All");
 
@@ -59,7 +53,7 @@ const Pizzas = () => {
   if (isLoading || filterLoading) {
     return (
       <div className="flex justify-center pt-[25vh] h-[85vh]">
-        {/* <ClockLoader color="#991b1b" size={100} /> */}
+   
         <Image src="/HOTPIZZALOGO.jpg" alt="Pizza Logo"  width={300} height={300} className="h-[10vh] w-[30vw]  object-contain" />
       </div>
     );
@@ -76,61 +70,7 @@ const Pizzas = () => {
   return (
     <div className="my-4">
       <div>
-        {/* <div className="flex  md:justify-between   gap-2  items-center md:mx-8 lg:mx-12">
-        <div className="hidden w-[50%]  md:flex px-2 gap-4 lg:gap-10 ">
-            {" "}
-            <Link onClick={()=>
-                    {    dispatch(
-                      getCustomizationDetails({
-                        name: "Create Your Own Pizza",
-                        img: "https://res.cloudinary.com/dnixhctcf/image/upload/v1728298580/egnskniwajhlos4u7mu4.png",
-                        priceSection: data?.data[0]?.priceSection,
-                        id: randomId,
-                        sauceName: [],
-                        cheeseName: [],
-                        vegetarianToppingsName: [],
-                        meatToppingsName: [],
-                        baseName: data?.data[0]?.baseName,
-                        selectedData: data?.data[0]?.priceSection[0]?.size?._id,
-                      })
-                    );}
-            }  href={"product/customisePizza?calledBy=createYourOwnPizza"} className="text-center  cursor-pointer bg-red-800 hover:bg-red-700 px-3 py-2 lg:p-4  sm:text-lg font-semibold text-white rounded-md w-[50%] lg:w-auto">
 
-             <span className="hidden sm:block"> Create Your Own Pizza</span>
-            </Link>
-            <Link href={"halfAndHalfPizza?calledBy=half"} className="text-center bg-green-800 hover:bg-green-700  px-3 py-2  lg:p-4 sm:text-lg font-semibold text-white rounded-md w-[50%] lg:w-auto">
-
-            <span  className="hidden sm:block"> Half & Half Pizza</span>
-             
-            </Link>
-          </div>
-          <div className="w-[50%]  ps-2 md:hidden  flex flex-col gap-0 ">
-            {" "}
-            <Link onClick={()=>
-                   {    dispatch(
-                        getCustomizationDetails({
-                          name: "Create Your Own Pizza",
-                          img: "https://res.cloudinary.com/dnixhctcf/image/upload/v1728298580/egnskniwajhlos4u7mu4.png",
-                          priceSection: data?.data[0]?.priceSection,
-                          id: randomId,
-                          sauceName: [],
-                          cheeseName: [],
-                          vegetarianToppingsName: [],
-                          meatToppingsName: [],
-                          baseName: data?.data[0]?.baseName,
-                          selectedData: data?.data[0]?.priceSection[0]?.size?._id,
-                        })
-                      );}
-            }  href={"product/customisePizza?calledBy=createYourOwnPizza"} className="text-center bg-red-800 px-1 py-2 font-bold text-white rounded-md">
-              Create Your Own Pizza
-            </Link><br/>
-            <Link href={"halfAndHalfPizza?calledBy=half"} className="text-center bg-green-800 px-3 py-2 font-bold text-white rounded-md">
-              Half & Half Pizza
-            </Link>
-          </div>
-
-          
-        </div> */}
         <div className="flex mx-2 md:w-auto  gap-2 md:mx-8  flex-wrap ">
             <span className="font-bold">Filter :</span>
             {filterData?.data?.map((data) => (

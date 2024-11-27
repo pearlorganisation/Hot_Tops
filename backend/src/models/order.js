@@ -23,7 +23,7 @@ const orderSchema = new mongoose.Schema(
     orderBy: {
       type: mongoose.Types.ObjectId,
       ref: "auth",
-      required: [true, "orderBy is required!"],
+      // required: [true, "orderBy is required!"],
     },
     orderStatus: {
       type: String,
@@ -45,6 +45,9 @@ const orderSchema = new mongoose.Schema(
     },
     orderCode:{
       type:String
+    },
+    guestMetaData:{
+      type:{},
     }
 
   },

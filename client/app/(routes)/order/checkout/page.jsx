@@ -8,12 +8,12 @@ import { toast } from "sonner";
 import { successRedirectStatus, trackerStatus } from "@/app/lib/features/orderDetails/orderDetailsslice";
 
 
-const page = ({ searchParams }) => {
+const page = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const cart = useSelector((state) => state.cart.cartData);
   const order = useSelector((state) => state.orderDetails?.order);
-  const userData = useSelector((state) => state.auth.userData);
+  const {userData,isGuestLoggedIn,isUserLoggedIn} = useSelector((state) => state.auth);
   const [isLoading,setIsLoading] = useState(false)
   const [codData, setCodData] = useState();
   const [deliveryCharge, setDeliveryCharge] = useState(0.5);
@@ -36,33 +36,29 @@ discount= cart?.reduce((acc, item) => {
    const totalPrice = cart?.reduce((acc, item) => {
       return acc + Number(item?.totalSum);
     }, 0);
-
-
-//   let discountPrice = 0
-//   if(order?.orderType === 'collection')
-//  { discountPrice = (totalPrice ).toFixed(2)}
-
  
   const onSubmit = async (data) => {
 
     dispatch(trackerStatus(true))
     const newData = {
       orderType: order?.orderType,  
-      email:userData?.email,
-      orderBy: userData?._id,
+      email:userData?.email || null,
+      orderBy: userData?._id || null,
       time: order?.time,
-      address: order?.orderType === 'collection' ? null : order?.address,
-      comment: data?.comment,
+      address: order?.orderType === 'collection' || !isUserLoggedIn ? null : order?.address,
+      comment: data?.comment || null,
       totalAmount: {
         total: totalPrice?.toFixed(2),
         deliveryCharge: order.orderType === 'collection' ? 0 : deliveryCharge,
         discountPrice: discount || 0
       },
-      mobileNumber:userData?.mobileNumber,
+      mobileNumber:userData?.mobileNumber || null,
       paymentMethode: data?.paymentMethode,
       items: cart,
       terms: data?.terms,
-      name:userData?.firstName
+      name:userData?.firstName || null,
+      guestMetaData:isGuestLoggedIn ? {name:data?.name,email:data?.email,mobile:data?.mobile,address:order?.address} : null
+    
     };
 
     if(data?.paymentMethode==="Cash on delivery")
@@ -82,21 +78,6 @@ discount= cart?.reduce((acc, item) => {
   const responsejson = await response.json();
   setCodData(responsejson);
   if (responsejson?.status === true) {
-  //   const mailResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/mail`,
-  //     {
-  //       method:"POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({...responsejson,email:userData.email,name:userData.firstName}),
-  //     }
-  //   )
-  //   const mailResponseJson = await mailResponse.json();
-  //   if(mailResponseJson?.status === true){
-  //     toast.success("Order Confirmation Mail Sent Successfully")
-  //   }
- 
-  //   // --------------clearing the cart after successfull order---------------
     router.push("/order/tracker");
   }
   else{
@@ -110,32 +91,7 @@ discount= cart?.reduce((acc, item) => {
 }
 else{
   setIsLoading(true)
-  // try {
-  //   const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
-  //   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/order/create-checkout-session`,{
-  //    method:"POST",
-  //    headers: {
-  //      "Content-Type": "application/json",
-  //    },
-  //    body:JSON.stringify(newData)
-  //   })
-  //   setIsLoading(false)
-  //   const session = await response.json()
-  
-  //   const result = stripe.redirectToCheckout({
-  //    sessionId:session.id
-  //   })
- 
-  //   if(result.error){
-  //     toast.error("Error verifying payment", { position: "top-center" });
-  //    }
-     
-  // } catch (error) {
-  //   setIsLoading(false)
-  //   toast.error("Error verifying payment", { position: "top-center" });
-  // }
- 
   try {
 
     let onlinePrice 
@@ -154,9 +110,9 @@ else{
         newData:newData,
         amount: onlinePrice * 100,
         customer: {
-          email: userData?.email,
-          fullName: `${userData?.firstName} ${userData?.lastName}`,
-          phone: userData?.mobileNumber,
+          email: isGuestLoggedIn? data?.email : userData?.email ,
+          fullName: isGuestLoggedIn? data?.name : `${userData?.firstName} ${userData?.lastName}`,
+          phone: isGuestLoggedIn? data?.mobile : userData?.mobileNumber,
         }
       }),
     });
@@ -317,11 +273,39 @@ if (totalPrice > 20){
                 placeholder="Leave comments for your order here"
               />
             </div>
+       { isGuestLoggedIn &&    <div>
+              <h3 className="text-lg font-bold ">PERSONAL DETAILS</h3>
+             <div className="flex gap-3 w-full">
+            <div className="w-full"><input
+                {...register("name",{required: isGuestLoggedIn ? true : false})}
+                name="name"
+                className="w-full border p-2 rounded-md"
+                placeholder="Enter name here"
+              /> { errors.name &&  <p className="text-red-500">Name is required.</p>}
+              </div>
+              <div className="w-full">
+              <input
+                {...register("mobile",{required: isGuestLoggedIn ? true : false})}
+                name="mobile"
+                className="w-full border p-2 rounded-md"
+                placeholder="Enter mobile number here"
+              />{ errors.mobile &&  <p className="text-red-500">Mobile number is required.</p>}
+              </div></div> 
+       
+              <input
+                {...register("email",{required: isGuestLoggedIn ? true : false})}
+                name="email"
+                className="w-full border p-2 mt-2 rounded-md"
+                placeholder="Enter email address here"
+              />
+              { errors.email &&  <p className="text-red-500">Email address is required.</p>}
+            </div>}
 
             {order?.orderType === 'delivery' && <div>
-                <h3 className="text-lg font-bold">YOUR ADDRESS & MOBILE NUMBER:</h3>
+                <h3 className="text-lg font-bold">{isGuestLoggedIn ? "YOUR ADDRESS :" : "YOUR ADDRESS & MOBILE NUMBER :"}</h3>
                 <p>
-                  {order?.address?.address} , <span className="text-red-800">{userData?.mobileNumber ? userData?.mobileNumber: "No Mobile Number is added"}</span>
+                  {isGuestLoggedIn ? order?.address : order?.address?.address} 
+                { !isGuestLoggedIn  &&  <span className="text-red-800">, {userData?.mobileNumber ? userData?.mobileNumber: "No Mobile Number is added"}</span>}
 
                 </p>
               </div>

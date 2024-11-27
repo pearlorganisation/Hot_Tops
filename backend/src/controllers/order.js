@@ -5,7 +5,21 @@ import { sendOrderMail } from "../utils/sendOrderMail.js";
 
 
 export const newOrder = asyncErrorHandler(async (req, res, next) => {
-const { email,paymentMethode, time,items, totalAmount,orderType,name } = req?.body;
+const { paymentMethode, time,items, totalAmount,orderType,guestMetaData } = req?.body;
+let name = ""
+let email= ""
+if(req?.body?.name){
+name = req?.body?.name
+}
+else{
+  name= guestMetaData?.name
+}
+if(req?.body?.email){
+  email = req?.body?.email
+  }
+  else{
+    email= guestMetaData?.email
+  }
 console.log(req?.body,"Offline ORDER!!!!")
 const amount= (Number(totalAmount?.total) + Number(totalAmount?.deliveryCharge) - Number(totalAmount?.discountPrice || 0)).toFixed(2)
 
@@ -251,11 +265,25 @@ const Password = process.env.VIVA_API_KEY;
     console.log(transactionData,"TRANSACTION DATA WEBHOOK"); // Log the transaction data for debugging
 
     if (transactionData?.statusId === "F") {
-      const {paymentMethode, time,items, totalAmount,orderNumber,orderType,orderBy} = await order.findOneAndUpdate(
+      const data = await order.findOneAndUpdate(
         { orderCode: transactionData.orderCode },       // Filter to match the document
         { $set: { paymentStatus: true } },              // Update operation
         { returnDocument: "after" }                     // Returns the updated document
       ).populate("orderBy");                    // Populate specific field(s)
+      
+      const {paymentMethode, time,items, totalAmount,orderNumber,orderType,orderBy,guestMetaData } = data
+
+let name = ""
+let email= ""
+if(orderBy){
+name = orderBy?.firstName
+email= orderBy?.email
+}
+else{
+  name= guestMetaData?.name
+  email= guestMetaData?.email
+}
+
 
       console.log(paymentMethode, time,items, totalAmount,orderNumber,orderType,orderBy, "CONSOLELOG FOR DETAILS FOR MAIL IN ONLINE PAYMENT")
   
@@ -273,7 +301,7 @@ const Password = process.env.VIVA_API_KEY;
       }
         
       try {
-        await sendOrderMail(orderBy?.email, orderNumber, amount, time, paymentMode, orderType, items, orderBy?.firstName);
+        await sendOrderMail(email, orderNumber, amount, time, paymentMode, orderType, items, name);
       } catch (error) {
         console.error("Error sending email: ", error.message); 
       }

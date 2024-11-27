@@ -1,12 +1,13 @@
 "use client";
-import { addUserData } from "@/app/lib/features/auth/authSlice";
+import { addUserData, guestLogin } from "@/app/lib/features/auth/authSlice";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import { toast } from "sonner";
+import { FaUser } from "react-icons/fa6";
 
 
 const Login = () => {
@@ -14,6 +15,7 @@ const Login = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [isLoading,setIsLoading] = useState(false)
+  const {isGuestLoggedIn,isUserLoggedIn}= useSelector((state)=>state.auth)
   const {
     register,
     handleSubmit,
@@ -39,7 +41,7 @@ const Login = () => {
         }
       );
       const newData = await res.json();
-      console.log(newData);
+  
       if (newData?.status === true) {
         const userData = { isUserLoggedIn: true, data: newData.data };
 
@@ -58,6 +60,12 @@ const Login = () => {
       console.log(error);
     }
   };
+
+  useEffect(()=>{
+if(isUserLoggedIn || isGuestLoggedIn){
+  router.push("/");
+}
+  },[isGuestLoggedIn])
 
   return (
     <>
@@ -114,7 +122,7 @@ const Login = () => {
                 type="submit"
                 className="bg-green-700  text-white px-6 py-2 rounded-md hover:bg-green-600 flex items-center justify-center"
               >
-                {isLoading ? <ClipLoader color="white" size={22}/>: "Login" } 
+                {isLoading ? <ClipLoader color="white" size={22}/>: "Log in" } 
               </button>
             </div>
             <p className="mt-4">
@@ -125,22 +133,25 @@ const Login = () => {
                 </Link>
               </span>
             </p>
-            {/* <div className="text-center mb-4">OR</div>
+     
+          </form>
+          <div class="flex items-center justify-center">
+          <div class="flex-grow border-t border-green-800"></div>
+            <div className="text-center font-semibold text-green-800  m-3">OR</div>
+          <div class="flex-grow border-t border-green-800"></div>
+            </div>
             <button
+             onClick={()=>dispatch(guestLogin())}
+              className="w-full flex justify-center items-center gap-3 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-500"
+            >
+             <FaUser/> Continue as Guest
+            </button>
+            {/* <button
               type="button"
               className="w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
             >
               Login Via Facebook
-            </button>
-            <p className="mt-4">
-              New ? {"=>"}
-              <span>
-                <Link href="/signUp" className="text-blue-700">
-                  Sign Up here
-                </Link>
-              </span>
-            </p> */}
-          </form>
+            </button> */}
         </div>
       </div>
     </>

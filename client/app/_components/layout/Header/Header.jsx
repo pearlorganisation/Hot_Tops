@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useId, useState } from "react";
+import React, { useEffect, useId, useRef, useState } from "react";
 import { FaBagShopping } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa6";
 import { CiUser } from "react-icons/ci";
@@ -15,6 +15,7 @@ import { SiWhatsapp } from "react-icons/si";
 import { BiSolidPizza } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { getCustomizationDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
+import LogoutModal from "../../Modals/LogoutModal";
 
 async function getPizzaData() {
   try {
@@ -30,12 +31,20 @@ const Header = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [isMounted, setIsMounted] = useState(false);
   const cart = useAppSelector((state) => state.cart.cartData);
-  const { userData, isUserLoggedIn } = useAppSelector((state) => state.auth);
+  const { userData, isUserLoggedIn ,isGuestLoggedIn} = useAppSelector((state) => state.auth);
 
   const [pizzaData, setPizzaData] = useState(null);
   const dispatch = useDispatch()
   const randomId = useId()
-
+  const modalRef = useRef(null);
+  function handleLogoutAccount() {
+    modalRef.current.open();
+  }
+  
+  const totalPrice = cart?.reduce((acc, item) => acc + Number(item?.totalSum), 0);
+  
+  
+  
   useEffect(() => {
     async function fetchData() {
       const pizzaData= await getPizzaData()
@@ -44,15 +53,13 @@ const Header = () => {
     fetchData();
     setIsMounted(true);
   }, []);
-
-  const totalPrice = cart?.reduce((acc, item) => acc + Number(item?.totalSum), 0);
-
+  
   if (!isMounted) {
     return null; // Render nothing until the component has mounted
   }
-
   return (
     <div className="bg-white  z-10 shadow-lg fixed top-0 w-full pt-2  md:pt-4 md:py-4">
+      <LogoutModal ref={modalRef} />
       {/* Mobile */}
       <div className="flex justify-between items-center mx-1 md:mx-4">
         <Link href="/" className="flex justify-center">
@@ -68,7 +75,9 @@ const Header = () => {
                 </span>
               </p>
             </Link>
-          ) : (
+          ) : isGuestLoggedIn ? <li className="px-2 py-1 text-white font-semibold bg-red-800 rounded-md flex items-center text-xs">
+          <button  onClick={handleLogoutAccount}> Guest Account</button>
+        </li>  : (
             <li className="px-2 py-1 text-white font-semibold bg-red-800 rounded-md flex items-center text-xs">
               <Link href="/login">Login / Signup</Link>
             </li>
@@ -124,7 +133,9 @@ const Header = () => {
                 {userData?.firstName[0]}.{userData?.lastName}
               </span>
             </Link>
-          ) : (
+          ) : isGuestLoggedIn ? (<li className="hidden lg:flex px-2 font-normal hover:bg-white hover:shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-md hover:text-red-800 text-white bg-red-800 items-center text-lg">
+              <button  onClick={handleLogoutAccount}> Guest Account</button>
+          </li>)  : (
             <li className="hidden lg:flex px-2 font-normal hover:bg-white hover:shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-md hover:text-red-800 text-white bg-red-800 items-center text-lg">
               <Link href="/login">Login / Signup</Link>
             </li>
@@ -178,19 +189,19 @@ const Header = () => {
     <SiWhatsapp size={25}/>
     <span className="ml-2">Whatsapp</span>
   </a>
-  <a
+{ isUserLoggedIn && <a
     href="/profile?tab=3"
     className="flex items-center bg-red-800  text-white py-2 px-4 text-base rounded-b-md shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
   >
     <RiRefreshFill size={30} />
     <span className="ml-2">Reorder Now</span>
-  </a>
+  </a>}
   </div>
 </div>
 
 
    {/* Mobile */}
-<div className="md:hidden flex justify-center">
+<div className="md:hidden border-b border-white flex justify-center">
 <Link onClick={()=>
                    {    dispatch(
                         getCustomizationDetails({
@@ -227,13 +238,13 @@ const Header = () => {
           <SiWhatsapp size={22}/>
           <span className="pl-2 text-sm">Whatsapp</span>
         </a>
-        <a
+       { isUserLoggedIn && <a
           href="/profile?tab=3"
           className="w-full border-r border-r-white justify-center inline-flex items-center bg-red-800 text-white py-2 px-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:bg-white hover:text-red-800"
         >
           <RiRefreshFill size={25} />
           <span className="pl-2 text-sm">Reorder Now</span>
-        </a>
+        </a>}
       </div>
 
     </div>
