@@ -54,7 +54,7 @@ const HomePage = () => {
         const isProduction = window.location.protocol === "https:";
         console.log(isProduction)
         // Set the cookie with the token
-        document.cookie = `authToken=${token}; path=/; SameSite=None; ${isProduction ? "Secure;" : ""}`; 
+        document.cookie = `authToken=${token}; path=/; SameSite=None;  ${isProduction ? "Secure; HttpOnly;" : ""}`; 
         // Clean the URL
         window.history.replaceState({}, document.title, "/");
       }
