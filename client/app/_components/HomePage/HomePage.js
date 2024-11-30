@@ -51,8 +51,9 @@ const HomePage = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
       if (token) {
+        const isProduction = window.location.protocol === "https:";
         // Set the cookie with the token
-        document.cookie = `authToken=${token}; path=/; SameSite=Strict;`; 
+        document.cookie = `authToken=${token}; path=/; SameSite=Strict; ${isProduction ? " Secure;" : ""}`; 
         // Clean the URL
         window.history.replaceState({}, document.title, "/");
       }
