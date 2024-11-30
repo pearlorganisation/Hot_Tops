@@ -71,7 +71,7 @@ const Header = () => {
               <p className="flex items-center gap-2 text-green-950">
                 <FaUser size={20} className="text-slate-700" aria-label="User Profile" />
                 <span className="text-red-800 text-sm font-semibold tracking-wide">
-                  {userData?.firstName[0]}.{userData?.lastName}
+                  {userData?.firstName ? userData?.firstName[0] : "Error"}.{userData?.lastName}
                 </span>
               </p>
             </Link>
@@ -130,7 +130,7 @@ const Header = () => {
             <Link href="/profile?tab=1" className="hidden lg:flex items-center gap-2 text-black">
               <CiUser size={25} aria-label="User Profile" />
               <span className="text-base text-red-800 hover:text-red-700 hover:font-bold tracking-wide">
-                {userData?.firstName[0]}.{userData?.lastName}
+              {userData?.firstName ? userData?.firstName[0] : "Error"}.{userData?.lastName}
               </span>
             </Link>
           ) : isGuestLoggedIn ? (<li className="hidden lg:flex px-2 font-normal hover:bg-white hover:shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-md hover:text-red-800 text-white bg-red-800 items-center text-lg">

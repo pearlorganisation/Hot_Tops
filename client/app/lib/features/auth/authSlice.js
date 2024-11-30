@@ -61,7 +61,12 @@ const authslice = createSlice({
 
       state.userData = null;
     },
+    oAuthLogin:(state,action)=>{
+      state.isUserLoggedIn = true,
+      state.userData= action.payload
+
+    }
   },
 });
-export const { getcredentials,addNewPassword, addUserData, userLogout , setForgetPasswordEmail,guestLogin } = authslice.actions;
+export const { getcredentials,addNewPassword, addUserData, userLogout , setForgetPasswordEmail,guestLogin,oAuthLogin } = authslice.actions;
 export default authslice.reducer;
