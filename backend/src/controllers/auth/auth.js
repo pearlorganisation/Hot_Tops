@@ -1,20 +1,14 @@
 import optModel from "../../models/Otp/optModel.js";
-
 import { asyncErrorHandler } from "../../utils/errors/asyncErrorHandler.js";
-
-import bcrypt, { genSalt } from "bcrypt";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import ejs from "ejs";
-import path from "path";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
 import { sendMail } from "../../utils/sendmail.js";
 import { genrateOtp } from "../../utils/otp/otp.js";
 import auth from "../../models/auth/auth.js";
 
 export const signUp = asyncErrorHandler(async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email } = req.body;
 
     // checking if user exist or not in database, if user will not exist isUserAlreadyExist will give null
     const isUserAlreadyExist = await auth.findOne({ email });
@@ -70,13 +64,6 @@ export const signUp = asyncErrorHandler(async (req, res) => {
         });
       });
 
-    //   const salt = await bcrypt.genSalt(10);
-    //   const hashedPassword = await bcrypt.hash(password, salt);
-    //   const newData = await auth.create({ ...req.body, password: hashedPassword });
-    //   res.status(201).json({
-    //     status: true,
-    //     message: "user created successfully",
-    //   });
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -118,17 +105,27 @@ export const verifyOtp = asyncErrorHandler(async (req, res) => {
 export const login = asyncErrorHandler(async (req, res) => {
   const { email, password } = req?.body;
   const isUserExist = await auth.findOne({ email });
-  if (!isUserExist) {
+  if (!isUserExist ) {
     return res.status(404).json({
       status: false,
       message: "No user found with this email",
     });
   }
-  const isPasswordValid = await bcrypt.compare(password, isUserExist?.password);
+  let isPasswordValid
+if(isUserExist?.password)
+{   isPasswordValid = bcrypt.compare(password, isUserExist?.password);
   if (!isPasswordValid) {
     return res.status(404).json({
       status: false,
-      message: "wrong password",
+      message: "Incorrect password",
+    });
+  }
+}
+
+  if (!isPasswordValid) {
+    return res.status(404).json({
+      status: false,
+      message: "Continue with google or Choose forgot password",
     });
   }
   // access token
@@ -137,7 +134,7 @@ export const login = asyncErrorHandler(async (req, res) => {
       id: isUserExist?._id,
       email: isUserExist?.email,
     },
-    "hgy79hfg",
+    process.env.JWT_SECRET,
     { expiresIn: "15m" }
   );
 

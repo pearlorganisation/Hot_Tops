@@ -18,7 +18,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    clearReduxStore:()=>initialState
+    clearReduxStore:()=>initialState,
   },
   extraReducers: (builder) => {
     builder
@@ -102,6 +102,6 @@ const authSlice = createSlice({
 export default authSlice.reducer;
 export const {
 
-  clearReduxStore,
+  clearReduxStore
 
 } = authSlice.actions;

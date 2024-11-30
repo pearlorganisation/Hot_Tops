@@ -13,6 +13,7 @@ import DealsCards from "../Pages/DealsCards";
 import { useDispatch } from "react-redux";
 import { trackerStatus } from "@/app/lib/features/orderDetails/orderDetailsslice";
 import Link from "next/link";
+import { oAuthLogin } from "@/app/lib/features/auth/authSlice";
 
 async function getData() {
   try {
@@ -30,17 +31,47 @@ async function getBanners(){
     const data = await res.json();
     return data.data
   } catch (error) {
-    console.log("Error Occurred in banner api", err);
+    console.log("Error Occurred in banner api", error);
     return null;
   }
 }
 
+
+
 const HomePage = () => {
+
+
   
   const dispatch = useDispatch()
   
     const [popularDealData, setPopularDealData] = useState(null);
     const [banner, setBanner] = useState([]);
+    
+    async function googleAuth() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+      if (token) {
+        // Set the cookie with the token
+        document.cookie = `authToken=${token}; path=/; SameSite=Strict;`; 
+        // Clean the URL
+        window.history.replaceState({}, document.title, "/");
+      }
+      console.log("No user data found.");
+    } 
+
+    async function getUserData(){
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/oAuth/google/userData`,{
+          credentials: 'include'
+        })
+        const data = await res.json();
+        console.log(data)
+        dispatch(oAuthLogin(data.data))
+      } catch (error) {
+        console.log("Error Occurred in banner api", error);
+        return null;
+      }
+    }
 
   useEffect(() => {
     async function fetchData() {
@@ -51,11 +82,14 @@ const HomePage = () => {
       const data = await getBanners();
       setBanner(data)
     }
+
+
     dispatch(trackerStatus(false))
     fetchData();
     bannerData()
+    googleAuth()
+    getUserData()
   }, []);
-
 
   return (
     <>

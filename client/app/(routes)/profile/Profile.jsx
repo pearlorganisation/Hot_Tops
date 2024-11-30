@@ -46,7 +46,7 @@ const Profile = ({ searchParams }) => {
                   Update name / Mobile number
                 </Link>
               </li>
-              <li>
+        { userData?.password && <li>
                 <Link
                   href="/profile?tab=2"
                   className={`block p-2 ${
@@ -57,7 +57,7 @@ const Profile = ({ searchParams }) => {
                 >
                   Change your password
                 </Link>
-              </li>
+              </li>}
               <li>
                 <button
                   onClick={handleDeleteAccount}

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import { toast } from "sonner";
 import { FaUser } from "react-icons/fa6";
+import { FcGoogle } from "react-icons/fc";
 
 
 const Login = () => {
@@ -60,6 +61,8 @@ const Login = () => {
       console.log(error);
     }
   };
+
+
 
   useEffect(()=>{
 if(isUserLoggedIn || isGuestLoggedIn){
@@ -140,11 +143,17 @@ if(isUserLoggedIn || isGuestLoggedIn){
             <div className="text-center font-semibold text-green-800  m-3">OR</div>
           <div class="flex-grow border-t border-green-800"></div>
             </div>
+            <Link
+             href={`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/oAuth/google`}
+              className="w-full my-4 flex justify-center items-center gap-3  text-black shadow-md border-gray-50 border-t px-4 py-3 rounded-md hover:text-gray-800"
+            >
+             <FcGoogle size={27}/> Continue With Google
+            </Link>
             <button
              onClick={()=>dispatch(guestLogin())}
-              className="w-full flex justify-center items-center gap-3 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-500"
+              className="w-full flex justify-center items-center gap-3 bg-black text-white px-4 py-3 rounded-md hover:bg-gray-800"
             >
-             <FaUser/> Continue as Guest
+             <FaUser size={23}/> Continue as Guest
             </button>
             {/* <button
               type="button"
