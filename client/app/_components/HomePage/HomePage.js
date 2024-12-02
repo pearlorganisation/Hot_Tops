@@ -47,33 +47,44 @@ const HomePage = () => {
     const [popularDealData, setPopularDealData] = useState(null);
     const [banner, setBanner] = useState([]);
     
-    async function googleAuth() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get("token");
-      if (token) {
-        const isProduction = window.location.protocol === "https:";
-        console.log(window.location.protoco)
-        // Set the cookie with the token
-        document.cookie = `authToken=${token}; path=/; SameSite=None; ${isProduction ? "Secure;" : ""}`;
+    // async function googleAuth() {
+    // const urlParams = new URLSearchParams(window.location.search);
+    // const token = urlParams.get("token");
+    // console.log(token, "TOKEEEN TOKEEEN TOKEEEN")
+    //   if (token) {
+    //     console.log("first")
+    //     const isProduction = window.location.protocol === "https:";
+    //     console.log(window.location.protocol, "GODE DE NAAL GODE DI JEANS")
+    //     // Set the cookie with the token
+    //     document.cookie = `authToken=${token}; path=/;  ${isProduction ? "Secure; SameSite=None;" : " SameSite=Strict;"}`;
 
-        // Clean the URL
-        window.history.replaceState({}, document.title, "/");
-      }
-      console.log("No user data found.");
-    } 
+    //     // Clean the URL
+    //     window.history.replaceState({}, document.title, "/");
+    //   }
+    //   console.log("No user data found.");
+    // } 
 
     async function getUserData(){
-      try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get("token");
+      console.log(token, "TOKEEEN TOKEEEN TOKEEEN")
+      window.history.replaceState({}, document.title, "/");
+      if(token)
+      {
+        try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/oAuth/google/userData`,{
+          headers:{
+            Authorization: `Bearer ${token}`,
+          },
           credentials: 'include'
         })
         const data = await res.json();
-        console.log(data)
         dispatch(oAuthLogin(data.data))
       } catch (error) {
         console.log("Error Occurred in banner api", error);
         return null;
       }
+    }
     }
 
   useEffect(() => {
@@ -90,7 +101,7 @@ const HomePage = () => {
     dispatch(trackerStatus(false))
     fetchData();
     bannerData()
-    googleAuth()
+    // googleAuth()
     getUserData()
   }, []);
 
