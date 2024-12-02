@@ -52,9 +52,10 @@ const HomePage = () => {
     const token = urlParams.get("token");
       if (token) {
         const isProduction = window.location.protocol === "https:";
-        console.log(isProduction)
+        console.log(window.location.protoco)
         // Set the cookie with the token
-        document.cookie = `authToken=${token}; path=/; SameSite=None;  ${isProduction ? "Secure; HttpOnly;" : ""}`; 
+        document.cookie = `authToken=${token}; path=/; SameSite=None; ${isProduction ? "Secure;" : ""}`;
+
         // Clean the URL
         window.history.replaceState({}, document.title, "/");
       }
