@@ -206,8 +206,7 @@ export default function OrderViewModal ({viewData,setModal}) {
 <div className='p-2'>
           <div>Address :  <span className='bg-white mb-2 rounded-md px-2 '> {viewData?.address?.address}</span></div>
           <div>Postal Code : <span className='bg-white mb-2 rounded-md px-2 '> {viewData?.address?.postCode}</span></div>
-          <div>Note : <span className='bg-white mb-2 rounded-md px-2 '> {viewData?.address?.note ? viewData?.address?.note : "There is no note"} </span></div>
-=  </div>
+          <div>Note : <span className='bg-white mb-2 rounded-md px-2 '> {viewData?.address?.note ? viewData?.address?.note : "There is no note"} </span></div> </div>
            </div>
 
            : viewData?.guestMetaData?.address ? viewData?.guestMetaData?.address : 'Collection or No data'}
@@ -218,11 +217,13 @@ export default function OrderViewModal ({viewData,setModal}) {
         <td className="py-2 px-4 border  border-gray-300">Mobile Number</td>
         <td className="py-2 px-4 border border-gray-300 font-semibold">
         
-        {viewData?.orderBy?.mobileNumber ?  <span className='bg-slate-100 mb-2 rounded-md px-2 capitalize'>{viewData?.orderBy?.mobileNumber} </span> : 
-        viewData?.guestMetaData?.mobile ? viewData?.guestMetaData?.mobile : 'Collection or No data'}
+        {viewData?.mobileNumber ?  <span className='bg-slate-100 text-black mb-2 rounded-md px-2 capitalize'>{viewData?.mobileNumber} </span> : 
+        viewData?.guestMetaData?.mobile ? <span className='bg-slate-100 mb-2 rounded-md px-2 capitalize'>{ viewData?.guestMetaData?.mobile} </span> : viewData?.orderBy?.mobileNumber ? 
+        <span className='bg-slate-100 text-black mb-2 rounded-md px-2 capitalize'>{viewData?.orderBy?.mobileNumber} </span> : 'Collection or No data'}
           
         </td>
       </tr>
+ 
       <tr>
         <td className="py-2 px-4 border border-b-1 border-gray-300">Comment</td>
         <td className="py-2 px-4 border border-gray-300 font-semibold">

@@ -38,7 +38,7 @@ discount= cart?.reduce((acc, item) => {
     }, 0);
  
   const onSubmit = async (data) => {
-
+console.log(data?.mobileNumber)
     dispatch(trackerStatus(true))
     const newData = {
       orderType: order?.orderType,  
@@ -52,7 +52,7 @@ discount= cart?.reduce((acc, item) => {
         deliveryCharge: order.orderType === 'collection' ? 0 : deliveryCharge,
         discountPrice: discount || 0
       },
-      mobileNumber:userData?.mobileNumber || null,
+      mobileNumber:userData?.mobileNumber || data?.mobileNumber,
       paymentMethode: data?.paymentMethode,
       items: cart,
       terms: data?.terms,
@@ -273,7 +273,8 @@ if (totalPrice > 20){
                 placeholder="Leave comments for your order here"
               />
             </div>
-       { isGuestLoggedIn &&    <div>
+       { isGuestLoggedIn &&   
+        <div>
               <h3 className="text-lg font-bold ">PERSONAL DETAILS</h3>
              <div className="flex gap-3 w-full">
             <div className="w-full"><input
@@ -300,19 +301,30 @@ if (totalPrice > 20){
               />
               { errors.email &&  <p className="text-red-500">Email address is required.</p>}
             </div>}
-
+   { isUserLoggedIn &&  <div>  <h3 className="text-lg font-bold ">CONTACT NUMBER</h3>
+            <div className="w-full">
+              <input
+                {...register("mobileNumber",{required: true})}
+                name="mobileNumber"
+                defaultValue={userData?.mobileNumber}
+                className="w-full border p-2 rounded-md"
+                placeholder="Enter mobile number here"
+              />{ errors.mobileNumber &&  <p className="text-red-500">Mobile number is required.</p>}
+              </div>
+              </div>}
             {order?.orderType === 'delivery' && <div>
-                <h3 className="text-lg font-bold">{isGuestLoggedIn ? "YOUR ADDRESS :" : "YOUR ADDRESS & MOBILE NUMBER :"}</h3>
+                <h3 className="text-lg font-bold">YOUR ADDRESS :</h3>
                 <p>
                   {isGuestLoggedIn ? order?.address : order?.address?.address} 
-                { !isGuestLoggedIn  &&  <span className="text-red-800">, {userData?.mobileNumber ? userData?.mobileNumber: "No Mobile Number is added"}</span>}
+       
 
                 </p>
               </div>
             }
 
             <div>
-              <h3 className="text-lg font-bold">ORDER TIME</h3>
+              <h3 className="text-lg font-bold">ORDER TIME & TYPE</h3>
+              <p className=""> Order Type : {order?.orderType === 'collection' ?<span className="font-semibold text-red-800">Collection</span> : <span className="font-semibold text-green-800">Delivery</span>}</p>
               <p>
                 Your order is to be placed for {order?.time} ( Please note
                 delivery time is around 45 minutes )
