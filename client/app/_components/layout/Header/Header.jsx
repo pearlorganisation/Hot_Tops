@@ -130,7 +130,8 @@ const Header = () => {
             <Link href="/profile?tab=1" className="hidden lg:flex items-center gap-2 text-black">
               <CiUser size={25} aria-label="User Profile" />
               <span className="text-base text-red-800 hover:text-red-700 hover:font-bold tracking-wide">
-              {userData?.firstName ? userData?.firstName[0] : "Error"}.{userData?.lastName}
+              {userData?.firstName && userData?.lastName ? `${userData?.firstName[0]}.${userData?.lastName}` : 
+              userData?.firstName ? userData?.firstName : "No Name"}
               </span>
             </Link>
           ) : isGuestLoggedIn ? (<li className="hidden lg:flex px-2 font-normal hover:bg-white hover:shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded-md hover:text-red-800 text-white bg-red-800 items-center text-lg">

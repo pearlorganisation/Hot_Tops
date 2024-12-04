@@ -48,6 +48,9 @@ const orderSchema = new mongoose.Schema(
     },
     guestMetaData:{
       type:{},
+    },
+    mobileNumber:{
+      type:Number,
     }
 
   },
