@@ -13,7 +13,7 @@ import chalk from "chalk";
 export const createDeal = asyncErrorHandler(async (req, res, next) => {
   
   console.log("req.body",req.body)
-  const {pizzas,drinks,collectionOnlyDeal} = JSON.parse(req.body.chooseItems);
+  const {pizzas,drinks} = JSON.parse(req.body.chooseItems);
   const data = new deals({
     ...req?.body,
     defaultItems:JSON?.parse(req.body.defaultItems)||[],
@@ -25,9 +25,7 @@ export const createDeal = asyncErrorHandler(async (req, res, next) => {
       dips:  0,
       drinks: drinks || 0,
       dessert: 0,
-    },
-    collectionOnlyDeal:collectionOnlyDeal||false
-    
+    },  
   });
   await data.save();
 
