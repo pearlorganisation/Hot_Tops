@@ -11,6 +11,7 @@ import PizzaCustomizationModal from "@/app/_components/Modals/PizzaCutomizationM
 import { ClockLoader } from "react-spinners";
 import DealPriceCard from "@/app/_components/TotalPriceCard/DealPriceCard";
 import Image from "next/image";
+import { forEach } from "lodash";
 
 async function getData(id) {
   try {
@@ -39,7 +40,7 @@ const Page = () => {
   
   const sizeDetailRef = useRef(null);
 
-
+  const [specialPizzaPrice,setSpecialPizzaPrice] = useState(0); 
 
 
 
@@ -56,9 +57,7 @@ const Page = () => {
   const pizzaDataIndex = useRef(null);
 
 
-  useEffect(()=>{
-    console.log("Deal data pizza ",dealDataPizza);
-    },[dealDataPizza]);
+
   const handleOpeningModal = () => {
     if (modalRef.current) {
       modalRef.current.open();
@@ -68,9 +67,7 @@ const Page = () => {
 
 
 
-useEffect(()=>{
-  console.log("deal data pizza",dealDataPizza);
-},[dealDataPizza]);
+
 
 
   
@@ -120,8 +117,8 @@ useEffect(()=>{
           size: sizeDetailRef.current.size,
           id:  dealViewData?._id + dealDataPizza.reduce((acc,currEle)=> acc + currEle.id,''),
           quantity: 1,
-          price : Number(extraPrice+sizeDetailRef.current.price).toFixed(2),
-          totalSum :Number(extraPrice+sizeDetailRef.current.price).toFixed(2),
+          price : Number(extraPrice+sizeDetailRef.current.price+Number(specialPizzaPrice)).toFixed(2),
+          totalSum :Number(extraPrice+sizeDetailRef.current.price+Number(specialPizzaPrice)).toFixed(2),
           dealsData:[...submitData]
         }));
       router.push("/order/cart");
@@ -153,7 +150,28 @@ useEffect(()=>{
   const extraPrice = dealDataPizza.reduce((acc, currVal) => {
     return acc + (currVal?.pizzaExtraToppingPrice !== undefined ? currVal?.pizzaExtraToppingPrice : 0);
   }, 0);
+  
 
+
+
+  useEffect(()=>{
+    
+    if (!dealDataPizza.every((el) => el === undefined)) {
+      const { totalPizzaPrice, totalSumSpecialPizzaPrice } = dealDataPizza.reduce(
+        (acc, el) => {
+          acc.totalPizzaPrice += el?.pizzaPrice || 0;
+          acc.totalSumSpecialPizzaPrice += el?.extraSpecialPrice || 0;
+          return acc;
+        },
+        { totalPizzaPrice: 0, totalSumSpecialPizzaPrice: 0 }
+      );
+      
+      console.log("totalPizzaPrice",totalPizzaPrice);
+      console.log("totalSumSpecialPizzaPrice",totalSumSpecialPizzaPrice);
+      setSpecialPizzaPrice((totalPizzaPrice - totalSumSpecialPizzaPrice).toFixed(2));
+    }
+
+  },[dealDataPizza]);
   
 
   return (
@@ -290,6 +308,7 @@ useEffect(()=>{
                               temp[index] = e;
                               return temp;
                             });
+                            
                             console.log(e, "e");
                           }}
                           options={dealViewData.pizza.map((el) => ({
@@ -303,6 +322,8 @@ useEffect(()=>{
                             vegetarianToppingsName: el.vegetarianToppingsName,
                             meatToppingsName: el.meatToppingsName,
                             baseName: el.baseName,
+                            pizzaPrice:el.priceSection?.find((el)=> el?.size?.name === sizeDetailRef?.current?.size)?.price||0,
+                            extraSpecialPrice:el.priceSection?.find((el)=> el?.size?.name === sizeDetailRef?.current?.size)?.size?.basePrice||0
                           }))}
                         />
                       </div>
@@ -375,7 +396,7 @@ useEffect(()=>{
               ADD TO CART
             </button>
           </div>
-        { !viewButton ? <DealPriceCard  dealPrice={sizeDetailRef?.current?.price || 0} extraPrice={extraPrice} />: ""}
+        { !viewButton ? <DealPriceCard specialPizzaPrice={specialPizzaPrice}  dealPrice={sizeDetailRef?.current?.price || 0} extraPrice={extraPrice} />: ""}
         </div>
       ) : (
         <div className="flex justify-center pt-[25vh] h-[85vh] ">
