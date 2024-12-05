@@ -5,6 +5,7 @@ import dips from "../../models/dips.js";
 import dessert from "../../models/dessert/dessert.js";
 import drinks from "../../models/drinks.js";
 import { CustomError } from "../../utils/errors/customError.js";
+import chalk from "chalk";
 
 // Helper function to create an array with repeated data
 
@@ -12,7 +13,7 @@ import { CustomError } from "../../utils/errors/customError.js";
 export const createDeal = asyncErrorHandler(async (req, res, next) => {
   
   console.log("req.body",req.body)
-  const {pizzas,drinks} = JSON.parse(req.body.chooseItems);
+  const {pizzas,drinks,collectionOnlyDeal} = JSON.parse(req.body.chooseItems);
   const data = new deals({
     ...req?.body,
     defaultItems:JSON?.parse(req.body.defaultItems)||[],
@@ -25,6 +26,7 @@ export const createDeal = asyncErrorHandler(async (req, res, next) => {
       drinks: drinks || 0,
       dessert: 0,
     },
+    collectionOnlyDeal:collectionOnlyDeal||false
     
   });
   await data.save();
@@ -104,7 +106,6 @@ export const getDeal = asyncErrorHandler(async (req, res, next) => {
     //lean() will convert query object to normal js object 
 
     const resultantData = await deals.findById(req.params.id).lean();
-    // console.log(resultantData, "This is an reuslatant Data ");
 
     if (!resultantData) {
       return next(new CustomError("Deal not found", 404));
@@ -159,14 +160,20 @@ export const getDeal = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const getAllDeals = asyncErrorHandler(async (req, res, next) => {
-  let { isPopular } = req.query;
+  let { isPopular , collectionOnly } = req.query;
 
   // // Fetch data based on query
   let query = {};
   if (isPopular === "true") {
     query.isPopular = true;
   }
-
+  
+  if(collectionOnly)
+  {
+    query.collectionOnlyDeal = true;
+  }
+   
+  // console.log("query",chalk.red(JSON.stringify(query)));
   let data = await deals.find(query);
 
   res.status(200).json({ status: true, data, result: data.length });
