@@ -176,7 +176,7 @@ const Page = () => {
 
   return (
     <>
-    <PizzaCustomizationModal  ref={modalRef} pizzaIndex = {pizzaDataIndex} pizzaData = {dealDataPizza} setViewButton={setViewButton}  setDealDataPizza={setDealDataPizza} />
+    <PizzaCustomizationModal  calledBy={""} ref={modalRef} pizzaIndex = {pizzaDataIndex} pizzaData = {dealDataPizza} setViewButton={setViewButton}  setDealDataPizza={setDealDataPizza} />
     <div className="">
       {dealViewData ? (
         <div>

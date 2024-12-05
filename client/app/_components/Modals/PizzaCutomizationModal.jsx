@@ -346,7 +346,7 @@ const PizzaCustomizationModal = forwardRef(({ pizzaIndex, pizzaData,setDealDataP
             </div>
           </div>
         </div>
-          <ToppingsPriceCard calledBy="half" />
+          <ToppingsPriceCard calledBy={calledBy} />
       </dialog>
     </div>
   );
