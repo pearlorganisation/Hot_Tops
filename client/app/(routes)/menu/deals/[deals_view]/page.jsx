@@ -56,6 +56,8 @@ const Page = () => {
   
   const pizzaDataIndex = useRef(null);
 
+  const [extraPrice ,setExtraPrice] = useState(0);
+   
 
 
   const handleOpeningModal = () => {
@@ -80,7 +82,6 @@ const Page = () => {
       sizeDetailRef.current = dealViewData?.sizes.find(
         (el) => el._id === sizeId
       );
-      console.log(sizeDetailRef,"sdfdsf")
       pizzaDataIndex.current = 0; 
     }
   }, [dealViewData]);
@@ -102,11 +103,10 @@ const Page = () => {
       dealViewData &&
       submitData.every((item) => item !== null && item !== undefined) && (dealDataPizza.length === dealViewData.chooseItems.pizzas)
     ) {
-      console.log(submitData,"submitted data from pizzqaDeals");
 
-      const extraPrice = Number(
-        (dealDataPizza ? dealDataPizza.reduce((acc, currPizza) => acc + (currPizza.pizzaExtraToppingPrice || 0), 0) : 0)
-      ) + 0;
+      // const extraPrice = Number(
+      //   (dealDataPizza ? dealDataPizza.reduce((acc, currPizza) => acc + (currPizza.pizzaExtraToppingPrice || 0), 0) : 0)
+      // ) + 0;
 
       
 
@@ -147,9 +147,9 @@ const Page = () => {
   const drinkCount = dealViewData?.chooseItems?.drinks || 0;
   const drinks = new Array(drinkCount).fill(null);
 
-  const extraPrice = dealDataPizza.reduce((acc, currVal) => {
-    return acc + (currVal?.pizzaExtraToppingPrice !== undefined ? currVal?.pizzaExtraToppingPrice : 0);
-  }, 0);
+  // const extraPrice = dealDataPizza.reduce((acc, currVal) => {
+  //   return acc + (currVal?.pizzaExtraToppingPrice !== undefined ? currVal?.pizzaExtraToppingPrice : 0);
+  // }, 0);
   
 
 
@@ -159,18 +159,20 @@ const Page = () => {
     if (!dealDataPizza.every((el) => el === undefined)) {
       const { totalPizzaPrice, totalSumSpecialPizzaPrice } = dealDataPizza.reduce(
         (acc, el) => {
-          acc.totalPizzaPrice += el?.pizzaPrice || 0;
+          acc.totalPizzaPrice += el?.pizzaPriceExtra || 0;
           acc.totalSumSpecialPizzaPrice += el?.extraSpecialPrice || 0;
           return acc;
         },
         { totalPizzaPrice: 0, totalSumSpecialPizzaPrice: 0 }
       );
-      
-      console.log("totalPizzaPrice",totalPizzaPrice);
-      console.log("totalSumSpecialPizzaPrice",totalSumSpecialPizzaPrice);
       setSpecialPizzaPrice((totalPizzaPrice - totalSumSpecialPizzaPrice).toFixed(2));
-    }
+   }
+    const currExtraPrice = dealDataPizza?.reduce((acc, currVal) => {
+      return acc + (currVal?.pizzaExtraToppingPrice !== undefined ? currVal?.pizzaExtraToppingPrice : 0);
+    }, 0)||0;
 
+  setExtraPrice(currExtraPrice);
+  console.log("im triggering !!");
   },[dealDataPizza]);
   
 
@@ -322,7 +324,7 @@ const Page = () => {
                             vegetarianToppingsName: el.vegetarianToppingsName,
                             meatToppingsName: el.meatToppingsName,
                             baseName: el.baseName,
-                            pizzaPrice:el.priceSection?.find((el)=> el?.size?.name === sizeDetailRef?.current?.size)?.price||0,
+                            pizzaPriceExtra:el.priceSection?.find((el)=> el?.size?.name === sizeDetailRef?.current?.size)?.price||0,
                             extraSpecialPrice:el.priceSection?.find((el)=> el?.size?.name === sizeDetailRef?.current?.size)?.size?.basePrice||0
                           }))}
                         />
