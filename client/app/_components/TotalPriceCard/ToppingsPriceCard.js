@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-const ToppingsPriceCard = ({calledBy}) => {
+const ToppingsPriceCard = ({calledBy="something Else"}) => {
   const { price, allToppings, defaultPrice } = useSelector(
     (state) => state.cart
   );

@@ -20,6 +20,7 @@ const page = () => {
   const [isLoading, setIsLoading] = useState(null);
   const modalRef = useRef();
   const currentIndex = useRef(null);
+  const [extraPrice,setExtraPrice] = useState(0);
   let pizzaDataMapRef = useRef(new Map());
   let pizzaSizeMapRef = useRef(new Map());
   const pizzaCurrentSize = useRef(null);
@@ -54,7 +55,7 @@ const page = () => {
     console.log(priceSectionForSizes,"pizzaSizeMapRef");
 
     priceSectionForSizes?.priceSection?.forEach((element) => {
-      pizzaSizeMapRef.current.set(element.size._id, element);
+      pizzaSizeMapRef?.current.set(element.size._id, element);
     });
 
   }
@@ -93,7 +94,7 @@ const page = () => {
     });
 
     console.log(currentPizzaDetails, "currentPizzaDetails");
-    console.log(pizzaSizeMapRef.current.get(pizzaCurrentSize.current.value), "currentPizzaDetails");
+    console.log(pizzaSizeMapRef?.current.get(pizzaCurrentSize.current.value), "currentPizzaDetails");
     
     dispatch(
       getCustomizationDetails({
@@ -105,8 +106,8 @@ const page = () => {
         cheeseName: currentPizzaDetails.cheeseName,
         baseName: currentPizzaDetails.baseName,
         vegetarianToppingsName: currentPizzaDetails.vegetarianToppingsName,
-        priceSection: [pizzaSizeMapRef.current.get(pizzaCurrentSize.current.value)], //here we need price section object array ok
-        selectedData: (pizzaSizeMapRef.current.get(pizzaCurrentSize.current.value))?.size?._id,
+        priceSection: [pizzaSizeMapRef?.current.get(pizzaCurrentSize.current.value)], //here we need price section object array ok
+        selectedData: (pizzaSizeMapRef?.current.get(pizzaCurrentSize.current.value))?.size?._id,
       })
     );
   }
@@ -137,17 +138,17 @@ const page = () => {
     
     submitData.id = pizzaOne.id + pizzaTwo.id;
     
-    let extraPrice =
-      Number(
-        submitData
-          ? submitData.reduce(
-              (acc, currPizza) => acc + (currPizza.pizzaExtraToppingPrice || 0),
-              0
-            )
-          : 0
-      ) + 0;
+    // let extraPrice =
+    //   Number(
+    //     submitData
+    //       ? submitData.reduce(
+    //           (acc, currPizza) => acc + (currPizza.pizzaExtraToppingPrice || 0),
+    //           0
+    //         )
+    //       : 0
+    //   ) + 0;
 
-    extraPrice = extraPrice / 2;
+    // extraPrice = extraPrice / 2;
 
     let basePriceForPizza = pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value).price ;
 
@@ -174,20 +175,22 @@ const page = () => {
       } )
     );
 
-    router.push("/order/cart");
-    console.log(submitData, "submitData");
     console.log({
       name: "Half & Half Pizza",
       img: submitData[0].banner,
       size:pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value).size.name||"Check Size Issue in add to cart reducer",
       id:
-        (submitData?._id||"half") + pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value).size.name+
+        (submitData?.id||"half") + pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value).size.name+
         submitData.reduce((acc, currEle) => acc + currEle.id, ""),
       quantity: 1,
       price: Number(extraPrice + basePriceForPizza).toFixed(2),
       totalSum: Number(extraPrice + basePriceForPizza).toFixed(2),
       dealsData: submitData,
-    }, "submitData");
+      discount: Number((extraPrice + basePriceForPizza)* 0.2).toFixed(2)
+    },"hi sir !!")
+
+    router.push("/order/cart");
+
   }
 
   const handleOpeningModal = () => {
@@ -202,6 +205,21 @@ const page = () => {
     getSizes();
   }, []);
 
+
+  useEffect(()=>{
+   
+   console.log("Im definately dumb enough to work here")
+   let currExtraPrice = Number(
+         pizzaData.reduce(
+              (acc, currPizza) => acc + (currPizza?.pizzaExtraToppingPrice || 0),
+              0
+            )
+      ) + 0;
+      currExtraPrice = currExtraPrice/2;
+      console.log("currExtraPrice",currExtraPrice);
+      setExtraPrice(Number(currExtraPrice||0));
+  
+  },[pizzaData])
 
 
   return (
@@ -262,10 +280,13 @@ const page = () => {
                     name="pizzaOne"
                     placeholder="Choose First Pizza"
                     onChange={(e) => {
-                      console.log(e);
+                      
                       halfAndHalfDataRef.current[0] = e;
-                      pizzaData[0] = pizzaDataMapRef.current.get(e.value);
-                      console.log(halfAndHalfDataRef);
+                      setPizzaData((prev)=>{
+                        const temp = [...prev];
+                        temp[0] = pizzaDataMapRef.current.get(e.value);
+                      return temp ;
+                      })
                     }}
                   />
                 )}
@@ -305,8 +326,11 @@ const page = () => {
                     onChange={(e) => {
                       console.log(e);
                       halfAndHalfDataRef.current[1] = e;
-                      pizzaData[1] = pizzaDataMapRef.current.get(e.value);
-                      console.log(halfAndHalfDataRef);
+                      setPizzaData((prev)=>{
+                        const temp = [...prev];
+                        temp[1] = pizzaDataMapRef.current.get(e.value);
+                      return temp ;
+                      })
                     }}
                     name="pizzaTwo"
                   />
@@ -325,15 +349,8 @@ const page = () => {
           </button>
         </div>}
 
-         {pizzaData && pizzaSizeMapRef.current && pizzaCurrentSize.current &&
-      <DealPriceCard  calledBy="half"  dealPrice={pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value)?.price || 0} extraPrice={pizzaData?.length > 0 ? Number(
-        pizzaData
-          ? pizzaData.reduce(
-              (acc, currPizza) => acc + (currPizza.pizzaExtraToppingPrice || 0),
-              0
-            )
-          : 0
-      ):0 } />
+         {pizzaData && pizzaSizeMapRef?.current && pizzaCurrentSize.current &&
+      <DealPriceCard  calledBy="half"  dealPrice={pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.current?.value)?.price || 0} extraPrice={extraPrice} />
       }
       
       </div>
