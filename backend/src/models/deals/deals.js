@@ -69,6 +69,10 @@ const dealSchema = new mongoose.Schema(
     pizzaData: {               //this field holds notIncludedPizza list
       type: [{type:mongoose.Types.ObjectId,ref:"pizzas"}],  
     },
+    collectionOnlyDeal:{
+      type:Boolean,
+      default:false
+    }
   },
   { timestamps: true }
 );

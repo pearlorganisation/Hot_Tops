@@ -1,15 +1,21 @@
 // ----------------------------------Imports--------------------------------------
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Sidebar from "../Sidebar/Sidebar";
+import { useDispatch } from "react-redux";
+import { getSizePizza } from "../../features/actions/pizza/getCustomization";
 
 // --------------------------------------------------------------------------------
 
 const DefaultLayout = () => {
   // ----------------------------------States--------------------------------------
   const [isSideNavOpen, setIsSideNavOpen] = useState(true);
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(getSizePizza())
+  },[])
   // --------------------------------------------------------------------------------
   return (
     <div>

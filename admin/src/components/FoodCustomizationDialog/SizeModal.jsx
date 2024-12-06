@@ -92,6 +92,18 @@ const SizeModal = forwardRef((props, ref) => {
                 required
               />
             </div>
+            <div className="mb-4 space-y-1">
+              <label htmlFor="name" className="block font-medium  text-gray-700">
+                Deal Base Price
+              </label>
+              <input
+                id="basePrice"
+                {...register("basePrice")}
+                className="border p-[7px] rounded-md outline-slate-600 w-full"
+                placeholder={`Enter Price`}
+                required
+              />
+            </div>
        
 
           </div>
