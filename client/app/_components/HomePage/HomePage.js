@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {  Pagination } from "swiper/modules";
+import {  Autoplay, Pagination } from "swiper/modules";
 // import Swiper and modules styles
 import "swiper/css";
 import "swiper/css/navigation";
@@ -109,13 +109,18 @@ const HomePage = () => {
     <>
       <div className="w-full">
       <Swiper
+      autoplay={{
+        delay: 1500, // Time between slides in milliseconds (e.g., 3000ms = 3 seconds)
+        disableOnInteraction: false, // Continue autoplay after user interactions
+      }}
+      speed={1500} // Duration of transition in milliseconds
       className="z-55 "
         slidesPerView={1}
         pagination={{
           clickable: true,
         }}
         
-        modules={[Pagination]}
+        modules={[Pagination,Autoplay]}
       >
         {banner?.map((el, i) => {
             return (
