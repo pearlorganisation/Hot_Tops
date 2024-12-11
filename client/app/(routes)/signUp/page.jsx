@@ -229,7 +229,7 @@ const [isLoading,setIsLoading] = useState(false)
                 className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer pt-5 text-red-800 hover:text-red-700"
                 onClick={() => setShowConfirmPassword((prev) => !prev)}
               >
-                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                {showConfirmPassword ? <FaEye /> :  <FaEyeSlash />}
               </span>
               {errors.confirmPassword && (
                 <p className="text-red-800 text-sm mt-1">
