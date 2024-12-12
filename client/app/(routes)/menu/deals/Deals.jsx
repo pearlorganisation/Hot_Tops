@@ -90,7 +90,7 @@ const Deals = () => {
       </div>
     : 
  
-   ( <div className="text-lg text-red-800 font-semibold">No Only Collection Deals Right Now ... </div>)
+   ( <div className="text-lg text-red-800 font-semibold">No Collection Only Deals Right Now ... </div>)
 
     }
 
