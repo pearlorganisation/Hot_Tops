@@ -1,14 +1,13 @@
 "use client";
 import DealsCards from "@/app/_components/Pages/DealsCards";
 import Image from "next/image";
-import React, { useState, useEffect, useRef, useId } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect} from "react";
 
 
 
-async function getData() {
+async function getData(boolean) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/deals`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/deals?collectionOnly=${boolean}`);
     const data = await res.json();
     return data.data; // Assuming `data` has a `data` property containing the actual deals
   } catch (err) {
@@ -20,10 +19,14 @@ async function getData() {
 const Deals = () => {
  
   const [dealData, setDealData] = useState(null);
+  const [collectionOnlyDealData, setCollectionOnlyDealData] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
-      const data = await getData();
+      const data = await getData(false);
+      const collectionOnly = await getData(true);
+      setDealData(data);
+      setCollectionOnlyDealData(collectionOnly);
   
       setDealData(data);
     }
@@ -60,6 +63,37 @@ const Deals = () => {
           {Array.isArray(dealData) &&
             dealData.map((el, index) => <DealsCards data={el} key={index} />)}
         </div>
+
+
+        <div className=" px-6 pt-5 ">
+          <header class="text-center  bg-white">
+            <div className="flex justify-between   gap-2  items-center ">
+
+          </div>
+            <div className="flex items-center justify-center mb-2">
+              <div className="flex-grow border-t border-red-800"></div>
+              <h1 className="px-4  text-red-800 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
+              COLLECTION ONLY DEALS
+              </h1>
+              <div className="flex-grow border-t border-red-800"></div>
+            </div>
+          </header>
+        </div>
+
+{Array.isArray(collectionOnlyDealData) && collectionOnlyDealData.length>0 ? 
+      
+      <div className="flex gap-8 m-10 flex-wrap justify-center">
+        {
+    collectionOnlyDealData.map((el) => (
+            <DealsCards key={el.id} path={"menu"} data={el} />
+          ))}
+      </div>
+    : 
+ 
+   ( <div className="text-lg text-red-800 font-semibold">No Only Collection Deals Right Now ... </div>)
+
+    }
+
       </div>
     </>
   );
