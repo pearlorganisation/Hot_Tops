@@ -256,7 +256,7 @@ const generateDayTimeIntervals = () => {
                                             onClick={() => {
                                                 handleVerifyMiles(item?.id)
                                                 if(isGuestLoggedIn){
-                                                    if(miles<=5.0 ) {
+                                                    if(Number(miles)<=5.0 ) {
                                                     setSelectedAddress(item.address)
                                                         setPostCodeAddresses([])
                                                         setAlert(null)
@@ -270,7 +270,7 @@ const generateDayTimeIntervals = () => {
                                                 else
                                                 { 
                                                     
-                                                   if(miles<=5.0 ) {
+                                                   if(Number(miles)<=5.0 ) {
                                                     postAddress(item?.address) 
                                                     setSavedOrSelectedAddress([item.address])
                                                     setAlert(null)
