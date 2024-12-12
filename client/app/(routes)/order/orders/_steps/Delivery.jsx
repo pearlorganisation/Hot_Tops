@@ -26,8 +26,8 @@ const Delivery = ({ step }) => {
         setAddressData(response?.data?.data)
     }
 
-    async function handleVerifyMiles(locationId){
-        const responseCoordinates = await axios.get(`https://api.getAddress.io/get/${locationId}?api-key=${process.env.NEXT_PUBLIC_GET_ADDRESS_API}`)
+    async function handleVerifyMiles(item){
+        const responseCoordinates = await axios.get(`https://api.getAddress.io/get/${item?.id}?api-key=${process.env.NEXT_PUBLIC_GET_ADDRESS_API}`)
      
 
         const responseMiles = await axios.get(`https://distance-calculator.p.rapidapi.com/v1/one_to_one`,
@@ -44,6 +44,32 @@ const Delivery = ({ step }) => {
               }}
         )
         setMiles(responseMiles?.data?.distance)
+
+        if(isGuestLoggedIn){
+            if(Number(responseMiles?.data?.distance)<=5.0 ) {
+            setSelectedAddress(item.address)
+                setPostCodeAddresses([])
+                setAlert(null)
+            } 
+            else{
+                toast.error("Sorry ! Out of delivery range")
+                setAlert("Orders are accepted within 5 miles only. For longer distances, please contact us.")
+              }
+            }
+        
+        else
+        { 
+            
+           if(Number(responseMiles?.data?.distance)<=5.0 ) {
+            postAddress(item?.address) 
+            setSavedOrSelectedAddress([item.address])
+            setAlert(null)
+        }
+          else{
+            toast.error("Sorry ! Out of delivery range")
+            setAlert("Orders are accepted within 5 miles only. For longer distances, please contact us.")
+          }
+    }
     }
 
     const {
@@ -254,32 +280,8 @@ const generateDayTimeIntervals = () => {
                                     postCodeAddresses?.map(item => {
                                         return <div
                                             onClick={() => {
-                                                handleVerifyMiles(item?.id)
-                                                if(isGuestLoggedIn){
-                                                    if(Number(miles)<=5.0 ) {
-                                                    setSelectedAddress(item.address)
-                                                        setPostCodeAddresses([])
-                                                        setAlert(null)
-                                                    } 
-                                                    else{
-                                                        toast.error("Sorry ! Out of delivery range")
-                                                        setAlert("Orders are accepted within 5 miles only. For longer distances, please contact us.")
-                                                      }
-                                                    }
-                                                
-                                                else
-                                                { 
-                                                    
-                                                   if(Number(miles)<=5.0 ) {
-                                                    postAddress(item?.address) 
-                                                    setSavedOrSelectedAddress([item.address])
-                                                    setAlert(null)
-                                                }
-                                                  else{
-                                                    toast.error("Sorry ! Out of delivery range")
-                                                    setAlert("Orders are accepted within 5 miles only. For longer distances, please contact us.")
-                                                  }
-                                            }
+                                                handleVerifyMiles(item)
+                                    
                                             }}
                                             className="px-6 py-2 hover:bg-black/10 cursor-pointer">{item?.address}</div>
                                     })
