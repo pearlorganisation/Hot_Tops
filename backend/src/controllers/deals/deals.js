@@ -160,15 +160,19 @@ export const getDeal = asyncErrorHandler(async (req, res, next) => {
 export const getAllDeals = asyncErrorHandler(async (req, res, next) => {
   let { isPopular , collectionOnly } = req.query;
 
+
   // // Fetch data based on query
   let query = {};
   if (isPopular === "true") {
     query.isPopular = true;
   }
-  
-  if(collectionOnly)
+
+  if(collectionOnly=== "true") 
   {
     query.collectionOnlyDeal = true;
+  }
+  else{
+    query.collectionOnlyDeal = false;
   }
    
   // console.log("query",chalk.red(JSON.stringify(query)));
