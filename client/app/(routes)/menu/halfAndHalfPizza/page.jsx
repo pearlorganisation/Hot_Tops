@@ -40,7 +40,6 @@ const page = () => {
     setIsLoading(false);
 
     const newData = await data.json();
-    // pizzaDataForSelect = ;
     setPizzaDataForSelect(newData?.data?.map((el) => {
       if (pizzaDataMapRef) pizzaDataMapRef?.current.set(el._id, el);
       return {
@@ -52,7 +51,6 @@ const page = () => {
     
 
     const priceSectionForSizes = pizzaDataMapRef?.current?.values().next().value;
-    console.log(priceSectionForSizes,"pizzaSizeMapRef");
 
     priceSectionForSizes?.priceSection?.forEach((element) => {
       pizzaSizeMapRef?.current.set(element.size._id, element);

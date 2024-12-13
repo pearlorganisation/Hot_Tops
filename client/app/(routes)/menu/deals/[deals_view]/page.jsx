@@ -104,9 +104,7 @@ const Page = () => {
       submitData.every((item) => item !== null && item !== undefined) && (dealDataPizza.length === dealViewData.chooseItems.pizzas)
     ) {
 
-      // const extraPrice = Number(
-      //   (dealDataPizza ? dealDataPizza.reduce((acc, currPizza) => acc + (currPizza.pizzaExtraToppingPrice || 0), 0) : 0)
-      // ) + 0;
+
 
       
 
