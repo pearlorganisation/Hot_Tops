@@ -72,6 +72,7 @@ const SizeContainer = () => {
               <thead className="hidden border-b lg:table-header-group"  >
                 <tr>
                   <th className="border-b-2 p-2 text-left">Pizza Size</th>
+                  <th className="border-b-2 p-2 text-left">Deals Base Price</th>
                   <th className="border-b-2 p-2 ">Actions</th>
                 </tr>
               </thead>
@@ -91,6 +92,7 @@ const SizeContainer = () => {
               size?.map((item) => (
                   <tr key={item?._id}>
                     <td className="p-2 max-w-[100px] truncate">{item?.name}</td>
+                    <td className="p-2 max-w-[100px] truncate">£ {item?.basePrice}</td>
            
 
                     <td className="flex justify-center items-center gap-4">

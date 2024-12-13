@@ -11,9 +11,11 @@ const EditSizeModal = forwardRef((props, ref) => {
   const dialogRef = useRef();
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
-        name: props.data.name
+        name: props.data.name,
+        basePrice: props.data.basePrice
     },
   });
+  console.log(props.data.name)
 
   useImperativeHandle(ref, () => ({
     open: () => {
@@ -26,7 +28,8 @@ const EditSizeModal = forwardRef((props, ref) => {
 
   const dispatch = useDispatch();
   function onSubmit(data){
-     dispatch(updateSizePizza({_id:props.data._id,name:data?.name}));
+   console.log(data)
+     dispatch(updateSizePizza({_id:props.data._id,...data}));
        dialogRef.current.close();
   }
 
@@ -86,6 +89,19 @@ const EditSizeModal = forwardRef((props, ref) => {
               />
             </div>
        
+            <div className="mb-4 space-y-1">
+              <label htmlFor="name" className="block font-medium  text-gray-700">
+                Deal Base Price
+              </label>
+              <input
+                defaultValue={props.data.basePrice}
+                id="basePrice"
+                {...register("basePrice")}
+                className="border p-[7px] rounded-md outline-slate-600 w-full"
+                placeholder={`Enter Price`}
+                required
+              />
+            </div>
 
           </div>
           <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">

@@ -1,12 +1,9 @@
-
 import { getorderDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
 import { getPreviousPath } from "@/app/lib/features/path/pathslice";
-
-import { redirect, usePathname, useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-
 import { toast } from "sonner";
 import axios from "axios";
 import { debounce } from "lodash";
@@ -16,7 +13,10 @@ import { MdDelete } from "react-icons/md";
 const Delivery = ({ step }) => {
     const router = useRouter();
     const [addressData, setAddressData] = useState(null);
-    const { userData, isUserLoggedIn ,isGuestLoggedIn} = useSelector((state) => state.auth);
+    const [alert,setAlert] = useState(null)
+    const [miles, setMiles] = useState();
+    console.log(miles)
+    const { userData,isGuestLoggedIn} = useSelector((state) => state.auth);
     const [dayTimeIntervals, setDayTimeIntervals] = useState([]);
     const dispatch = useDispatch();
     const { previousPath } = useSelector((state) => state.path);
@@ -25,17 +25,53 @@ const Delivery = ({ step }) => {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/address/${userId}`)
         setAddressData(response?.data?.data)
     }
-    useEffect(() => {
-        if(!isGuestLoggedIn)
-       { fetchAddress(userData?._id)}
-    }, [userData])
 
+    async function handleVerifyMiles(item){
+        const responseCoordinates = await axios.get(`https://api.getAddress.io/get/${item?.id}?api-key=${process.env.NEXT_PUBLIC_GET_ADDRESS_API}`)
+     
 
-    useEffect(() => {
-        if (previousPath !== "/order/cart") {
-            redirect("/order/cart");
+        const responseMiles = await axios.get(`https://distance-calculator.p.rapidapi.com/v1/one_to_one`,
+            { params: {
+                start_point: `(${responseCoordinates?.data?.latitude},${responseCoordinates?.data?.longitude})`,
+                end_point: '(51.5997,-0.409477)',
+                unit: 'miles',
+                decimal_places: '2'
+              },
+              headers: {
+                'x-rapidapi-key': process.env.NEXT_PUBLIC_RAPID_DISTANCE_API,
+                'x-rapidapi-host': 'distance-calculator.p.rapidapi.com',
+                'Content-Type': 'application/json'
+              }}
+        )
+        setMiles(responseMiles?.data?.distance)
+
+        if(isGuestLoggedIn){
+            if(Number(responseMiles?.data?.distance)<=5.0 ) {
+            setSelectedAddress(item.address)
+                setPostCodeAddresses([])
+                setAlert(null)
+            } 
+            else{
+                toast.error("Sorry ! Out of delivery range")
+                setAlert("Orders are accepted within 5 miles only. For longer distances, please contact us.")
+              }
+            }
+        
+        else
+        { 
+            
+           if(Number(responseMiles?.data?.distance)<=5.0 ) {
+            postAddress(item?.address) 
+            setSavedOrSelectedAddress([item.address])
+            setAlert(null)
         }
-    }, []);
+          else{
+            toast.error("Sorry ! Out of delivery range")
+            setAlert("Orders are accepted within 5 miles only. For longer distances, please contact us.")
+          }
+    }
+    }
+
     const {
         register,
         handleSubmit,
@@ -44,10 +80,6 @@ const Delivery = ({ step }) => {
     } = useForm();
 
 
-    useEffect(() => {
-        const intervals = generateDayTimeIntervals();
-        setDayTimeIntervals(intervals);
-    }, []);
 const generateDayTimeIntervals = () => {
         const intervals = [];
         const currentTime = new Date();
@@ -88,7 +120,6 @@ const generateDayTimeIntervals = () => {
         return intervals;
     };
 
-
     const [postCodeAddresses, setPostCodeAddresses] = useState([])
     const [postalCode, setPostalCode] = useState('')
     const [savedOrSelectedAddress, setSavedOrSelectedAddress] = useState([])
@@ -96,16 +127,11 @@ const generateDayTimeIntervals = () => {
     const [isUpdateAdress, setUpdateAddress] = useState(false)
 
     const handleSearchDebounce = debounce(async (value) => {
-        const addressAPI_KEY = `https://api.getAddress.io/autocomplete/${value}?api-key=wzTsozpqsU6H14JJAZvUCA43606`
+        const addressAPI_KEY = `https://api.getAddress.io/autocomplete/${value}?api-key=${process.env.NEXT_PUBLIC_GET_ADDRESS_API}`
         const response = await axios.get(addressAPI_KEY)
 
         setPostCodeAddresses(response?.data?.suggestions)
     }, 500);
-
-    useEffect(() => {
-        handleSearchDebounce(postalCode)
-
-    }, [postalCode])
 
     const postAddress = async (address) => {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/address`,
@@ -203,6 +229,25 @@ const generateDayTimeIntervals = () => {
         console.log(selectedAddress, "")
     }, [ selectedAddress])
 
+    useEffect(() => {
+        handleSearchDebounce(postalCode)
+
+    }, [postalCode])
+
+    useEffect(() => {
+        if(!isGuestLoggedIn)
+       { fetchAddress(userData?._id)}
+    }, [userData])
+
+
+    useEffect(() => {
+        if (previousPath !== "/order/cart") {
+            redirect("/order/cart");
+        }
+        const intervals = generateDayTimeIntervals();
+        setDayTimeIntervals(intervals);
+    }, []);
+
 
     return (
         <div>
@@ -210,6 +255,7 @@ const generateDayTimeIntervals = () => {
             <div className=" border-t-2 p-2 space-y-6">
                 <div className="space-y-2">
                     <label htmlFor="address">Please Enter Your Postal Code</label>{" "}
+                    {alert &&   <div className="text-red-800" >{alert} <span className="font-bold">Current Distance: {miles} miles</span></div>}   
                     <div className="relative">
                     <input
     className="border-2 border-gray-300 rounded-md px-4 py-2 outline-none w-full focus:border-red-800"
@@ -228,125 +274,14 @@ const generateDayTimeIntervals = () => {
     }}
 />
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         {
                             Array.isArray(postCodeAddresses) && postCodeAddresses.length > 0 && <div className="absolute w-full bg-white top-12 border max-h-[20rem] overflow-y-auto">
                                 {
                                     postCodeAddresses?.map(item => {
                                         return <div
                                             onClick={() => {
-                                               
-                                                if(isGuestLoggedIn){
-                                                    setSelectedAddress(item.address)
-                                                    setPostCodeAddresses([])
-                                                }else
-                                                { 
-                                                    postAddress(item?.address)
-                                                setSavedOrSelectedAddress([item.address])}
+                                                handleVerifyMiles(item)
+                                    
                                             }}
                                             className="px-6 py-2 hover:bg-black/10 cursor-pointer">{item?.address}</div>
                                     })

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {  Pagination } from "swiper/modules";
+import {  Autoplay, Pagination } from "swiper/modules";
 // import Swiper and modules styles
 import "swiper/css";
 import "swiper/css/navigation";
@@ -15,9 +15,9 @@ import { trackerStatus } from "@/app/lib/features/orderDetails/orderDetailsslice
 import Link from "next/link";
 import { oAuthLogin } from "@/app/lib/features/auth/authSlice";
 
-async function getData() {
+async function getData(boolean) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/deals?isPopular=true`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/deals?collectionOnly=${boolean}`);
     const data = await res.json();
     return data.data; // Assuming `data` has a `data` property containing the actual deals
   } catch (err) {
@@ -37,37 +37,17 @@ async function getBanners(){
 }
 
 
-
 const HomePage = () => {
-
-
   
   const dispatch = useDispatch()
   
     const [popularDealData, setPopularDealData] = useState(null);
+    const [collectionOnlyDealData, setCollectionOnlyDealData] = useState(null);
     const [banner, setBanner] = useState([]);
     
-    // async function googleAuth() {
-    // const urlParams = new URLSearchParams(window.location.search);
-    // const token = urlParams.get("token");
-    // console.log(token, "TOKEEEN TOKEEEN TOKEEEN")
-    //   if (token) {
-    //     console.log("first")
-    //     const isProduction = window.location.protocol === "https:";
-    //     console.log(window.location.protocol, "GODE DE NAAL GODE DI JEANS")
-    //     // Set the cookie with the token
-    //     document.cookie = `authToken=${token}; path=/;  ${isProduction ? "Secure; SameSite=None;" : " SameSite=Strict;"}`;
-
-    //     // Clean the URL
-    //     window.history.replaceState({}, document.title, "/");
-    //   }
-    //   console.log("No user data found.");
-    // } 
-
     async function getUserData(){
       const urlParams = new URLSearchParams(window.location.search);
       const token = urlParams.get("token");
-      console.log(token, "TOKEEEN TOKEEEN TOKEEEN")
       window.history.replaceState({}, document.title, "/");
       if(token)
       {
@@ -89,8 +69,10 @@ const HomePage = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const data = await getData();
+      const data = await getData(false);
+      const collectionOnly = await getData(true);
       setPopularDealData(data);
+      setCollectionOnlyDealData(collectionOnly);
     }
     async function bannerData(){
       const data = await getBanners();
@@ -101,7 +83,6 @@ const HomePage = () => {
     dispatch(trackerStatus(false))
     fetchData();
     bannerData()
-    // googleAuth()
     getUserData()
   }, []);
 
@@ -109,13 +90,18 @@ const HomePage = () => {
     <>
       <div className="w-full">
       <Swiper
+      autoplay={{
+        delay: 1500, // Time between slides in milliseconds (e.g., 3000ms = 3 seconds)
+        disableOnInteraction: false, // Continue autoplay after user interactions
+      }}
+      speed={1500} // Duration of transition in milliseconds
       className="z-55 "
         slidesPerView={1}
         pagination={{
           clickable: true,
         }}
         
-        modules={[Pagination]}
+        modules={[Pagination,Autoplay]}
       >
         {banner?.map((el, i) => {
             return (
@@ -166,6 +152,36 @@ const HomePage = () => {
         <Image src="/HOTPIZZALOGO.jpg" alt="Pizza Logo"  width={300} height={300} className="h-[10vh] w-[30vw]  object-contain" />
       </div>
     )}
+
+{Array.isArray(collectionOnlyDealData) && collectionOnlyDealData.length>0 && 
+<>
+<div className="mx-auto container max-w-7xl px-5 lg:px-10">
+        <header class="text-center pb-10  bg-white">
+          <div class="flex items-center justify-center my-2">
+            <div class="flex-grow border-t border-red-800"></div>
+
+            <div class="flex-grow border-t border-red-800"></div>
+          </div>
+
+          <div class="flex items-center justify-center">
+            <div class="flex-grow border-t border-red-800"></div>
+            <h1 class="px-4 text-red-800 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
+              COLLECTION ONLY DEALS
+            </h1>
+            <div class="flex-grow border-t border-red-800"></div>
+          </div>
+        </header>
+      </div>
+
+      <div className="flex gap-8 mb-10 flex-wrap justify-center">
+        { collectionOnlyDealData.map((el) => (
+            <DealsCards key={el.id} path={"menu"} data={el} />
+          ))}
+      </div>
+    
+    </>
+    }
+
     </>
     </>
   );
