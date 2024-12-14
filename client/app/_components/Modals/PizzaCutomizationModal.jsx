@@ -330,7 +330,7 @@ const PizzaCustomizationModal = forwardRef(
                                     <span className="bg-red-800 text-white rounded-lg px-1">
                                       + £{" "}
                                       {calledBy === "half"
-                                        ? base?.price[0]?.price / 2
+                                        ? (base?.price[0]?.price / 2).toFixed(2)
                                         : base?.price[0]?.price}
                                     </span>
                                   )}
