@@ -207,7 +207,7 @@ const page = () => {
     pizzaData.forEach((el) => {
       currExtraPrice += el?.pizzaExtraToppingPrice || 0;
       totalBase += el?.basePrice || 0;
-      totalPizzaPrice += el?.pizzaPrice || 0;
+      totalPizzaPrice += el?.pizzaSpecialPrice || 0;
     });
 
     totalPizzaPrice = totalPizzaPrice - totalBase;
@@ -293,7 +293,7 @@ const page = () => {
                             e.value
                           );
                           tempDataPizza.basePrice = mrpOfPizza?.size?.basePrice;
-                          tempDataPizza.pizzaPrice = mrpOfPizza.price;
+                          tempDataPizza.pizzaSpecialPrice = mrpOfPizza.price;
                           temp[0] = tempDataPizza;
                           return temp;
                         });
@@ -344,7 +344,7 @@ const page = () => {
                             e.value
                           );
                           tempDataPizza.basePrice = mrpOfPizza?.size?.basePrice;
-                          tempDataPizza.pizzaPrice = mrpOfPizza.price;
+                          tempDataPizza.pizzaSpecialPrice = mrpOfPizza.price;
 
                           temp[1] = tempDataPizza;
                           return temp;
