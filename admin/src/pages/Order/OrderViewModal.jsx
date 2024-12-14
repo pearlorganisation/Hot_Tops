@@ -113,8 +113,8 @@ export default function OrderViewModal ({viewData,setModal}) {
                     {item?.allToppings && <span className="text-sm bg-red-800 text-white rounded-md px-2"> Customized </span>}
                     </p></div>
                   { mergedToppings && <p className=" text-green-800 pb-2 border p-1 px-2 mb-2 rounded-md">{mergedToppings}</p>}
-                    <div className="flex justify-between gap-5">
-                        <div className="font-semibold text-green-800 text-right  md:text-left">
+                    <div className="md:flex justify-between gap-5">
+                        <div className="font-semibold text-green-800   md:text-left">
                         {viewData?.orderType === 'collection' && item?.discount ? <>Price : £ {(item?.price - item?.discount).toFixed(2)} <span className="line-through text-sm text-slate-600">{item?.price}</span></> : `Price : £ ${item?.price}`}
                           <span className="text-sm"> x {item?.quantity}</span>
                           <div className="text-sm text-red-800"> Quantity : {item?.quantity}</div>

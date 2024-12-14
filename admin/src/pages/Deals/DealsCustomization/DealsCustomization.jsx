@@ -48,22 +48,23 @@ const DealsCustomization = () => {
       {modal && <DeleteModal setModal={setModal} onConfirm={handleConfirmDelete} />}
 
       {!isLoading && <div className="container mx-auto 2xl:p-15 lg:p-8">
-        <div className="text-center flex items-center justify-between px-4 text-2xl py-5 text-white rounded-md font-semibold bg-red-500">
+        <div className="text-center flex items-center justify-between px-4 text-xl py-3 text-white rounded-md font-semibold bg-red-500">
           <p>Manage Your Deals</p>
-          <Link to="/createDeal" className="bg-green-700 text-xl px-2 rounded-lg ">
+          <Link to="/createDeal" className="bg-green-600 hover:bg-green-700 text-xl px-2 rounded-lg ">
      Add New Deal
           </Link>
         </div>
 
         <div className="relative overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg" style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <table className="w-full text-sm text-left  text-gray-500 ">
+            <thead className="text-xs text-gray-700  bg-gray-50 ">
               <tr>
                 <th scope="col" className="px-4 py-3 text-lg">Deal name</th>
                 <th scope="col" className="px-4 py-3 text-lg">Banner</th>
                 <th scope="col" className="px-4 py-3 text-lg">Deal Contains</th>
                 <th scope="col" className="px-2 py-3 text-lg">Price</th>
-                <th scope="col" className="px-1 py-3 text-lg">Actions</th>
+                <th scope="col" className="px-2 py-3 text-lg">Collection Only</th>
+                <th scope="col" className="px-4 py-3 text-lg">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -89,9 +90,10 @@ const DealsCustomization = () => {
                         </div>
                       ))}
                     </td>
-                    <td className="py-4">
+                    <td className="py-4 px-4 font-medium text-gray-900 whitespace-nowrap">{el.collectionOnlyDeal?"YES":"NO"}</td>
+                    <td className="py-4 pr-5 ">
                       <div className="flex gap-2 justify-center items-center">
-                        <Link to={`/editDeal/${el._id}`} className="font-medium text-blue-500 hover:underline hover:text-blue-600">Edit</Link>
+                        <Link to={`/editDeal/${el._id}`} className="font-medium text-green-600 hover:underline hover:text-green-700">Edit</Link>
                         <button onClick={() => handleDeleteDeal(el._id)} className="font-medium text-red-500 hover:underline hover:text-red-600">Delete</button>
                       </div>
                     </td>

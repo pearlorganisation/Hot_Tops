@@ -58,10 +58,7 @@ const DefaultLayout = () => {
           />
         </div>
         <div className="flex flex-1 flex-col overflow-y-auto ">
-          {/* <Header
-            isSideNavOpen={isSideNavOpen}
-            setIsSideNavOpen={setIsSideNavOpen}
-          /> */}
+ 
           <Main />
         </div>
       </div>
