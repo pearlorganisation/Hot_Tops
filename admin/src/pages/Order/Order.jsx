@@ -12,7 +12,7 @@ const Order = () => {
     const dispatch = useDispatch()
     const [approval, setApproval] = useState({});
     const { orderData,isLoading } = useSelector(state => state.order)
-
+const [stopViewModal,setStopViewModal] = useState(false)
     const [showViewModal,setShowViewModal] = useState(false)
     const [viewData,setViewData]= useState()
     const handleViewModal=(itemData)=>{
@@ -99,7 +99,10 @@ const Order = () => {
             </tr>
             ) : (
               Array.isArray(orderData) && orderData.length > 0 && orderData.map((item, idx) => (
-                    <tr key={idx}>
+                    <tr key={idx} className='hover:bg-slate-100 cursor-pointer active:bg-slate-100' onClick={() => {
+                      stopViewModal ? null : handleViewModal(item)
+
+                    }}>
                       <td className="px-3 py-4 whitespace-nowrap">{item?.orderNumber}</td>
                       <td className="px-3 py-4 whitespace-nowrap ">
                  {  item?.orderBy   ?   `${item?.orderBy?.firstName} ${item?.orderBy?.lastName}` : item?.guestMetaData?.name}
@@ -120,8 +123,10 @@ const Order = () => {
                       <td className="px-3 py-4 whitespace-nowrap ">
                       <form onSubmit={(e) => handleSubmit(e, item._id)} className="flex items-center">
                           <select
+                          onMouseOver={()=>setStopViewModal(true)}
+                          onMouseLeave={()=>setStopViewModal(false)}
                             value={approval[item._id] !== undefined ? approval[item._id] === "Completed" ? 'Completed' : approval[item._id] === 'Cancelled' ? 'Cancelled' : "" : ""}
-                            onChange={(e) => handleChange(e, item._id)}
+                            onChange={(e) => handleChange(e, item._id) }
                             className="px-3 py-2 text-sm text-gray-600 bg-white border rounded-lg shadow-sm outline-none appearance-none focus:ring-offset-2 focus:ring-indigo-600 focus:ring-2"
                           >
                             <option value="" disabled hidden>
