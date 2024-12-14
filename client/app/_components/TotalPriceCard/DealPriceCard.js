@@ -21,7 +21,7 @@ const DealPriceCard = ({
           ? Number(Math.max(0, extraPrice?.toFixed(2)))
           : Math.max(0, extraPrice?.toFixed(2))}
       </div>
-      {calledBy !== "half" && <div>Extra Pizza Price : {specialPizzaPrice||0}</div>}
+      { <div>Extra Pizza Price : {specialPizzaPrice||0}</div>}
       <div>
         Total Deal Price :{" "}
         {calledBy !== "half" ? (Number(Math.max(0, extraPrice)+ (dealPrice||0) + (Number(specialPizzaPrice||0)))).toFixed(2) :(Number(Math.max(0, extraPrice)  + (dealPrice||0) + (Number(specialPizzaPrice||0))))?.toFixed(2)}

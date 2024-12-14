@@ -184,12 +184,10 @@ const PizzaCustomizationModal = forwardRef(
         })
         .join("");
       setDealDataPizza((prevState) => {
-        // Create a new array to avoid mutating the original state
         const temp = [...prevState];
 
-        // Update the specific pizza object
         temp[pizzaIndex.current] = {
-          ...pizzaData[pizzaIndex.current], // Keep existing data
+          ...pizzaData[pizzaIndex.current], 
           name: customizationData.name,
           id: temp[pizzaIndex.current].id + uniqueId,
           cheeseName: allToppings.cheese,
@@ -202,13 +200,9 @@ const PizzaCustomizationModal = forwardRef(
             Math.max(0, (allToppings?.extraPrice - defaultPrice).toFixed(2))
           ),
         };
-
-        // Return the new array
         return temp;
       });
-      // console.log("we came into the customizxation !!");
 
-      // dispatch(resetToppings());
       modalRef.current.close();
       enableScroll();
     };
@@ -336,7 +330,7 @@ const PizzaCustomizationModal = forwardRef(
                                     <span className="bg-red-800 text-white rounded-lg px-1">
                                       + £{" "}
                                       {calledBy === "half"
-                                        ? base?.price[0]?.price / 2
+                                        ? (base?.price[0]?.price / 2).toFixed(2)
                                         : base?.price[0]?.price}
                                     </span>
                                   )}
