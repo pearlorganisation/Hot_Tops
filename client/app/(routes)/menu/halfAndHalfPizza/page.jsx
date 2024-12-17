@@ -138,20 +138,8 @@ const page = () => {
     pizzaOne.label = pizzaOne.pizzaName;
     pizzaTwo.label = pizzaTwo.pizzaName;
     const submitData = [pizzaOne, pizzaTwo];
-
+   
     submitData.id = pizzaOne.id + pizzaTwo.id;
-
-    // let extraPrice =
-    //   Number(
-    //     submitData
-    //       ? submitData.reduce(
-    //           (acc, currPizza) => acc + (currPizza.pizzaExtraToppingPrice || 0),
-    //           0
-    //         )
-    //       : 0
-    //   ) + 0;
-
-    // extraPrice = extraPrice / 2;
 
     let basePriceForPizza =
       pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.value)?.price || 0;

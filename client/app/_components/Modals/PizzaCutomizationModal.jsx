@@ -84,9 +84,6 @@ const PizzaCustomizationModal = forwardRef(
       customizationData?.baseName || ""
     );
 
-    useEffect(() => {
-      console.log("This is selectedBase ", selectedBase);
-    }, [selectedBase]);
 
     useEffect(() => {
       if (customizationData) {
@@ -183,6 +180,15 @@ const PizzaCustomizationModal = forwardRef(
           return item?._id.slice(-4) + item?.size?.slice(0, 2);
         })
         .join("");
+
+
+      if((veg.length > 9 || meat.length > 9)||(meat.length + veg.length > 9))
+      {
+
+        toast.error("Please Select At Max 9 Toppings From Veg Or Non Toppings");
+        return;
+      }
+
       setDealDataPizza((prevState) => {
         const temp = [...prevState];
 
