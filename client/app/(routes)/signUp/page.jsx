@@ -294,12 +294,12 @@ const [isLoading,setIsLoading] = useState(false)
             >
              <FcGoogle size={27}/> Continue With Google
             </Link>
-            <button
+            {/* <button
              onClick={()=>dispatch(guestLogin())}
               className="w-full flex justify-center items-center gap-3 bg-black text-white px-4 py-3 rounded-md hover:bg-gray-800"
             >
              <FaUser size={23}/> Continue as Guest
-            </button>
+            </button> */}
         </div>
       </div>
     </>
