@@ -138,20 +138,8 @@ const page = () => {
     pizzaOne.label = pizzaOne.pizzaName;
     pizzaTwo.label = pizzaTwo.pizzaName;
     const submitData = [pizzaOne, pizzaTwo];
-
+   
     submitData.id = pizzaOne.id + pizzaTwo.id;
-
-    // let extraPrice =
-    //   Number(
-    //     submitData
-    //       ? submitData.reduce(
-    //           (acc, currPizza) => acc + (currPizza.pizzaExtraToppingPrice || 0),
-    //           0
-    //         )
-    //       : 0
-    //   ) + 0;
-
-    // extraPrice = extraPrice / 2;
 
     let basePriceForPizza =
       pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.value)?.price || 0;
@@ -227,7 +215,7 @@ const page = () => {
         setViewButton={setViewButton}
         setDealDataPizza={setPizzaData}
       />
-      <div className="p-10 h-screen">
+      <div className="p-3 md:p-8 h-screen">
         <div>
           <h1 className="text-3xl md:text-4xl font-bold text-green-800">
             Half And Half Pizza

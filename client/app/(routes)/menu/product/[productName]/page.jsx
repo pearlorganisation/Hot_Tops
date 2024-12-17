@@ -139,6 +139,9 @@ const Product = () => {
 
   const handleCustomization = () => {
     console.log("createYourOwnPizzaMAX_TOPPINGS",createYourOwnPizzaMAX_TOPPINGS);
+
+    
+
     if(createYourOwnPizzaMAX_TOPPINGS > 6)
       {
         toast.error("You can only add upto maximum 6 Toppings !!");
@@ -146,6 +149,14 @@ const Product = () => {
       }
     
     const { cheese, sauce, meat, veg, size, base,_id } = allToppings
+
+    if(((veg.length > 9 || meat.length > 9)||(meat.length + veg.length > 9)) && customizationPizzaOpenedBy !== "createYourOwnPizza")
+      {
+
+        toast.error("Please Select At Max 9 Toppings From Veg Or Meat Toppings");
+        return;
+      }
+
     const temp = [...[cheese, sauce, meat, veg].flat(), base, size]
     let uniqueId = temp.map(item => {
       return _id + item._id.slice(-4) + item?.size?.slice(0, 2)

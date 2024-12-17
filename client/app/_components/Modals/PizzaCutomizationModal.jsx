@@ -18,6 +18,7 @@ import {
 import { FaWindowClose } from "react-icons/fa";
 import ToppingsPriceCard from "../TotalPriceCard/ToppingsPriceCard";
 import { toast } from "sonner";
+import { Toaster } from "sonner";
 
 const PizzaCustomizationModal = forwardRef(
   (
@@ -84,9 +85,6 @@ const PizzaCustomizationModal = forwardRef(
       customizationData?.baseName || ""
     );
 
-    useEffect(() => {
-      console.log("This is selectedBase ", selectedBase);
-    }, [selectedBase]);
 
     useEffect(() => {
       if (customizationData) {
@@ -183,6 +181,14 @@ const PizzaCustomizationModal = forwardRef(
           return item?._id.slice(-4) + item?.size?.slice(0, 2);
         })
         .join("");
+
+
+      if((veg.length > 9 || meat.length > 9)||(meat.length + veg.length > 9))
+      {
+        toast.error("Please Select At Max 9 Toppings From Veg Or Meat Toppings");
+        return;
+      }
+
       setDealDataPizza((prevState) => {
         const temp = [...prevState];
 
@@ -239,6 +245,7 @@ const PizzaCustomizationModal = forwardRef(
           aria-hidden="true"
           className="overflow-y-auto overflow-x-hidden fixed z-50 outline-none  w-full md:inset-0 rounded-lg  h-[80vh]"
         >
+          <Toaster position="top-right" richColors />
           <button
             className="fixed outline-none top-28 lg:top-20 right-8 md:p-4 z-[55]"
             onClick={() => {
@@ -368,10 +375,7 @@ const PizzaCustomizationModal = forwardRef(
 
                   <div className="mt-4 mb-10">
                     <button
-                      onClick={() => {
-                        handleCustomization();
-                        modalRef.current.close();
-                      }}
+                        onClick={handleCustomization}
                       className="bg-green-800 hover:bg-green-700 text-white w-full px-10 p-2 rounded"
                     >
                       Save
