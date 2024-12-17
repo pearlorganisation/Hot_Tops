@@ -227,7 +227,7 @@ const page = () => {
         setViewButton={setViewButton}
         setDealDataPizza={setPizzaData}
       />
-      <div className="p-10 h-screen">
+      <div className="p-3 md:p-8 h-screen">
         <div>
           <h1 className="text-3xl md:text-4xl font-bold text-green-800">
             Half And Half Pizza
