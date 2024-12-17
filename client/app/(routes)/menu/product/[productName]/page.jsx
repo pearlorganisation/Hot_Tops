@@ -153,7 +153,7 @@ const Product = () => {
     if(((veg.length > 9 || meat.length > 9)||(meat.length + veg.length > 9)) && customizationPizzaOpenedBy !== "createYourOwnPizza")
       {
 
-        toast.error("Please Select At Max 9 Toppings From Veg Or Non Toppings");
+        toast.error("Please Select At Max 9 Toppings From Veg Or Meat Toppings");
         return;
       }
 
