@@ -8,9 +8,24 @@ import Script from "next/script";
 
 
 export const metadata = {
+  baseUrl : "https://hothousenorthwood.co.uk/",
   title: 'Hot House pizza | Best Pizza in Northwood | Order online now',
   description: 'Discover the best pizza takeaway in Northwood at Hot House Pizza, Convenient online ordering, quick service, and unbeatable taste. Order now',
-}
+  openGraph: {
+    title: 'Hot House pizza | Best Pizza in Northwood | Order online now',
+    description: 'Discover the best pizza takeaway in Northwood at Hot House Pizza, Convenient online ordering, quick service, and unbeatable taste. Order now',
+    url: "https://hothousenorthwood.co.uk/opengraph-image.jpg",
+    siteName: "Hot House Pizza",
+    images: [
+      {
+        url: "https://hothousenorthwood.co.uk/opengraph-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Hot House Pizza - Best Pizza in Northwood"
+      }
+    ],
+    type: 'website'
+  }}
 
 
 export default function RootLayout({ children }) {
