@@ -116,13 +116,8 @@ const MeatToppings = ({ meatTopData ,calledBy }) => {
         };
       }
     );
-    // if(customizationData?.id==="6703be55176d2099698929c1" ){
-    //   dispatch(setToppingsCYOP({ meat: selectedMeatData }));
-    // }else{
+
       dispatch(setToppings({ meat: selectedMeatData }));
-    // }
-    
-    // console.log(selectedMeatData, "selectedVegetarianData");
   };
   useEffect(() => {
     handleSave();

@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
 const VegetarianToppings = ({ vegetarianTopData ,calledBy }) => {
-  // console.log(vegetarianTopData, "vegetarianTopData");
   const { customizationData } = useSelector((state) => state.orderDetails);
   const { MAX_TOPPINGS, CYOP_MAX_TOPPINGS } = useSelector((state) => state.cart);
   const [defaultVegDetails, setDefaultVegDetails] = useState([]);
@@ -18,16 +17,12 @@ const VegetarianToppings = ({ vegetarianTopData ,calledBy }) => {
   useEffect(() => {
     setSelectedVeg(() => {
       const defaultSelected = {};
-      // console.log(defaultSelectedVeg, "defaultSelectedVeg");
       defaultVegDetails?.forEach((vegName) => {
-        // console.log(vegName, "vegName");
         const veg = vegetarianTopData.find((s) => s.name === vegName);
-        // console.log(vegetarianTopData, "vegetarianTopData");
         if (veg) {
           defaultSelected[veg._id] = "single";
         }
       });
-      // console.log(defaultSelected, "defaultSelected");
       return defaultSelected;
     });
   }, [defaultVegDetails, customizationData, vegetarianTopData]);
@@ -42,31 +37,8 @@ const VegetarianToppings = ({ vegetarianTopData ,calledBy }) => {
 
       dispatch(updateSet(vegId));
     }
-    // if(customizationData.id==="6703be55176d2099698929c1" ){
-    //   setSelectedVeg((prevSelected) => {
-    //     // Toggle the selection
-    //     if (prevSelected[vegId] === size) {
-    //       const { [vegId]: _, ...rest } = prevSelected;
-    //       return rest;
-    //     } else {
-    //       if ( CYOP_MAX_TOPPINGS < 6) {
-    //         return {
-    //           ...prevSelected,
-    //           [vegId]: size,
-    //         };
-    //       }
-         
-    //       else {
-    //         toast.info("You Can Add Only 6 Toppings");
-    //         return {
-    //           ...prevSelected,
-    //         };
-    //       }
-    //     }
-    //   });
-
-    // }
-    // else {
+    
+    
     setSelectedVeg((prevSelected) => {
       // Toggle the selection
       if (prevSelected[vegId] === size) {
@@ -86,7 +58,7 @@ const VegetarianToppings = ({ vegetarianTopData ,calledBy }) => {
         }
       }
     });
-  // }
+  
   };
 
   useEffect(() => {
@@ -109,13 +81,8 @@ const VegetarianToppings = ({ vegetarianTopData ,calledBy }) => {
         };
       }
     );
-    // if(customizationData?.id==="6703be55176d2099698929c1" ){
-    //   dispatch(setToppingsCYOP({ veg: selectedVegetarianData }));
-    // }else{
+
       dispatch(setToppings({ veg: selectedVegetarianData }));
-    // }
- 
-    // console.log(selectedVegetarianData, "selectedVegetarianData");
   };
 
   useEffect(() => {
