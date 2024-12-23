@@ -14,7 +14,7 @@ const DealPriceCard = ({
 
   return (
     <div className="fixed bottom-5 rounded-md right-5 bg-red-600 p-6 text-white font-semibold text-center">
-      <div>Deal Price : {dealPrice}</div>
+      <div>Deal Price : {dealPrice} + 1</div>
       <div>
         Extra Price :{" "}
         {calledBy === "half"
@@ -24,7 +24,7 @@ const DealPriceCard = ({
       { <div>Extra Pizza Price : {specialPizzaPrice||0}</div>}
       <div>
         Total Deal Price :{" "}
-        {calledBy !== "half" ? (Number(Math.max(0, extraPrice)+ (dealPrice||0) + (Number(specialPizzaPrice||0)))).toFixed(2) :(Number(Math.max(0, extraPrice)  + (dealPrice||0) + (Number(specialPizzaPrice||0))))?.toFixed(2)}
+        {calledBy !== "half" ? (Number(Math.max(0, extraPrice)+ (dealPrice||0) + (Number(specialPizzaPrice||0)))).toFixed(2) :(Number(Math.max(0, extraPrice)  + (dealPrice||0) + (Number(specialPizzaPrice||0)) + 1))?.toFixed(2) }
       </div>
     </div>
   );

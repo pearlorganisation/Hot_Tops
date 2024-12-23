@@ -161,9 +161,9 @@ const page = () => {
           pizzaSizeMapRef?.current?.get(pizzaCurrentSize?.value).size.name +
           submitData.reduce((acc, currEle) => acc + currEle.id, ""),
         quantity: 1,
-        price: Number(extraPrice + basePriceForPizza).toFixed(2),
+        price: Number( extraPrice + basePriceForPizza + totalBasePrice + 1).toFixed(2),
         totalSum: Number(
-          extraPrice + basePriceForPizza + totalBasePrice
+          extraPrice + basePriceForPizza + totalBasePrice + 1
         ).toFixed(2),
         dealsData: submitData,
         discount: Number(
