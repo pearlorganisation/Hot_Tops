@@ -22,7 +22,7 @@ const DefaultLayout = () => {
       <button
         title="Side navigation"
         type="button"
-        className={`visible fixed right-6 top-2 z-40 order-10 block h-10 w-10 self-center rounded bg-red-400 opacity-100  lg:hidden ${
+        className={`visible fixed right-6 top-2 z-30 order-10 block h-10 w-10 self-center rounded bg-red-400 opacity-100  lg:hidden ${
           isSideNavOpen
             ? "visible opacity-100 [&_span:nth-child(1)]:w-6 [&_span:nth-child(1)]:translate-y-0 [&_span:nth-child(1)]:rotate-45 [&_span:nth-child(3)]:w-0 [&_span:nth-child(2)]:-rotate-45 "
             : ""
@@ -58,10 +58,7 @@ const DefaultLayout = () => {
           />
         </div>
         <div className="flex flex-1 flex-col overflow-y-auto ">
-          {/* <Header
-            isSideNavOpen={isSideNavOpen}
-            setIsSideNavOpen={setIsSideNavOpen}
-          /> */}
+ 
           <Main />
         </div>
       </div>

@@ -272,6 +272,7 @@ const Page = () => {
                       )}      
                         <Select
                           placeholder={`Choose pizza ${index + 1}`}
+                          className="min-w-52 w-52"
                           key={index}
                           onChange={(e) => {
                             setDealDataPizza((prev) => {

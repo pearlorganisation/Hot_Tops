@@ -44,7 +44,7 @@ export const createSizeCustomization = asyncErrorHandler( async(req,res,next)=>{
 export const getAllSizeCustomization = asyncErrorHandler( async(req,res,next)=>{
 
   
-  const data = await sizeCustomizationModel.find()
+  const data = await sizeCustomizationModel.find().sort({basePrice:1})
 
  
  res.status(200).json({status:true,message:"Size Customization data found successfully",data})

@@ -76,6 +76,22 @@ export const getAllOrders = asyncErrorHandler(async (req, res, next) => {
   res.status(200).json({ status: true, message: "All Orders Found successfully", data });
 });
 
+export const getMonthlyData = asyncErrorHandler(async (req, res, next) => {
+const {year,month}= req?.query
+
+  const startDate = new Date(year, month-1 , 2); // First day of the month
+  const endDate = new Date(year, month , 2);       // First day of next month
+
+  const data = await order.find({
+    $and: [
+      { createdAt: { $gte: startDate, $lt: endDate } }, // Filter by date range
+      { $or: [ { paymentStatus: true }, { paymentMethode: "Cash on delivery" } ] }
+    ]
+  }).sort({createdAt:1}).populate("orderBy");
+  
+  res.status(200).json({ status: true, message: "All Monthly Orders Found successfully",data  });
+})
+
 export const deleteFailedPayment= asyncErrorHandler(async (req, res, next) => {
    // Calculate the timestamp for 1 day ago
    const oneDayAgo = new Date();

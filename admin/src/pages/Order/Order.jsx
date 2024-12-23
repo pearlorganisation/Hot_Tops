@@ -4,15 +4,17 @@ import { useNavigate } from 'react-router-dom'
 import { Stack,Skeleton } from '@mui/material';
 import { deleteFailedOrder, getAllOrders, updateOrder } from '../../features/actions/order/order';
 import OrderViewModal from './OrderViewModal';
-
+import { jsPDF } from "jspdf";
+import "jspdf-autotable"; 
 
 
 const Order = () => {
-    const navigate = useNavigate()
+
     const dispatch = useDispatch()
+    const [monthlyData,setMonthlyData] = useState([])
     const [approval, setApproval] = useState({});
     const { orderData,isLoading } = useSelector(state => state.order)
-
+const [stopViewModal,setStopViewModal] = useState(false)
     const [showViewModal,setShowViewModal] = useState(false)
     const [viewData,setViewData]= useState()
     const handleViewModal=(itemData)=>{
@@ -35,9 +37,65 @@ const Order = () => {
       dispatch(updateOrder({ id:orderId, isCompleted: approval[orderId] }));
     };
 
+    const doc = new jsPDF();
+    const table = document.querySelector("table");
+    doc.text("Monthly Orders Report", 14, 10);
+  
+    const columns = [
+      { header: "Order Id", dataKey: "orderId" },
+      { header: "Name", dataKey: "name" },
+      { header: "Pay Amount", dataKey: "payAmount" },
+      { header: "Time", dataKey: "time" },
+      { header: "Order Type", dataKey: "orderType" },
+      { header: "Payment Method", dataKey: "paymentMethod" },
+      { header: "Order Status", dataKey: "orderStatus" },
+    ];
+  
+    const rows = orderData.map((item) => ({
+      orderId: item?.orderNumber,
+      name: item?.orderBy
+        ? `${item.orderBy.firstName} ${item.orderBy.lastName}`
+        : item?.guestMetaData?.name,
+      payAmount: `£${(
+        Number(item?.totalAmount?.total) +
+        Number(item?.totalAmount?.deliveryCharge) -
+        Number(item?.totalAmount?.discountPrice || 0)
+      ).toFixed(2)}`,
+      time: item?.time,
+      orderType: item?.orderType,
+      paymentMethod:
+        item?.orderType === "collection" && item?.paymentMethode === "Cash on delivery"
+          ? "Pay on Collection"
+          : item?.orderType === "delivery" && item?.paymentMethode === "Cash on delivery"
+          ? "Pay on Delivery"
+          : item?.paymentMethode,
+      orderStatus: item?.approvalStatus || "Pending",
+    }));
+  
+      // Use autoTable to generate the PDF
+      doc.autoTable({
+        columns, // Include only selected columns
+        body: rows, // Data for rows
+        startY: 20,
+        theme: "striped",
+        styles: {
+          fontSize: 10,
+          cellPadding: { top: 5, right: 2, bottom: 5, left: 2 },
+        },
+
+      });
+    
+
     useEffect(() => {
           dispatch(getAllOrders());
-          dispatch(deleteFailedOrder())
+          dispatch(deleteFailedOrder());
+
+          async function getMonthlyOrders(){
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/order/filteredOrders/monthly?year=2024&month=9`)
+            setMonthlyData(response?.data?.data)
+          }
+
+          getMonthlyOrders()
       }, [])
       
     useEffect(() => {
@@ -62,11 +120,15 @@ const Order = () => {
               <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
                 Manage Orders 
               </h3>
-              <p className="text-gray-600 text-sm mt-2">
-              This page is for handle orders
-              </p>
+           
             </div>
-         
+        <div className='flex gap-3'>
+        <select>Date</select>
+        <select>Date</select>
+        <button className='text-white bg-blue-700 px-2 py-1 rounded-md hover:bg-blue-600' onClick={()=>doc.save("a4.pdf")}>
+          Download PDF
+         </button>
+        </div>
           </div>
           <div className="mt-6 shadow-xl rounded-lg overflow-x-auto">
             <table className="w-full table-auto text-sm text-left">
@@ -99,7 +161,10 @@ const Order = () => {
             </tr>
             ) : (
               Array.isArray(orderData) && orderData.length > 0 && orderData.map((item, idx) => (
-                    <tr key={idx}>
+                    <tr key={idx} className='hover:bg-slate-100 cursor-pointer active:bg-slate-100' onClick={() => {
+                      stopViewModal ? null : handleViewModal(item)
+
+                    }}>
                       <td className="px-3 py-4 whitespace-nowrap">{item?.orderNumber}</td>
                       <td className="px-3 py-4 whitespace-nowrap ">
                  {  item?.orderBy   ?   `${item?.orderBy?.firstName} ${item?.orderBy?.lastName}` : item?.guestMetaData?.name}
@@ -120,8 +185,10 @@ const Order = () => {
                       <td className="px-3 py-4 whitespace-nowrap ">
                       <form onSubmit={(e) => handleSubmit(e, item._id)} className="flex items-center">
                           <select
+                          onMouseOver={()=>setStopViewModal(true)}
+                          onMouseLeave={()=>setStopViewModal(false)}
                             value={approval[item._id] !== undefined ? approval[item._id] === "Completed" ? 'Completed' : approval[item._id] === 'Cancelled' ? 'Cancelled' : "" : ""}
-                            onChange={(e) => handleChange(e, item._id)}
+                            onChange={(e) => handleChange(e, item._id) }
                             className="px-3 py-2 text-sm text-gray-600 bg-white border rounded-lg shadow-sm outline-none appearance-none focus:ring-offset-2 focus:ring-indigo-600 focus:ring-2"
                           >
                             <option value="" disabled hidden>

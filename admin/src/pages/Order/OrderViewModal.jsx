@@ -1,6 +1,6 @@
 import React from 'react'
 import { format } from 'date-fns';
-
+import { IoCloseCircleOutline } from "react-icons/io5";
 
 
 export default function OrderViewModal ({viewData,setModal}) {
@@ -13,7 +13,7 @@ export default function OrderViewModal ({viewData,setModal}) {
 
   return (
     <div
-    className="fixed top-0 left-0 z-1000 flex h-screen w-screen items-center justify-center bg-slate-300/20 backdrop-blur-sm"
+    className="fixed top-0 left-0 z-40 flex h-screen w-screen items-center justify-center bg-slate-300/20 backdrop-blur-sm"
     aria-labelledby="header-3a content-3a"
     aria-modal="true"
     tabindex="-1"
@@ -21,19 +21,22 @@ export default function OrderViewModal ({viewData,setModal}) {
   >
     {/*    <!-- Modal --> */}
     <div
-      className="flex w-full sm:w-[80%] xl:w-[70%] h-full  flex-col gap-6  rounded bg-white p-6 pb-14 shadow-xl "
+      className="flex w-full sm:w-[80%] xl:w-[70%] h-full  flex-col gap-6  rounded bg-white md:p-6 p-3  shadow-xl "
       id="modal"
       role="document"
     >
       {/*        <!-- Modal header --> */}
       <header id="header-3a" className="flex items-center gap-4">
-        <h3 className="flex-1 text-xl font-medium text-slate-700">
+        <h3 className="flex-1 text-xl font-medium text-red-800">
         Order Details
+
+        <div className='text-sm text-slate-500'>Order created at :    {formatDate(viewData?.createdAt)} </div>
+   
         </h3>
-        <div>Order created at :    {formatDate(viewData?.createdAt)} </div>
+   
         <button
           onClick={() => setModal(false)}
-          className="inline-flex h-10 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full px-5 text-sm font-medium tracking-wide text-emerald-500 transition duration-300 hover:bg-emerald-100 hover:text-emerald-600 focus:bg-emerald-200 focus:text-emerald-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:text-emerald-300 disabled:shadow-none disabled:hover:bg-transparent"
+          className="hidden md:inline-flex h-10 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded-full px-5 text-sm font-medium tracking-wide text-emerald-500 transition duration-300 hover:bg-emerald-100 hover:text-emerald-600 focus:bg-emerald-200 focus:text-emerald-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:text-emerald-300 disabled:shadow-none disabled:hover:bg-transparent"
           aria-label="close dialog"
         >
           <span className="relative only:-mx-5">
@@ -59,6 +62,15 @@ export default function OrderViewModal ({viewData,setModal}) {
             </svg>
           </span>
         </button>
+        <button
+          onClick={() => setModal(false)}
+          className="text-red-800 md:hidden"
+          aria-label="close dialog"
+        >
+       
+         <IoCloseCircleOutline size={30}/>
+  
+        </button>
       </header>
       {/*        <!-- Modal body --> */}
       <div id="content-3a" className="flex-1 overflow-auto space-y-10">
@@ -66,16 +78,16 @@ export default function OrderViewModal ({viewData,setModal}) {
       <table className="w-full table-auto text-sm">
     <tbody className="text-gray-600">
       <tr>
-        <td className="py-2 px-4 border border-gray-300">Full name</td>
-        <td className="py-2 px-4 border border-gray-300">{viewData?.orderBy ? `${viewData?.orderBy?.firstName} ${viewData?.orderBy?.lastName}` : viewData?.guestMetaData?.name}</td>
+        <td className="py-2 px-2 md:px-4 border border-gray-300">Full name</td>
+        <td className="py-2 px-2 md:px-4 border border-gray-300">{viewData?.orderBy ? `${viewData?.orderBy?.firstName} ${viewData?.orderBy?.lastName}` : viewData?.guestMetaData?.name}</td>
       </tr>
       <tr>
-        <td className="py-2 px-4 border border-gray-300">Email</td>
-        <td className="py-2 px-4 border border-gray-300">{viewData?.orderBy ? `${viewData?.orderBy?.email}` : viewData?.guestMetaData?.email}</td>
+        <td className="py-2 px-2 md:px-4 border border-gray-300">Email</td>
+        <td className="py-2 px-2 md:px-4 border border-gray-300">{viewData?.orderBy ? `${viewData?.orderBy?.email}` : viewData?.guestMetaData?.email}</td>
       </tr>
       <tr>
-        <td className="py-2 px-4 border border-gray-300">Ordered Items </td>
-        <td className="py-2 px-4 border border-gray-300">
+        <td className="py-2 px-2 md:px-4 border border-gray-300">Ordered Items </td>
+        <td className="py-2 px-2 md:px-4 border border-gray-300">
           {viewData && viewData.items ? (
             viewData.items.map((item, idx) => 
             {       const size= String(item?.size).includes("-")
@@ -101,20 +113,29 @@ export default function OrderViewModal ({viewData,setModal}) {
                     ...(Array.isArray(item2?.sauceName) ? item2?.sauceName.map(sauce => `${sauce.sauceName} - ${sauce?.size === "double" ? "2️⃣ " : "1️⃣ "}`) : [])
                   ].join(', '))
                 : [];
+
+                
          
               return (
-              <div className='border border-slate-300 flex mb-2 rounded-md px-2 gap-2' key={idx}>
+              <div className='border border-slate-300 flex mb-2 rounded-md ps-2 gap-2' key={idx}>
                  <div className='flex items-center '><span className=''>{idx+1}:</span> </div>
-                 <div className='p-2 space-x-2'>
+                 <div className='py-2 pe-2 space-x-2'>
               <div className=' rounded-md px-2 '>  
                  <p className="text-lg pb-2"> {item?.name}
                     {" "}
                     {size ? `(${price[0]})` : (item?.dealsData ? `(${item?.size})` : item?.allToppings?.size?.name ? `(${item?.allToppings?.size?.name})` : "" ) }<br/>
                     {item?.allToppings && <span className="text-sm bg-red-800 text-white rounded-md px-2"> Customized </span>}
                     </p></div>
-                  { mergedToppings && <p className=" text-green-800 pb-2 border p-1 px-2 mb-2 rounded-md">{mergedToppings}</p>}
-                    <div className="flex justify-between gap-5">
-                        <div className="font-semibold text-green-800 text-right  md:text-left">
+                  { mergedToppings && <p className="hidden md:block text-green-800 pb-2 border p-1 px-2 mb-2 rounded-md">{mergedToppings}</p>}
+                  { mergedToppings && <p className=" md:hidden text-green-800 pb-2 border p-1 px-2 mb-2 rounded-md"> {mergedToppings.split(',').map((topping, index) => (
+      <span key={index}>
+        {topping.trim()}
+        <br />
+      </span>
+    ))}</p>
+                  } 
+                    <div className="md:flex justify-between gap-5">
+                        <div className="font-semibold text-green-800   md:text-left">
                         {viewData?.orderType === 'collection' && item?.discount ? <>Price : £ {(item?.price - item?.discount).toFixed(2)} <span className="line-through text-sm text-slate-600">{item?.price}</span></> : `Price : £ ${item?.price}`}
                           <span className="text-sm"> x {item?.quantity}</span>
                           <div className="text-sm text-red-800"> Quantity : {item?.quantity}</div>
@@ -128,7 +149,14 @@ export default function OrderViewModal ({viewData,setModal}) {
                   item?.name ? 
                   (<> <div key={idx} className=" ">
                     <div className="min-w-[10rem] max-w-[10rem] md:min-w-[30rem]">{item?.name} <span className="text-sm bg-red-800 text-white rounded-md px-2"> Customized </span></div>
-                    <div className="text-green-900 text-sm">{mergedDealToppingsArray[idx]}</div>
+                    <div className="hidden md:block text-green-900 text-sm">{mergedDealToppingsArray[idx]}</div>
+                    <div className="md:hidden mt-2  text-green-900 text-sm">{mergedDealToppingsArray[idx].split(',').map((topping, index) => (
+      <span key={index}>
+        {topping.trim()}
+        <br />
+      </span>
+    ))}</div>
+
                   </div>
                   <div className="border-b py-1"></div>
                   </>
@@ -151,8 +179,8 @@ export default function OrderViewModal ({viewData,setModal}) {
         </td>
       </tr>
       <tr>
-        <td className="py-2 px-4 border border-gray-300">Amount Details</td>
-        <td className="py-2  px-4 border border-gray-300 font-semibold">       <div className='p-2 bg-slate-100 w-fit rounded-md'>
+        <td className="py-2 px-2 md:px-4 border border-gray-300">Amount Details</td>
+        <td className="py-2  px-2 md:px-4 border border-gray-300 font-semibold">       <div className='p-2 bg-slate-100 w-fit rounded-md'>
           <div>Total Amount :  <span className='text-yellow-600 bg-white mb-2 rounded-md px-2 '> £ {viewData?.totalAmount?.total}</span></div>
           <div>Delivery Charge : <span className='text-yellow-600 bg-white mb-2 rounded-md px-2 '> £ {viewData?.totalAmount?.deliveryCharge}</span></div>
           <div>Discount : <span className='text-yellow-600 bg-white mb-2 rounded-md px-2 '> {viewData?.totalAmount?.discountPrice ? `£ ${(viewData?.totalAmount?.discountPrice).toFixed(2)}` : "There is no discount"} </span></div>
@@ -165,32 +193,32 @@ export default function OrderViewModal ({viewData,setModal}) {
         </td>
       </tr>
       <tr>
-        <td className="py-2 px-4 border border-gray-300">Day & Time</td>
-        <td className="py-2 px-4 border border-gray-300 font-semibold">
+        <td className="py-2 px-2 md:px-4 border border-gray-300">Day & Time</td>
+        <td className="py-2 px-2 md:px-4 border border-gray-300 font-semibold">
         
         {viewData ?  <span className='bg-slate-100 mb-2 rounded-md px-2 '>{viewData?.time} </span> : 'No data'}
           
         </td>
         </tr>
       <tr>
-        <td className="py-2 px-4 border border-gray-300">Order Type</td>
-        <td className="py-2 px-4 border border-gray-300 font-semibold">
+        <td className="py-2 px-2 md:px-4 border border-gray-300">Order Type</td>
+        <td className="py-2 px-2 md:px-4 border border-gray-300 font-semibold">
         
         {viewData ?  <span className='bg-slate-100 mb-2 rounded-md px-2 capitalize'>{viewData?.orderType} </span> : 'No data'}
           
         </td>
       </tr>
       <tr>
-        <td className="py-2 px-4 border border-gray-300">Payment method</td>
-        <td className="py-2 px-4 border border-gray-300 font-semibold">
+        <td className="py-2 px-2 md:px-4 border border-gray-300">Payment method</td>
+        <td className="py-2 px-2 md:px-4 border border-gray-300 font-semibold">
         
         {viewData ?  <span className='bg-slate-100 mb-2 rounded-md px-2 capitalize'>{viewData?.orderType === "collection" && viewData?.paymentMethode === "Cash on delivery" ? "Pay on Collection" : viewData?.orderType === "delivery" && viewData?.paymentMethode === "Cash on delivery"? "Pay on delivery" : viewData?.paymentMethode}</span> : 'No data'}
           
         </td>
       </tr>
       <tr>
-        <td className="py-2 px-4 border border-gray-300">Order Status</td>
-        <td className="py-2 px-4 border border-gray-300 font-semibold">
+        <td className="py-2 px-2 md:px-4 border border-gray-300">Order Status</td>
+        <td className="py-2 px-2 md:px-4 border border-gray-300 font-semibold">
         
         {viewData ?  <span className='bg-slate-100 mb-2 rounded-md px-2 '>{viewData?.orderStatus} </span> : 'No data'}
           
@@ -198,8 +226,8 @@ export default function OrderViewModal ({viewData,setModal}) {
       </tr>
      
       <tr>
-        <td className="py-2 px-4 border  border-gray-300">Delivery Address</td>
-        <td className="py-2 px-4 border border-gray-300 font-semibold">
+        <td className="py-2 px-2 md:px-4 border  border-gray-300">Delivery Address</td>
+        <td className="py-2 px-2 md:px-4 border border-gray-300 font-semibold">
         
         {viewData?.address ? 
               <div className=' bg-slate-100 flex mb-2 rounded-md px-2 gap-2 w-fit' >
@@ -214,8 +242,8 @@ export default function OrderViewModal ({viewData,setModal}) {
         </td>
       </tr>
       <tr>
-        <td className="py-2 px-4 border  border-gray-300">Mobile Number</td>
-        <td className="py-2 px-4 border border-gray-300 font-semibold">
+        <td className="py-2 px-2 md:px-4 border  border-gray-300">Mobile Number</td>
+        <td className="py-2 px-2 md:px-4 border border-gray-300 font-semibold">
         
         {viewData?.mobileNumber ?  <span className='bg-slate-100 text-black mb-2 rounded-md px-2 capitalize'>{viewData?.mobileNumber} </span> : 
         viewData?.guestMetaData?.mobile ? <span className='bg-slate-100 mb-2 rounded-md px-2 capitalize'>{ viewData?.guestMetaData?.mobile} </span> : viewData?.orderBy?.mobileNumber ? 
@@ -225,8 +253,8 @@ export default function OrderViewModal ({viewData,setModal}) {
       </tr>
  
       <tr>
-        <td className="py-2 px-4 border border-b-1 border-gray-300">Comment</td>
-        <td className="py-2 px-4 border border-gray-300 font-semibold">
+        <td className="py-2 px-2 md:px-4 border border-b-1 border-gray-300">Comment</td>
+        <td className="py-2 px-2 md:px-4 border border-gray-300 font-semibold">
         
         {viewData?.comment ?  <span className='bg-slate-100 mb-2 rounded-md px-2 capitalize'>{ viewData?.comment} </span> : 'No Comment'}
           
