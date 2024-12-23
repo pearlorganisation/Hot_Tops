@@ -72,6 +72,7 @@ const Product = () => {
   const handleRadioChange = async (e) => {
     const newSizeId = e.target.value;
     setSelectedSizeId(newSizeId);
+    dispatch(clearSet());
 
 
     // Fetch new prices based on the selected size
