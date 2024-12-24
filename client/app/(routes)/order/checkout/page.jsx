@@ -169,12 +169,15 @@ const [mount, setMount] = useState(false)
   },[])
 
   useEffect(()=>{
-if(totalPrice <20 && totalPrice >=10 ){
+    const isDealIncluded= cart.some((item)=>item.collectionOnlyDeal===false ||item.collectionOnlyDeal===true)
+    // console.log(isDealIncluded)
+    if (totalPrice > 20 && !isDealIncluded){
+      setDeliveryCharge(0.5)
+    }
+if(totalPrice <20 && totalPrice >=10 || isDealIncluded ){
   setDeliveryCharge(2.99)
 }
-if (totalPrice > 20){
-  setDeliveryCharge(0.5)
-}
+// if()
   },[totalPrice])
 
 
@@ -254,7 +257,7 @@ if (totalPrice > 20){
             <div className="space-y-1">
               <p>Total: £ {totalPrice?.toFixed(2)}</p>
               {order?.orderType === 'collection' ? <p>Discount: £ {discount}</p> : <p>Discount: £ 0</p>}
-              {order?.orderType === 'collection' ? <p>Delivery Charge: £ 0 (No charges for collection)</p> : <p>Delivery charge: £ {deliveryCharge}</p>}
+              {order?.orderType === 'collection' ? <p>Delivery Charge: £ 0  (No charges for collection)</p> : <p>Delivery charge: £ {deliveryCharge}</p>}
               <p className="font-bold">
                 You pay: £ {order?.orderType === 'collection' ?  (Number(totalPrice) + 0 - discount).toFixed(2) : (Number(totalPrice) + deliveryCharge - 0).toFixed(2)}
               </p>
