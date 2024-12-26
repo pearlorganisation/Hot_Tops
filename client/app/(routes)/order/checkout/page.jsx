@@ -177,7 +177,7 @@ const [mount, setMount] = useState(false)
 if(totalPrice <20 && totalPrice >=10 || isDealIncluded ){
   setDeliveryCharge(2.99)
 }
-// if()
+
   },[totalPrice])
 
 
