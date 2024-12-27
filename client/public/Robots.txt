@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+https://www.hothousenorthwood.co.uk/sitemap.xml
