@@ -88,14 +88,14 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="w-full">
+      <div className="w-full ">
       <Swiper
       autoplay={{
         delay: 1500, // Time between slides in milliseconds (e.g., 3000ms = 3 seconds)
         disableOnInteraction: false, // Continue autoplay after user interactions
       }}
       speed={1500} // Duration of transition in milliseconds
-      className="z-55 "
+      className="z-55  "
         slidesPerView={1}
         pagination={{
           clickable: true,
@@ -105,15 +105,15 @@ const HomePage = () => {
       >
         {banner?.map((el, i) => {
             return (
-              <SwiperSlide className="pb-8" key={i} >
+              <SwiperSlide className="pb-8 " key={i} >
              { el?.deal?._id ? <Link href={{
               pathname: `menu/deals/deals_view`,
               query: { card_id: el?.deal?._id, size_id: el?.deal?.sizes[0]?._id  },
             }}>
-                <Image width={2500} height={1000}  src={el?.banner} alt="Deals Banner" className="h-full mx-auto w-full lg:w-[70%] xl:w-[70%] sm:h-fit md:[30vh] md:h-fit xl:h-[65vh] 2xl:w-[60%] 2xl:h-[70vh]  object-cover" />
+                <Image width={2500} height={1000}  src={el?.banner} alt="Deals Banner" className="h-full mx-auto w-full lg:w-[70%] xl:w-[70%] sm:h-fit md:[30vh] md:h-fit xl:h-[65vh] 2xl:w-[60%] 2xl:h-[70vh]  object-cover rounded-xl" />
                 </Link>
                 :
-                <Image width={2500} height={1000}  src={el?.banner} alt="Deals Banner" className="h-full mx-auto w-full lg:w-[70%] xl:w-[70%] sm:h-fit md:[30vh] md:h-fit xl:h-[65vh] 2xl:w-[60%] 2xl:h-[70vh]  object-cover" />}
+                <Image width={2500} height={1000}  src={el?.banner} alt="Deals Banner" className="rounded-xl h-full mx-auto w-full lg:w-[70%] xl:w-[70%] sm:h-fit md:[30vh] md:h-fit xl:h-[65vh] 2xl:w-[60%] 2xl:h-[70vh]  object-cover" />}
        
               </SwiperSlide>
             );

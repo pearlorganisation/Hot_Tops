@@ -13,6 +13,7 @@ const page = () => {
   const router = useRouter();
   const cart = useSelector((state) => state.cart.cartData);
   const order = useSelector((state) => state.orderDetails?.order);
+  const {miles} = useSelector((state) => state.orderDetails);
   const {userData,isGuestLoggedIn,isUserLoggedIn} = useSelector((state) => state.auth);
   const [isLoading,setIsLoading] = useState(false)
   const [codData, setCodData] = useState();
@@ -155,7 +156,6 @@ else{
 
 const [mount, setMount] = useState(false)
   useEffect(()=>{
-    console.log(cart.length)
     setMount(true)
     if ( mount && cart?.length < 1) {
         router.push("/");
@@ -171,11 +171,14 @@ const [mount, setMount] = useState(false)
   useEffect(()=>{
     const isDealIncluded= cart.some((item)=>item.collectionOnlyDeal===false ||item.collectionOnlyDeal===true)
     // console.log(isDealIncluded)
-    if (totalPrice > 20 && !isDealIncluded){
+    if (totalPrice > 20 && !isDealIncluded && miles<=3){
       setDeliveryCharge(0.5)
     }
-if(totalPrice <20 && totalPrice >=10 || isDealIncluded ){
+else if((totalPrice <20 && totalPrice >=10) || (isDealIncluded && miles<=3) ){
   setDeliveryCharge(2.99)
+}
+else {
+  setDeliveryCharge(3.99)
 }
 
   },[totalPrice])

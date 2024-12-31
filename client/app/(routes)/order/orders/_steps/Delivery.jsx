@@ -1,4 +1,4 @@
-import { getorderDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
+import { getorderDetails, saveMiles } from "@/app/lib/features/orderDetails/orderDetailsslice";
 import { getPreviousPath } from "@/app/lib/features/path/pathslice";
 import { redirect, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -50,6 +50,7 @@ const Delivery = ({ step }) => {
             setSelectedAddress(item.address)
                 setPostCodeAddresses([])
                 setAlert(null)
+                dispatch(saveMiles(Number(responseMiles?.data?.distance)))
             } 
             else{
                 toast.error("Sorry ! Out of delivery range")
@@ -64,6 +65,7 @@ const Delivery = ({ step }) => {
             postAddress(item?.address) 
             setSavedOrSelectedAddress([item.address])
             setAlert(null)
+            dispatch(saveMiles(Number(responseMiles?.data?.distance)))
         }
           else{
             toast.error("Sorry ! Out of delivery range")

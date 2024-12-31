@@ -21,7 +21,7 @@ const page = () => {
     { name: `Collection`, no: 1 },
     { name: `Delivery`, no: 2 },
   ]
-  if(totalPrice < 10){
+  if(totalPrice < 20){
     orderTypeArray.pop()
   }
 
@@ -70,7 +70,7 @@ const page = () => {
             </button>
           );
         })}
-      {totalPrice < 10 && <div className="text-red-800 ">No delivery in order less than 10 Pounds</div>}
+      {totalPrice < 20 && <div className="text-red-800 ">No delivery in order less than 20 Pounds</div>}
       </div>
       <div>
         {step === 1 && (
