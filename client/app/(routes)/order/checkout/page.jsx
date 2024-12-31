@@ -172,7 +172,7 @@ const [mount, setMount] = useState(false)
     const isDealIncluded= cart.some((item)=>item.collectionOnlyDeal===false ||item.collectionOnlyDeal===true)
     // console.log(isDealIncluded)
     if (totalPrice > 20 && !isDealIncluded && miles<=3){
-      setDeliveryCharge(0.5)
+      setDeliveryCharge(0)
     }
 else if((totalPrice <20 && totalPrice >=10) || (isDealIncluded && miles<=3) ){
   setDeliveryCharge(2.99)
