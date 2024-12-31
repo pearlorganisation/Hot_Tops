@@ -5,6 +5,7 @@ const initialState = {
   customizationData: null,
   TOTAL_DEFAUTL_TOPPINGS: 0,
   MAX_TOPPINGS: 8,
+  miles:null
 };
 const orderDetailsSlice = createSlice({
   name: "orderDetails",
@@ -42,9 +43,12 @@ const orderDetailsSlice = createSlice({
       }
       state.customizationData = action.payload;
     },
+    saveMiles:(state,action)=>{
+      state.miles = action.payload
+    }
   },
 });
 
-export const { getorderDetails, getCustomizationDetails ,successRedirectStatus,trackerStatus} =
+export const { getorderDetails, getCustomizationDetails ,successRedirectStatus,trackerStatus,saveMiles} =
   orderDetailsSlice.actions;
 export default orderDetailsSlice.reducer;
