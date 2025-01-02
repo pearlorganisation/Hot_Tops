@@ -82,7 +82,6 @@
             font-size: 18px;
         }
 
-        /* Flexbox for aligning image and item details */
         .item {
             display: flex;
             justify-content: space-between;
@@ -114,76 +113,107 @@
 
 <body>
 
-                <table class="container">
-                    <tr>
-                        <td class="header-logo">
-                            <h2>Hot House Northwood Pizza</h2>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="content">
-                            <div style="color: #333333; text-align: left;">
-                                <h2 style="color:green">Hi ! <%= name %> Your Order is Accepted.</h2>
-                                <p class="info-message">Thank you for placing an order with Hot House Northwood Pizza. We are pleased to confirm that we have received your order number is <strong style="color:rgb(153, 27, 27)">
-                                    <%= orderId %>
-                                </strong> with a total amount of <strong style="color:rgb(153, 27, 27)">
-                                    £ <%= amount %>
-                                </strong>, placed for <strong style="color:rgb(153, 27, 27)">
-                                    <%= date %>
-                                </strong>. Your order type is <strong style="color:rgb(153, 27, 27)"><%= orderType %></strong> and is now being processed and we will ensure its prompt dispatch.</p>
+    <table class="container">
+        <tr>
+            <td class="header-logo">
+                <h2>Hot House Northwood Pizza</h2>
+            </td>
+        </tr>
+        <tr>
+            <td class="content">
+                <div style="color: #333333; text-align: left;">
+                    <h2 style="color:green">Hi! <%= name %>, Your Order is Accepted.</h2>
+                    <p class="info-message">
+                        Thank you for placing an order with Hot House Northwood Pizza. We are pleased to confirm that we have received your order number
+                        <strong style="color:rgb(153, 27, 27)"><%= orderId %></strong> with a total amount of 
+                        <strong style="color:rgb(153, 27, 27)">£ <%= amount %></strong>, placed for 
+                        <strong style="color:rgb(153, 27, 27)"><%= date %></strong>.
+                    </p>
+                    <p class="info-message">
+                        Order Type: 
+                        <strong style="color:rgb(153, 27, 27)">
+                            <%= orderType.charAt(0).toUpperCase() + orderType.slice(1).toLowerCase() %>
+                        </strong>
+                    </p>
+                    <p class="info-message">Payment Mode: <strong style="color:green"><%= paymentType %></strong></p>
 
-                                <p class="info-message">Payment Mode : <strong style="color:green"><%= paymentType %></strong></p>
-                                
-                                <p class="info-message">Ordered Items : </p>
-                                <p class="info-message">
-                                    <% items.forEach(function(item) { 
-                                      const size= String(item?.size).includes("-")
-                                      const price = String(item?.size).includes("-")
-                                        ? item?.size?.split("-")
-                                        : item?.size;  
-                                         %> 
-                                         <div class="item">
-                                            <div class="item-details">
-                                                <strong style="color:green"><%= item.name %></strong>
-                                                <% if (item?.allToppings){ %>
-                                                    <strong style="font-size: 15px; color:rgb(153, 27, 27)">Customized</strong>
-                                                    <% } %>
-                                                <% if (size) { %>
-                                                    <p class="quantity">Size/Type: <%= price[0] %></p>
-                                                    <% } else if (item?.dealsData) { %>
-                                                        <p class="quantity">Size: <%= item?.size %></p>
-                                                    
-                                                      <% } else if (item?.allToppings?.size?.name) { %>
-                                                        <p class="quantity">Size: <%= item?.allToppings?.size?.name %></p>
-                                                      <% } %>
-                                    
-                                  
-                                                <p class="quantity">Quantity: <%= item.quantity %> </p>
-                                                 <!-- Conditionally render the discount if it exists -->
-        <% if (item.discount && orderType=== "collection") { %>
-            <p class="quantity">Discount: £ <%= item.discount %></p>
-            <p class="quantity">Price: £ <%= Number(item.totalSum - (item.discount || 0)).toFixed(2) %> <span style="color:rgb(153, 27, 27); text-decoration-line: line-through ;"><%= item.totalSum %></span> <%= " " %> x <%= item.quantity %></p>
-            <% } else { %>
-                <p class="quantity">Price: £ <%= item.totalSum %></span></p>
-            <% } %>
-                                            </div>
-                                            <img src="<%= item.img %>" alt="<%= item.name %> image">
-                                        </div>
-                                    <% }) %>
-                                </p>
+                    <!-- Address Section -->
+                    <p class="info-message">
+                        Address: 
+                        <% if (address) { %>
+                            <strong><%= address %></strong>
+                        <% } else { %>
+                            <strong style="color:gray;">No Address – Collection</strong>
+                        <% } %>
+                    </p>
 
-                                <p class="info-message">We appreciate your business and are committed to providing you with the best service possible. If you have any questions or need further assistance, please do not hesitate to contact us.</p>
+                    <!-- Mobile Number Section -->
+                    <p class="info-message">
+                        Mobile Number: 
+                        <strong><%= mobileNumber %></strong>
+                    </p>
 
-                                <p>Thanks,<br>The Hot House team</p>
+                    <!-- Comment Section -->
+                    <p class="info-message">
+                        Comment: 
+                        <% if (comment) { %>
+                            <strong><%= comment %></strong>
+                        <% } else { %>
+                            <strong style="color:gray;">No Comment</strong>
+                        <% } %>
+                    </p>
+
+                    <!-- Ordered Items Section -->
+                    <p class="info-message">Ordered Items:</p>
+                    <p class="info-message">
+                        <% items.forEach(function(item) { 
+                            const size = String(item?.size).includes("-");
+                            const price = String(item?.size).includes("-")
+                                ? item?.size?.split("-")
+                                : item?.size;  
+                        %> 
+                            <div class="item">
+                                <div class="item-details">
+                                    <strong style="color:green"><%= item.name %></strong>
+                                    <% if (item?.allToppings){ %>
+                                        <strong style="font-size: 15px; color:rgb(153, 27, 27)">Customized</strong>
+                                    <% } %>
+                                    <% if (size) { %>
+                                        <p class="quantity">Size/Type: <%= price[0] %></p>
+                                    <% } else if (item?.dealsData) { %>
+                                        <p class="quantity">Size: <%= item?.size %></p>
+                                    <% } else if (item?.allToppings?.size?.name) { %>
+                                        <p class="quantity">Size: <%= item?.allToppings?.size?.name %></p>
+                                    <% } %>
+                                    <p class="quantity">Quantity: <%= item.quantity %></p>
+                                    <% if (item.discount && orderType === "collection") { %>
+                                        <p class="quantity">Discount: £ <%= item.discount %></p>
+                                        <p class="quantity">
+                                            Price: £ <%= Number(item.totalSum - (item.discount || 0)).toFixed(2) %>
+                                            <span style="color:rgb(153, 27, 27); text-decoration-line: line-through;">
+                                                <%= item.totalSum %>
+                                            </span> x <%= item.quantity %>
+                                        </p>
+                                    <% } else { %>
+                                        <p class="quantity">Price: £ <%= item.totalSum %></p>
+                                    <% } %>
+                                </div>
+                                <img src="<%= item.img %>" alt="<%= item.name %> image">
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="footer">
-                            <p>© All copyrights reserved to @Hot House Northwood.</p>
-                        </td>
-                    </tr>
-                </table>
+                        <% }) %>
+                    </p>
+
+                    <p class="info-message">We appreciate your business and are committed to providing you with the best service possible.</p>
+                    <p>Thanks,<br>The Hot House Team</p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="footer">
+                <p>© All copyrights reserved to @Hot House Northwood.</p>
+            </td>
+        </tr>
+    </table>
 
 </body>
 

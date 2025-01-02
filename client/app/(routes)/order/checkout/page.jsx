@@ -39,7 +39,6 @@ discount= cart?.reduce((acc, item) => {
     }, 0);
  
   const onSubmit = async (data) => {
-console.log(data?.mobileNumber)
     dispatch(trackerStatus(true))
     const newData = {
       orderType: order?.orderType,  
