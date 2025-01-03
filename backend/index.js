@@ -12,7 +12,7 @@ import morgan from "morgan";
 dotenv.config();
 
 const app = express();
-const PORT = envAccess("PORT") || 9898;
+const PORT = envAccess("PORT") || 9998;
 connectMongo();
 
 // ------------------------------------------------------------------------------------------------------------
