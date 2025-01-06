@@ -5,7 +5,11 @@ import { sendOrderMail } from "../utils/sendOrderMail.js";
 
 
 export const newOrder = asyncErrorHandler(async (req, res, next) => {
-const { paymentMethode, time,items, totalAmount,orderType,guestMetaData,mobileNumber,comment,address } = req?.body;
+const { paymentMethode, time,items, totalAmount,orderType,guestMetaData,mobileNumber,comment } = req?.body;
+let address;
+if(address){
+  address = req?.body?.address?.address
+}
 console.log(mobileNumber,"-",comment,"-",address)
 
 let name = ""
@@ -58,7 +62,7 @@ else{
 }
   
 try {
-  await sendOrderMail(email, orderNumber, amount, time, paymentMode, orderType, items, name,mobileNumber,comment,address.address );
+  await sendOrderMail(email, orderNumber, amount, time, paymentMode, orderType, items, name,mobileNumber,comment,address );
 } catch (error) {
   console.error("Error sending email: ", error.message); // Log the error
   // You can choose to handle the error here (e.g., notify admin, log to an error monitoring service, etc.)
