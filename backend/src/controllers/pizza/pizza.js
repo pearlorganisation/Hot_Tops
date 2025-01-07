@@ -54,7 +54,5 @@ export const getAllPizza = asyncErrorHandler(async (req, res, next) => {
     .populate("filter")
     .populate("priceSection.size");
 
-  console.log("lassi", data)
-
   res.status(200).json({ status: true, data });
 });
