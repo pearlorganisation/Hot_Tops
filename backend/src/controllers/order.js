@@ -6,11 +6,10 @@ import { sendOrderMail } from "../utils/sendOrderMail.js";
 
 export const newOrder = asyncErrorHandler(async (req, res, next) => {
 const { paymentMethode, time,items, totalAmount,orderType,guestMetaData,mobileNumber,comment } = req?.body;
-let address;
+let address = req?.body?.address;
 if(address){
   address = req?.body?.address?.address
 }
-console.log(mobileNumber,"-",comment,"-",address)
 
 let name = ""
 let email= ""
@@ -26,7 +25,6 @@ if(req?.body?.email){
   else{
     email= guestMetaData?.email
   }
-console.log(req?.body,"Offline ORDER!!!!")
 const amount= (Number(totalAmount?.total) + Number(totalAmount?.deliveryCharge) - Number(totalAmount?.discountPrice || 0)).toFixed(2)
 
   const date = new Date();
