@@ -116,16 +116,16 @@ const Pizzas = () => {
 
                 <div className="flex gap-11 flex-wrap justify-center">
                   {data?.data &&
-                    data.data.map((pizza, idx) => {
-                      if (
-                        pizza.category?.category === category &&
-                        (selectedType === pizza?.filter?.filter ||
-                          selectedType === "All")
-                      ) {
+                    data.data.filter((pizza, idx)=>{
+
+                      return pizza.category?.category === category &&
+                      (selectedType === pizza?.filter?.filter ||
+                        (selectedType === "Meat" && pizza?.filter?.filter === "Halal") ||
+                        selectedType === "All")}).map((pizza, idx) => {
+            
                         return <PizzaCards data={pizza} key={idx} />;
-                      }
-                      return null;
-                    })}
+ 
+ })}
                 </div>
               </React.Fragment>
             );
