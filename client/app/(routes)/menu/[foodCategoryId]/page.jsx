@@ -8,24 +8,24 @@ export async function generateMetadata({ params }) {
   
   switch (category.toLowerCase()) {
     case "pizzas":
-      title = "Pizzas | Hot House Pizza | Order online now";
-      description = "Order delicious pizzas from Hot House Pizza in Northwood. Try our wide variety of pizzas and enjoy unbeatable taste.";
+      title = "Customized Pizza in Northwood | Online Orders";
+      description = "Order personalized pizza with your favorite toppings in Northwood. Quick online ordering and delivery!";
       break;
     case "sides":
-      title = "Sides | Hot House Pizza | Order online now";
-      description = "Complement your meal with a wide range of sides from Hot House Pizza in Northwood. Order online now!";
+      title = "Delicious Sides in Northwood | Pizza Sides & More";
+      description = "Complete your meal with tasty sides in Northwood. From garlic bread to salads, explore our selection of sides and add them to your pizza order for a perfect meal";
       break;
     case "drinks":
-      title = "Drinks | Hot House Pizza | Order online now";
-      description = "Quench your thirst with our refreshing drinks at Hot House Pizza in Northwood. Order online!";
+      title = "Refreshing Drinks in Northwood | Soft Drinks & More";
+      description = "Quench your thirst with a variety of refreshing drinks in Northwood. Pair your pizza with soft drinks, juices, and more for a perfect meal combo!";
       break;
     case "desserts":
-      title = "Desserts | Hot House Pizza | Order online now";
-      description = "Indulge in our mouth-watering desserts at Hot House Pizza in Northwood. Order now!";
+      title = "Delicious Desserts in Northwood | Sweet Treats & More";
+      description = "Indulge in mouthwatering desserts in Northwood. From chocolate lava cake to cookies, satisfy your sweet tooth with our perfect dessert options after your pizza";
       break;
     case "dips":
-      title = "Dips | Hot House Pizza | Order online now";
-      description = "Add extra flavor with our delicious dips from Hot House Pizza in Northwood. Order online now!";
+      title = "Tasty Dips in Northwood | Perfect Pairings for Your Pizza";
+      description = "Enhance your pizza experience with a variety of flavorful dips in Northwood. From ranch to garlic butter, find the perfect dip to complement your meal!";
       break;
     default:
       title = "Food Category | Hot House Pizza | Order online now";
@@ -36,6 +36,10 @@ export async function generateMetadata({ params }) {
   return {
     title,
     description,
+    alternates: {
+      canonical: `https://www.hothousenorthwood.co.uk/menu/${params.foodCategoryId}`,
+      
+    }
   };
 }
 

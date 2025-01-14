@@ -13,6 +13,7 @@ const page = () => {
   const router = useRouter();
   const cart = useSelector((state) => state.cart.cartData);
   const order = useSelector((state) => state.orderDetails?.order);
+  const {miles} = useSelector((state) => state.orderDetails);
   const {userData,isGuestLoggedIn,isUserLoggedIn} = useSelector((state) => state.auth);
   const [isLoading,setIsLoading] = useState(false)
   const [codData, setCodData] = useState();
@@ -38,7 +39,6 @@ discount= cart?.reduce((acc, item) => {
     }, 0);
  
   const onSubmit = async (data) => {
-console.log(data?.mobileNumber)
     dispatch(trackerStatus(true))
     const newData = {
       orderType: order?.orderType,  
@@ -155,7 +155,6 @@ else{
 
 const [mount, setMount] = useState(false)
   useEffect(()=>{
-    console.log(cart.length)
     setMount(true)
     if ( mount && cart?.length < 1) {
         router.push("/");
@@ -169,12 +168,18 @@ const [mount, setMount] = useState(false)
   },[])
 
   useEffect(()=>{
-if(totalPrice <20 && totalPrice >=10 ){
+    const isDealIncluded= cart.some((item)=>item.collectionOnlyDeal===false ||item.collectionOnlyDeal===true)
+    // console.log(isDealIncluded)
+    if (totalPrice > 20 && !isDealIncluded && miles<=3){
+      setDeliveryCharge(0)
+    }
+else if((totalPrice <20 && totalPrice >=10) || (isDealIncluded && miles<=3) ){
   setDeliveryCharge(2.99)
 }
-if (totalPrice > 20){
-  setDeliveryCharge(0.5)
+else {
+  setDeliveryCharge(3.99)
 }
+
   },[totalPrice])
 
 
@@ -254,7 +259,7 @@ if (totalPrice > 20){
             <div className="space-y-1">
               <p>Total: £ {totalPrice?.toFixed(2)}</p>
               {order?.orderType === 'collection' ? <p>Discount: £ {discount}</p> : <p>Discount: £ 0</p>}
-              {order?.orderType === 'collection' ? <p>Delivery Charge: £ 0 (No charges for collection)</p> : <p>Delivery charge: £ {deliveryCharge}</p>}
+              {order?.orderType === 'collection' ? <p>Delivery Charge: £ 0  (No charges for collection)</p> : <p>Delivery charge: £ {deliveryCharge}</p>}
               <p className="font-bold">
                 You pay: £ {order?.orderType === 'collection' ?  (Number(totalPrice) + 0 - discount).toFixed(2) : (Number(totalPrice) + deliveryCharge - 0).toFixed(2)}
               </p>

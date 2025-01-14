@@ -1,8 +1,10 @@
 import Deals from "./Deals";
 
 export const metadata = {
-  title: 'Top Pizza Deals | Hot House pizza | Order online now',
-  description: 'Discover the best pizza takeaway in Northwood at Hot House Pizza, Convenient online ordering, quick service, and unbeatable taste. Order now',
+  title: 'Pizza Deals Northwood | Hot House Special',
+  description: 'Discover the best pizza deals in Northwood at Hot House. Enjoy special offers on freshly made pizzas, perfect for takeaway or delivery. Order online today!',
+  alternates:{
+    canonical: `https://www.hothousenorthwood.co.uk/menu/deals`,  }
 }
 
 const page = () => {

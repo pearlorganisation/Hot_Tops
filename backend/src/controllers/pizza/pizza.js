@@ -53,5 +53,6 @@ export const getAllPizza = asyncErrorHandler(async (req, res, next) => {
     .populate("category")
     .populate("filter")
     .populate("priceSection.size");
+
   res.status(200).json({ status: true, data });
 });

@@ -5,7 +5,12 @@ import { sendOrderMail } from "../utils/sendOrderMail.js";
 
 
 export const newOrder = asyncErrorHandler(async (req, res, next) => {
-const { paymentMethode, time,items, totalAmount,orderType,guestMetaData } = req?.body;
+const { paymentMethode, time,items, totalAmount,orderType,guestMetaData,mobileNumber,comment } = req?.body;
+let address = req?.body?.address;
+if(address){
+  address = req?.body?.address?.address
+}
+
 let name = ""
 let email= ""
 if(req?.body?.name){
@@ -20,7 +25,6 @@ if(req?.body?.email){
   else{
     email= guestMetaData?.email
   }
-console.log(req?.body,"Offline ORDER!!!!")
 const amount= (Number(totalAmount?.total) + Number(totalAmount?.deliveryCharge) - Number(totalAmount?.discountPrice || 0)).toFixed(2)
 
   const date = new Date();
@@ -56,7 +60,7 @@ else{
 }
   
 try {
-  await sendOrderMail(email, orderNumber, amount, time, paymentMode, orderType, items, name);
+  await sendOrderMail(email, orderNumber, amount, time, paymentMode, orderType, items, name,mobileNumber,comment,address );
 } catch (error) {
   console.error("Error sending email: ", error.message); // Log the error
   // You can choose to handle the error here (e.g., notify admin, log to an error monitoring service, etc.)
@@ -300,7 +304,7 @@ const Password = process.env.VIVA_API_KEY;
         { returnDocument: "after" }                     // Returns the updated document
       ).populate("orderBy");                    // Populate specific field(s)
       
-      const {paymentMethode, time,items, totalAmount,orderNumber,orderType,orderBy,guestMetaData } = data
+      const {paymentMethode, time,items, totalAmount,orderNumber,orderType,orderBy,guestMetaData,mobileNumber,comment,address } = data
 
 let name = ""
 let email= ""
@@ -330,7 +334,7 @@ else{
       }
         
       try {
-        await sendOrderMail(email, orderNumber, amount, time, paymentMode, orderType, items, name);
+        await sendOrderMail(email, orderNumber, amount, time, paymentMode, orderType, items, name,mobileNumber,comment,address);
       } catch (error) {
         console.error("Error sending email: ", error.message); 
       }
