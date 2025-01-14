@@ -6,12 +6,6 @@ import { Toaster } from "sonner";
 import Script from "next/script";
 
 
-export const metadata = {
-  title: 'Order Freshly Made Pizza Online in Northwood – Customize Your Perfect Pie',
-  description: 'Discover the best Northwood pizza deals online! Enjoy freshly made pizzas tailored to your taste. Order now and savor your customized pizza experience.',
-}
-
-
 export default function RootLayout({ children }) {
   
   return (
@@ -25,8 +19,7 @@ export default function RootLayout({ children }) {
     <meta name="msvalidate.01" content="23983C217832B5C4AAC786882981CDA6" />
     <meta name="p:domain_verify" content="0251c9ad8f0e5ddccd4f306b6f6fc871"/>
     <meta name="facebook-domain-verification" content="sbeb7h7pbwfwnhprsjn3gh82x94191" />
-    <link rel="canonical" href={"https://www.hothousenorthwood.co.uk"} />
-
+  
 {/* Adding noscript using dangerouslySetInnerHTML */}
 <noscript
   dangerouslySetInnerHTML={{
