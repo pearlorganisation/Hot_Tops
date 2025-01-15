@@ -50,6 +50,13 @@ const Drinks = () => {
 
   return (
     <>
+     <div className="flex items-center justify-center px-10">
+                      <div className={`flex-grow border-t border-yellow-600 `}></div>
+                      <h1 className={`px-4 text-yellow-600 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl`}>
+                      DRINKS
+                    </h1>
+                    <div className={`flex-grow border-t border-yellow-600`}></div>
+                  </div>
       <div className="container mx-auto max-w-7xl gap-10 grid sm:grid-cols-2 md:grid-cols-4 place-content-center p-10">
         {Array.isArray(drinkData) &&
           drinkData?.map((item, idx) => (
