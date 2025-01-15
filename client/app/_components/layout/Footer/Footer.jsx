@@ -13,7 +13,7 @@ const Footer = () => {
       <div className="grid md:grid-cols-3   justify-center   text-white">
         <div>
           <div className="flex flex-col gap-2 items-center">
-            <h2 className="font-bold text-lg ">MENU</h2>
+            <h3 className="font-bold text-lg ">MENU</h3>
             <p className="hover:text-yellow-500 text-sm">
               {" "}
               <a href="/menu/pizzas">Pizza</a>
@@ -58,7 +58,7 @@ const Footer = () => {
         <div className="md:hidden flex justify-center  m-4">
             <hr className=" border border-white w-[300px] h-[4px]  " />
           </div>
-          <h2 className="font-bold text-lg">SOCIAL LINKS</h2>
+          <h3 className="font-bold text-lg">SOCIAL LINKS</h3>
 
           <div className="flex justify-center  items-center gap-5 m-2">
            
@@ -80,7 +80,7 @@ const Footer = () => {
             <hr className="border border-white w-[300px] h-[4px]  " />
           </div>
           <div className="text-center space-y-[8px]">
-          <h2 className="font-bold text-lg">POLICIES</h2>
+          <h3 className="font-bold text-lg">POLICIES</h3>
 
           <p className="hover:text-yellow-500 text-sm cursor-pointer">
             {" "}
