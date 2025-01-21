@@ -63,7 +63,7 @@ const Header = () => {
       {/* Mobile */}
       <div className="flex justify-between items-center mx-1 md:mx-4">
         <Link href="/" className="flex justify-center">
-          <Image src={logo} className="bg-white lg:hidden" alt="logo" width={40} />
+          <Image src={logo} className="bg-white lg:hidden" alt="http://localhost:3001/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FHOTPIZZALOGO.070f75e0.jpg&w=256&q=75" width={40} />
         </Link>
         <ul className="lg:hidden flex gap-4 items-center">
           {isUserLoggedIn ? (
@@ -97,7 +97,7 @@ const Header = () => {
       {/* Desktop */}
       <div className="bg-white flex flex-col lg:flex-row justify-between lg:items-center lg:px-10">
         <Link href="/" className="hidden lg:flex lg:flex-col justify-center h-full">
-          <Image src={logo} className="bg-white hidden lg:block" alt="logo" width={80} height={80} />
+          <Image src={logo} className="bg-white hidden lg:block" alt="Hot House Northwood" width={80} height={80} />
         </Link>
         <ul className="flex lg:pt-0 flex-wrap items-center justify-around text-base sm:text-lg text-white font-semibold xl:gap-10">
           <Link href="/menu/deals">

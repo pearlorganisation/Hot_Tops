@@ -55,7 +55,7 @@ const PizzaCards = ({ data, idx }) => {
       <div className="">
         <img
           src={data?.banner}
-          alt="Card Image"
+          alt={data?.pizzaName}
           className="h-52 w-full rounded-t-md object-cover"
         />
       </div>
@@ -63,7 +63,7 @@ const PizzaCards = ({ data, idx }) => {
         {" "}
         <div
           className={` rounded-md  w-6 h-6 border-2 flex justify-center items-center bg-white ${
-            data?.filter?._id === "666941b94af3128843e747bb"
+            data?.filter?.filter === "Vegetarian" || "VEGETARIAN"
               ? "border-green-600 "
               : "border-red-800"
           }`}
@@ -71,7 +71,7 @@ const PizzaCards = ({ data, idx }) => {
           <RiCheckboxBlankCircleFill
             size={20}
             className={`${
-              data?.filter?.filter === "Vegetarian"
+              data?.filter?.filter === "Vegetarian" || "VEGETARIAN"
                 ? "text-green-600 "
                 : "text-red-800"
             }`}
@@ -80,7 +80,7 @@ const PizzaCards = ({ data, idx }) => {
       </div>
       <div className=" h-full px-2">
         <div className="mt-3">
-          <h2 className="text-xl font-semibold mb-1 ">{data?.pizzaName} <div className="text-red-800">(20% Off on Collection)</div></h2>
+          <h3 className="text-xl font-semibold mb-1 ">{data?.pizzaName} <div className="text-red-800">(20% Off on Collection)</div></h3>
           <p className="text-sm font-semibold text-gray-500 mb-4 whitespace-wrap overflow-hidden ">
             {combineNames()}
           </p>

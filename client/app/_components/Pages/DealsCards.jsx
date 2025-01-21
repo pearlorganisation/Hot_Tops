@@ -23,6 +23,16 @@ const DealsCards = ({ data, path }) => {
     return items.join(", ");
   };
 
+  const alt = `${combineItems()}${
+    data?.defaultItems?.length > 0
+      ? `, ${data.defaultItems
+          .map((item) =>
+            item.replace(/\//g, "/\u200B") // Only replace slashes, leave spaces as regular spaces
+          )
+          .join(", ")}`
+      : ""
+  }`;
+
   return (
     <div className="flex flex-col justify-between bg-white shadow-sm rounded-md max-w-xs w-full newshadow ">
       <div>
@@ -35,7 +45,7 @@ const DealsCards = ({ data, path }) => {
         >
           <img
             src={data.banner}
-            alt="Card Image"
+            alt={alt}
             className="rounded-t-md w-full object-cover"
           />
         </Link>
