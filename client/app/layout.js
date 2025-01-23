@@ -20,16 +20,6 @@ export default function RootLayout({ children }) {
     <meta name="p:domain_verify" content="0251c9ad8f0e5ddccd4f306b6f6fc871"/>
     <meta name="facebook-domain-verification" content="sbeb7h7pbwfwnhprsjn3gh82x94191" />
   
-{/* Adding noscript using dangerouslySetInnerHTML */}
-<noscript
-  dangerouslySetInnerHTML={{
-    __html: `
-      <img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=406823858532963&ev=PageView&noscript=1" />
-    `,
-  }}
-/>
-  </head>
 
       {/* Google Analytics Script */}
       <Script
@@ -119,8 +109,28 @@ gtag('event', 'conversion_event_phone_call_lead', {
   });
   `}
 </Script>
+  </head>
+
 
       <body className="flex flex-col">
+        {/* Adding noscript using dangerouslySetInnerHTML */}
+<noscript
+  dangerouslySetInnerHTML={{
+    __html: `
+      <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=406823858532963&ev=PageView&noscript=1" />
+    `,
+  }}
+/>
+{/* Adding noscript using dangerouslySetInnerHTML */}
+<noscript
+  dangerouslySetInnerHTML={{
+    __html: `
+     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K9VVFVZL"
+height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    `,
+  }}
+/>
         <StoreProvider>
           <Header />
           <div className="pt-44">{children}</div>
