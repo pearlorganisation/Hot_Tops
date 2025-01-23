@@ -20,7 +20,20 @@ export default function RootLayout({ children }) {
     <meta name="p:domain_verify" content="0251c9ad8f0e5ddccd4f306b6f6fc871"/>
     <meta name="facebook-domain-verification" content="sbeb7h7pbwfwnhprsjn3gh82x94191" />
   
+       {/* Google Adds Script */}
+       <Script async src="https://www.googletagmanager.com/gtag/js?id=G-L2LD88SFKL"/>
 
+<Script id="google-ads">
+  {`
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-L2LD88SFKL');
+  `}
+</Script>
+     
+     
       {/* Google Analytics Script */}
       <Script
           async
