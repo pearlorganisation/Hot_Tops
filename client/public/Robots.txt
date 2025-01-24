@@ -1,4 +1,4 @@
 User-agent: *
-Allow: /
-
-https://www.hothousenorthwood.co.uk/sitemap.xml
+Disallow: 
+Disallow: /cgi-bin/
+Sitemap: https://www.hothousenorthwood.co.uk/sitemap.xml
