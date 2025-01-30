@@ -12,7 +12,6 @@ import chalk from "chalk";
 
 export const createDeal = asyncErrorHandler(async (req, res, next) => {
   
-  console.log("req.body",req.body)
   const {pizzas,drinks} = JSON.parse(req.body.chooseItems);
   const data = new deals({
     ...req?.body,
@@ -20,6 +19,7 @@ export const createDeal = asyncErrorHandler(async (req, res, next) => {
     sizes: JSON.parse(req.body.sizes),
     banner: req?.file?.path,
     pizzaData:JSON.parse(req.body.pizzaData)||[],
+    isByOneGetPizza:req.body.isByOneGetPizza,
     chooseItems: {
       pizzas: pizzas || 0,
       dips:  0,
@@ -54,7 +54,7 @@ export const updateDeal = asyncErrorHandler(async (req, res, next) => {
   {
     return res.status(400).json({status:false,message:"Bad Request Id Required"});
   }
-   console.log("req.body",req.body);
+
 
   const banner = req?.file?.path;
   const {pizzas,drinks} = JSON.parse(req.body.chooseItems);
@@ -84,6 +84,12 @@ export const updateDeal = asyncErrorHandler(async (req, res, next) => {
         new: true, 
         runValidators: true 
       });
+
+    if(!data)
+    {
+      return res.status(500)
+      .json({status:true,message:"Deal Update Failed !!"});
+    }
     
     res.status(200)
     .json({status:true,message:"Deal Updated Successfully !!"});
@@ -158,7 +164,7 @@ export const getDeal = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const getAllDeals = asyncErrorHandler(async (req, res, next) => {
-  let { isPopular , collectionOnly } = req.query;
+  let { isPopular , collectionOnly , admin} = req.query;
 
 
   // // Fetch data based on query
@@ -173,6 +179,11 @@ export const getAllDeals = asyncErrorHandler(async (req, res, next) => {
   }
   else{
     query.collectionOnlyDeal = false;
+  }
+
+  if(admin)
+  {
+    query = {};
   }
    
   // console.log("query",chalk.red(JSON.stringify(query)));

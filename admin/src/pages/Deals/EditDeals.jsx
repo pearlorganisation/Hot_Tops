@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { ClipLoader } from 'react-spinners';
 import { updateDeal } from '../../features/actions/deals/deal';
-
+import {toast} from "sonner";
 
 const EditDeals = () => {
 
@@ -58,7 +58,7 @@ const EditDeals = () => {
 
   });
 
-  const { handleSubmit, formState: { errors }, register, control } = useForm({
+  const { handleSubmit, formState: { errors }, register, control,getValues,setValue } = useForm({
     defaultValues: {
       priceSection: editDealData.sizes.map((el) => {
         return {
@@ -71,7 +71,9 @@ const EditDeals = () => {
           extra: el
         }
       }) || [{ extra: "" }],
-      defaultDrinkType:drinkType
+      defaultDrinkType:drinkType,
+      isByOneGetPizza:editDealData.isByOneGetPizza,
+      collectionOnlyDeal:editDealData.collectionOnlyDeal
 
     },
     
@@ -128,6 +130,8 @@ const EditDeals = () => {
     // Append data to FormData
     formData.append("title", data?.title || 'Void Name From Frontend');
     formData.append('defaultDrinkType', data.defaultDrinkType.value);
+    formData.append('collectionOnlyDeal', data.collectionOnlyDeal);
+    formData.append('isByOneGetPizza', data.isByOneGetPizza);
     formData.append('sizes', JSON.stringify(priceSectionFilter));
     formData.append('pizzaData', JSON.stringify(selectedPizzas));
     formData.append('chooseItems', JSON.stringify(chooseItems));
@@ -139,7 +143,6 @@ const EditDeals = () => {
 
     }
     
-    console.log("we are goinmg to dispacth ,anjkjhjkf")    
     dispatch(updateDeal({id,formData}));
    
 
@@ -201,6 +204,13 @@ useEffect(()=>{
                   value: 20,
                   message: "Max Value Can be  20 ..."
                 },
+                onChange:()=>{
+                  if(getValues('isByOneGetPizza'))
+                  {
+                    setValue('numberOfPizzas',2);
+                    toast.error("By One Get Pizza Can Have Only 2 Pizza")
+                  }
+                }
               })} className="bg-gray-50 border border-gray-300 text-gray-900  rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="pizzas" required />
             {
               errors.numberOfPizzas && <p>
@@ -261,6 +271,41 @@ useEffect(()=>{
               </span>
             )}
           </div>
+          <div class="flex justify-center gap-3 items-center mb-4">
+              <input
+                id="default-checkbox"
+                type = 'checkbox'
+                {
+                  ...register('collectionOnlyDeal')
+                }
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <label
+                for="default-checkbox"
+                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+              >
+                COLLECTION ONLY
+              </label>
+              <input
+                id="default-checkbox"
+                type = 'checkbox'
+                {
+                  ...register('isByOneGetPizza',{
+                    onChange:()=>{
+                      setValue('numberOfPizzas',2)
+                    }
+                  })
+                }
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <label
+                for="default-checkbox"
+                class="ms-2 uppercase text-sm font-medium text-gray-900 dark:text-gray-300"
+              >
+                Buy One Get Deal
+              </label>
+            </div>
+          
           <div>
             <p className='text-xl font-semibold'>Select Pizza Not To Include in Deals </p>
             {Array.isArray(pizzaData) && (
@@ -404,6 +449,7 @@ useEffect(()=>{
             )}
           </div>
         </div>
+        
         <div className='flex justify-center '>
 
           <button type='submit' className='p-4 rounded text-xl  bg-green-500 hover:bg-green-400 text-white'>{isLoading ? <ClipLoader color="#c4c2c2" /> : "Update Deal"}</button>

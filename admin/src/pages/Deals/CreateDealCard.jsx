@@ -8,6 +8,7 @@ import { MdInsertPhoto } from "react-icons/md";
 import { createDeal } from "../../features/actions/deals/deal";
 import { ClipLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
+import {toast} from "sonner"
 
 const CreateDealCard = () => {
   const {
@@ -15,6 +16,8 @@ const CreateDealCard = () => {
     formState: { errors },
     register,
     control,
+    getValues,
+    setValue
   } = useForm({
     defaultValues: {
       priceSection: [{ size: "", price: "" }],
@@ -91,7 +94,6 @@ const CreateDealCard = () => {
     if (data.extraLoading[0].extra != "") {
       defaultItems = data.extraLoading.map((el) => el.extra) || [];
     }
-    console.log("defaultItems", defaultItems);
     const priceSectionFilter = data.priceSection.map((item) => ({
       size: item?.size?.label || "",
       price: item?.price || "",
@@ -99,20 +101,23 @@ const CreateDealCard = () => {
     const selectedPizzas =
       data?.selectedpizzas?.map((item) => item.value) || [];
 
-    // Build the submission data
-    const submittionData = {
-      defaultDrinkType: defaultDrinkType || "can",
-      chooseItems,
-      defaultItems,
-      title: data.title,
-      sizes: priceSectionFilter,
-      pizzaData: selectedPizzas,
-      collectionOnlyDeal:data?.collectionOnlyDeal||false
-    };
+    // // Build the submission data
+    // const submittionData = {
+    //   defaultDrinkType: defaultDrinkType || "can",
+    //   chooseItems,
+    //   defaultItems,
+    //   isByOneGetPizza:data.isByOneGetPizza,
+    //   title: data.title,
+    //   sizes: priceSectionFilter,
+    //   pizzaData: selectedPizzas,
+    //   collectionOnlyDeal:data?.collectionOnlyDeal||false
+    // };
 
     // Append data to FormData
     formData.append("title", data?.title || "");
     formData.append("defaultDrinkType", defaultDrinkType);
+    formData.append("isByOneGetPizza", data.isByOneGetPizza);
+    formData.append("numberOfPizzas", defaultDrinkType);
     formData.append("sizes", JSON.stringify(priceSectionFilter));
     formData.append("pizzaData", JSON.stringify(selectedPizzas));
     formData.append("chooseItems", JSON.stringify(chooseItems));
@@ -128,7 +133,7 @@ const CreateDealCard = () => {
     });
 
     // Log the submission data
-    console.log("Submission Data:", submittionData);
+    // console.log("Submission Data:", submittionData);
 
     dispatch(createDeal(formData));
     if (isSuccess) {
@@ -192,6 +197,14 @@ const CreateDealCard = () => {
                     value: 20,
                     message: "Max Value Can be  20 ...",
                   },
+                  onChange:()=>{
+                    if(getValues('isByOneGetPizza'))
+                    {
+                      toast.error("By One Get Pizza Can Have Only 2 Pizza")
+                       setValue('numberOfPizzas',2)  
+                    }
+                    
+                  }
                 })}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="pizzas"
@@ -337,7 +350,7 @@ const CreateDealCard = () => {
               )}
             </div>
 
-            <div class="flex justify-center items-center mb-4">
+            <div class="flex justify-center gap-3 items-center mb-4">
               <input
                 id="default-checkbox"
                 type = 'checkbox'
@@ -351,6 +364,24 @@ const CreateDealCard = () => {
                 class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
                 COLLECTION ONLY
+              </label>
+              <input
+                id="default-checkbox"
+                type = 'checkbox'
+                {
+                  ...register('isByOneGetPizza',{
+                    onChange:()=>{
+                      setValue('numberOfPizzas',2)
+                    }
+                  })
+                }
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <label
+                for="default-checkbox"
+                class="ms-2 uppercase text-sm font-medium text-gray-900 dark:text-gray-300"
+              >
+                Buy One Get Deal
               </label>
             </div>
             <div className="font-medium  space-y-6">
