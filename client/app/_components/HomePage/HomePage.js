@@ -165,9 +165,9 @@ const HomePage = () => {
 
           <div class="flex items-center justify-center">
             <div class="flex-grow border-t border-red-800"></div>
-            <h1 class="px-4 text-red-800 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
+            <h2 class="px-4 text-red-800 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
               COLLECTION ONLY DEALS
-            </h1>
+            </h2>
             <div class="flex-grow border-t border-red-800"></div>
           </div>
         </header>

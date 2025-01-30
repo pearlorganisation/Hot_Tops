@@ -69,6 +69,9 @@ const Sides = () => {
 
   return (
     <div className="my-4">
+        <h1 className={`hidden px-4 text-yellow-600 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl`}>
+                      SIDES
+                    </h1>
       <div>
         <div className="flex gap-2 mx-4 md:mx-8 my-4  flex-wrap ">
           <span className="font-bold">Filter :</span>
@@ -104,9 +107,9 @@ const Sides = () => {
                 {isCategoryMatched && (
                   <div className="flex items-center justify-center mb-2 p-5">
                       <div className={`flex-grow border-t ${category === "VEGETARIAN" || category === "Vegetarian" ? "border-green-800": "border-red-800"} `}></div>
-                      <h1 className={`px-4 ${category === "VEGETARIAN" || category === "Vegetarian" ? "text-green-800": "text-red-800"}  font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl`}>
+                      <h2 className={`px-4 ${category === "VEGETARIAN" || category === "Vegetarian" ? "text-green-800": "text-red-800"}  font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl`}>
                       {category}
-                    </h1>
+                    </h2>
                     <div className={`flex-grow border-t ${category === "VEGETARIAN" || category === "Vegetarian" ? "border-green-800": "border-red-800"} `}></div>
                   </div>
                 )}

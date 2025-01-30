@@ -20,22 +20,34 @@ export default function RootLayout({ children }) {
     <meta name="p:domain_verify" content="0251c9ad8f0e5ddccd4f306b6f6fc871"/>
     <meta name="facebook-domain-verification" content="sbeb7h7pbwfwnhprsjn3gh82x94191" />
   
-{/* Adding noscript using dangerouslySetInnerHTML */}
-<noscript
-  dangerouslySetInnerHTML={{
-    __html: `
-      <img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=406823858532963&ev=PageView&noscript=1" />
-    `,
-  }}
-/>
-  </head>
+       {/* Google Adds Script */}
+       <Script async src="https://www.googletagmanager.com/gtag/js?id=G-L2LD88SFKL"/>
 
+<Script id="google-ads">
+  {`
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-L2LD88SFKL');
+  `}
+</Script>
+     
+     
       {/* Google Analytics Script */}
       <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-7NN5GJS7SP"
         />
+        <Script id="google-tag-manager">
+          {`
+           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K9VVFVZL');
+          `}
+        </Script>
         <Script id="google-analytics">
           {`
             window.dataLayer = window.dataLayer || [];
@@ -110,8 +122,28 @@ gtag('event', 'conversion_event_phone_call_lead', {
   });
   `}
 </Script>
+  </head>
+
 
       <body className="flex flex-col">
+        {/* Adding noscript using dangerouslySetInnerHTML */}
+<noscript
+  dangerouslySetInnerHTML={{
+    __html: `
+      <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=406823858532963&ev=PageView&noscript=1" />
+    `,
+  }}
+/>
+{/* Adding noscript using dangerouslySetInnerHTML */}
+<noscript
+  dangerouslySetInnerHTML={{
+    __html: `
+     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K9VVFVZL"
+height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    `,
+  }}
+/>
         <StoreProvider>
           <Header />
           <div className="pt-44">{children}</div>

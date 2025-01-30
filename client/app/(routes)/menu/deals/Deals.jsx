@@ -59,7 +59,7 @@ const Deals = () => {
           </header>
         </div>
 
-        <div className="p-8 gap-10 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4   place-content-center">
+        <div className="p-8 gap-10 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  place-content-center">
           {Array.isArray(dealData) &&
             dealData.map((el, index) => <DealsCards data={el} key={index} />)}
         </div>
@@ -72,9 +72,9 @@ const Deals = () => {
           </div>
             <div className="flex items-center justify-center mb-2">
               <div className="flex-grow border-t border-red-800"></div>
-              <h1 className="px-4  text-red-800 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
+              <h2 className="px-4  text-red-800 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
               COLLECTION ONLY DEALS
-              </h1>
+              </h2>
               <div className="flex-grow border-t border-red-800"></div>
             </div>
           </header>
