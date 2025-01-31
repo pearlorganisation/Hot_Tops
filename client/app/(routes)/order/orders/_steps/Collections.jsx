@@ -1,21 +1,18 @@
 "use client";
 
 import { getorderDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
-import { getPreviousPath } from "@/app/lib/features/path/pathslice";
-import { usePreviousRoute } from "@/app/utils/utils";
 import { PhoneIcon } from "lucide-react";
-import Link from "next/link";
-import { redirect, usePathname, useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 
 const Collections = ({ step }) => {
     const router = useRouter();
     const dispatch = useDispatch()
-    const [addressData, setAddressData] = useState(null);
-    const { userData } = useSelector((state) => state.auth);
     const [dayTimeIntervals, setDayTimeIntervals] = useState([]);
+    const cart = useSelector((state) => state.cart.cartData);
     const {
         register,
         handleSubmit,
@@ -24,14 +21,41 @@ const Collections = ({ step }) => {
     } = useForm();
 
     const onSubmit = async (data) => {
-        console.log(data);
+      const selectedDayTime = data.daytime; // This will be in the format "Day - HH:MM"
+      const [selectedDay, selectedTime] = selectedDayTime.split("-");
+      const validDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
+      const validStartTime = "11:00";
+      const validEndTime = "17:00";
+
+      const isDayValid = validDays.includes(selectedDay);
+
+      const isTimeValid = selectedTime >= validStartTime && selectedTime <= validEndTime;
+
+      if (cart.some((item)=> item?.isByOneGetPizza === true ) &&  isDayValid && isTimeValid ){
         dispatch(
-            getorderDetails({
-                time: data?.daytime,
-                orderType: step === 1 ? "collection" : "delivery",
-            })
-        );
-        router.push("/order/checkout")
+          getorderDetails({
+              time: data?.daytime,
+              orderType: step === 1 ? "collection" : "delivery",
+          })
+      );
+      router.push("/order/checkout")
+      }
+      else if (cart.every((item) => item?.isByOneGetPizza === false || item?.isByOneGetPizza == null)){
+        dispatch(
+          getorderDetails({
+              time: data?.daytime,
+              orderType: step === 1 ? "collection" : "delivery",
+          })
+      );
+      router.push("/order/checkout")
+      }
+      else{
+        toast.error("The Buy-One-Get-One deal is valid from Sunday to Thursday, between 11 a.m. and 5 p.m.",{
+          duration:3000
+        })
+      }
+      console.log(data?.daytime)
+
 
     };
     useEffect(() => {

@@ -27,7 +27,7 @@ const CreateDealCard = () => {
 
   const { pizzaData } = useSelector((state) => state.pizzaSlice);
   const { size } = useSelector((state) => state.pizza);
-  const { isLoading, isSuccess, dealData } = useSelector(
+  const { isLoading, isSuccess } = useSelector(
     (state) => state.deals
   );
   const [selectedSizes, setSelectedSizes] = useState([]);
@@ -154,7 +154,7 @@ const CreateDealCard = () => {
             <div className="mb-5">
               <label
                 htmlFor="dealName"
-                className=" text-2xl block mb-2  font-medium text-gray-900 dark:text-white"
+                className=" text-xl block mb-2  font-medium text-gray-900 dark:text-white"
               >
                 Enter Deal Name
               </label>
@@ -252,6 +252,7 @@ const CreateDealCard = () => {
                     <Select
                       {...field}
                       isMulti
+                      closeMenuOnSelect={false}
                       placeholder="Select Pizza's For Deals"
                       options={pizzaData.map((pizza) => ({
                         value: pizza._id,
@@ -372,6 +373,8 @@ const CreateDealCard = () => {
                   ...register('isByOneGetPizza',{
                     onChange:()=>{
                       setValue('numberOfPizzas',2)
+                      setValue('collectionOnlyDeal',true)
+                    
                     }
                   })
                 }

@@ -117,6 +117,7 @@ const Page = () => {
           totalSum :Number(extraPrice+sizeDetailRef.current.price+Number(specialPizzaPrice)).toFixed(2),
           dealsData:[...submitData],
           collectionOnlyDeal:dealViewData?.collectionOnlyDeal,
+          isByOneGetPizza:dealViewData?.isByOneGetPizza||false
         }));
       router.push("/order/cart");
 

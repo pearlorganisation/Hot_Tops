@@ -166,7 +166,7 @@ useEffect(()=>{
       <form onSubmit={handleSubmit(handleSubmition)} >
         <div className='grid grid-cols-2  justify-between items-center gap-2 p-14'>
           <div className="mb-5">
-            <label htmlFor="dealName" className=" text-2xl block mb-2  font-medium text-gray-900 dark:text-white">Enter Deal Name</label>
+            <label htmlFor="dealName" className="text-xl block mb-2  font-medium text-gray-900 dark:text-white">Enter Deal Name</label>
             <input
 
               type='text'
@@ -276,7 +276,15 @@ useEffect(()=>{
                 id="default-checkbox"
                 type = 'checkbox'
                 {
-                  ...register('collectionOnlyDeal')
+                  ...register('collectionOnlyDeal',{
+                    onChange:()=>{
+                      if(getValues('isByOneGetPizza'))
+                      {
+                        setValue('collectionOnlyDeal',true)
+                        toast.error("BuyOneGetOneDeal Is Only Collection Deal")
+                      }
+                    }})
+                  
                 }
                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
@@ -293,6 +301,8 @@ useEffect(()=>{
                   ...register('isByOneGetPizza',{
                     onChange:()=>{
                       setValue('numberOfPizzas',2)
+                      setValue('collectionOnlyDeal',true)
+
                     }
                   })
                 }
