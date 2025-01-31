@@ -7,7 +7,7 @@ export const getDeal = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     console.log("pay",payload)
     try {
-      const response = await instance.get(`/deals`, {
+      const response = await instance.get(`/deals?admin=true`, {
         withCredentials: true,
         headers: {
           "Content-type": "multipart/form-data",

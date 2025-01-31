@@ -84,9 +84,7 @@ const Deals = () => {
       
       <div className="flex gap-8 m-10 flex-wrap justify-center">
         {
-    collectionOnlyDealData.map((el) => (
-            <DealsCards key={el.id} path={"menu"} data={el} />
-          ))}
+    collectionOnlyDealData.map((el, index) => <DealsCards data={el} key={index} />)}
       </div>
     : 
  

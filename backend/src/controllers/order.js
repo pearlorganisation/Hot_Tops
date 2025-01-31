@@ -72,12 +72,23 @@ try {
 });
 
 export const getAllOrders = asyncErrorHandler(async (req, res, next) => {
+
+     // pagination
+     const page = req.query.page * 1 || 1;
+     const limit = req.query.limit * 1 || 0;
+ 
+     // page 1 : 1-12; page 2 : 13-24; page 3 : 25-36
+     const skip = (page - 1) * limit;
+
+      const dataCount = await order.countDocuments();
+       
   const data = await order.find({ $or: [
     { paymentStatus: true },
     { paymentMethode: "Cash on delivery" }
-  ]}).sort({createdAt:-1}).populate("orderBy");
+  ]}).sort({createdAt:-1}).skip(skip)
+  .limit(limit).populate("orderBy");
   
-  res.status(200).json({ status: true, message: "All Orders Found successfully", data });
+  res.status(200).json({ status: true, message: "All Orders Found successfully", data:{data,totalPages: Math.ceil(dataCount / limit)}  });
 });
 
 export const getMonthlyData = asyncErrorHandler(async (req, res, next) => {

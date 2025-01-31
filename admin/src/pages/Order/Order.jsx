@@ -1,19 +1,35 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import { Stack,Skeleton } from '@mui/material';
 import { deleteFailedOrder, getAllOrders, updateOrder } from '../../features/actions/order/order';
 import OrderViewModal from './OrderViewModal';
 import { jsPDF } from "jspdf";
 import "jspdf-autotable"; 
+import Pagination from '@mui/material/Pagination';
+import { useLocation, useSearchParams } from 'react-router-dom';
+import axios from 'axios';
 
 
 const Order = () => {
+  const { orderData,isLoading } = useSelector(state => state.order)
+  const pageCount = orderData?.totalPages;
+  const { search } = useLocation();
+
+  const [searchParams, setSearchParams] = useSearchParams({
+    page: 1,
+    limit: 10,
+  });
+
+  const [page, setPage] = useState(searchParams.get('page') || 1);
+
+  const handlePagination = (e, p) => {
+    setPage(p);
+    setSearchParams({ page: p, limit: 10 });
+  };
 
     const dispatch = useDispatch()
     const [monthlyData,setMonthlyData] = useState([])
     const [approval, setApproval] = useState({});
-    const { orderData,isLoading } = useSelector(state => state.order)
 const [stopViewModal,setStopViewModal] = useState(false)
     const [showViewModal,setShowViewModal] = useState(false)
     const [viewData,setViewData]= useState()
@@ -21,8 +37,6 @@ const [stopViewModal,setStopViewModal] = useState(false)
       setShowViewModal(true)
       setViewData(itemData)
     }
-
-
     const handleChange = (event, orderId) => {
       const value = event.target.value;
       setApproval((prevApproval) => ({
@@ -38,7 +52,6 @@ const [stopViewModal,setStopViewModal] = useState(false)
     };
 
     const doc = new jsPDF();
-    const table = document.querySelector("table");
     doc.text("Monthly Orders Report", 14, 10);
   
     const columns = [
@@ -50,8 +63,8 @@ const [stopViewModal,setStopViewModal] = useState(false)
       { header: "Payment Method", dataKey: "paymentMethod" },
       { header: "Order Status", dataKey: "orderStatus" },
     ];
-  
-    const rows = orderData.map((item) => ({
+
+    const rows = orderData?.data?.map((item) => ({
       orderId: item?.orderNumber,
       name: item?.orderBy
         ? `${item.orderBy.firstName} ${item.orderBy.lastName}`
@@ -85,23 +98,22 @@ const [stopViewModal,setStopViewModal] = useState(false)
 
       });
     
+      useEffect(() => {
+        dispatch(getAllOrders(search || `?page=1&limit=10`));
+        dispatch(deleteFailedOrder());
 
-    useEffect(() => {
-          dispatch(getAllOrders());
-          dispatch(deleteFailedOrder());
+        async function getMonthlyOrders(){
+          const response = await axios.get(`${import.meta.env.VITE_REACT_APP_API_BASE_URL_PRODUCTION}/order/filteredOrders/monthly?year=2024&month=9`)
+          setMonthlyData(response?.data?.data)
+        }
 
-          async function getMonthlyOrders(){
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/order/filteredOrders/monthly?year=2024&month=9`)
-            setMonthlyData(response?.data?.data)
-          }
-
-          getMonthlyOrders()
-      }, [])
+        getMonthlyOrders()
+    }, [search])
       
     useEffect(() => {
-      if (Array.isArray(orderData) && orderData.length > 0) {
+      if (Array.isArray(orderData?.data) && orderData?.data.length > 0) {
         const initialApproval = {};
-        orderData?.forEach((item) => { console.log(item.orderStatus)
+        orderData?.data?.forEach((item) => { console.log(item.orderStatus)
           return initialApproval[item._id] = item.orderStatus == "Pending" ? "Pending" : item.orderStatus ;
         });
         setApproval(initialApproval);
@@ -160,7 +172,7 @@ const [stopViewModal,setStopViewModal] = useState(false)
               </td>
             </tr>
             ) : (
-              Array.isArray(orderData) && orderData.length > 0 && orderData.map((item, idx) => (
+              Array.isArray(orderData?.data) && orderData?.data.length > 0 && orderData?.data.map((item, idx) => (
                     <tr key={idx} className='hover:bg-slate-100 cursor-pointer active:bg-slate-100' onClick={() => {
                       stopViewModal ? null : handleViewModal(item)
 
@@ -226,6 +238,16 @@ const [stopViewModal,setStopViewModal] = useState(false)
             </table>
           </div>
         </div>
+        <div className="flex justify-center my-5">
+        {' '}
+        <Pagination
+          count={pageCount}
+          page={Number(page)}
+          color="primary"
+          boundaryCount={2}
+          onChange={handlePagination}
+        ></Pagination>
+      </div>
         {showViewModal && (
         <OrderViewModal setModal={setShowViewModal} viewData={viewData} />
       )}

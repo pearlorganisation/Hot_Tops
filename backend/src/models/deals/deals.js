@@ -72,6 +72,10 @@ const dealSchema = new mongoose.Schema(
     collectionOnlyDeal:{
       type:Boolean,
       default:false
+    },
+    isByOneGetPizza:{
+      type:Boolean,
+      default:false
     }
   },
   { timestamps: true }

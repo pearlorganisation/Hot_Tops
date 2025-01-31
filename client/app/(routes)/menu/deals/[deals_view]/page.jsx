@@ -8,10 +8,8 @@ import { toast } from "sonner";
 import { getCustomizationDetails } from "@/app/lib/features/orderDetails/orderDetailsslice";
 import { MdEditSquare } from "react-icons/md";
 import PizzaCustomizationModal from "@/app/_components/Modals/PizzaCutomizationModal";
-import { ClockLoader } from "react-spinners";
 import DealPriceCard from "@/app/_components/TotalPriceCard/DealPriceCard";
 import Image from "next/image";
-import { forEach } from "lodash";
 
 async function getData(id) {
   try {
@@ -119,6 +117,7 @@ const Page = () => {
           totalSum :Number(extraPrice+sizeDetailRef.current.price+Number(specialPizzaPrice)).toFixed(2),
           dealsData:[...submitData],
           collectionOnlyDeal:dealViewData?.collectionOnlyDeal,
+          isByOneGetPizza:dealViewData?.isByOneGetPizza||false
         }));
       router.push("/order/cart");
 
@@ -146,13 +145,6 @@ const Page = () => {
   const drinkCount = dealViewData?.chooseItems?.drinks || 0;
   const drinks = new Array(drinkCount).fill(null);
 
-  // const extraPrice = dealDataPizza.reduce((acc, currVal) => {
-  //   return acc + (currVal?.pizzaExtraToppingPrice !== undefined ? currVal?.pizzaExtraToppingPrice : 0);
-  // }, 0);
-  
-
-
-
   useEffect(()=>{
     
     if (!dealDataPizza.every((el) => el === undefined)) {
@@ -164,14 +156,15 @@ const Page = () => {
         },
         { totalPizzaPrice: 0, totalSumSpecialPizzaPrice: 0 }
       );
-      setSpecialPizzaPrice((totalPizzaPrice - totalSumSpecialPizzaPrice).toFixed(2));
+       
+      setSpecialPizzaPrice((Math.abs(totalPizzaPrice - totalSumSpecialPizzaPrice)).toFixed(2));
+
    }
     const currExtraPrice = dealDataPizza?.reduce((acc, currVal) => {
       return acc + (currVal?.pizzaExtraToppingPrice !== undefined ? currVal?.pizzaExtraToppingPrice : 0);
     }, 0)||0;
 
   setExtraPrice(currExtraPrice);
-  console.log("im triggering !!");
   },[dealDataPizza]);
   
 
@@ -212,28 +205,6 @@ const Page = () => {
                           onClick={() => {
                             pizzaDataIndex.current = index;    
                             handleOpeningModal();
-                            console.log({
-                              name: dealDataPizza[index]?.label,
-                              img: dealDataPizza[index]?.banner,
-                              priceSection:
-                                dealViewData.sizes.length === 1
-                                  ? dealDataPizza[index].priceSection.filter(
-                                      (el) =>
-                                        el.size.name ===
-                                      sizeDetailRef.current.size
-                                    )
-                                  :dealDataPizza[index].priceSection.filter((el)=> el.size.name === sizeDetailRef.current.size),
-                                  
-                              id: dealDataPizza[index]?.id,
-                              selectedData:(dealDataPizza[index]?.priceSection.find((el)=> el.size.name === sizeDetailRef.current.size)?.size?._id)||(dealDataPizza[index]?.priceSection.find((el)=> el.size.name === sizeDetailRef.current.size)),
-                              sauceName: dealDataPizza[index]?.sauceName,
-                              cheeseName: dealDataPizza[index]?.cheeseName,
-                              vegetarianToppingsName:
-                                dealDataPizza[index]?.vegetarianToppingsName ,
-                              baseName: dealDataPizza[index]?.baseName,
-                              meatToppingsName:
-                                dealDataPizza?.[index]?.meatToppingsName,
-                            },"getCustomizationData");
                             dispatch(
                               getCustomizationDetails({
                                 name: dealDataPizza[index]?.label,
@@ -301,17 +272,29 @@ const Page = () => {
                         </button>
                       )}      
                         <Select
-                          placeholder={`Choose pizza ${index + 1}`}
-                          className="min-w-52 w-52"
+                          placeholder={(dealViewData?.isByOneGetPizza) ?`${(dealDataPizza?.[0]?.label||'Choose pizza')}`: `Choose pizza ${index + 1}`}
+                          className="min-w-52 w-52 placeholder:line-clamp-1"
                           key={index}
+                          isDisabled={(dealViewData?.isByOneGetPizza && index == 1)}
                           onChange={(e) => {
-                            setDealDataPizza((prev) => {
-                              let temp = [...prev];
-                              temp[index] = e;
-                              return temp;
-                            });
-                            
-                            console.log(e, "e");
+
+                            if(dealViewData?.isByOneGetPizza)
+                            {
+                              
+                              setDealDataPizza((prev) => {
+                                let temp = [...prev];
+                                temp[index] = e;
+                                temp[index+1]= e
+                                return temp;
+                              }); 
+                            }else
+                            {
+                              setDealDataPizza((prev) => {
+                                let temp = [...prev];
+                                temp[index] = e;
+                                return temp;
+                              }); 
+                            }                        
                           }}
                           options={dealViewData.pizza.map((el) => ({
                             label: el.pizzaName,
@@ -402,7 +385,6 @@ const Page = () => {
         </div>
       ) : (
         <div className="flex justify-center pt-[25vh] h-[85vh] ">
-          {/* <ClockLoader color="#991b1b" size={100}/> */}
           <Image src="/HOTPIZZALOGO.jpg" alt="Pizza Logo"  width={300} height={300} className="h-[10vh] w-[30vw]  object-contain" />
           </div>
       )}

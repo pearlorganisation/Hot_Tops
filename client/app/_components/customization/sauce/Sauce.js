@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
 
-//calledBy component is used for telling this component that from which componen this sauce component is being called on 
+//calledBy component is used for telling this component that from which component this sauce component is being called on 
 // like from deals customization modal or maybe from half and half
 const Sauce = ({ sauceData ,calledBy }) => {
 
@@ -76,9 +76,7 @@ const Sauce = ({ sauceData ,calledBy }) => {
   // }
   };
 
-  // useEffect(() => {
-  //   dispatch(setDefaultPrice(sauceData));
-  // }, [sauceData]);
+
   console.log;
 
   const handleSave = () => {
