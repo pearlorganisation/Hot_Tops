@@ -47,6 +47,10 @@ const PizzaCards = ({ data, idx }) => {
   };
 
 
+  // useEffect(() => {
+  //   console.log('data' , data);
+  // }, [data]);
+
   return (
     <div
       className="flex relative flex-col justify-between bg-white rounded-md max-w-[17rem]  2xl:max-w-xs w-full newshadow mb-10 "
@@ -63,15 +67,14 @@ const PizzaCards = ({ data, idx }) => {
         {" "}
         <div
           className={` rounded-md  w-6 h-6 border-2 flex justify-center items-center bg-white ${
-            data?.filter?.filter === "Vegetarian" || "VEGETARIAN"
-              ? "border-green-600 "
-              : "border-red-800"
+            data?.filter?.filter === ("Vegetarian" || "VEGETARIAN")
+              ? "border-green-600" : "border-red-800"
           }`}
         >
           <RiCheckboxBlankCircleFill
             size={20}
             className={`${
-              data?.filter?.filter === "Vegetarian" || "VEGETARIAN"
+              data?.filter?.filter === ("Vegetarian" || "VEGETARIAN")
                 ? "text-green-600 "
                 : "text-red-800"
             }`}

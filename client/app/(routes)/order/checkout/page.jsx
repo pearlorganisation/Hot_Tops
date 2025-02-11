@@ -6,9 +6,15 @@ import { useForm } from "react-hook-form";
 import { ClipLoader } from "react-spinners";
 import { toast } from "sonner";
 import { successRedirectStatus, trackerStatus } from "@/app/lib/features/orderDetails/orderDetailsslice";
+import OrderType from "@/app/_components/Modals/OrderType";
 
 
 const page = () => {
+  const [showViewModal,setShowViewModal] = useState(false)
+
+  const handleViewModal=()=>{
+    setShowViewModal(true)
+  }
   const dispatch = useDispatch();
   const router = useRouter();
   const cart = useSelector((state) => state.cart.cartData);
@@ -18,6 +24,8 @@ const page = () => {
   const [isLoading,setIsLoading] = useState(false)
   const [codData, setCodData] = useState();
   const [deliveryCharge, setDeliveryCharge] = useState(0.5);
+
+  const [useDifferentAddress, setUseDifferentAddress] = useState(false);
 
   const {
     register,
@@ -184,13 +192,195 @@ else {
 
 
   return (
+    <>
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="max-w-7xl mx-auto p-4 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="space-y-4">
+   
+
+{ isGuestLoggedIn &&   
+<div>
+     <h3 className="text-lg font-bold ">PERSONAL DETAILS</h3>
+    <div className="flex gap-3 w-full">
+   <div className="w-full"><input
+       {...register("name",{required: isGuestLoggedIn ? true : false})}
+       name="name"
+       className="w-full border p-2 rounded-md"
+       placeholder="Enter name here"
+     /> { errors.name &&  <p className="text-red-500">Name is required.</p>}
+     </div>
+     <div className="w-full">
+     <input
+       {...register("mobile",{required: isGuestLoggedIn ? true : false})}
+       name="mobile"
+       className="w-full border p-2 rounded-md"
+       placeholder="Enter mobile number here"
+     />{ errors.mobile &&  <p className="text-red-500">Mobile number is required.</p>}
+     </div></div> 
+
+     <input
+       {...register("email",{required: isGuestLoggedIn ? true : false})}
+       name="email"
+       className="w-full border p-2 mt-2 rounded-md"
+       placeholder="Enter email address here"
+     />
+     { errors.email &&  <p className="text-red-500">Email address is required.</p>}
+   </div>}
+{ isUserLoggedIn &&  <div>  <h3 className="text-lg font-bold ">CONTACT NUMBER</h3>
+   <div className="w-full">
+     <input
+       {...register("mobileNumber",{required: true})}
+       name="mobileNumber"
+       defaultValue={userData?.mobileNumber}
+       className="w-full border p-2 rounded-md"
+       placeholder="Enter mobile number here"
+     />{ errors.mobileNumber &&  <p className="text-red-500">Mobile number is required.</p>}
+     </div>
+     </div>}
+
+     {/* <div className="border p-4 rounded-md bg-white shadow-md w-full max-w-lg">
+      <h2 className="text-lg font-semibold text-gray-800">Billing Address</h2> */}
+
+      {/* Radio Options */}
+      {/* <div className="mt-3">
+        <label className="flex items-center p-3 border rounded-md cursor-pointer">
+          <input
+            type="radio"
+            name="billing"
+            value="same"
+            checked={!useDifferentAddress}
+            onChange={() => setUseDifferentAddress(false)}
+            className="mr-2"
+          />
+          <span className="text-gray-700">Same as shipping address</span>
+        </label>
+
+        <label className="flex items-center p-3 border rounded-md cursor-pointer mt-2">
+          <input
+            type="radio"
+            name="billing"
+            value="different"
+            checked={useDifferentAddress}
+            onChange={() => setUseDifferentAddress(true)}
+            className="mr-2"
+          />
+          <span className="text-gray-700">Use a different billing address</span>
+        </label>
+      </div> */}
+
+      {/* Billing Address Form (Shown only if "Use a different billing address" is selected) */}
+      {/* {useDifferentAddress && (
+        <div className="mt-4 border rounded-md p-4 bg-gray-50">
+          <label className="block text-sm font-medium text-gray-700">Country/Region</label>
+          <select className="w-full p-2 border rounded mt-1">
+            <option>India</option>
+            <option>USA</option>
+            <option>UK</option>
+          </select>
+
+          <div className="grid grid-cols-2 gap-2 mt-3">
+            <input type="text" placeholder="First name" className="p-2 border rounded w-full" />
+            <input type="text" placeholder="Last name" className="p-2 border rounded w-full" />
+          </div>
+
+          <input type="text" placeholder="Company (optional)" className="p-2 border rounded w-full mt-3" />
+          <input type="text" placeholder="Address" className="p-2 border rounded w-full mt-3" />
+          <input type="text" placeholder="Apartment, suite, etc. (optional)" className="p-2 border rounded w-full mt-3" />
+
+          <div className="grid grid-cols-3 gap-2 mt-3">
+            <input type="text" placeholder="City" className="p-2 border rounded w-full" />
+            <select className="p-2 border rounded w-full">
+              <option>Uttarakhand</option>
+              <option>Delhi</option>
+              <option>Maharashtra</option>
+            </select>
+            <input type="text" placeholder="PIN code" className="p-2 border rounded w-full" />
+          </div>
+
+          <input type="text" placeholder="Phone (optional)" className="p-2 border rounded w-full mt-3" />
+        </div>
+      )} */}
+    {/* </div> */}
+  
+   {order?.orderType === 'delivery' && <div>
+       <h3 className="text-lg font-bold">YOUR ADDRESS :</h3>
+       <p>
+         {isGuestLoggedIn ? order?.address : order?.address?.address} 
+
+
+       </p>
+     </div>
+   }
+
+<div>
+     <h3 className="text-lg font-bold">ANY COMMENTS</h3>
+     <textarea
+       {...register("comment")}
+       name="comment"
+       className="w-full border p-2 rounded-md"
+       placeholder="Leave comments for your order here"
+     />
+   </div>
+
+   <div>
+     <h3 className="text-lg font-bold">ORDER TIME & TYPE</h3>
+     <p className=""> Order Type : {order?.orderType === 'collection' ?<span className="font-semibold text-red-800">Collection</span> : <span className="font-semibold text-green-800">Delivery</span>} <span onClick={handleViewModal} className="cursor-pointer rounded-md px-1 bg-red-800 text-white  hover:bg-red-700">Change Now</span></p>
+     <p>
+       Your order is to be placed for {order?.time} ( Please note
+       delivery time is around 45 minutes )
+     </p>
+   </div>
+   <div>
+     <h3 className="text-lg font-bold">CHOOSE PAYMENT</h3>
+     <div className="flex items-center space-x-2">
+       <input
+         type="radio"
+         id="cash"
+         value="Cash on delivery"
+         name="paymentMethode"
+         {...register("paymentMethode")}
+         defaultChecked
+       />
+       <label htmlFor="cash">{order?.orderType === 'collection' ? "Pay on collection" : "Pay on delivery"}</label>
+       <input
+         {...register("paymentMethode")}
+         name="paymentMethode"
+         type="radio"
+         id="card"
+         value="Online Payment"
+        
+       />
+       <label htmlFor="card">Pay Now</label>
+
+     </div>
+   </div>
+   <div className="flex items-center space-x-2">
+     <input   {...register("terms",{required:true})} type="checkbox" id="terms" />
+     <label htmlFor="terms" className="text-[15px]">
+       I accept the Terms & Conditions and Privacy Policy
+     </label>
+   </div>
+   { errors.terms &&  <p className="text-red-500">Please accept the terms & conditions.</p>}
+   <div className="flex space-x-4">
+     <button
+     type="button"
+       className="px-4 py-2 border rounded-md"
+       onClick={() => router.push("/order/cart")}
+     >
+       Edit Order
+     </button>
+     <button
+       type="submit"
+       disabled={isLoading}
+       className="px-4 py-2 bg-green-700 hover:bg-green-600  text-white rounded-md flex items-center justify-center"
+     >
+       {isLoading ? <ClipLoader color="white" size={22}/>: "Order" } 
+     </button>
+   </div>
+ </div>
           <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-center text-red-800 border-b-2 border-red-800 pb-2">
-              ORDER SUMMARY
-            </h2>
+          
             <div className="border p-4 rounded-md">
               <div className="">
                 {Array.isArray(cart) &&
@@ -265,148 +455,15 @@ else {
               </p>
             </div>
           </div>
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-center text-red-800 border-b-2 border-red-800 pb-2">
-              ORDER DETAILS
-            </h2>
-            <div>
-              <h3 className="text-lg font-bold">ANY COMMENTS</h3>
-              <textarea
-                {...register("comment")}
-                name="comment"
-                className="w-full border p-2 rounded-md"
-                placeholder="Leave comments for your order here"
-              />
-            </div>
-       { isGuestLoggedIn &&   
-        <div>
-              <h3 className="text-lg font-bold ">PERSONAL DETAILS</h3>
-             <div className="flex gap-3 w-full">
-            <div className="w-full"><input
-                {...register("name",{required: isGuestLoggedIn ? true : false})}
-                name="name"
-                className="w-full border p-2 rounded-md"
-                placeholder="Enter name here"
-              /> { errors.name &&  <p className="text-red-500">Name is required.</p>}
-              </div>
-              <div className="w-full">
-              <input
-                {...register("mobile",{required: isGuestLoggedIn ? true : false})}
-                name="mobile"
-                className="w-full border p-2 rounded-md"
-                placeholder="Enter mobile number here"
-              />{ errors.mobile &&  <p className="text-red-500">Mobile number is required.</p>}
-              </div></div> 
-       
-              <input
-                {...register("email",{required: isGuestLoggedIn ? true : false})}
-                name="email"
-                className="w-full border p-2 mt-2 rounded-md"
-                placeholder="Enter email address here"
-              />
-              { errors.email &&  <p className="text-red-500">Email address is required.</p>}
-            </div>}
-   { isUserLoggedIn &&  <div>  <h3 className="text-lg font-bold ">CONTACT NUMBER</h3>
-            <div className="w-full">
-              <input
-                {...register("mobileNumber",{required: true})}
-                name="mobileNumber"
-                defaultValue={userData?.mobileNumber}
-                className="w-full border p-2 rounded-md"
-                placeholder="Enter mobile number here"
-              />{ errors.mobileNumber &&  <p className="text-red-500">Mobile number is required.</p>}
-              </div>
-              </div>}
-            {order?.orderType === 'delivery' && <div>
-                <h3 className="text-lg font-bold">YOUR ADDRESS :</h3>
-                <p>
-                  {isGuestLoggedIn ? order?.address : order?.address?.address} 
-       
-
-                </p>
-              </div>
-            }
-
-            <div>
-              <h3 className="text-lg font-bold">ORDER TIME & TYPE</h3>
-              <p className=""> Order Type : {order?.orderType === 'collection' ?<span className="font-semibold text-red-800">Collection</span> : <span className="font-semibold text-green-800">Delivery</span>}</p>
-              <p>
-                Your order is to be placed for {order?.time} ( Please note
-                delivery time is around 45 minutes )
-              </p>
-            </div>
-            <div>
-              <h3 className="text-lg font-bold">CHOOSE PAYMENT</h3>
-              <div className="flex items-center space-x-2">
-                <input
-                  type="radio"
-                  id="cash"
-                  value="Cash on delivery"
-                  name="paymentMethode"
-                  {...register("paymentMethode")}
-                  defaultChecked
-                />
-                <label htmlFor="cash">{order?.orderType === 'collection' ? "Pay on collection" : "Pay on delivery"}</label>
-                <input
-                  {...register("paymentMethode")}
-                  name="paymentMethode"
-                  type="radio"
-                  id="card"
-                  value="Online Payment"
-                 
-                />
-                <label htmlFor="card">Pay Now</label>
-
-              </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              <input   {...register("terms",{required:true})} type="checkbox" id="terms" />
-              <label htmlFor="terms" className="text-[15px]">
-                I accept the Terms & Conditions and Privacy Policy
-              </label>
-            </div>
-            { errors.terms &&  <p className="text-red-500">Please accept the terms & conditions.</p>}
-            <div className="flex space-x-4">
-              <button
-              type="button"
-                className="px-4 py-2 border rounded-md"
-                onClick={() => router.push("/order/cart")}
-              >
-                Edit Order
-              </button>
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="px-4 py-2 bg-green-700 hover:bg-green-600  text-white rounded-md flex items-center justify-center"
-              >
-                {isLoading ? <ClipLoader color="white" size={22}/>: "Order" } 
-              </button>
-            </div>
-          </div>
+    
         </div>
       </form>
     </div>
+      {showViewModal && (
+       <OrderType setModal={setShowViewModal} />
+     )}
+     </>
   );
 };
 
 export default page;
-
-function PlusIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M5 12h14" />
-      <path d="M12 5v14" />
-    </svg>
-  );
-}
