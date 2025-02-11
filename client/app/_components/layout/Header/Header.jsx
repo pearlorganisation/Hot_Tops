@@ -126,10 +126,10 @@ const Header = () => {
             ))}
         </ul>
         <div className="flex items-center gap-5">
-        <div  className="hidden bg-green-800 text-white font-bold px-3 rounded-md  lg:flex items-center text-lg">
+        {/* <div  className="hidden bg-green-800 text-white font-bold px-3 rounded-md  lg:flex items-center text-lg">
 Order<br/>
 Now
-          </div>
+          </div> */}
           {isUserLoggedIn ? (
             <Link href="/profile?tab=1" className="hidden lg:flex items-center gap-2 text-black">
               <CiUser size={25} aria-label="User Profile" />
