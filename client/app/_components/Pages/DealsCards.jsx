@@ -5,6 +5,8 @@ import Select from "react-select";
 
 const DealsCards = ({ data, path }) => {
   const [selectedOption, setSelectedOption] = useState(null);
+
+
   useEffect(() => {
     setSelectedOption({
       value: data.sizes[0]._id,

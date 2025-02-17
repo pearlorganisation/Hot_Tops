@@ -13,8 +13,10 @@ import chalk from "chalk";
 export const createDeal = asyncErrorHandler(async (req, res, next) => {
   
   const {pizzas,drinks} = JSON.parse(req.body.chooseItems);
+  const {availabilityOfDeal} = req.body;
   const data = new deals({
     ...req?.body,
+    availabilityOfDeal:JSON?.parse(availabilityOfDeal)||[],
     defaultItems:JSON?.parse(req.body.defaultItems)||[],
     sizes: JSON.parse(req.body.sizes),
     banner: req?.file?.path,
@@ -57,9 +59,11 @@ export const updateDeal = asyncErrorHandler(async (req, res, next) => {
 
 
   const banner = req?.file?.path;
-  const {pizzas,drinks} = JSON.parse(req.body.chooseItems);
+  const {pizzas,drinks} = JSON?.parse(req.body.chooseItems);
+  console.log("req.body",req.body);
   let updatationDeal = {
       ...req?.body,
+      availabilityOfDeal:JSON?.parse(req.body?.availabilityOfDeal),
       defaultItems:JSON?.parse(req.body.defaultItems)||[],
       sizes: JSON.parse(req.body.sizes),
       pizzaData:JSON.parse(req.body.pizzaData)||[],

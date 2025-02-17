@@ -23,6 +23,8 @@ const EditDeals = () => {
   const pizzaIds = editDealData.pizzaData;
   const [selectedSizes, setSelectedSizes] = useState([]);
   const drinksTypeOptions = [{ label: 'Can', value: 'can' }, { label: 'Bottle', value: 'bottle' }];
+  const [dealValidity,setDealValidity] = useState(editDealData?.availabilityOfDeal?.length > 0 ? true :false);  
+
   const drinkType = drinksTypeOptions.find(el => el.value.toLowerCase() === editDealData.defaultDrinkType.toLowerCase());
   const sizeOptions = (size) =>
     size?.filter(item => !selectedSizes.includes(item?._id)).map(item => ({
@@ -32,7 +34,7 @@ const EditDeals = () => {
 
     
 
-  
+   console.log(editDealData,"editDealData");
 
 
 
@@ -73,8 +75,11 @@ const EditDeals = () => {
       }) || [{ extra: "" }],
       defaultDrinkType:drinkType,
       isByOneGetPizza:editDealData.isByOneGetPizza,
-      collectionOnlyDeal:editDealData.collectionOnlyDeal
-
+      collectionOnlyDeal:editDealData.collectionOnlyDeal,
+      validDays:editDealData?.availabilityOfDeal.reduce((acc, day) => {
+        acc[day] = true;
+        return acc;
+      }, {})
     },
     
 
@@ -88,6 +93,7 @@ const EditDeals = () => {
     control,
     name: "extraLoading"
   });
+  
 
 
 
@@ -112,7 +118,15 @@ const EditDeals = () => {
     const formData = new FormData();
 
 
-
+    const allValidDays = [];
+    Object.keys(data?.validDays)?.forEach((el)=>{
+      console.log(el)
+      if(data?.validDays[el] === true)
+      {
+        allValidDays.push(el)
+      }
+      
+    })
 
     const chooseItems = {
       pizzas: data?.numberOfPizzas,
@@ -131,6 +145,7 @@ const EditDeals = () => {
     formData.append("title", data?.title || 'Void Name From Frontend');
     formData.append('defaultDrinkType', data.defaultDrinkType.value);
     formData.append('collectionOnlyDeal', data.collectionOnlyDeal);
+    formData.append("availabilityOfDeal", JSON?.stringify(allValidDays)||[]);
     formData.append('isByOneGetPizza', data.isByOneGetPizza);
     formData.append('sizes', JSON.stringify(priceSectionFilter));
     formData.append('pizzaData', JSON.stringify(selectedPizzas));
@@ -271,6 +286,23 @@ useEffect(()=>{
               </span>
             )}
           </div>
+          {dealValidity && (
+  <div >
+    <h4 className="font-bold">Choose Days On Which Buy One Get One Pizza Not TO Be Shown !!</h4>
+    <div className="grid grid-cols-4 p-2">
+
+    
+    {["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"].map((el, idx) => (
+      <div key={idx}>
+        <label className="p-1">
+          <input  type="checkbox" {...register(`validDays.${el}`)} />
+          {el}
+        </label>
+      </div>
+    ))}
+    </div>
+  </div>
+)}
           <div class="flex justify-center gap-3 items-center mb-4">
               <input
                 id="default-checkbox"
@@ -292,7 +324,20 @@ useEffect(()=>{
                 {
                   ...register('isByOneGetPizza',{
                     onChange:()=>{
-                      setValue('numberOfPizzas',2)
+                      setValue('numberOfPizzas',2);
+                      if(getValues('isByOneGetPizza'))
+                      {
+                        setDealValidity(true);
+                        setValue('collectionOnlyDeal',true);
+
+                      }
+                      else{
+                        setDealValidity(false);
+                        setValue('collectionOnlyDeal',false);
+
+                        
+                      }
+                      
                     }
                   })
                 }
@@ -305,6 +350,7 @@ useEffect(()=>{
                 Buy One Get Deal
               </label>
             </div>
+
           
           <div>
             <p className='text-xl font-semibold'>Select Pizza Not To Include in Deals </p>
@@ -346,7 +392,7 @@ useEffect(()=>{
             </div>
             <ul>
               {extraFields.map((item, index) => (
-                <li key={item.id}>
+                <li key={index}>
                   <input
                     {...register(`extraLoading.${index}.extra`, { required: 'Extra field is required' })}
                     className="w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
@@ -368,6 +414,7 @@ useEffect(()=>{
               </span>
             )}
           </div>
+
           <div>
             <div className="sm:flex sm:space-y-0 justify-between ">
 
