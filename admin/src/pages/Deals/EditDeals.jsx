@@ -6,12 +6,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { ClipLoader } from 'react-spinners';
 import { updateDeal } from '../../features/actions/deals/deal';
-import {toast} from "sonner";
+import { toast } from "sonner";
 
 const EditDeals = () => {
 
   const { id } = useParams();
-  const { dealData, isLoading , isSuccess} = useSelector((state) => state.deals);
+  const { dealData, isLoading, isSuccess } = useSelector((state) => state.deals);
   const { pizzaData } = useSelector((state) => state.pizzaSlice);
   const { size } = useSelector((state) => state.pizza);
 
@@ -23,6 +23,8 @@ const EditDeals = () => {
   const pizzaIds = editDealData.pizzaData;
   const [selectedSizes, setSelectedSizes] = useState([]);
   const drinksTypeOptions = [{ label: 'Can', value: 'can' }, { label: 'Bottle', value: 'bottle' }];
+  const [dealValidity, setDealValidity] = useState(editDealData?.availabilityOfDeal?.length > 0 ? true : false);
+
   const drinkType = drinksTypeOptions.find(el => el.value.toLowerCase() === editDealData.defaultDrinkType.toLowerCase());
   const sizeOptions = (size) =>
     size?.filter(item => !selectedSizes.includes(item?._id)).map(item => ({
@@ -30,9 +32,9 @@ const EditDeals = () => {
       label: item?.name,
     }));
 
-    
 
-  
+
+  console.log(editDealData, "editDealData");
 
 
 
@@ -58,7 +60,7 @@ const EditDeals = () => {
 
   });
 
-  const { handleSubmit, formState: { errors }, register, control,getValues,setValue } = useForm({
+  const { handleSubmit, formState: { errors }, register, control, getValues, setValue } = useForm({
     defaultValues: {
       priceSection: editDealData.sizes.map((el) => {
         return {
@@ -71,12 +73,15 @@ const EditDeals = () => {
           extra: el
         }
       }) || [{ extra: "" }],
-      defaultDrinkType:drinkType,
-      isByOneGetPizza:editDealData.isByOneGetPizza,
-      collectionOnlyDeal:editDealData.collectionOnlyDeal
-
+      defaultDrinkType: drinkType,
+      isByOneGetPizza: editDealData.isByOneGetPizza,
+      collectionOnlyDeal: editDealData.collectionOnlyDeal,
+      validDays: editDealData?.availabilityOfDeal.reduce((acc, day) => {
+        acc[day] = true;
+        return acc;
+      }, {})
     },
-    
+
 
   });
 
@@ -88,6 +93,7 @@ const EditDeals = () => {
     control,
     name: "extraLoading"
   });
+
 
 
 
@@ -112,7 +118,14 @@ const EditDeals = () => {
     const formData = new FormData();
 
 
+    const allValidDays = [];
+    Object.keys(data?.validDays)?.forEach((el) => {
+      console.log(el)
+      if (data?.validDays[el] === true) {
+        allValidDays.push(el)
+      }
 
+    })
 
     const chooseItems = {
       pizzas: data?.numberOfPizzas,
@@ -131,6 +144,7 @@ const EditDeals = () => {
     formData.append("title", data?.title || 'Void Name From Frontend');
     formData.append('defaultDrinkType', data.defaultDrinkType.value);
     formData.append('collectionOnlyDeal', data.collectionOnlyDeal);
+    formData.append("availabilityOfDeal", JSON?.stringify(allValidDays) || []);
     formData.append('isByOneGetPizza', data.isByOneGetPizza);
     formData.append('sizes', JSON.stringify(priceSectionFilter));
     formData.append('pizzaData', JSON.stringify(selectedPizzas));
@@ -142,24 +156,23 @@ const EditDeals = () => {
       })
 
     }
-    
-    dispatch(updateDeal({id,formData}));
-   
+
+    dispatch(updateDeal({ id, formData }));
+
 
     // Log FormData contents
     formData.forEach((value, key) => {
       console.log(`${key}:`, value);
     });
-    
-    
+
+
 
   }
-useEffect(()=>{
-  if(isSuccess)
-    {
+  useEffect(() => {
+    if (isSuccess) {
       navigate('/deal')
-    } 
-},[isSuccess])
+    }
+  }, [isSuccess])
   return (
     <div>
       <h1 className='text-3xl p-2 bg-red-500 text-center text-white'>Edit Deal Card </h1>
@@ -204,10 +217,9 @@ useEffect(()=>{
                   value: 20,
                   message: "Max Value Can be  20 ..."
                 },
-                onChange:()=>{
-                  if(getValues('isByOneGetPizza'))
-                  {
-                    setValue('numberOfPizzas',2);
+                onChange: () => {
+                  if (getValues('isByOneGetPizza')) {
+                    setValue('numberOfPizzas', 2);
                     toast.error("By One Get Pizza Can Have Only 2 Pizza")
                   }
                 }
@@ -242,7 +254,7 @@ useEffect(()=>{
             }
           </div>
           <div>
-          <p className='font-bold text-md'>Select Drink Type</p>
+            <p className='font-bold text-md'>Select Drink Type</p>
             <Controller
               control={control}
               name="defaultDrinkType"
@@ -271,51 +283,67 @@ useEffect(()=>{
               </span>
             )}
           </div>
-          <div class="flex justify-center gap-3 items-center mb-4">
-              <input
-                id="default-checkbox"
-                type = 'checkbox'
-                {
-                  ...register('collectionOnlyDeal',{
-                    onChange:()=>{
-                      if(getValues('isByOneGetPizza'))
-                      {
-                        setValue('collectionOnlyDeal',true)
-                        toast.error("BuyOneGetOneDeal Is Only Collection Deal")
-                      }
-                    }})
-                  
-                }
-                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <label
-                for="default-checkbox"
-                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
-                COLLECTION ONLY
-              </label>
-              <input
-                id="default-checkbox"
-                type = 'checkbox'
-                {
-                  ...register('isByOneGetPizza',{
-                    onChange:()=>{
-                      setValue('numberOfPizzas',2)
-                      setValue('collectionOnlyDeal',true)
+          {dealValidity && (
+            <div >
+              <h4 className="font-bold">Choose Days On Which Buy One Get One Pizza Not TO Be Shown !!</h4>
+              <div className="grid grid-cols-4 p-2">
 
-                    }
-                  })
-                }
-                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <label
-                for="default-checkbox"
-                class="ms-2 uppercase text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
-                Buy One Get Deal
-              </label>
+
+                {["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"].map((el, idx) => (
+                  <div key={idx}>
+                    <label className="p-1">
+                      <input type="checkbox" {...register(`validDays.${el}`)} />
+                      {el}
+                    </label>
+                  </div>
+                ))}
+              </div>
             </div>
-          
+          )}
+          <div class="flex justify-center gap-3 items-center mb-4">
+            <input
+              id="default-checkbox"
+              type='checkbox'
+              {
+              ...register('collectionOnlyDeal', {
+                onChange: () => {
+                  if (getValues('isByOneGetPizza')) {
+                    setValue('collectionOnlyDeal', true)
+                    toast.error("BuyOneGetOneDeal Is Only Collection Deal")
+                  }
+                }
+              })
+
+              }
+              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label
+              for="default-checkbox"
+              class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              COLLECTION ONLY
+            </label>
+            <input
+              id="default-checkbox"
+              type='checkbox'
+              {
+              ...register('isByOneGetPizza', {
+                onChange: () => {
+                  setValue('numberOfPizzas', 2)
+                }
+              })
+              }
+              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label
+              for="default-checkbox"
+              class="ms-2 uppercase text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              Buy One Get Deal
+            </label>
+          </div>
+
+
           <div>
             <p className='text-xl font-semibold'>Select Pizza Not To Include in Deals </p>
             {Array.isArray(pizzaData) && (
@@ -356,7 +384,7 @@ useEffect(()=>{
             </div>
             <ul>
               {extraFields.map((item, index) => (
-                <li key={item.id}>
+                <li key={index}>
                   <input
                     {...register(`extraLoading.${index}.extra`, { required: 'Extra field is required' })}
                     className="w-full mt-2 px-5 py-2 text-gray-500 border-slate-300 bg-transparent outline-none border focus:border-teal-400 shadow-sm rounded-lg"
@@ -378,6 +406,7 @@ useEffect(()=>{
               </span>
             )}
           </div>
+
           <div>
             <div className="sm:flex sm:space-y-0 justify-between ">
 
@@ -459,7 +488,7 @@ useEffect(()=>{
             )}
           </div>
         </div>
-        
+
         <div className='flex justify-center '>
 
           <button type='submit' className='p-4 rounded text-xl  bg-green-500 hover:bg-green-400 text-white'>{isLoading ? <ClipLoader color="#c4c2c2" /> : "Update Deal"}</button>

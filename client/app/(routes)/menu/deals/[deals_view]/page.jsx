@@ -27,6 +27,9 @@ const Page = () => {
   const searchParams = useSearchParams();
 
   const router = useRouter();
+    const todaysDay = moment().tz(moment.tz.guess()).format('dddd');
+    
+
 
   const [dealViewData, setDealView] = useState(null);
   
@@ -65,7 +68,11 @@ const Page = () => {
     }
   };
 
+  if(dealViewData && dealViewData?.availabilityOfDeal.length > 0 && dealViewData?.availabilityOfDeal?.find((el)=> (el == todaysDay?.toUpperCase())))
+    {
+      router.push("/deals");
 
+    }
 
 
 

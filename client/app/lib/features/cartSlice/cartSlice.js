@@ -1,13 +1,8 @@
 import { toast } from "sonner";
 
 const { createSlice, current } = require("@reduxjs/toolkit");
+const toppingsPriceTrackerSet = new Set();
 
- const toppingsPriceTrackerSet = new Set();
-
-  // console.log = () => {
-
-  // }
- 
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
@@ -15,41 +10,38 @@ const cartSlice = createSlice({
     allToppings: {},
     MAX_TOPPINGS: 0,
     defaultPrice: 0,
-    createYourOwnPizzaMAX_TOPPINGS:0,
-    CYOP_FREE_TOPPINGS:0,
+    createYourOwnPizzaMAX_TOPPINGS: 0,
+    CYOP_FREE_TOPPINGS: 0,
     isOrderCheckout: false,
   },
 
   reducers: {
 
-    updateSet: (state,action) => {
-      
-      console.log(state.createYourOwnPizzaMAX_TOPPINGS,"state.createYourOwnPizzaMAX_TOPPINGS");
+    updateSet: (state, action) => {
 
-      if(toppingsPriceTrackerSet.size > 0)
-      {
-        if(toppingsPriceTrackerSet.has(action.payload))
-        {
+      // console.log(state.createYourOwnPizzaMAX_TOPPINGS, "state.createYourOwnPizzaMAX_TOPPINGS");
+
+      if (toppingsPriceTrackerSet.size > 0) {
+        if (toppingsPriceTrackerSet.has(action.payload)) {
           state.createYourOwnPizzaMAX_TOPPINGS = state.createYourOwnPizzaMAX_TOPPINGS - 1;
           toppingsPriceTrackerSet.delete(action.payload);
 
         }
-        else{
+        else {
           state.createYourOwnPizzaMAX_TOPPINGS = state.createYourOwnPizzaMAX_TOPPINGS + 1;
 
           toppingsPriceTrackerSet.add(action.payload);
         }
-        
+
       }
-      else
-      {
-        state.createYourOwnPizzaMAX_TOPPINGS = state.createYourOwnPizzaMAX_TOPPINGS+1;
+      else {
+        state.createYourOwnPizzaMAX_TOPPINGS = state.createYourOwnPizzaMAX_TOPPINGS + 1;
         toppingsPriceTrackerSet.add(action.payload);
       }
 
 
     },
-    clearSet:(state) =>{
+    clearSet: (state) => {
       state.createYourOwnPizzaMAX_TOPPINGS = 0;
       toppingsPriceTrackerSet.clear();
     },
@@ -99,7 +91,7 @@ const cartSlice = createSlice({
         }
         return item;
       });
-      console.log(temp, "temp");
+      // console.log(temp, "temp");
       state.cartData = temp;
     },
     decreaseQuantity: (state, action) => {
@@ -165,10 +157,10 @@ const cartSlice = createSlice({
 
       if (toppingsPriceTrackerSet.size > 0) {
 
-        const priceDeductionArray = Array.from(toppingsPriceTrackerSet); 
-        for(let i = 0;i<4;i++){
+        const priceDeductionArray = Array.from(toppingsPriceTrackerSet);
+        for (let i = 0; i < 4; i++) {
           const currIndex = flatArray.findIndex((items) => items._id === priceDeductionArray[i]);
-      
+
           if (currIndex !== -1) { // Check if item is found
             flatArray[currIndex] = {
               ...flatArray[currIndex],
@@ -210,29 +202,29 @@ const cartSlice = createSlice({
       state.cartData = [];
     },
 
-    setToppingsCYOP:(state,action)=>{
+    setToppingsCYOP: (state, action) => {
       const temp = {
         ...current(state.allToppings),
         ...action?.payload,
       };
 
       const { sauce, cheese, veg, meat, base, price } = temp;
-      const [a,b,c,d,...rest] = [veg,meat].flat()
-      const freeToppings = [a,b,c,d].filter(Boolean);
-      const paidToppings = [cheese,sauce,...rest].flat()
-      console.log("freeToppings",freeToppings)
+      const [a, b, c, d, ...rest] = [veg, meat].flat()
+      const freeToppings = [a, b, c, d].filter(Boolean);
+      const paidToppings = [cheese, sauce, ...rest].flat()
+      console.log("freeToppings", freeToppings)
 
- 
+
       state.CYOP_MAX_TOPPINGS = Number(paidToppings.length + freeToppings.length)
-      
-     
+
+
 
       const extraPrice = paidToppings.reduce((acc, cur) => {
-          return acc + cur?.price;
-        }, 0) + base?.price[0]?.price || 0 + freeToppings.reduce((acc, cur) => {
-          return 0;
-        }, 0);
-      
+        return acc + cur?.price;
+      }, 0) + base?.price[0]?.price || 0 + freeToppings.reduce((acc, cur) => {
+        return 0;
+      }, 0);
+
 
       const prices = {
         ...temp,
@@ -259,7 +251,7 @@ export const {
   setDefaultPrice,
   resetToppings,
   setToppingsCYOP,
-  clearSet, 
+  clearSet,
   updateSet
 } = cartSlice.actions;
 export default cartSlice.reducer;

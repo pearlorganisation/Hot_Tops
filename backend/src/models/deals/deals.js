@@ -15,11 +15,7 @@ const sizeSchema = new mongoose.Schema({
   }
 });
 
-const dealsPizzaSchema = new mongoose.Schema({
-  pizzaId: {
-    type:mongoose.Schema.Types.ObjectId,
-  }
-})
+
 
 const dealSchema = new mongoose.Schema(
   {
@@ -72,6 +68,9 @@ const dealSchema = new mongoose.Schema(
     collectionOnlyDeal:{
       type:Boolean,
       default:false
+    },
+    availabilityOfDeal:{
+      type:[],
     },
     isByOneGetPizza:{
       type:Boolean,

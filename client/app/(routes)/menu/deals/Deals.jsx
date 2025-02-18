@@ -1,7 +1,8 @@
 "use client";
 import DealsCards from "@/app/_components/Pages/DealsCards";
 import Image from "next/image";
-import React, { useState, useEffect} from "react";
+import moment from "moment-timezone";
+import React, { useState, useEffect } from "react";
 
 
 
@@ -17,9 +18,10 @@ async function getData(boolean) {
 }
 
 const Deals = () => {
- 
+
   const [dealData, setDealData] = useState(null);
   const [collectionOnlyDealData, setCollectionOnlyDealData] = useState(null);
+  const todaysDay = moment().tz(moment.tz.guess()).format('dddd');
 
   useEffect(() => {
     async function fetchData() {
@@ -27,7 +29,7 @@ const Deals = () => {
       const collectionOnly = await getData(true);
       setDealData(data);
       setCollectionOnlyDealData(collectionOnly);
-  
+
       setDealData(data);
     }
     fetchData();
@@ -36,19 +38,19 @@ const Deals = () => {
   if (!dealData)
     return (
       <div className="flex justify-center pt-[25vh] h-[85vh] ">
-        <Image src="/HOTPIZZALOGO.jpg" alt="Pizza Logo"  width={300} height={300} className="h-[10vh] w-[30vw]  object-contain" />
+        <Image src="/HOTPIZZALOGO.jpg" alt="Pizza Logo" width={300} height={300} className="h-[10vh] w-[30vw]  object-contain" />
       </div>
     );
 
   return (
     <>
       <div className=" mx-auto container pb-10">
-      
+
         <div className=" px-6 pt-5 ">
           <header class="text-center  bg-white">
             <div className="flex justify-between   gap-2  items-center ">
 
-          </div>
+            </div>
             <div className="flex items-center justify-center mb-2">
               <div className="flex-grow border-t border-red-800"></div>
               <h1 className="px-4  text-red-800 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
@@ -69,28 +71,30 @@ const Deals = () => {
           <header class="text-center  bg-white">
             <div className="flex justify-between   gap-2  items-center ">
 
-          </div>
+            </div>
             <div className="flex items-center justify-center mb-2">
               <div className="flex-grow border-t border-red-800"></div>
               <h2 className="px-4  text-red-800 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
-              COLLECTION ONLY DEALS
+                COLLECTION ONLY DEALS
               </h2>
               <div className="flex-grow border-t border-red-800"></div>
             </div>
           </header>
         </div>
 
-{Array.isArray(collectionOnlyDealData) && collectionOnlyDealData.length>0 ? 
-      
-      <div className="flex gap-8 m-10 flex-wrap justify-center">
-        {
-    collectionOnlyDealData.map((el, index) => <DealsCards data={el} key={index} />)}
-      </div>
-    : 
- 
-   ( <div className="text-lg text-red-800 font-semibold">No Collection Only Deals Right Now ... </div>)
+        {Array.isArray(collectionOnlyDealData) && collectionOnlyDealData.length > 0 ?
 
-    }
+          <div className="flex gap-8 m-10 flex-wrap justify-center">
+            {
+              collectionOnlyDealData.map((el) => (
+                <DealsCards key={el.id} path={"menu"} data={el} />
+              ))}
+          </div>
+          :
+
+          (<div className="text-lg text-red-800 font-semibold">No Collection Only Deals Right Now ... </div>)
+
+        }
 
       </div>
     </>
