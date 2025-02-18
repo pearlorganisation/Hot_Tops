@@ -55,3 +55,8 @@
   overflow: hidden !important;
 }
 
+
+
+.customCheckbox input:checked ~ .dot {
+  transform: translateX(100%);  
+}

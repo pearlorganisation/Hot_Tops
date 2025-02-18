@@ -8,7 +8,7 @@ import { MdInsertPhoto } from "react-icons/md";
 import { createDeal } from "../../features/actions/deals/deal";
 import { ClipLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
-import {toast} from "sonner"
+import { toast } from "sonner"
 
 const CreateDealCard = () => {
   const {
@@ -32,6 +32,7 @@ const CreateDealCard = () => {
   );
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [photo, setPhoto] = useState();
+  const [dealValidity, setDealValidity] = useState(false);
   const navigate = useNavigate();
 
   const sizeOptions = (size) =>
@@ -82,8 +83,17 @@ const CreateDealCard = () => {
   };
 
   function handleSubmittion(data) {
+    const allValidDays = [];
+    Object.keys(data?.validDays)?.forEach((el) => {
+      console.log(el)
+      if (data?.validDays[el] === true) {
+        allValidDays.push(el)
+      }
+
+    })
+    // data.validityOfDays = validityOfDays;
     // console.log("sgjsagdjsha", data);
-    // return;
+
     const formData = new FormData();
     const defaultDrinkType = data?.drinkType?.value || "can";
     const chooseItems = {
@@ -118,11 +128,12 @@ const CreateDealCard = () => {
     formData.append("defaultDrinkType", defaultDrinkType);
     formData.append("isByOneGetPizza", data.isByOneGetPizza);
     formData.append("numberOfPizzas", defaultDrinkType);
+    formData.append("availabilityOfDeal", JSON.stringify(allValidDays));
     formData.append("sizes", JSON.stringify(priceSectionFilter));
     formData.append("pizzaData", JSON.stringify(selectedPizzas));
     formData.append("chooseItems", JSON.stringify(chooseItems));
     formData.append("defaultItems", JSON.stringify(defaultItems));
-    formData.append("collectionOnlyDeal",data?.collectionOnlyDeal||false);
+    formData.append("collectionOnlyDeal", data?.collectionOnlyDeal || false);
     Array.from(data?.banner).forEach((img) => {
       formData?.append("banner", img);
     });
@@ -197,13 +208,12 @@ const CreateDealCard = () => {
                     value: 20,
                     message: "Max Value Can be  20 ...",
                   },
-                  onChange:()=>{
-                    if(getValues('isByOneGetPizza'))
-                    {
+                  onChange: () => {
+                    if (getValues('isByOneGetPizza')) {
                       toast.error("By One Get Pizza Can Have Only 2 Pizza")
-                       setValue('numberOfPizzas',2)  
+                      setValue('numberOfPizzas', 2)
                     }
-                    
+
                   }
                 })}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -354,9 +364,9 @@ const CreateDealCard = () => {
             <div class="flex justify-center gap-3 items-center mb-4">
               <input
                 id="default-checkbox"
-                type = 'checkbox'
+                type='checkbox'
                 {
-                  ...register('collectionOnlyDeal')
+                ...register('collectionOnlyDeal')
                 }
                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
@@ -368,15 +378,13 @@ const CreateDealCard = () => {
               </label>
               <input
                 id="default-checkbox"
-                type = 'checkbox'
+                type='checkbox'
                 {
-                  ...register('isByOneGetPizza',{
-                    onChange:()=>{
-                      setValue('numberOfPizzas',2)
-                      setValue('collectionOnlyDeal',true)
-                    
-                    }
-                  })
+                ...register('isByOneGetPizza', {
+                  onChange: () => {
+                    setValue('numberOfPizzas', 2)
+                  }
+                })
                 }
                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
@@ -423,6 +431,23 @@ const CreateDealCard = () => {
                 </span>
               )}
             </div>
+            {dealValidity && (
+              <div >
+                <h4 className="font-bold">Choose Days On Which Buy One Get One Pizza Not TO Be Shown !!</h4>
+                <div className="grid grid-cols-4 p-2">
+
+
+                  {["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"].map((el, idx) => (
+                    <div key={idx}>
+                      <label className="p-1">
+                        <input type="checkbox" {...register(`validDays.${el}`)} />
+                        {el}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div>
               <div className="sm:flex sm:space-y-0 justify-between">
