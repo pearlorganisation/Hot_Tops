@@ -60,7 +60,6 @@ export const updateDeal = asyncErrorHandler(async (req, res, next) => {
 
   const banner = req?.file?.path;
   const {pizzas,drinks} = JSON?.parse(req.body.chooseItems);
-  console.log("req.body",req.body);
   let updatationDeal = {
       ...req?.body,
       availabilityOfDeal:JSON?.parse(req.body?.availabilityOfDeal),
