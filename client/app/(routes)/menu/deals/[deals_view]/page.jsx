@@ -10,6 +10,7 @@ import { MdEditSquare } from "react-icons/md";
 import PizzaCustomizationModal from "@/app/_components/Modals/PizzaCutomizationModal";
 import DealPriceCard from "@/app/_components/TotalPriceCard/DealPriceCard";
 import Image from "next/image";
+import moment from "moment-timezone";
 
 async function getData(id) {
   try {
@@ -27,7 +28,7 @@ const Page = () => {
   const searchParams = useSearchParams();
 
   const router = useRouter();
-    const todaysDay = moment().tz(moment.tz.guess()).format('dddd');
+    const todaysDay = moment()?.tz(moment?.tz?.guess())?.format('dddd');
     
 
 
@@ -68,7 +69,7 @@ const Page = () => {
     }
   };
 
-  if(dealViewData && dealViewData?.availabilityOfDeal.length > 0 && dealViewData?.availabilityOfDeal?.find((el)=> (el == todaysDay?.toUpperCase())))
+  if(dealViewData && dealViewData?.availabilityOfDeal?.length > 0 && dealViewData?.availabilityOfDeal?.find((el)=> (el == todaysDay?.toUpperCase())))
     {
       router.push("/deals");
 

@@ -5,7 +5,6 @@ import moment from "moment-timezone";
 import React, { useState, useEffect} from "react";
 
 
-
 async function getData(boolean) {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/deals?collectionOnly=${boolean}`);
@@ -21,7 +20,7 @@ const Deals = () => {
  
   const [dealData, setDealData] = useState(null);
   const [collectionOnlyDealData, setCollectionOnlyDealData] = useState(null);
-  const todaysDay = moment().tz(moment.tz.guess()).format('dddd');
+  const todaysDay = moment()?.tz(moment?.tz?.guess())?.format('dddd');
 
   useEffect(() => {
     async function fetchData() {
@@ -92,7 +91,7 @@ const Deals = () => {
       {
           return 
       }else{
-         return <DealsCards key={el?._id} path={"menu"} data={el} />
+         return <DealsCards key={el?._id} path={"/menu"} data={el} />
       }
             
 })}
