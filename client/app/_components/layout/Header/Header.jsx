@@ -142,7 +142,7 @@ const Header = () => {
             ))}
         </ul>
         <div className="flex items-center gap-5">
-          <div
+          {/* <div
 
             className="rounded-full  w-fit  bg-[#f1f1f1] p-1 px-2 relative h-[40px] flex justify-between"
           >
@@ -172,7 +172,7 @@ const Header = () => {
                 </div>
               );
             })}
-          </div>
+          </div> */}
 
           {isUserLoggedIn ? (
             <Link href="/profile?tab=1" className="hidden lg:flex items-center gap-2 text-black">
