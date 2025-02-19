@@ -50,7 +50,7 @@ const CreateDealCard = () => {
   }, []);
 
   useEffect(() => {
-    if (isSuccess) navigate("/deal");
+    if (isSuccess)  navigate("/deal");
   }, [isSuccess]);
 
   const {
