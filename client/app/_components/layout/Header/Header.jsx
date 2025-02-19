@@ -81,7 +81,7 @@ const Header = () => {
       {/* Mobile */}
       <div className="flex justify-between items-center mx-1 md:mx-4">
         <Link href="/" className="flex justify-center">
-          <Image src={logo} className="bg-white lg:hidden" alt="http://localhost:3001/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FHOTPIZZALOGO.070f75e0.jpg&w=256&q=75" width={40} />
+          <Image src={logo} className="bg-white lg:hidden" alt="Hot House Northwood logo" width={40} />
         </Link>
         <ul className="lg:hidden flex gap-4 items-center">
           {isUserLoggedIn ? (
