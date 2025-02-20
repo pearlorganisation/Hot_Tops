@@ -279,29 +279,18 @@ const Page = () => {
                         </button>
                       )}      
                         <Select
-                          placeholder={(dealViewData?.isByOneGetPizza) ?`${(dealDataPizza?.[0]?.label||'Choose pizza')}`: `Choose pizza ${index + 1}`}
+                          placeholder={'Choose Pizza'}
                           className="min-w-52 w-52 placeholder:line-clamp-1"
                           key={index}
-                          isDisabled={(dealViewData?.isByOneGetPizza && index == 1)}
                           onChange={(e) => {
 
-                            if(dealViewData?.isByOneGetPizza)
-                            {
-                              
-                              setDealDataPizza((prev) => {
-                                let temp = [...prev];
-                                temp[index] = e;
-                                temp[index+1]= e
-                                return temp;
-                              }); 
-                            }else
-                            {
+                           
                               setDealDataPizza((prev) => {
                                 let temp = [...prev];
                                 temp[index] = e;
                                 return temp;
                               }); 
-                            }                        
+                                                 
                           }}
                           options={dealViewData.pizza.map((el) => ({
                             label: el.pizzaName,
