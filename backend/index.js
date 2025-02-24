@@ -8,10 +8,48 @@ import { envAccess } from "./src/utils/index.js";
 import { CustomError } from "./src/utils/errors/customError.js";
 import morgan from "morgan";
 
+import { createServer } from "http";
+import { Server } from "socket.io";
+
+
 // -------------------------------------------------------------------------------------------------------------
 dotenv.config();
 
 const app = express();
+
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: [
+      "https://hot-house.vercel.app",
+      "https://hot-house-9gco.vercel.app",
+      "https://homfix.co.uk",
+      "https://admin.homfix.co.uk",
+      "https://demo.vivapayments.com",
+      "http://localhost:4112",
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "http://localhost:5174",
+      "http://localhost:5175",
+      "http://localhost:5173",
+      "http://localhost:5010",
+      "http://localhost:4113",
+      "http://localhost:4114",
+      "https://hothousenorthwood.com",
+      "https://admin.hothousenorthwood.com",
+      "https://www.hothousenorthwood.com",
+      "https://hothousenorthwood.co.uk",
+      "https://admin.hothousenorthwood.co.uk",
+      "https://www.hothousenorthwood.co.uk",
+
+    ],
+    methods: ["GET", "PUT", "POST", "PATCH", "DELETE"],
+    credentials: true,
+  }
+});
+
+
+
 const PORT = envAccess("PORT") || 9998;
 connectMongo();
 
@@ -21,59 +59,59 @@ app.use(
   cors(
     process.env.NODE_ENV === "production"
       ? {
-          origin: [
-            "https://hot-house.vercel.app",
-            "https://hot-house-9gco.vercel.app",
-            "https://homfix.co.uk",
-            "https://admin.homfix.co.uk",
-            "http://localhost:4112",
-            "http://localhost:3000",
-            "http://localhost:3001",
-            "http://localhost:5010",
-            "http://localhost:4113",
-            "http://localhost:5173",
-            "http://localhost:5174",
-            "http://localhost:5175",
-            "http://localhost:4114",
-            "https://hothousenorthwood.com",
-            "https://admin.hothousenorthwood.com",
-            "https://www.hothousenorthwood.com",
-            "https://hothousenorthwood.co.uk",
-            "https://admin.hothousenorthwood.co.uk",
-            "https://www.hothousenorthwood.co.uk",
-          ],
-          credentials: true,
-        }
+        origin: [
+          "https://hot-house.vercel.app",
+          "https://hot-house-9gco.vercel.app",
+          "https://homfix.co.uk",
+          "https://admin.homfix.co.uk",
+          "http://localhost:4112",
+          "http://localhost:3000",
+          "http://localhost:3001",
+          "http://localhost:5010",
+          "http://localhost:4113",
+          "http://localhost:5173",
+          "http://localhost:5174",
+          "http://localhost:5175",
+          "http://localhost:4114",
+          "https://hothousenorthwood.com",
+          "https://admin.hothousenorthwood.com",
+          "https://www.hothousenorthwood.com",
+          "https://hothousenorthwood.co.uk",
+          "https://admin.hothousenorthwood.co.uk",
+          "https://www.hothousenorthwood.co.uk",
+        ],
+        credentials: true,
+      }
       : {
-          origin: [
-            "https://hot-house.vercel.app",
-            "https://hot-house-9gco.vercel.app",
-            "https://homfix.co.uk",
-            "https://admin.homfix.co.uk",
-            "https://demo.vivapayments.com",
-            "http://localhost:4112",
-            "http://localhost:3000",
-            "http://localhost:3001",
-            "http://localhost:5174",
-            "http://localhost:5175",
-            "http://localhost:5173",
-            "http://localhost:5010",
-            "http://localhost:4113",
-            "http://localhost:4114",
-            "https://hothousenorthwood.com",
-            "https://admin.hothousenorthwood.com",
-            "https://www.hothousenorthwood.com",
-            "https://hothousenorthwood.co.uk",
-            "https://admin.hothousenorthwood.co.uk",
-            "https://www.hothousenorthwood.co.uk",
+        origin: [
+          "https://hot-house.vercel.app",
+          "https://hot-house-9gco.vercel.app",
+          "https://homfix.co.uk",
+          "https://admin.homfix.co.uk",
+          "https://demo.vivapayments.com",
+          "http://localhost:4112",
+          "http://localhost:3000",
+          "http://localhost:3001",
+          "http://localhost:5174",
+          "http://localhost:5175",
+          "http://localhost:5173",
+          "http://localhost:5010",
+          "http://localhost:4113",
+          "http://localhost:4114",
+          "https://hothousenorthwood.com",
+          "https://admin.hothousenorthwood.com",
+          "https://www.hothousenorthwood.com",
+          "https://hothousenorthwood.co.uk",
+          "https://admin.hothousenorthwood.co.uk",
+          "https://www.hothousenorthwood.co.uk",
 
-          ],
-          methods: ["GET", "PUT", "POST", "PATCH", "DELETE"],
-          allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
-          credentials: true,
-          maxAge: 600,
-          exposedHeaders: ["*", "Authorization"],
-        }
+        ],
+        methods: ["GET", "PUT", "POST", "PATCH", "DELETE"],
+        allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
+        credentials: true,
+        maxAge: 600,
+        exposedHeaders: ["*", "Authorization"],
+      }
   )
 );
 // ------------------------------------------------------------------------------------------------------------
@@ -116,7 +154,7 @@ import dealsRoutes from "./src/routes/deals/deals.js";
 import webhookRoutes from "./src/routes/webhook.js";
 import mailRoutes from "./src/routes/mail.js";
 import bannerRoutes from "./src/routes/banner.js";
-import {  OAuth } from "./src/routes/authRoutes/oAuth.js";
+import { OAuth } from "./src/routes/authRoutes/oAuth.js";
 import { socialOAuth } from "./src/controllers/auth/googleOAuth.js";
 import session from "express-session";
 
@@ -129,7 +167,7 @@ app.use(
     secret: "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",
     resave: false, // Add this line to resolve the deprecation warning
     saveUninitialized: false, // Add this line to resolve the deprecation warning
-    cookie:{secure:false},
+    cookie: { secure: false },
   })
 );
 app.use(socialOAuth.initialize());
@@ -189,8 +227,19 @@ app.use((error, req, res, next) => {
   });
 });
 
+//socket
+io.on("connection", (socket) => {
+  console.log(`user connected ${socket.id}`)
+
+  socket.on("disconnect", () => {
+    console.log(`user disconnected ${socket.id}`)
+  })
+
+});
+
+
 // ------------------------------------------------------------------------------------------------------------
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log(`Server is running at port - ${PORT}`);
 });
 // ------------------------------------------------------------------------------------------------------------

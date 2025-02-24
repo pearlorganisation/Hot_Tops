@@ -10,6 +10,7 @@ import { MdEditSquare } from "react-icons/md";
 import PizzaCustomizationModal from "@/app/_components/Modals/PizzaCutomizationModal";
 import DealPriceCard from "@/app/_components/TotalPriceCard/DealPriceCard";
 import Image from "next/image";
+import moment from "moment-timezone";
 
 async function getData(id) {
   try {
@@ -27,7 +28,7 @@ const Page = () => {
   const searchParams = useSearchParams();
 
   const router = useRouter();
-    const todaysDay = moment().tz(moment.tz.guess()).format('dddd');
+    const todaysDay = moment()?.tz(moment?.tz?.guess())?.format('dddd');
     
 
 
@@ -68,7 +69,7 @@ const Page = () => {
     }
   };
 
-  if(dealViewData && dealViewData?.availabilityOfDeal.length > 0 && dealViewData?.availabilityOfDeal?.find((el)=> (el == todaysDay?.toUpperCase())))
+  if(dealViewData && dealViewData?.availabilityOfDeal?.length > 0 && dealViewData?.availabilityOfDeal?.find((el)=> (el == todaysDay?.toUpperCase())))
     {
       router.push("/deals");
 
@@ -279,29 +280,18 @@ const Page = () => {
                         </button>
                       )}      
                         <Select
-                          placeholder={(dealViewData?.isByOneGetPizza) ?`${(dealDataPizza?.[0]?.label||'Choose pizza')}`: `Choose pizza ${index + 1}`}
+                          placeholder={'Choose Pizza'}
                           className="min-w-52 w-52 placeholder:line-clamp-1"
                           key={index}
-                          isDisabled={(dealViewData?.isByOneGetPizza && index == 1)}
                           onChange={(e) => {
 
-                            if(dealViewData?.isByOneGetPizza)
-                            {
-                              
-                              setDealDataPizza((prev) => {
-                                let temp = [...prev];
-                                temp[index] = e;
-                                temp[index+1]= e
-                                return temp;
-                              }); 
-                            }else
-                            {
+                           
                               setDealDataPizza((prev) => {
                                 let temp = [...prev];
                                 temp[index] = e;
                                 return temp;
                               }); 
-                            }                        
+                                                 
                           }}
                           options={dealViewData.pizza.map((el) => ({
                             label: el.pizzaName,

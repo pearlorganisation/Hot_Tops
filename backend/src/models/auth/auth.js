@@ -7,6 +7,7 @@ const authSchema = new mongoose.Schema(
     },
     lastName: {
       type: String,
+      default:''
     },
     email: {
       type: String,
